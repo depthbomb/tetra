@@ -4,7 +4,6 @@ import { resolve }            from 'node:path';
 import { exec }               from 'node:child_process';
 import vue                    from '@vitejs/plugin-vue';
 import imagemin               from 'vite-plugin-imagemin';
-import { chunkSplitPlugin }   from 'vite-plugin-chunk-split';
 import type { UserConfig }    from 'vite';
 
 function clearCompiledViews() {
@@ -49,8 +48,7 @@ export default defineConfig(({ mode }) => {
             },
         },
         plugins: [
-            vue(),
-            chunkSplitPlugin()
+            vue()
         ],
         resolve: {
             alias: {
