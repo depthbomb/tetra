@@ -1,10 +1,10 @@
 <script setup lang="ts">
-    import { RouterView } from 'vue-router';
-    import HomeLayout     from '~/views/layouts/HomeLayout.vue';
+import { RouterView } from 'vue-router';
+import GlobalLayout   from '~/layouts/GlobalLayout.vue';
 </script>
 
 <template>
-    <HomeLayout>
+    <GlobalLayout>
         <RouterView/>
-    </HomeLayout>
+    </GlobalLayout>
 </template>

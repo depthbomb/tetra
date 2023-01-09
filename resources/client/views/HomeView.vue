@@ -2,6 +2,7 @@
 import { reactive, defineAsyncComponent } from 'vue';
 import { isValidHttpUrl }                 from '~/utils';
 import { useTetraStore }                  from '~/stores/tetra';
+import HomeFooter                         from '~/components/Home/HomeFooter.vue';
 
 const LinkIcon          = defineAsyncComponent(() => import('~/components/icons/LinkIcon.vue'));
 const PaperPlaneTopIcon = defineAsyncComponent(() => import('~/components/icons/PaperPlaneTopIcon.vue'));
@@ -41,6 +42,7 @@ const trySubmit = async () => {
 </script>
 
 <template>
+    <router-link :to="{ name: 'home' }" class="Header">&lt;title here&gt;</router-link>
     <div class="InputContainer">
         <LinkIcon class="w-9 text-gray-300"/>
         <input
@@ -64,9 +66,18 @@ const trySubmit = async () => {
             <PaperPlaneTopIcon class="inline-block ml-2 w-5"/>
         </button>
     </div>
+    <HomeFooter/>
 </template>
 
 <style scoped lang="scss">
+.Header {
+    @apply block;
+    @apply mb-6;
+    @apply text-7xl text-white text-center;
+    @apply font-serif;
+    @apply drop-shadow;
+}
+
 .InputContainer {
     @apply flex flex-row items-center;
     @apply w-[720px];
