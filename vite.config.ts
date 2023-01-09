@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => {
             emptyOutDir: true,
             outDir: resolve('public', 'assets'),
             assetsInlineLimit: 0,
+            minify: mode === 'production' ? 'terser' : false,
             rollupOptions: {
                 input: './resources/client/app.ts',
                 output: {
