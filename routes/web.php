@@ -16,7 +16,7 @@ Route::group(['prefix' => 'internal', 'as' => 'internal'], function()
 
 Route::group(['prefix' => 'api', 'controller' => LinksController::class, 'as' => 'api'], function()
 {
-    Route::put('create', [LinksController::class, 'create'])->name('.create');
+    Route::put('create', 'create')->name('.create');
 });
 
 Route::get('{shortcode}', [LinksController::class, 'tryProcess'])->name('links.visit');
