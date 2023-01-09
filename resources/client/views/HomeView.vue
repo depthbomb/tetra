@@ -2,7 +2,9 @@
 import { reactive, defineAsyncComponent } from 'vue';
 import { isValidHttpUrl }                 from '~/utils';
 import { useTetraStore }                  from '~/stores/tetra';
+import { getApiData }                     from '~/services/api';
 import HomeFooter                         from '~/components/Home/HomeFooter.vue';
+import type { ICreateLinkResponse }       from '~/@types/ICreateLinkResponse';
 
 const LinkIcon          = defineAsyncComponent(() => import('~/components/icons/LinkIcon.vue'));
 const PaperPlaneTopIcon = defineAsyncComponent(() => import('~/components/icons/PaperPlaneTopIcon.vue'));
@@ -22,22 +24,18 @@ const validateInput = () => {
 const trySubmit = async () => {
     state.submitDisabled = true;
 
-    const res = await fetch('api/create', {
+    getApiData<ICreateLinkResponse>('links.create', {
         method: 'PUT',
-        body: JSON.stringify({ destination: state.destination }),
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': store.csrfToken
-        }
+        body: JSON.stringify({ destination: state.destination })
+    }).then(({ results }) => {
+        window.location.href = `${results}+`;
+    }).catch(err => {
+        // TODO handle
+        console.error(err);
     });
-    const { success, results } = await res.json();
 
     state.submitDisabled = false;
     state.destination = '';
-
-    if (success) {
-        window.location.href = `${results}+`;
-    }
 };
 </script>
 

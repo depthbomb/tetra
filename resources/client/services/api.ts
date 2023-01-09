@@ -12,7 +12,7 @@ async function _getCsrfToken(): Promise<string> {
     return _csrfToken;
 }
 
-export async function getApiData<T>(endpointName: string, method: 'GET'|'PUT'|'POST'|'DELETE' = 'POST'): Promise<T> {
+export async function getApiData<T>(endpointName: string, init: RequestInit = {}): Promise<T> {
     const csrfToken = await _getCsrfToken();
     if (csrfToken === '') {
         throw new Error('Unable to retrieve CSRF token');
@@ -21,7 +21,7 @@ export async function getApiData<T>(endpointName: string, method: 'GET'|'PUT'|'P
     const endpoint = routes.find(r => r.name === endpointName);
     if (endpoint) {
         const res = await fetch(endpoint.uri, {
-            method,
+            ...init,
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': csrfToken
@@ -32,7 +32,9 @@ export async function getApiData<T>(endpointName: string, method: 'GET'|'PUT'|'P
             throw new Error(res.statusText);
         }
 
-        return await res.json() as T;
+        const responseObj = { response: res, ...await res.json() };
+
+        return responseObj as T;
     }
 
     throw new Error(`Endpoint "${endpointName}" not found`);

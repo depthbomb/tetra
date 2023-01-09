@@ -14,9 +14,13 @@ const tweened    = reactive({ number: 0 });
 watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));
 
 useIntervalFn(async () => {
-    const { results } = await getApiData<IInternalStatsResponse>('internal.stats');
-
-    totalLinks.value = results;
+    getApiData<IInternalStatsResponse>('internal.stats', { method: 'POST' }).then(({ success, message, results }) => {
+        if (success) {
+            totalLinks.value = results;
+        } else {
+            console.error(message);
+        }
+    }).catch(err => console.error(err));
 }, 5_000, { immediateCallback: true });
 </script>
 
