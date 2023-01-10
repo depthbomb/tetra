@@ -1,18 +1,17 @@
 <?php namespace App\Http\Controllers;
 
-use Exception;
 use App\Models\Link;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Services\LinksService;
 use Illuminate\Http\RedirectResponse;
+use App\Repositories\LinksRepositoryInterface;
 
 /**
  * TODO rewrite all of this and maybe split it up
  */
 class LinksController extends Controller
 {
-    public function __construct(private LinksService $links)
+    public function __construct(private readonly LinksRepositoryInterface $links)
     {
         parent::__construct();
     }
@@ -22,11 +21,11 @@ class LinksController extends Controller
         try
         {
             $destination = $request->get('destination');
-            $link = $this->generateShortlink($request, $destination);
+            $link = $this->links->create($request->ip(), $destination, null);
 
             return $this->generateApiResponse(true, results: $link->shortLink());
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             return $this->generateApiResponse(false, $e->getMessage());
         }
@@ -37,10 +36,7 @@ class LinksController extends Controller
         $show_info_page = str_ends_with($shortcode, '+');
         $shortcode = str_replace('+', '', $shortcode);
 
-        /** @var Link $link */
-        $link = Link::select(['id', 'shortcode', 'destination', 'disabled', 'expires_at'])
-            ->where('shortcode', $shortcode)
-            ->first();
+        $link = $this->links->getLinkByShortcode($shortcode, ['id', 'shortcode', 'destination', 'disabled', 'expires_at']);;
 
         abort_if($link->disabled, 410);
         abort_if(($link === null OR $link->hasExpired()), 404);
@@ -51,25 +47,5 @@ class LinksController extends Controller
         }
 
         return redirect()->away($link->destination, 301);
-    }
-
-    /**
-     * @param Request $request
-     * @param string $destination
-     * @return Link
-     * @throws Exception if the database record could not be saved
-     */
-    private function generateShortlink(Request $request, string $destination): Link
-    {
-        $link = new Link;
-        $link->creator = $request->ip();
-        $link->destination = $destination;
-        $link->shortcode = $this->links->generateUniqueShortcode();
-        if ($link->save())
-        {
-            return $link;
-        }
-
-        throw new Exception();
     }
 }

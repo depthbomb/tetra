@@ -12,7 +12,7 @@ async function _getCsrfToken(): Promise<string> {
     return _csrfToken;
 }
 
-export async function getApiData<T>(endpointName: string, init: RequestInit = {}): Promise<T> {
+export async function makeApiRequest<T>(endpointName: string, init: RequestInit = {}): Promise<T> {
     const csrfToken = await _getCsrfToken();
     if (csrfToken === '') {
         throw new Error('Unable to retrieve CSRF token');
