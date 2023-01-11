@@ -10,7 +10,7 @@ class ExpireLinks extends Command
      *
      * @var string
      */
-    protected $signature = 'links:expire';
+    protected $signature = 'links:delete-expired';
 
     /**
      * The console command description.
@@ -26,10 +26,15 @@ class ExpireLinks extends Command
      */
     public function handle(): int
     {
-        Link::where([
+        (int) $num_deleted = Link::where([
             ['expires_at', '!=', null],
             ['expires_at', '<=', now()],
         ])->delete();
+
+        if ($num_deleted > 0)
+        {
+            $this->info("Deleted $num_deleted expired links");
+        }
 
         return Command::SUCCESS;
     }

@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('links:expire')->everyMinute();
+        $schedule->command('links:delete-expired')->everyMinute();
     }
 
     /**
