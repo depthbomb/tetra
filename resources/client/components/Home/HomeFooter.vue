@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, watch, reactive, defineAsyncComponent } from 'vue';
 import gsap                                           from 'gsap'
-import { useIntervalFn }               from '@vueuse/core';
-import { makeApiRequest }              from '~/services/api';
-import type { IInternalStatsResponse } from '~/@types/IInternalStatsResponse';
+import { useIntervalFn }                              from '@vueuse/core';
+import { makeApiRequest }                             from '~/services/api';
+import type { IInternalStatsResponse }                from '~/@types/IInternalStatsResponse';
 
 const CodeIcon        = defineAsyncComponent(() => import('~/components/icons/CodeIcon.vue'));
 const CurlyBracesIcon = defineAsyncComponent(() => import('~/components/icons/CurlyBracesIcon.vue'));
@@ -14,13 +14,15 @@ const tweened    = reactive({ number: 0 });
 watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));
 
 useIntervalFn(async () => {
-    makeApiRequest<IInternalStatsResponse>('internal.stats', { method: 'POST' }).then(({ success, message, results }) => {
-        if (success) {
-            totalLinks.value = results;
-        } else {
-            console.error(message);
-        }
-    }).catch(err => console.error(err));
+    makeApiRequest<IInternalStatsResponse>('internal.stats', { method: 'POST' })
+        .then(({ success, message, results }) => {
+            if (success) {
+                totalLinks.value = results;
+            } else {
+                console.error(message);
+            }
+        })
+        .catch(err => console.error(err));
 }, 5_000, { immediateCallback: true });
 </script>
 

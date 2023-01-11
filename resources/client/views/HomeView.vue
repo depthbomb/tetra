@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { reactive, defineAsyncComponent } from 'vue';
 import { isValidHttpUrl }                 from '~/utils';
-import { useTetraStore }  from '~/stores/tetra';
-import { makeApiRequest } from '~/services/api';
-import HomeFooter         from '~/components/Home/HomeFooter.vue';
+import { useTetraStore }                  from '~/stores/tetra';
+import { makeApiRequest }                 from '~/services/api';
+import HomeFooter                         from '~/components/Home/HomeFooter.vue';
 import type { ICreateLinkResponse }       from '~/@types/ICreateLinkResponse';
 
 const LinkIcon          = defineAsyncComponent(() => import('~/components/icons/LinkIcon.vue'));
