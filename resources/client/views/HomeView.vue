@@ -116,7 +116,7 @@ const trySubmit = async () => {
         @apply hover:text-white hover:bg-brand-400;
         @apply active:bg-brand-600;
         @apply focus:ring focus:ring-brand focus:ring-offset-2;
-        @apply disabled:opacity-75 disabled:cursor-not-allowed;
+        @apply disabled:opacity-50 disabled:cursor-not-allowed;
     }
 }
 </style>
