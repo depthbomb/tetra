@@ -14,7 +14,7 @@
         "@fontsource/fugaz-one": "^4.5.9",
         "@fontsource/inter": "^4.5.14",
         "@vueuse/core": "^9.10.0",
-        "floating-vue": "^2.0.0-beta.20",
+        "floating-vue": "^2.0.0-y.0",
         "gsap": "^3.11.4",
         "pinia": "^2.0.28",
         "vue": "^3.2.45",
