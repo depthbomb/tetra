@@ -422,9 +422,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tailwindcss/typography@npm:^0.5.8":
-  version: 0.5.8
-  resolution: "@tailwindcss/typography@npm:0.5.8"
+"@tailwindcss/typography@npm:^0.5.9":
+  version: 0.5.9
+  resolution: "@tailwindcss/typography@npm:0.5.9"
   dependencies:
     lodash.castarray: ^4.4.0
     lodash.isplainobject: ^4.0.6
@@ -432,7 +432,7 @@ __metadata:
     postcss-selector-parser: 6.0.10
   peerDependencies:
     tailwindcss: "*"
-  checksum: afe172c75ddf086f840b10f95e562bb210dde5612fccfcfd3c4cee688c57ca5b79569b3c2cb75687b34b1b7f9ad194b14e9fbb09a741cd69198bb92b5ac3838f
+  checksum: b98e21bdd1798d7e4683499893c5c20ad43fcc8955d5d6eefbe1d30e98e9b6c28949ae8f276d39be9a66fafe843597717196bc5a0a2ac0f87ef86aa051ab9611
   languageName: node
   linkType: hard
 
@@ -760,46 +760,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unhead/dom@npm:^1.0.9":
-  version: 1.0.14
-  resolution: "@unhead/dom@npm:1.0.14"
-  dependencies:
-    "@unhead/schema": 1.0.14
-  checksum: 00f193590af9b7a8022d17eef32d5adaba6c962a89cdfccb29774988c692dfea23f478b8ae806e041476e4d5cb8df88caad4d017b7ac710a846e9e347d6e2b84
-  languageName: node
-  linkType: hard
-
-"@unhead/schema@npm:1.0.14, @unhead/schema@npm:^1.0.9":
-  version: 1.0.14
-  resolution: "@unhead/schema@npm:1.0.14"
-  dependencies:
-    "@zhead/schema": ^1.0.9
-    hookable: ^5.4.2
-  checksum: 304171f721240f49ce5da1b2473e95b6b2ff1e03f7748e0169249f69d53f26adb7474563f805b8f5a624dea707efdb9cc43429ddc7ba41a6ea504061e6238890
-  languageName: node
-  linkType: hard
-
-"@unhead/ssr@npm:^1.0.9":
-  version: 1.0.14
-  resolution: "@unhead/ssr@npm:1.0.14"
-  dependencies:
-    "@unhead/schema": 1.0.14
-  checksum: a068371d8c87c4d22f7ce29a8ad48fb1e868eb3fc86e01e04af9e5a91d07be07ca9c965c56b18511b97b434077da2efe71f3a634e564927eb04862e4e948ace5
-  languageName: node
-  linkType: hard
-
-"@unhead/vue@npm:^1.0.9":
-  version: 1.0.14
-  resolution: "@unhead/vue@npm:1.0.14"
-  dependencies:
-    "@unhead/schema": 1.0.14
-    hookable: ^5.4.2
-  peerDependencies:
-    vue: ">=2.7 || >=3"
-  checksum: d1d74127d89c63fa64e2d0b580ad4e6828870af7fac9be8c4ba8cb33a452ce3d6bff8b718e04b5ce6514907291e4289ababc3f26fe69b1c40d22eb542b5b2b40
-  languageName: node
-  linkType: hard
-
 "@vitejs/plugin-vue@npm:^4.0.0":
   version: 4.0.0
   resolution: "@vitejs/plugin-vue@npm:4.0.0"
@@ -1025,20 +985,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/head@npm:^1.0.22":
-  version: 1.0.22
-  resolution: "@vueuse/head@npm:1.0.22"
-  dependencies:
-    "@unhead/dom": ^1.0.9
-    "@unhead/schema": ^1.0.9
-    "@unhead/ssr": ^1.0.9
-    "@unhead/vue": ^1.0.9
-  peerDependencies:
-    vue: ">=2.7 || >=3"
-  checksum: e886142669713744f563f52ae84e92c5ffc586bf0447ac5cf98f68d928d0e3ec002d9accc25e3218f314e979d78907471251ff407cd5d7d21bed13643783d34a
-  languageName: node
-  linkType: hard
-
 "@vueuse/metadata@npm:9.10.0":
   version: 9.10.0
   resolution: "@vueuse/metadata@npm:9.10.0"
@@ -1052,13 +998,6 @@ __metadata:
   dependencies:
     vue-demi: "*"
   checksum: 1481ad7273eb8835a42fd49805d32ae97465188d260ddb28fdffebda7bedea5943bf49c3bd128121b32719307eaf1cb69b37b60fa1195c10a555e7aec3d78c22
-  languageName: node
-  linkType: hard
-
-"@zhead/schema@npm:^1.0.9":
-  version: 1.0.9
-  resolution: "@zhead/schema@npm:1.0.9"
-  checksum: 91125a1ca931918275cc82bf0ab43ad59f94f48509e96131244154b161abce9cd1a28a23d5a4a2eb365c495bdb62cfcec8b34e912097c67d65e837a9d00b9812
   languageName: node
   linkType: hard
 
@@ -3352,13 +3291,6 @@ __metadata:
   bin:
     he: bin/he
   checksum: 3d4d6babccccd79c5c5a3f929a68af33360d6445587d628087f39a965079d84f18ce9c3d3f917ee1e3978916fc833bb8b29377c3b403f919426f91bc6965e7a7
-  languageName: node
-  linkType: hard
-
-"hookable@npm:^5.4.2":
-  version: 5.4.2
-  resolution: "hookable@npm:5.4.2"
-  checksum: a70bbdf8b92e9eb20e0d346281fd3f338abff194491aa9068cebdcde8faa853c9360b109844215656e2bd299e13ca00743e310025ee4b073795024f54e9eb726
   languageName: node
   linkType: hard
 
@@ -5857,14 +5789,13 @@ __metadata:
     "@fontsource/inter": ^4.5.14
     "@rushstack/eslint-patch": ^1.2.0
     "@tailwindcss/forms": ^0.5.3
-    "@tailwindcss/typography": ^0.5.8
+    "@tailwindcss/typography": ^0.5.9
     "@types/eslint": ^8.4.10
     "@types/node": ^18.11.18
     "@vitejs/plugin-vue": ^4.0.0
     "@vue/eslint-config-typescript": ^11.0.2
     "@vue/tsconfig": ^0.1.3
     "@vueuse/core": ^9.10.0
-    "@vueuse/head": ^1.0.22
     autoprefixer: ^10.4.13
     eslint: ^8.31.0
     eslint-plugin-vue: ^9.8.0
