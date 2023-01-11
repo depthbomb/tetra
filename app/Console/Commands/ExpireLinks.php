@@ -26,10 +26,9 @@ class ExpireLinks extends Command
      */
     public function handle(): int
     {
-        (int) $num_deleted = Link::where([
-            ['expires_at', '!=', null],
-            ['expires_at', '<=', now()],
-        ])->limit(1000)->delete();
+        $num_deleted = Link::where([['expires_at', '!=', null], ['expires_at', '<=', now()]])
+            ->limit(1000)
+            ->delete();
 
         if ($num_deleted > 0)
         {
