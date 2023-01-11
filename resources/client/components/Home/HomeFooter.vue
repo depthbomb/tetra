@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, reactive, defineAsyncComponent } from 'vue';
-import gsap                                           from 'gsap'
-import { useIntervalFn }                              from '@vueuse/core';
-import { makeApiRequest }                             from '~/services/api';
-import type { IInternalStatsResponse }                from '~/@types/IInternalStatsResponse';
-
-const CodeIcon        = defineAsyncComponent(() => import('~/components/icons/CodeIcon.vue'));
-const CurlyBracesIcon = defineAsyncComponent(() => import('~/components/icons/CurlyBracesIcon.vue'));
+import { ref, watch, reactive }        from 'vue';
+import gsap                            from 'gsap'
+import { useIntervalFn }               from '@vueuse/core';
+import { makeApiRequest }              from '~/services/api';
+import CodeIcon                        from '~/components/icons/CodeIcon.vue';
+import CurlyBracesIcon                 from '~/components/icons/CurlyBracesIcon.vue';
+import type { IInternalStatsResponse } from '~/@types/IInternalStatsResponse';
 
 const totalLinks = ref(0);
 const tweened    = reactive({ number: 0 });
