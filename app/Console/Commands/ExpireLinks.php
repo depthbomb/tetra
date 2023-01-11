@@ -29,7 +29,7 @@ class ExpireLinks extends Command
         (int) $num_deleted = Link::where([
             ['expires_at', '!=', null],
             ['expires_at', '<=', now()],
-        ])->delete();
+        ])->limit(1000)->delete();
 
         if ($num_deleted > 0)
         {
