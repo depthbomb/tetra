@@ -39,7 +39,7 @@ const trySubmit = async () => {
 </script>
 
 <template>
-    <router-link :to="{ name: 'home' }" class="Header">&lt;title here&gt;</router-link>
+    <router-link :to="{ name: 'home' }" class="Header">go.super.fish</router-link>
     <div class="InputContainer">
         <LinkIcon class="w-9 text-gray-300"/>
         <input
