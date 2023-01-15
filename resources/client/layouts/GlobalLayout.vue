@@ -1,7 +1,3 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
     <main class="Global">
         <div class="Global-container">
@@ -14,7 +10,7 @@
 .Global {
     @apply flex flex-col items-center justify-center;
     @apply w-full h-screen;
-    @apply bg-gradient-to-br from-[#ff1166] to-[#ff0932];
+    @apply bg-gradient-to-br from-[#1E1E28] to-[#14141c];
 
     .Global-container {
         @apply block;
