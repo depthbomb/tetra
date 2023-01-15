@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "vite --mode development",
         "watch": "vite build --watch --mode development",
-        "build": "php artisan view:clear && vue-tsc --noEmit && vite build --mode production",
+        "build": "vue-tsc --noEmit && vite build --mode production",
+        "clean": "php artisan view:clear",
         "typecheck": "vue-tsc --noEmit",
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
     },
