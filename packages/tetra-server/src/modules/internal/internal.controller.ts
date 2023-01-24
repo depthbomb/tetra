@@ -3,7 +3,11 @@ import { InternalService }  from '~modules/internal/internal.service';
 
 @Controller('internal')
 export class InternalController {
-    public constructor(private readonly _internal: InternalService) {}
+    private readonly _internal: InternalService;
+
+    public constructor(internal: InternalService) {
+        this._internal = internal;
+    }
 
     @Post('links-count')
     public async getLinksCount() {

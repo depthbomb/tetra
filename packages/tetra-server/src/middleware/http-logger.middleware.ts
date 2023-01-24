@@ -5,17 +5,21 @@ import type { Request, Response, NextFunction } from 'express';
 
 @Injectable()
 export class HttpLoggerMiddleware implements NestMiddleware {
-    private readonly _log = new Logger('HTTP');
+    private readonly _logger: Logger;
+
+    public constructor() {
+        this._logger = new Logger('HTTP');
+    }
 
     public use(req: Request, res: Response, next: NextFunction) {
         const requestId = res.getHeader('X-Request-Id');
         const start     = performance.now();
 
-        this._log.log(`${requestId} ${req.method} -> ${req.originalUrl}`);
+        this._logger.log(`${requestId} ${req.method} -> ${req.originalUrl}`);
 
         res.once('finish', () => {
             const end = performance.now() - start;
-            this._log.log(`${requestId} ${req.method} <- ${res.statusCode} ${STATUS_CODES[res.statusCode]} (<->) ${end.toFixed(3)} ms`);
+            this._logger.log(`${requestId} ${req.method} <- ${res.statusCode} ${STATUS_CODES[res.statusCode]} (<->) ${end.toFixed(3)} ms`);
         });
 
         next();

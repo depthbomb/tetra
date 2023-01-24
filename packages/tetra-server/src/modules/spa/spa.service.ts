@@ -9,15 +9,18 @@ import type { IClientManifest }              from '~@types/IClientManifest';
 @Injectable()
 export class SpaService {
     private readonly _manifest: IClientManifest;
-    private readonly _log       = new Logger(SpaService.name);
-    private readonly _sriHashes = new Map<string, string[]>();
+    private readonly _logger: Logger;
+    private readonly _sriHashes: Map<string, string[]>;
 
     public constructor() {
+        this._logger    = new Logger(SpaService.name);
+        this._sriHashes = new Map<string, string[]>();
+
         if (existsSync(CLIENT_MANIFEST_PATH)) {
             const manifestContents = readFileSync(CLIENT_MANIFEST_PATH, 'utf8');
 
             this._manifest = JSON.parse(manifestContents);
-            this._log.log(`Loaded client asset manifest ${CLIENT_MANIFEST_PATH}`);
+            this._logger.log(`Loaded client asset manifest ${CLIENT_MANIFEST_PATH}`);
         } else {
             throw new Error(`Client asset manifest not found at expected path "${CLIENT_MANIFEST_PATH}"`);
         }
@@ -59,7 +62,7 @@ export class SpaService {
 
     private async _generateSriHashesForAsset(originalPath: string): Promise<string[]> {
         if (!this._sriHashes.has(originalPath)) {
-            this._log.debug(`Generating fresh SRI hashes for "${originalPath}"`);
+            this._logger.debug(`Generating fresh SRI hashes for "${originalPath}"`);
 
             const hashes: string[] = [];
             const filePath         = await this._getVersionedFilePath(originalPath);

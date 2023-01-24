@@ -13,13 +13,17 @@ import type { ILinkRedirectionInfo }               from '~modules/links/interfac
 
 @Injectable()
 export class LinksService {
-    private readonly _logger = new Logger(LinksService.name);
-    private readonly _safebrowsing = safebrowsing('v4');
+    private readonly _links: Model<LinksDocument>;
+    private readonly _config: ConfigService
+    private readonly _logger: Logger;
+    private readonly _safebrowsing;
 
-    public constructor(
-        private readonly _config: ConfigService,
-        @InjectModel(Link.name) private readonly _links: Model<LinksDocument>
-    ) {}
+    public constructor(config: ConfigService, @InjectModel(Link.name) links: Model<LinksDocument>) {
+        this._links        = links;
+        this._config       = config;
+        this._logger       = new Logger(LinksService.name);
+        this._safebrowsing = safebrowsing('v4');
+    }
 
     public async getRedirectionInfo(shortcode: string): Promise<ILinkRedirectionInfo|null> {
         const link = await this._links.findOne({ shortcode });

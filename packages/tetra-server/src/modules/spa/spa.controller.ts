@@ -6,13 +6,17 @@ import type { Request, Response }                                  from 'express
 
 @Controller()
 export class SpaController {
-    private readonly _cspNonceExtractionPattern: RegExp = /nonce-([a-zA-Z0-9-_]{32})/;
+    private readonly _spa: SpaService;
+    private readonly _auth: AuthService;
+    private readonly _config: ConfigService;
+    private readonly _cspNonceExtractionPattern: RegExp;
 
-    public constructor(
-        private readonly _spa: SpaService,
-        private readonly _auth: AuthService,
-        private readonly _config: ConfigService,
-    ) {}
+    public constructor(spa: SpaService, auth: AuthService, config: ConfigService) {
+        this._spa                       = spa;
+        this._auth                      = auth;
+        this._config                    = config;
+        this._cspNonceExtractionPattern = /nonce-([a-zA-Z0-9-_]{32})/;
+    }
 
     @Get('/')
     public async getSpa(@Req() req: Request, @Res() res: Response): Promise<void> {

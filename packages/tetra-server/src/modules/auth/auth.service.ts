@@ -8,11 +8,15 @@ import type { IGenericJwtResponse } from '~@types/IGenericJwtResponse';
 
 @Injectable()
 export class AuthService {
-    public constructor(
-        private readonly _jwt: JwtService,
-        private readonly _users: UsersService,
-        private readonly _crypto: CryptoService,
-    ) {}
+    private readonly _jwt: JwtService;
+    private readonly _users: UsersService;
+    private readonly _crypto: CryptoService;
+
+    public constructor(jwt: JwtService, users: UsersService, crypto: CryptoService) {
+        this._jwt    = jwt;
+        this._users  = users;
+        this._crypto = crypto;
+    }
 
     public async validateUserCredentials(username: string, password: string): Promise<UserDocument> {
         const requestedUser = await this._users.findUserByUsername(username);

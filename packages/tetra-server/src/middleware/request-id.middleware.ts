@@ -4,9 +4,6 @@ import type { Request, Response, NextFunction } from 'express';
 
 @Injectable()
 export class RequestIdMiddleware implements NestMiddleware {
-
-    public constructor() {}
-
     public async use(req: Request, res: Response, next: NextFunction) {
         const requestId = nanoid(6);
 

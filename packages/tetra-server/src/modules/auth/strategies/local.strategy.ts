@@ -5,10 +5,13 @@ import { AuthService }                               from '~modules/auth/auth.se
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
+    private readonly _auth: AuthService;
     private readonly _log = new Logger(LocalStrategy.name);
 
-    public constructor(private readonly _auth: AuthService) {
+    public constructor(auth: AuthService) {
         super();
+
+        this._auth = auth;
     }
 
     public async validate(username: string, password: string): Promise<any> {

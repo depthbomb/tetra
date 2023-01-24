@@ -4,7 +4,11 @@ import type { Response }                                  from 'express';
 
 @Controller()
 export class AppController {
-    public constructor(private readonly _links: LinksService) {}
+    private readonly _links: LinksService;
+
+    public constructor(links: LinksService) {
+        this._links = links;
+    }
 
     @Get(':shortcode')
     public async tryRedirectToDestination(@Param('shortcode') shortcode: string, @Res() res: Response) {

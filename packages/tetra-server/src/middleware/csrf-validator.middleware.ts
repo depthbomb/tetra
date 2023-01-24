@@ -5,9 +5,13 @@ import type { Request, Response, NextFunction }              from 'express';
 
 @Injectable()
 export class CsrfValidatorMiddleware implements NestMiddleware {
-    private readonly _log = new Logger('CSRF');
+    private readonly _auth: AuthService;
+    private readonly _logger: Logger;
 
-    public constructor(private readonly _auth: AuthService) {}
+    public constructor(auth: AuthService) {
+        this._auth   = auth;
+        this._logger = new Logger('CSRF');
+    }
 
     public async use(req: Request, res: Response, next: NextFunction) {
         const requestId = res.getHeader('X-Request-Id');
@@ -18,12 +22,12 @@ export class CsrfValidatorMiddleware implements NestMiddleware {
                 return next();
             }
 
-            this._log.warn(`${requestId}: Invalid CSRF token provided for protected endpoint`);
+            this._logger.warn(`${requestId}: Invalid CSRF token provided for protected endpoint`);
 
             throw new HttpException(STATUS_CODES[412], 412);
         }
 
-        this._log.warn(`${requestId}: Missing CSRF token provided for protected endpoint`);
+        this._logger.warn(`${requestId}: Missing CSRF token provided for protected endpoint`);
 
         throw new HttpException(STATUS_CODES[428], 428);
     }

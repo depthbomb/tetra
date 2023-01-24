@@ -10,9 +10,9 @@ export class CryptoService {
     private readonly _key: string;
     private readonly _salt: string;
 
-    public constructor(private readonly _config: ConfigService) {
-        this._key  = _config.getOrThrow<string>('CRYPTO_KEY');
-        this._salt = _config.getOrThrow<string>('CRYPTO_SALT');
+    public constructor(config: ConfigService) {
+        this._key  = config.getOrThrow<string>('CRYPTO_KEY');
+        this._salt = config.getOrThrow<string>('CRYPTO_SALT');
     }
 
     public async createPasswordHash(input: string): Promise<string> {

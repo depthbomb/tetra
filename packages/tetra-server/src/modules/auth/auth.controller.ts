@@ -5,17 +5,21 @@ import { LocalAuthGuard }                            from '~modules/auth/guards/
 
 @Controller('auth')
 export class AuthController {
-    public constructor(private readonly _auth: AuthService) {}
+    private readonly _auth: AuthService
 
-    @Post('login')
-    @UseGuards(LocalAuthGuard)
-    public async login(@Request() req) {
-        return await this._auth.loginViaLocal(req.user);
+    public constructor(auth: AuthService) {
+        this._auth = auth;
     }
 
-    @Get('profile')
-    @UseGuards(JwtAuthGuard)
-    public async getProfile(@Request() req) {
-        return req.user;
-    }
+    // @Post('login')
+    // @UseGuards(LocalAuthGuard)
+    // public async login(@Request() req) {
+    //     return await this._auth.loginViaLocal(req.user);
+    // }
+    //
+    // @Get('profile')
+    // @UseGuards(JwtAuthGuard)
+    // public async getProfile(@Request() req) {
+    //     return req.user;
+    // }
 }

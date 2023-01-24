@@ -22,9 +22,13 @@ import type { Request }  from 'express';
 
 @Controller('links')
 export class LinksController {
-    private readonly _log = new Logger(LinksController.name);
+    private readonly _links: LinksService;
+    private readonly _logger: Logger;
 
-    public constructor(private readonly _links: LinksService) {}
+    public constructor(links: LinksService) {
+        this._links  = links;
+        this._logger = new Logger(LinksController.name);
+    }
 
     @Post('create')
     @Version('1')
@@ -67,7 +71,7 @@ export class LinksController {
             };
         } catch (err: unknown) {
             const error = <Error>err;
-            this._log.error(error);
+            this._logger.error(error);
             throw new InternalServerErrorException('Failed to create shortlink', { cause: error });
         }
     }
@@ -84,7 +88,7 @@ export class LinksController {
             return {};
         } catch (err: unknown) {
             const error = <Error>err;
-            this._log.error(error);
+            this._logger.error(error);
             throw new InternalServerErrorException('Failed to delete shortlink', { cause: error });
         }
     }
