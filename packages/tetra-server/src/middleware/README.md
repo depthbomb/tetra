@@ -2,9 +2,13 @@
 
 These are middleware similar to what can be seen in Express-like web applications.
 
+### AddUserMiddleware
+
+This middleware adds the currently-authenticated user to the request object if the JWT can be extracted from the request.
+
 ### AuthMiddleware
 
-As its name implies, this middleware authenticates the current request with a JWT to persist the user's login state. The token can be extracted from one of three methods from the request in order of priority: Authorization header, cookie, query string.
+This middleware asserts that the request is coming from an authenticated user by checking for the presence of a non-undefined `user` property on the request object.
 
 ### CspMiddleware
 

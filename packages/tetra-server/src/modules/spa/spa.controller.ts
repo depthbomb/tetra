@@ -24,12 +24,25 @@ export class SpaController {
         const clientJs  = await this._spa.generateVersionedAssetTag('app.ts', cspNonce);
         const clientCss = await this._spa.generateVersionedAssetTag('app.css');
         const csrfToken = await this._auth.createCsrfToken(req);
+        const user      = await this._serializeUserObject(req);
         return res.render('spa', {
             clientJs,
             clientCss,
             csrfToken,
+            user,
             cache: this._config.get<string>('ENV') === 'production'
         });
+    }
+
+    private async _serializeUserObject(req: Request): Promise<any|null> {
+        if (req.user && 'user' in req) {
+            return encodeURIComponent(JSON.stringify({
+                id: req.user.id,
+                username: req.user.username
+            }));
+        }
+
+        return null;
     }
 
     private async _extractCspNonceFromHeaders(res: Response): Promise<string> {

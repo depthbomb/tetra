@@ -4,12 +4,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1">
+        {{#if user}}
+        <meta name="config/user" content="{{ user }}">
+        {{/if}}
+        <meta name="config/csrf-token" content="{{ csrfToken }}">
         <title>go.super.fish</title>
         {{{ clientJs }}}
         {{{ clientCss }}}
     </head>
     <body>
-        <div id="app" class="app" role="application" data-csrf-token="{{ csrfToken }}">
+        <div id="app" class="app" role="application">
             <noscript>
                 <h1>Please enable JavaScript to experience this website.</h1>
             </noscript>

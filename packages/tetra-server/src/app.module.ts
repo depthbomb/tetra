@@ -9,6 +9,7 @@ import { SpaModule }                           from '~modules/spa/spa.module';
 import { AuthModule }                          from '~modules/auth/auth.module';
 import { UsersModule }                         from '~modules/users/users.module';
 import { LinksModule }                         from '~modules/links/links.module';
+import { AddUserMiddleware }                   from '~middleware/add-user.middleware';
 import { InternalModule }                      from '~modules/internal/internal.module';
 import { RequestIdMiddleware }                 from '~middleware/request-id.middleware';
 import { HttpLoggerMiddleware }                from '~middleware/http-logger.middleware';
@@ -43,6 +44,6 @@ import type { NestModule, MiddlewareConsumer } from '@nestjs/common';
 })
 export class AppModule implements NestModule {
     public configure(consumer: MiddlewareConsumer): any {
-        consumer.apply(RequestIdMiddleware, HttpLoggerMiddleware).forRoutes('*');
+        consumer.apply(RequestIdMiddleware, AddUserMiddleware, HttpLoggerMiddleware).forRoutes('*');
     }
 }
