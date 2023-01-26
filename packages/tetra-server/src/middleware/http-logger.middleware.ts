@@ -16,13 +16,13 @@ export class HttpLoggerMiddleware implements NestMiddleware {
     }
 
     public use(req: Request, res: Response, next: NextFunction) {
-        const { method, originalUrl } = req;
+        const { user, method, originalUrl } = req;
         // Don't log to some paths that may spam the stdout
         if (!this._excludedPaths.includes(originalUrl)) {
             const requestId               = res.getHeader('X-Request-Id');
             const start                   = performance.now();
 
-            this._logger.log(`${requestId} ${method} -> ${originalUrl}`);
+            this._logger.log(`${requestId} ${method} -> ${originalUrl} (as ${user ? user.username : 'anonymous'})`);
 
             res.once('finish', () => {
                 const { statusCode } = res;
