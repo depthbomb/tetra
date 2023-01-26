@@ -3,6 +3,7 @@
         "paths": {
             "~*": ["./src/*"]
         },
+        "typeRoots": ["src/@types"],
         "module": "commonjs",
         "declaration": false,
         "esModuleInterop": true,
