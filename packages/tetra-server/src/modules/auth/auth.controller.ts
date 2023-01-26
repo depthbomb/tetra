@@ -1,25 +1,30 @@
-import { Get, Post, Request, UseGuards, Controller } from '@nestjs/common';
-import { AuthService }                               from '~modules/auth/auth.service';
-import { JwtAuthGuard }                              from '~modules/auth/guards/jwt-auth.guard';
-import { LocalAuthGuard }                            from '~modules/auth/guards/local-auth.guard';
+import { Req, Res, Get, Post, Body, Controller } from '@nestjs/common';
+import { AuthService }                           from '~modules/auth/auth.service';
+import { LoginDto }                              from '~modules/auth/dto/login.dto';
+import { UsersService }                          from '~modules/users/users.service';
+import type { Request, Response }                from 'express';
 
 @Controller('auth')
 export class AuthController {
-    private readonly _auth: AuthService
+    private readonly _auth: AuthService;
+    private readonly _users: UsersService;
 
-    public constructor(auth: AuthService) {
-        this._auth = auth;
+    public constructor(auth: AuthService, users: UsersService) {
+        this._auth  = auth;
+        this._users = users;
     }
 
-    // @Post('login')
-    // @UseGuards(LocalAuthGuard)
-    // public async login(@Request() req) {
-    //     return await this._auth.loginViaLocal(req.user);
-    // }
-    //
-    // @Get('profile')
-    // @UseGuards(JwtAuthGuard)
-    // public async getProfile(@Request() req) {
-    //     return req.user;
-    // }
+    @Post('login')
+    public async login(@Body() body: LoginDto, @Res() res: Response) {
+        const { accessToken } = await this._auth.loginViaLocal(body);
+
+        res.cookie('tetraJwt', accessToken);
+
+        return res.redirect('/');
+    }
+
+    @Get('profile')
+    public async getProfile(@Req() req: Request) {
+        return req.user;
+    }
 }

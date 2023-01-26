@@ -8,7 +8,7 @@ import type { NestExpressApplication } from '@nestjs/platform-express'
 
 NestFactory.create<NestExpressApplication>(AppModule).then(async app => {
     app.enableVersioning({ type: VersioningType.URI });
-    app.setGlobalPrefix('api', { exclude: ['/', ':shortcode'] });
+    app.setGlobalPrefix('api', { exclude: ['/', 'auth/login', 'auth/profile', ':shortcode'] });
 
     app.useStaticAssets(STATIC_PATH);
     app.setViewEngine(VIEWS_PATH);

@@ -1,13 +1,11 @@
-import { JwtModule }      from '@nestjs/jwt';
-import { Module }         from '@nestjs/common';
-import { ConfigService }  from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
-import { AuthService }    from '~modules/auth/auth.service';
-import { UsersModule }    from '~modules/users/users.module';
-import { AuthController } from '~modules/auth/auth.controller';
-import { CryptoModule }   from '~modules/crypto/crypto.module';
-import { JwtStrategy }    from '~modules/auth/strategies/jwt.strategy';
-import { LocalStrategy }  from '~modules/auth/strategies/local.strategy';
+import { JwtModule }                                             from '@nestjs/jwt';
+import { Module, NestModule, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
+import { ConfigService }                                         from '@nestjs/config';
+import { AuthService }                                           from '~modules/auth/auth.service';
+import { AuthMiddleware }                                        from '~middleware/auth.middleware';
+import { UsersModule }                                           from '~modules/users/users.module';
+import { AuthController }                                        from '~modules/auth/auth.controller';
+import { CryptoModule }                                          from '~modules/crypto/crypto.module';
 
 @Module({
     imports: [
@@ -21,11 +19,17 @@ import { LocalStrategy }  from '~modules/auth/strategies/local.strategy';
             })
         }),
         UsersModule,
-        CryptoModule,
-        PassportModule
+        CryptoModule
     ],
-    providers: [AuthService, JwtStrategy, LocalStrategy],
+    providers: [AuthService],
     controllers: [AuthController],
     exports: [AuthService]
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+    public configure(consumer: MiddlewareConsumer): any {
+        consumer
+            .apply(AuthMiddleware)
+            .exclude({ path: 'auth/login', method: RequestMethod.POST })
+            .forRoutes(AuthController);
+    }
+}

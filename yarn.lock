@@ -1333,9 +1333,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/cli@npm:^9.1.8":
-  version: 9.1.8
-  resolution: "@nestjs/cli@npm:9.1.8"
+"@nestjs/cli@npm:^9.1.9":
+  version: 9.1.9
+  resolution: "@nestjs/cli@npm:9.1.9"
   dependencies:
     "@angular-devkit/core": 15.0.4
     "@angular-devkit/schematics": 15.0.4
@@ -1361,7 +1361,7 @@ __metadata:
     webpack-node-externals: 3.0.0
   bin:
     nest: bin/nest.js
-  checksum: 60d92744dff7b28fbd5597524fd1f87214c9c3d2dd549f280a861a9ed2f93c56ecb6523227bb243e5dc4b392a716d27bbfe8a2e188d4b86730cd4d497ada783d
+  checksum: 8cf8312d7f76a2bd5f0f3f33387c35c50f427b667e83d1631d489882fc4433f5acc427015b100657ac26d5bd84d153efcf8e65db232688c0d25cec4b5e38eba8
   languageName: node
   linkType: hard
 
@@ -1456,16 +1456,6 @@ __metadata:
     reflect-metadata: ^0.1.12
     rxjs: ^7.0.0
   checksum: 5d03cc7752524ae17bb4a3dbce340a172ec9fa54fd505a83df9b94c4bffe78d656b84ba0ee88fbabe59fe57beeda2f545169ff3774c1e697dc46bfb279fbf559
-  languageName: node
-  linkType: hard
-
-"@nestjs/passport@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@nestjs/passport@npm:9.0.0"
-  peerDependencies:
-    "@nestjs/common": ^8.0.0 || ^9.0.0
-    passport: ^0.4.0 || ^0.5.0 || ^0.6.0
-  checksum: 85651ed1f636e9786d5e2ecc5eccf1b9a6bfff4de3e23726e23ab2dac6aa7de6426ac690e2fd9f9efa4c1f1858f73df8e02c3222e26c9fa1915d707dd608403c
   languageName: node
   linkType: hard
 
@@ -1601,6 +1591,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/duration@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@sapphire/duration@npm:1.0.0"
+  checksum: dadf3b5742742b5f724d1d78b0c59fd468ffe3ac817da2ba84361ac310528cb8c43f3d9d6032ff08f0f22fcaf61b495fb29b87800748e14abb0b780e86afda75
+  languageName: node
+  linkType: hard
+
 "@sindresorhus/is@npm:^0.7.0":
   version: 0.7.0
   resolution: "@sindresorhus/is@npm:0.7.0"
@@ -1608,90 +1605,90 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-arm64@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-darwin-arm64@npm:1.3.27"
+"@swc/core-darwin-arm64@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-darwin-arm64@npm:1.3.28"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-x64@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-darwin-x64@npm:1.3.27"
+"@swc/core-darwin-x64@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-darwin-x64@npm:1.3.28"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm-gnueabihf@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.3.27"
+"@swc/core-linux-arm-gnueabihf@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.3.28"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-gnu@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-linux-arm64-gnu@npm:1.3.27"
+"@swc/core-linux-arm64-gnu@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.3.28"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-musl@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-linux-arm64-musl@npm:1.3.27"
+"@swc/core-linux-arm64-musl@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-linux-arm64-musl@npm:1.3.28"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-gnu@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-linux-x64-gnu@npm:1.3.27"
+"@swc/core-linux-x64-gnu@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-linux-x64-gnu@npm:1.3.28"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-musl@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-linux-x64-musl@npm:1.3.27"
+"@swc/core-linux-x64-musl@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-linux-x64-musl@npm:1.3.28"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-win32-arm64-msvc@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-win32-arm64-msvc@npm:1.3.27"
+"@swc/core-win32-arm64-msvc@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-win32-arm64-msvc@npm:1.3.28"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-win32-ia32-msvc@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-win32-ia32-msvc@npm:1.3.27"
+"@swc/core-win32-ia32-msvc@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.3.28"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@swc/core-win32-x64-msvc@npm:1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core-win32-x64-msvc@npm:1.3.27"
+"@swc/core-win32-x64-msvc@npm:1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core-win32-x64-msvc@npm:1.3.28"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core@npm:^1.3.27":
-  version: 1.3.27
-  resolution: "@swc/core@npm:1.3.27"
+"@swc/core@npm:^1.3.28":
+  version: 1.3.28
+  resolution: "@swc/core@npm:1.3.28"
   dependencies:
-    "@swc/core-darwin-arm64": 1.3.27
-    "@swc/core-darwin-x64": 1.3.27
-    "@swc/core-linux-arm-gnueabihf": 1.3.27
-    "@swc/core-linux-arm64-gnu": 1.3.27
-    "@swc/core-linux-arm64-musl": 1.3.27
-    "@swc/core-linux-x64-gnu": 1.3.27
-    "@swc/core-linux-x64-musl": 1.3.27
-    "@swc/core-win32-arm64-msvc": 1.3.27
-    "@swc/core-win32-ia32-msvc": 1.3.27
-    "@swc/core-win32-x64-msvc": 1.3.27
+    "@swc/core-darwin-arm64": 1.3.28
+    "@swc/core-darwin-x64": 1.3.28
+    "@swc/core-linux-arm-gnueabihf": 1.3.28
+    "@swc/core-linux-arm64-gnu": 1.3.28
+    "@swc/core-linux-arm64-musl": 1.3.28
+    "@swc/core-linux-x64-gnu": 1.3.28
+    "@swc/core-linux-x64-musl": 1.3.28
+    "@swc/core-win32-arm64-msvc": 1.3.28
+    "@swc/core-win32-ia32-msvc": 1.3.28
+    "@swc/core-win32-x64-msvc": 1.3.28
   dependenciesMeta:
     "@swc/core-darwin-arm64":
       optional: true
@@ -1713,7 +1710,7 @@ __metadata:
       optional: true
     "@swc/core-win32-x64-msvc":
       optional: true
-  checksum: 1e43612e65bd223e32db59497ea0bd1345a6da6ae1c4bb42556f1948da1175035c92b7a2b4dda76bfd4f7b229e885756cd9ec36af876e4e3da3f48cb4ba2fa0d
+  checksum: bc96bb6cf476bf815d2f9308b280c119f8c8ecc4e9ba459322415d884c21dcad040ae8c69646811e598e0039ab497c8f15031c331fd6d13ea5bdf848b9c9f44f
   languageName: node
   linkType: hard
 
@@ -2031,28 +2028,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/passport-local@npm:^1.0.35":
-  version: 1.0.35
-  resolution: "@types/passport-local@npm:1.0.35"
-  dependencies:
-    "@types/express": "*"
-    "@types/passport": "*"
-    "@types/passport-strategy": "*"
-  checksum: b4ed4c40d2c7c42370c8a0ca7e18728bf3dbf2a56171d45c4f4d0281af9d91595ef9677a4f47ef10fdd5374a917b0ea64fb02d44ff4c424e48965e92915da294
-  languageName: node
-  linkType: hard
-
-"@types/passport-strategy@npm:*":
-  version: 0.2.35
-  resolution: "@types/passport-strategy@npm:0.2.35"
-  dependencies:
-    "@types/express": "*"
-    "@types/passport": "*"
-  checksum: e5949063ad8977ce1f7cf2a5df6bc379c4d43a959c9946bfed6570ef379c6c12d1713212a29b3b5aafc631c5ebe9bfe082116f3e75ca1bf45d79dd889671532d
-  languageName: node
-  linkType: hard
-
-"@types/passport@npm:*, @types/passport@npm:^1.0.11":
+"@types/passport@npm:^1.0.11":
   version: 1.0.11
   resolution: "@types/passport@npm:1.0.11"
   dependencies:
@@ -6955,7 +6931,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:9.0.0, jsonwebtoken@npm:^9.0.0":
+"jsonwebtoken@npm:9.0.0":
   version: 9.0.0
   resolution: "jsonwebtoken@npm:9.0.0"
   dependencies:
@@ -7608,9 +7584,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.12.1":
-  version: 4.12.1
-  resolution: "mongodb@npm:4.12.1"
+"mongodb@npm:4.13.0":
+  version: 4.13.0
+  resolution: "mongodb@npm:4.13.0"
   dependencies:
     "@aws-sdk/credential-providers": ^3.186.0
     bson: ^4.7.0
@@ -7622,22 +7598,22 @@ __metadata:
       optional: true
     saslprep:
       optional: true
-  checksum: 84590484b2c93bce849ec1e334b064e983444ed73942061c91e09556348c80db9d4a40544b927cd795bdfbfc51d1b713a7df5ced4ecf13cd00fab5e3c3e32ada
+  checksum: 4c30eed40f639ac64069623cf7a4954e98eab81b91d61df90e7813dd2a745259cdc698f3b60bd7f37c123242b7eb0aaae6ee4e29ff2e48f5d13f187931d51f36
   languageName: node
   linkType: hard
 
-"mongoose@npm:^6.8.4":
-  version: 6.8.4
-  resolution: "mongoose@npm:6.8.4"
+"mongoose@npm:^6.9.0":
+  version: 6.9.0
+  resolution: "mongoose@npm:6.9.0"
   dependencies:
     bson: ^4.7.0
     kareem: 2.5.1
-    mongodb: 4.12.1
+    mongodb: 4.13.0
     mpath: 0.9.0
     mquery: 4.0.3
     ms: 2.1.3
     sift: 16.0.1
-  checksum: f23c3bbb22cafa41ee7ea11357da85e734290c21d0d1283c5758aa0706646734c985f54ec93b5c775ff03aae3b18b09cd1a1c50f68186ac54898daca1bc8ef57
+  checksum: fb868cbc4d19fe440564b5a21207d30d1c9a06f9ce8d2cc9fd7824b629a3e24794a2481d76cc7f4d5bc3408edc14cb4af4b47f950d1703b5c6e456ba92e4c792
   languageName: node
   linkType: hard
 
@@ -8251,43 +8227,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport-jwt@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "passport-jwt@npm:4.0.1"
-  dependencies:
-    jsonwebtoken: ^9.0.0
-    passport-strategy: ^1.0.0
-  checksum: 0669d5bf8fc18ee57eb39601491c59ac084acfa6c972e0a3289e9d88a3ee6fab9e9fb279f359eee81939fedb66904c4a74423004480b60c54621af0d7b2ee0d5
-  languageName: node
-  linkType: hard
-
-"passport-local@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "passport-local@npm:1.0.0"
-  dependencies:
-    passport-strategy: 1.x.x
-  checksum: 86dc08b12f05f0ce1bb109780ccb0377eff45bbba70aa9c0d65f092b3ef476d344c0443517db2e9f3e5ec0ca849171ab25fb622164e0f69a677173af42b9bba7
-  languageName: node
-  linkType: hard
-
-"passport-strategy@npm:1.x.x, passport-strategy@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "passport-strategy@npm:1.0.0"
-  checksum: 5086693f2508e538dffa55a338c89fe8192fb5f4478c71f80cd5890b8573419a098f4fec88b505374f60bbe9049f6f24b9f3992678612528a3370b4dc73354a2
-  languageName: node
-  linkType: hard
-
-"passport@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "passport@npm:0.6.0"
-  dependencies:
-    passport-strategy: 1.x.x
-    pause: 0.0.1
-    utils-merge: ^1.0.1
-  checksum: ef932ad671d50de34765c7a53cd1e058d8331a82a6df09265a9c6c1168911aee4a7b5215803d0101110ab7f317e096b4954ca7e18fb2c33b9929f0bd17dbe159
-  languageName: node
-  linkType: hard
-
 "path-exists@npm:^2.0.0":
   version: 2.1.0
   resolution: "path-exists@npm:2.1.0"
@@ -8368,13 +8307,6 @@ __metadata:
   version: 0.2.0
   resolution: "pathe@npm:0.2.0"
   checksum: 9a8149ce152088f30d15b0b03a7c128ba21f16b4dc1f3f90fe38eee9f6d0f1d6da8e4e47bd2a4f9e14aaac7c30ed01cfc86216479011de2bdc598b65e6f19f41
-  languageName: node
-  linkType: hard
-
-"pause@npm:0.0.1":
-  version: 0.0.1
-  resolution: "pause@npm:0.0.1"
-  checksum: e96ee581b68085e6f2ba5adbcb4d4a41fe88e5b514061e76df2fe1905f0f65f4fe5a843b538e9551122c6b9184ff4be266c2ee0ea4614702f9a3d04466d9f462
   languageName: node
   linkType: hard
 
@@ -9803,24 +9735,23 @@ __metadata:
   resolution: "tetra-server@workspace:packages/tetra-server"
   dependencies:
     "@googleapis/safebrowsing": ^3.0.0
-    "@nestjs/cli": ^9.1.8
+    "@nestjs/cli": ^9.1.9
     "@nestjs/common": ^9.2.1
     "@nestjs/config": ^2.2.0
     "@nestjs/core": ^9.2.1
     "@nestjs/jwt": ^10.0.1
     "@nestjs/mongoose": ^9.2.1
-    "@nestjs/passport": ^9.0.0
     "@nestjs/platform-express": ^9.2.1
     "@nestjs/schedule": ^2.1.0
     "@nestjs/schematics": ^9.0.4
     "@nestjs/throttler": ^4.0.0
-    "@swc/core": ^1.3.27
+    "@sapphire/duration": ^1.0.0
+    "@swc/core": ^1.3.28
     "@types/cookie-parser": ^1.4.3
     "@types/cron": ^2.0.0
     "@types/hbs": ^4.0.1
     "@types/node": 18.11.18
     "@types/passport": ^1.0.11
-    "@types/passport-local": ^1.0.35
     "@typescript-eslint/eslint-plugin": ^5.49.0
     "@typescript-eslint/parser": ^5.49.0
     argon2: ^0.30.3
@@ -9831,12 +9762,9 @@ __metadata:
     cross-env: ^7.0.3
     eslint: ^8.32.0
     hbs: ^4.2.0
-    mongoose: ^6.8.4
+    mongoose: ^6.9.0
     ms: 3.0.0-canary.1
     nanoid: ^3.3.4
-    passport: ^0.6.0
-    passport-jwt: ^4.0.1
-    passport-local: ^1.0.0
     reflect-metadata: ^0.1.13
     rxjs: ^7.8.0
     source-map-support: ^0.5.21
@@ -10330,7 +10258,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"utils-merge@npm:1.0.1, utils-merge@npm:^1.0.1":
+"utils-merge@npm:1.0.1":
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: c81095493225ecfc28add49c106ca4f09cdf56bc66731aa8dabc2edbbccb1e1bfe2de6a115e5c6a380d3ea166d1636410b62ef216bb07b3feb1cfde1d95d5080

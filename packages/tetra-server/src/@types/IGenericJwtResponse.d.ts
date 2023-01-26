@@ -1,3 +1,3 @@
 export interface IGenericJwtResponse {
-    access_token: string;
+    accessToken: string;
 }
