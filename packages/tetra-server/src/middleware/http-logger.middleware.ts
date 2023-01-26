@@ -6,21 +6,30 @@ import type { Request, Response, NextFunction } from 'express';
 @Injectable()
 export class HttpLoggerMiddleware implements NestMiddleware {
     private readonly _logger: Logger;
+    private readonly _excludedPaths: string[];
 
     public constructor() {
         this._logger = new Logger('HTTP');
+        this._excludedPaths = [
+            '/api/internal/links-count'
+        ];
     }
 
     public use(req: Request, res: Response, next: NextFunction) {
-        const requestId = res.getHeader('X-Request-Id');
-        const start     = performance.now();
+        const { method, originalUrl } = req;
+        // Don't log to some paths that may spam the stdout
+        if (!this._excludedPaths.includes(originalUrl)) {
+            const requestId               = res.getHeader('X-Request-Id');
+            const start                   = performance.now();
 
-        this._logger.log(`${requestId} ${req.method} -> ${req.originalUrl}`);
+            this._logger.log(`${requestId} ${method} -> ${originalUrl}`);
 
-        res.once('finish', () => {
-            const end = performance.now() - start;
-            this._logger.log(`${requestId} ${req.method} <- ${res.statusCode} ${STATUS_CODES[res.statusCode]} (<->) ${end.toFixed(3)} ms`);
-        });
+            res.once('finish', () => {
+                const { statusCode } = res;
+                const end = performance.now() - start;
+                this._logger.log(`${requestId} ${method} <- ${statusCode} ${STATUS_CODES[statusCode]} (<->) ${end.toFixed(2)} ms`);
+            });
+        }
 
         next();
     }
