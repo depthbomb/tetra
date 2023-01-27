@@ -15,12 +15,12 @@ export class AuthController {
     }
 
     @Post('login')
-    public async login(@Body() body: LoginDto, @Res() res: Response) {
-        const { accessToken } = await this._auth.loginViaLocal(body);
+    public async login(@Body() body: LoginDto, @Res() res: Response): Promise<{ id: string; username: string }> {
+        const { accessToken, payload } = await this._auth.loginViaLocal(body);
 
         res.cookie('tetraJwt', accessToken);
 
-        return res.redirect('/');
+        return payload;
     }
 
     @Get('profile')

@@ -5,7 +5,7 @@ import { UserDocument }                              from '~modules/users/users.
 import { UsersService }                              from '~modules/users/users.service';
 import { CryptoService }                             from '~modules/crypto/crypto.service';
 import type { Request }                              from 'express';
-import type { IGenericJwtResponse }                  from '~@types/IGenericJwtResponse';
+import type { ILoginResponse }                       from '~modules/auth/interfaces/ILoginResponse';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +35,7 @@ export class AuthService {
         return requestedUser;
     }
 
-    public async loginViaLocal(user: LoginDto): Promise<IGenericJwtResponse> {
+    public async loginViaLocal(user: LoginDto): Promise<ILoginResponse> {
         const { username, password } = user;
 
         try {
@@ -45,12 +45,10 @@ export class AuthService {
 
             this._logger.log(`User "${username}" authenticated successfully`);
 
-            const accessToken = await this._jwt.signAsync({
-                id: user.id,
-                username
-            });
+            const payload = { id: user.id, username };
+            const accessToken = await this._jwt.signAsync(payload);
 
-            return { accessToken };
+            return { accessToken, payload };
         } catch (err: unknown) {
             const error = err as Error;
             this._logger.error(error);
