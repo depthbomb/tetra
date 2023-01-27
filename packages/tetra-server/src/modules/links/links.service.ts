@@ -1,26 +1,33 @@
-import ms                                          from 'ms';
-import { Model }                                   from 'mongoose';
-import { randomUUID }                              from 'node:crypto';
-import { nanoid }                                  from 'nanoid/async';
-import { ConfigService }                           from '@nestjs/config';
-import { Logger, Injectable, BadRequestException } from '@nestjs/common';
-import { Cron }                                    from '@nestjs/schedule';
-import { InjectModel }                             from '@nestjs/mongoose';
-import { safebrowsing }                            from '@googleapis/safebrowsing';
-import { Link, LinksDocument }                     from '~modules/links/links.schema';
-import type { StringValue }                        from 'ms';
-import type { ILinkRedirectionInfo }               from '~modules/links/interfaces/ILinkRedirectionInfo';
+import ms                                                           from 'ms';
+import { kLinkCreatedEvent, kLinkDeletedEvent, kLinkScanningEvent } from '~events';
+import { Model }                                                    from 'mongoose';
+import { randomUUID }                                               from 'node:crypto';
+import { nanoid }                                                   from 'nanoid/async';
+import { ConfigService }                                            from '@nestjs/config';
+import { Logger, Injectable, BadRequestException }                  from '@nestjs/common';
+import { Cron }                                                     from '@nestjs/schedule';
+import { InjectModel }                                              from '@nestjs/mongoose';
+import { EventEmitter2 }                                            from '@nestjs/event-emitter';
+import { safebrowsing }                                             from '@googleapis/safebrowsing';
+import { LinkCreatedEvent }                                         from '~events/LinkCreatedEvent';
+import { LinkDeletedEvent }                                         from '~events/LinkDeletedEvent';
+import { LinkScanningEvent }                                        from '~events/LinkScanningEvent';
+import { Link, LinksDocument }                                      from '~modules/links/links.schema';
+import type { StringValue }                                         from 'ms';
+import type { ILinkRedirectionInfo }                                from '~modules/links/interfaces/ILinkRedirectionInfo';
 
 @Injectable()
 export class LinksService {
     private readonly _links: Model<LinksDocument>;
     private readonly _config: ConfigService
+    private readonly _events: EventEmitter2;
     private readonly _logger: Logger;
     private readonly _safebrowsing;
 
-    public constructor(config: ConfigService, @InjectModel(Link.name) links: Model<LinksDocument>) {
+    public constructor(config: ConfigService, @InjectModel(Link.name) links: Model<LinksDocument>, events: EventEmitter2) {
         this._links        = links;
         this._config       = config;
+        this._events       = events;
         this._logger       = new Logger(LinksService.name);
         this._safebrowsing = safebrowsing('v4');
     }
@@ -40,13 +47,19 @@ export class LinksService {
         if  (isDestinationSafe) {
             const shortcode   = await this._generateShortcode();
             const deletionKey = await this._generateDeletionKey();
-            return await this._links.create({
+            const link        = await this._links.create({
                 creator,
                 shortcode,
                 destination,
                 deletionKey,
                 expiresAt
             });
+
+            this._logger.log(`Created shortlink "${shortcode}" that leads to "${destination}"`);
+
+            await this._events.emitAsync(kLinkCreatedEvent, new LinkCreatedEvent(shortcode));
+
+            return link;
         }
 
         throw new BadRequestException('The provided destination was found in Google\'s Safe Browsing threats list');
@@ -64,6 +77,8 @@ export class LinksService {
                 `Deleted shortlink "${shortcode}" with deletionKey "${deletionKey}"` :
                 `Deleted shortlink "${shortcode}`
             );
+
+            await this._events.emitAsync(kLinkDeletedEvent, new LinkDeletedEvent(shortcode));
         }
 
         return deletedCount;
@@ -81,6 +96,8 @@ export class LinksService {
 
     public async isDestinationSafe(destination: string): Promise<boolean> {
         this._logger.debug(`Scanning URL "${destination}"`);
+
+        await this._events.emitAsync(kLinkScanningEvent, new LinkScanningEvent(destination));
 
         const { data } = await this._safebrowsing.threatMatches.find({
             auth: this._config.getOrThrow<string>('GOOGLEAPIS_SAFEBROWSING_KEY'),

@@ -5,9 +5,9 @@ import { AppController }                       from '~app.controller';
 import { ScheduleModule }                      from '@nestjs/schedule';
 import { MongooseModule }                      from '@nestjs/mongoose';
 import { ThrottlerGuard, ThrottlerModule }     from '@nestjs/throttler';
+import { EventEmitterModule }                  from '@nestjs/event-emitter';
 import { SpaModule }                           from '~modules/spa/spa.module';
 import { AuthModule }                          from '~modules/auth/auth.module';
-import { UsersModule }                         from '~modules/users/users.module';
 import { LinksModule }                         from '~modules/links/links.module';
 import { AddUserMiddleware }                   from '~middleware/add-user.middleware';
 import { InternalModule }                      from '~modules/internal/internal.module';
@@ -31,11 +31,11 @@ import type { NestModule, MiddlewareConsumer } from '@nestjs/common';
             useFactory: (config: ConfigService) => ({ uri: config.getOrThrow<string>('DB_CONNECTION_STRING') })
         }),
         ScheduleModule.forRoot(),
+        EventEmitterModule.forRoot(),
         SpaModule,
         LinksModule,
         InternalModule,
         AuthModule,
-        UsersModule,
     ],
     controllers: [AppController],
     providers: [
