@@ -3,9 +3,10 @@ import { SpaService }                             from '~modules/spa/spa.service
 import { AuthModule }                             from '~modules/auth/auth.module';
 import { CspMiddleware }                          from '~middleware/csp.middleware';
 import { SpaController }                          from '~modules/spa/spa.controller';
+import { ViewsModule }                            from '~modules/views/views.module';
 
 @Module({
-    imports: [AuthModule],
+    imports: [AuthModule, ViewsModule],
     controllers: [SpaController],
     providers: [SpaService]
 })

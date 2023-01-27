@@ -4,7 +4,7 @@ import { STATIC_PATH, CLIENT_MANIFEST_PATH } from '~constants';
 import { createHash }                        from 'node:crypto';
 import { Logger, Injectable }                from '@nestjs/common';
 import { readFile }                          from 'node:fs/promises';
-import type { IClientManifest }              from '~@types/IClientManifest';
+import { IClientManifest }                   from '~modules/spa/interfaces/IClientManifest';
 
 @Injectable()
 export class SpaService {

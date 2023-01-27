@@ -1,4 +1,4 @@
-import { VIEWS_PATH, STATIC_PATH }     from '~constants';
+import { STATIC_PATH }                 from '~constants';
 import { AppModule }                   from '~app.module';
 import { NestFactory }                 from '@nestjs/core';
 import cookieParser                    from 'cookie-parser';
@@ -11,8 +11,6 @@ NestFactory.create<NestExpressApplication>(AppModule).then(async app => {
     app.setGlobalPrefix('api', { exclude: ['/', 'auth/login', 'auth/profile', ':shortcode'] });
 
     app.useStaticAssets(STATIC_PATH);
-    app.setViewEngine(VIEWS_PATH);
-    app.setViewEngine('hbs');
 
     app.disable('x-powered-by');
 
