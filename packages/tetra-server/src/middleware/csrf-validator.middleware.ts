@@ -1,6 +1,6 @@
-import { STATUS_CODES }                                      from 'node:http';
-import { Logger, Injectable, HttpException, NestMiddleware } from '@nestjs/common';
-import { AuthService }                                       from '~modules/auth/auth.service';
+import { STATUS_CODES }                                                                   from 'node:http';
+import { Logger, Injectable, HttpException, NestMiddleware, PreconditionFailedException } from '@nestjs/common';
+import { AuthService }                                                                    from '~modules/auth/auth.service';
 import type { Request, Response, NextFunction }              from 'express';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class CsrfValidatorMiddleware implements NestMiddleware {
 
             this._logger.warn(`${requestId}: Invalid CSRF token provided for protected endpoint`);
 
-            throw new HttpException(STATUS_CODES[412], 412);
+            throw new PreconditionFailedException();
         }
 
         this._logger.warn(`${requestId}: Missing CSRF token provided for protected endpoint`);
