@@ -15,7 +15,7 @@ export class AuthController {
     }
 
     @Post('login')
-    public async login(@Body() body: LoginDto, @Res() res: Response): Promise<{ id: string; username: string }> {
+    public async login(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response): Promise<{ id: string; username: string }> {
         const { accessToken, payload } = await this._auth.loginViaLocal(body);
 
         res.cookie('tetraJwt', accessToken);
