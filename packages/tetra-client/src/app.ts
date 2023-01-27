@@ -11,13 +11,9 @@ const app = createApp(App)
 
 // Load backend data into store as early as possible
 const store = useTetraStore();
-const appElement = document.querySelector('#app') as HTMLMetaElement;
-if (appElement) {
-    if ('csrfToken' in appElement.dataset) {
-        store.csrfToken = appElement.dataset.csrfToken!;
-    } else {
-        throw new Error('Failed to load backend data, CSRF token data attribute not found.');
-    }
+const csrfConfigElement = document.querySelector('meta[name="config/csrf-token"]') as HTMLMetaElement;
+if (csrfConfigElement) {
+    store.csrfToken = csrfConfigElement.content;
 } else {
     // TODO handle this better?
     throw new Error('Failed to load backend data, app element not found.');
