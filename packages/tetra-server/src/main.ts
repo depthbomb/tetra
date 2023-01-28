@@ -7,13 +7,9 @@ import { ConfigService }               from '@nestjs/config';
 import type { NestExpressApplication } from '@nestjs/platform-express'
 
 NestFactory.create<NestExpressApplication>(AppModule).then(async app => {
-    app.enableVersioning({ type: VersioningType.URI });
-    app.setGlobalPrefix('api', { exclude: ['/', 'auth/login', 'auth/profile', ':shortcode'] });
-
+    app.enableVersioning({ type: VersioningType.HEADER, header: 'X-Api-Version' });
     app.useStaticAssets(STATIC_PATH);
-
     app.disable('x-powered-by');
-
     app.use(cookieParser());
 
     const config = app.get<ConfigService>(ConfigService);

@@ -20,7 +20,7 @@ import { LinksService }  from '~modules/links/links.service';
 import { CreateLinkDto } from '~modules/links/dto/create-link.dto';
 import type { Request }  from 'express';
 
-@Controller('links')
+@Controller('api/links')
 export class LinksController {
     private readonly _links: LinksService;
     private readonly _logger: Logger;
@@ -98,10 +98,7 @@ export class LinksController {
     public async getLinkInfo(@Param('shortcode') shortcode: string) {
         const info = await this._links.getRedirectionInfo(shortcode);
         if (info) {
-            return {
-                __NOTE: 'this will be a proper page soon',
-                ...info
-            };
+            return { ...info };
         }
 
         throw new NotFoundException();
