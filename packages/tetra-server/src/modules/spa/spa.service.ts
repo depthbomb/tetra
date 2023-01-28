@@ -3,26 +3,30 @@ import { join, extname }                     from 'node:path';
 import { STATIC_PATH, CLIENT_MANIFEST_PATH } from '~constants';
 import { createHash }                        from 'node:crypto';
 import { Logger, Injectable }                from '@nestjs/common';
+import { ConfigService }                     from '@nestjs/config';
 import { readFile }                          from 'node:fs/promises';
 import { IClientManifest }                   from '~modules/spa/interfaces/IClientManifest';
 
 @Injectable()
 export class SpaService {
-    private readonly _manifest: IClientManifest;
+    private _manifest: IClientManifest;
+    private readonly _config: ConfigService;
     private readonly _logger: Logger;
     private readonly _sriHashes: Map<string, string[]>;
 
-    public constructor() {
+    public constructor(config: ConfigService) {
+        this._config    = config;
         this._logger    = new Logger(SpaService.name);
         this._sriHashes = new Map<string, string[]>();
 
-        if (existsSync(CLIENT_MANIFEST_PATH)) {
-            const manifestContents = readFileSync(CLIENT_MANIFEST_PATH, 'utf8');
+        this._loadManifestAssets();
 
-            this._manifest = JSON.parse(manifestContents);
-            this._logger.log(`Loaded client asset manifest ${CLIENT_MANIFEST_PATH}`);
-        } else {
-            throw new Error(`Client asset manifest not found at expected path "${CLIENT_MANIFEST_PATH}"`);
+        if (this._config.getOrThrow<string>('ENV') === 'development') {
+            import('chokidar').then(chokidar => {
+                this._logger.debug(`Starting file watcher on ${CLIENT_MANIFEST_PATH}`);
+
+                chokidar.watch(CLIENT_MANIFEST_PATH).on('change', () => this._loadManifestAssets());
+            });
         }
     }
 
@@ -77,5 +81,17 @@ export class SpaService {
         }
 
         return this._sriHashes.get(originalPath);
+    }
+
+    private _loadManifestAssets(): void {
+        if (existsSync(CLIENT_MANIFEST_PATH)) {
+            const manifestContents = readFileSync(CLIENT_MANIFEST_PATH, 'utf8');
+
+            this._sriHashes.clear();
+            this._manifest = JSON.parse(manifestContents);
+            this._logger.log(`Loaded client asset manifest ${CLIENT_MANIFEST_PATH}`);
+        } else {
+            throw new Error(`Client asset manifest not found at expected path "${CLIENT_MANIFEST_PATH}"`);
+        }
     }
 }

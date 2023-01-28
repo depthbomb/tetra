@@ -11,7 +11,7 @@ export class HttpLoggerMiddleware implements NestMiddleware {
     public constructor() {
         this._logger = new Logger('HTTP');
         this._excludedPaths = [
-            '/api/internal/links-count'
+            '/internal/links-count'
         ];
     }
 

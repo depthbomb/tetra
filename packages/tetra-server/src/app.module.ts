@@ -17,7 +17,7 @@ import type { NestModule, MiddlewareConsumer } from '@nestjs/common';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env.production', '.env.development', '.env'] }),
+        ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env'] }),
         CacheModule.register({ isGlobal: true }),
         ThrottlerModule.forRootAsync({
             inject: [ConfigService],
