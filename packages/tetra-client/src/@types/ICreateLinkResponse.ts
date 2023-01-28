@@ -1,3 +1,6 @@
 export interface ICreateLinkResponse {
-    results: string
+    shortcode: string;
+    destination: string;
+    deletionKey: string;
+    expiresAt?: Date;
 }

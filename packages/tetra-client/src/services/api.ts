@@ -1,7 +1,7 @@
 const _apiRoutes = [
-    { name : 'api:links:create',         method: 'POST',   path: '/api/v1/links/create' },
-    { name : 'api:links:delete',         method: 'DELETE', path: '/api/v1/links/delete/{shortcode}/{deletionKey}' },
-    { name : 'api:internal:links-count', method: 'POST',   path: '/api/internal/links-count' },
+    { name : 'api:links:create',     method: 'POST',   path: '/api/links/create' },
+    { name : 'api:links:delete',     method: 'DELETE', path: '/api/links/delete/{shortcode}/{deletionKey}' },
+    { name : 'internal:links-count', method: 'POST',   path: '/internal/links-count' },
 ];
 
 let _csrfToken = '';
@@ -25,11 +25,12 @@ export async function makeApiRequest<T>(endpointName: string, init: RequestInit 
     const endpoint = _apiRoutes.find(r => r.name === endpointName);
     if (endpoint) {
         const res = await fetch(endpoint.path, {
-            ...init,
+            body: init.body,
             method: endpoint.method,
             headers: {
                 'Content-Type': 'application/json',
-                'X-Csrf-Token': csrfToken
+                'X-Csrf-Token': csrfToken,
+                ...init.headers
             }
         });
 

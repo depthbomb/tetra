@@ -1,20 +1,17 @@
 {
-	"extends": "@vue/tsconfig/tsconfig.web.json",
-	"include": [
-		"env.d.ts",
-		"./src/**/*",
-		"./src/**/*.vue"
-	],
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"~/*": ["./src/*"]
-		},
-		"types": ["vite/client"]
-	},
-	"references": [
-		{
-			"path": "./tsconfig.config.json"
-		}
-	]
+    "extends": "@vue/tsconfig/tsconfig.web.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "~*": ["./src/*"]
+        },
+        "types": ["vite/client"]
+    },
+    "references": [
+        {
+            "path": "./tsconfig.config.json"
+        }
+    ],
+    "include": ["env.d.ts", "./src/**/*", "./src/**/*.vue"],
+    "exclude": ["dist/*"]
 }

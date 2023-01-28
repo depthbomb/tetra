@@ -2,6 +2,7 @@ import { defineConfig }       from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 import { resolve }            from 'node:path';
 import vue                    from '@vitejs/plugin-vue';
+import vuetify                from 'vite-plugin-vuetify';
 import imagemin               from 'vite-plugin-imagemin';
 import type { UserConfig }    from 'vite';
 
@@ -37,7 +38,8 @@ export default defineConfig(({ mode }) => {
             },
         },
         plugins: [
-            vue()
+            vue(),
+            vuetify()
         ],
         resolve: {
             alias: {

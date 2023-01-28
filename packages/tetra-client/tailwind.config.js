@@ -47,13 +47,12 @@ module.exports = {
             },
             fontFamily: {
                 sans: [
-                    'Inter',
+                    'Roboto',
                     'ui-sans-serif',
                     'system-ui',
                     '-apple-system',
                     'BlinkMacSystemFont',
                     '"Segoe UI"',
-                    'Roboto',
                     '"Helvetica Neue"',
                     'Arial',
                     '"Noto Sans"',
@@ -87,7 +86,6 @@ module.exports = {
         },
     },
     plugins: [
-        require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         function ({ matchUtilities, theme }) {
             matchUtilities({

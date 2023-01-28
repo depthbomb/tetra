@@ -4,9 +4,11 @@ import { createPinia }   from 'pinia';
 import router            from '~/router';
 import App               from '~/App.vue';
 import { useTetraStore } from '~/stores/tetra';
+import vuetify           from '~/plugins/vuetify';
 
 const app = createApp(App)
     .use(router)
+    .use(vuetify)
     .use(createPinia());
 
 // Load backend data into store as early as possible

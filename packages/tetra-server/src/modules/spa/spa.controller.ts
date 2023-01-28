@@ -32,6 +32,7 @@ export class SpaController {
             clientJs,
             clientCss,
             csrfToken,
+            cspNonce,
             user,
         });
 
