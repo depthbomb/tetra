@@ -1,4 +1,4 @@
-import { Res, Get, Param, Controller, NotFoundException } from '@nestjs/common';
+import { Get, Res, Param, Controller, NotFoundException } from '@nestjs/common';
 import { LinksService }                                   from '~modules/links/links.service';
 import type { Response }                                  from 'express';
 

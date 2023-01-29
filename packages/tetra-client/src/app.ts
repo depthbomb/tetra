@@ -5,10 +5,12 @@ import router            from '~/router';
 import App               from '~/App.vue';
 import { useTetraStore } from '~/stores/tetra';
 import vuetify           from '~/plugins/vuetify';
+import hljs              from '~/plugins/highlightjs';
 
 const app = createApp(App)
     .use(router)
     .use(vuetify)
+    .use(hljs)
     .use(createPinia());
 
 // Load backend data into store as early as possible
@@ -20,5 +22,7 @@ if (csrfConfigElement) {
     // TODO handle this better?
     throw new Error('Failed to load backend data, app element not found.');
 }
+
+app.component('hljs', hljs.component);
 
 app.mount('#app');

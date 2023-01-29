@@ -30,6 +30,7 @@ const copyShortlinkToClipboard = () => {
 };
 
 const trySubmit = async () => {
+    state.error          = '';
     state.submitDisabled = true;
 
     dialogState.shortlink = '';

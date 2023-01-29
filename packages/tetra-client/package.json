@@ -12,9 +12,10 @@
     },
     "dependencies": {
         "@fontsource/fugaz-one": "^4.5.9",
-        "@fontsource/inter": "^4.5.15",
+        "@highlightjs/vue-plugin": "^2.1.0",
         "@vueuse/core": "^9.11.1",
         "gsap": "^3.11.4",
+        "highlight.js": "^11.7.0",
         "pinia": "^2.0.29",
         "vue": "^3.2.45",
         "vue-router": "4.1.6",

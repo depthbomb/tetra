@@ -1,19 +1,11 @@
 import { defineConfig }       from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 import { resolve }            from 'node:path';
+import { cp }                 from 'fs';
 import vue                    from '@vitejs/plugin-vue';
 import vuetify                from 'vite-plugin-vuetify';
 import imagemin               from 'vite-plugin-imagemin';
 import type { UserConfig }    from 'vite';
-
-function beepWhenDone() {
-    return {
-        name: 'beep when done',
-        closeBundle() {
-            process.stderr.write('\x07');
-        }
-    }
-}
 
 export default defineConfig(({ mode }) => {
     const config: UserConfig = {
@@ -28,13 +20,10 @@ export default defineConfig(({ mode }) => {
             rollupOptions: {
                 input: resolve('./src/app.ts'),
                 output: {
-                    entryFileNames: '[name]-[hash:64].js',
-                    chunkFileNames: '[name]-[hash:64].js',
-                    assetFileNames: '[name]-[hash:64].[ext]',
-                },
-                plugins: [
-                    beepWhenDone()
-                ]
+                    entryFileNames: '[name]-[hash:32].js',
+                    chunkFileNames: '[name]-[hash:32].js',
+                    assetFileNames: '[name]-[hash:32].[ext]',
+                }
             },
         },
         plugins: [
