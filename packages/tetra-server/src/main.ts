@@ -2,12 +2,10 @@ import { STATIC_PATH }                 from '~constants';
 import { AppModule }                   from '~app.module';
 import { NestFactory }                 from '@nestjs/core';
 import cookieParser                    from 'cookie-parser';
-import { VersioningType }              from '@nestjs/common';
 import { ConfigService }               from '@nestjs/config';
 import type { NestExpressApplication } from '@nestjs/platform-express'
 
 NestFactory.create<NestExpressApplication>(AppModule).then(async app => {
-    app.enableVersioning({ type: VersioningType.HEADER, header: 'X-Api-Version' });
     app.useStaticAssets(STATIC_PATH);
     app.disable('x-powered-by');
     app.use(cookieParser());

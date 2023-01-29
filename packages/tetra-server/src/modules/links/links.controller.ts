@@ -31,7 +31,6 @@ export class LinksController {
     }
 
     @Post('create')
-    @Version('1')
     @UsePipes(new ValidationPipe({ transform: true }))
     @Throttle(2, 1)
     public async createLink(@Body() body: CreateLinkDto, @Req() req: Request) {
@@ -77,7 +76,6 @@ export class LinksController {
     }
 
     @Delete('delete/:shortcode/:deletionKey')
-    @Version('1')
     @Throttle(2, 1)
     public async deleteLink(
         @Param('shortcode') shortcode: string,
@@ -94,7 +92,6 @@ export class LinksController {
     }
 
     @Get('info/:shortcode')
-    @Version('1')
     public async getLinkInfo(@Param('shortcode') shortcode: string) {
         const info = await this._links.getRedirectionInfo(shortcode);
         if (info) {
