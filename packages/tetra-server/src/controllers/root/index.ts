@@ -5,10 +5,10 @@ import { createCsrfToken }           from '~services/security';
 import type { Middleware }           from 'koa';
 
 export function createRootRoutes(): Middleware {
-	const rootRouter     = new Router();
+	const router = new Router();
 
 	// GET /
-	rootRouter.get('root', '/', async (ctx) => {
+	router.get('root', '/', async (ctx) => {
 		const { cspNonce } = ctx;
 		const clientJs  = await generateVersionedAssetTag('app.ts', cspNonce);
 		const clientCss = await generateVersionedAssetTag('app.css');
@@ -21,5 +21,5 @@ export function createRootRoutes(): Middleware {
 		});
 	});
 
-	return rootRouter.routes();
+	return router.routes();
 }

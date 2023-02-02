@@ -1,5 +1,6 @@
-import { model, Schema } from 'mongoose';
-import { UserRole }      from '~common/UserRole';
+import { model, Schema }         from 'mongoose';
+import { UserRole }              from '~common/UserRole';
+import type { HydratedDocument } from 'mongoose';
 
 type IUser = {
 	username: string;
@@ -8,7 +9,9 @@ type IUser = {
 	suspended: boolean;
 };
 
-export const User = model<IUser>('User', new Schema<IUser>({
+export type UsersDocument = HydratedDocument<IUser>;
+
+export const Users = model<IUser>('Users', new Schema<IUser>({
 	username: { type: String, unique: true },
 	password: String,
 	role: { type: String, enum: UserRole, default: UserRole.USER },

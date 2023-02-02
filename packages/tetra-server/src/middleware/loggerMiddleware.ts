@@ -1,6 +1,7 @@
 import { log }             from '~logger';
 import { STATUS_CODES }    from 'node:http';
 import { performance }     from 'perf_hooks';
+import { HttpException }   from '@tetra/helpers';
 import type { Middleware } from 'koa';
 
 export function createLoggerMiddleware(ignoredPaths: string[] = []): Middleware {
@@ -20,6 +21,19 @@ export function createLoggerMiddleware(ignoredPaths: string[] = []): Middleware 
 			await next();
 		} catch (err: unknown) {
 			logger.fatal(err);
+
+			let responseStatus  = 500;
+			let responseMessage = STATUS_CODES[responseStatus]
+			if (err instanceof HttpException) {
+				responseStatus  = err.code ?? responseStatus;
+				responseMessage = err.message ?? responseMessage
+			}
+
+			ctx.response.status = responseStatus;
+			ctx.body = {
+				status: responseStatus,
+				message: responseMessage
+			};
 		}
 
 		const { status } = ctx;

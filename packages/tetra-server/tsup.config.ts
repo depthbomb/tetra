@@ -18,6 +18,6 @@ export default defineConfig(() => ({
 	target: 'node18',
 	tsconfig: './tsconfig.json',
 	splitting: false,
-	sourcemap: !production,
+	sourcemap: production,
 	keepNames: true,
 }));

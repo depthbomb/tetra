@@ -50,9 +50,11 @@ async function _loadMiddleware() {
 
 async function _loadRoutes() {
 	const { createRootRoutes }     = await import('~controllers/root');
+	const { createLinksRoutes }    = await import('~controllers/links');
 	const { createInternalRoutes } = await import('~controllers/internal');
 
 	_app.use(createRootRoutes());
+	_app.use(createLinksRoutes());
 	_app.use(createInternalRoutes());
 }
 

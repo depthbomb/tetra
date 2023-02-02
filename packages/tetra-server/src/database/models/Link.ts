@@ -1,4 +1,5 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema }         from 'mongoose';
+import type { HydratedDocument } from 'mongoose';
 
 type ILink = {
 	creator: string;
@@ -9,7 +10,9 @@ type ILink = {
 	expiresAt: Date;
 };
 
-export const Link = model<ILink>('Link', new Schema<ILink>({
+export type LinksDocument = HydratedDocument<ILink>;
+
+export const Links = model<ILink>('Links', new Schema<ILink>({
 	creator: String,
 	shortcode: { type: String, unique: true },
 	destination: String,
