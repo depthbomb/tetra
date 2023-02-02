@@ -1,0 +1,21 @@
+import { defineConfig }   from 'tsup';
+import { builtinModules } from 'node:module';
+
+const production = process.env.NODE_ENV === 'production';
+
+export default defineConfig(() => ({
+	clean: true,
+	entry: ['src/index.ts'],
+	noExternal: [
+		...builtinModules.flatMap(p => [p, `node:${p}`]),
+	],
+	format: ['cjs', 'esm'],
+	minify: production,
+	skipNodeModulesBundle: !production,
+	target: 'node18',
+	tsconfig: './tsconfig.json',
+	dts: true,
+	splitting: false,
+	sourcemap: true,
+	keepNames: true,
+}));

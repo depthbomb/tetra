@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en" dir="ltr" class="www">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta name="config/user" content="<%= it.user %>">
-        <meta name="config/csrf-token" content="<%= it.csrfToken %>">
-        <meta name="config/csp-nonce" content="<%= it.cspNonce %>">
-        <title>go.super.fish</title>
-        <%~ it.clientJs %>
-        <%~ it.clientCss %>
-    </head>
-    <body>
-        <div id="app" class="app" role="application">
-            <noscript>
-                <h1>Please enable JavaScript to experience this website.</h1>
-            </noscript>
-        </div>
-    </body>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="config/user" content="<%= it.user %>">
+		<meta name="config/csrf-token" content="<%= it.csrfToken %>">
+		<meta name="config/csp-nonce" content="<%= it.cspNonce %>">
+		<title>go.super.fish</title>
+		<%~ it.clientJs %>
+		<%~ it.clientCss %>
+	</head>
+	<body>
+		<div id="app" class="app" role="application">
+			<noscript>
+				<h1>Please enable JavaScript to experience this website.</h1>
+			</noscript>
+		</div>
+	</body>
 </html>

@@ -1,5 +1,1 @@
-deploy/
-dist/
-
-.env
-.env.production
+.tetrarc
