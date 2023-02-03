@@ -6,6 +6,7 @@ import type { Middleware } from 'koa';
 export function createApiRoutes(): Middleware {
 	const router = new Router({ prefix: '/api' });
 
+	// GET    /api/links/info/:shortcode
 	// POST   /api/links/create
 	// DELETE /api/links/delete/:shortcode/:deletionKey
 	router.use(

@@ -21,7 +21,7 @@ export function createThrottleMiddleware(time: string, uses: number = 1): Middle
 		ctx.set('X-RateLimit-Remaining', String(rateLimit.remaining));
 		ctx.set('X-RateLimit-Reset',     String(Math.ceil(rateLimit.remainingTime / 1000)));
 
-		TooManyRequests.assert(rateLimit.limited);
+		TooManyRequests.assert(!rateLimit.limited);
 
 		rateLimit.consume();
 
