@@ -31,7 +31,7 @@
 				<v-expansion-panel>
 					<v-expansion-panel-title>
 						<v-chip color="blue">GET</v-chip>
-						<code class="mx-4">/api/links/info/{shortcode}</code>
+						<code class="mx-4">/api/links/{shortcode}</code>
 						<p>Retrieves basic info about a shortlink</p>
 					</v-expansion-panel-title>
 					<v-expansion-panel-text>

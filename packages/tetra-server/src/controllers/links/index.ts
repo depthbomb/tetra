@@ -12,8 +12,8 @@ import type { Middleware } from 'koa';
 export function createLinksRoutes(): Middleware {
 	const router = new Router({ prefix: '/links' });
 
-	// GET /links/info/:shortcode
-	router.get('/info/:shortcode', async (ctx) => {
+	// GET /links/:shortcode
+	router.get('/:shortcode', async (ctx) => {
 		const { shortcode } = ctx.params;
 		const info          = await getRedirectionInfo(shortcode);
 
