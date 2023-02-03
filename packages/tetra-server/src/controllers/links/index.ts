@@ -1,11 +1,12 @@
-import koaBody from 'koa-body';
 import Router from '@koa/router';
+import { koaBody } from 'koa-body';
 import { apiResponse } from '@tetra/helpers';
 import { Duration } from '@sapphire/duration';
-import { BadRequest, GeneralError, NotFound } from 'fejl';
+import { NotFound, BadRequest, GeneralError } from 'fejl';
 import { CreateLinkBody } from '~common/schemas/createLinkBody';
 import { UnsafeUrlException } from '~common/exceptions/UnsafeUrlException';
-import { createLink, deleteLink, isDurationValid, getRedirectionInfo } from '~services/links';
+import { createValidatorMiddleware } from '~middleware/validatorMiddleware';
+import { createLink, deleteLink, getRedirectionInfo } from '~services/links';
 import type { Middleware } from 'koa';
 
 export function createLinksRoutes(): Middleware {
@@ -24,27 +25,19 @@ export function createLinksRoutes(): Middleware {
 	// POST /links/create
 	router.post('/create',
 		koaBody(),
+		createValidatorMiddleware(CreateLinkBody),
 		async (ctx) => {
-			const { destination, duration, expiresAt } = await CreateLinkBody.parseAsync(ctx.request.body);
+			const { destination, duration, expiresAt } = ctx.request.body;
 
 			let linkExpiresAt: Date = null;
 
 			if (duration) {
-				BadRequest.assert(isDurationValid(duration), 'duration is invalid, valid values are derived from https://github.com/vercel/ms#examples');
-
-				const msDuration = new Duration(duration);
-
-				BadRequest.assert(msDuration.offset >= 60_000, 'duration must have a minimum value of 1 minute (1m)');
-
-				linkExpiresAt = msDuration.fromNow;
+				linkExpiresAt = new Duration(duration).fromNow;
 			}
 
 			// inclusion of `expiresAt` overrides `duration`
 			if (expiresAt) {
 				linkExpiresAt = new Date(expiresAt);
-				const differenceMs = (linkExpiresAt.getTime() - Date.now());
-
-				BadRequest.assert(differenceMs >= 60_000, 'duration must have a minimum value of 1 minute (1m)');
 			}
 
 			try {
