@@ -15,7 +15,7 @@ export default defineConfig(() => ({
 	format: ['cjs'],
 	minify: production,
 	skipNodeModulesBundle: !production,
-	target: 'node18',
+	target: 'esnext',
 	tsconfig: './tsconfig.json',
 	splitting: false,
 	sourcemap: production,

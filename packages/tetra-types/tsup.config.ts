@@ -12,7 +12,7 @@ export default defineConfig(() => ({
 	format: ['cjs', 'esm'],
 	minify: production,
 	skipNodeModulesBundle: !production,
-	target: 'node18',
+	target: 'esnext',
 	tsconfig: './tsconfig.json',
 	splitting: false,
 	sourcemap: true,

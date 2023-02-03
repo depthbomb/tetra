@@ -1,6 +1,6 @@
+import { getOrThrow } from '~config';
+import { VIEWS_PATH } from '~constants';
 import { configure, renderFileAsync } from 'eta';
-import { VIEWS_PATH }                 from '~constants';
-import { getOrThrow }                 from '~config';
 
 const production = !getOrThrow<boolean>('development');
 

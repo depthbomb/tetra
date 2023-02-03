@@ -1,3 +1,4 @@
+import { NotAuthenticated } from 'fejl';
 import type { Middleware } from 'koa';
 
 /**
@@ -8,9 +9,7 @@ import type { Middleware } from 'koa';
 export function createAuthMiddleware(checkOnly = false): Middleware {
 	return async (ctx, next) => {
 		if (checkOnly) {
-			if (!('user' in ctx) || !ctx.user) {
-				ctx.throw(401, 'Unauthorized');
-			}
+			NotAuthenticated.assert('user' in ctx && ctx.user);
 		} else {
 			// Obtaining the JWT from the request headers is prioritized, then cookie, then query string.
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-	import { ref, watch, reactive }        from 'vue';
-	import gsap                            from 'gsap'
-	import { useIntervalFn }               from '@vueuse/core';
-	import { makeApiRequest }              from '~/services/api';
-	import type { IInternalStatsResponse } from '~/@types/IInternalStatsResponse';
+	import gsap from 'gsap'
+	import { ref, watch, reactive } from 'vue';
+	import { useIntervalFn } from '@vueuse/core';
+	import { makeApiRequest } from '~/services/api';
+	import type { IInternalStatsResponse } from '@tetra/types';
 
 	const totalLinks = ref(0);
 	const tweened    = reactive({ number: 0 });

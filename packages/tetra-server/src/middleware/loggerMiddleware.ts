@@ -1,32 +1,32 @@
-import { log }             from '~logger';
-import { STATUS_CODES }    from 'node:http';
-import { performance }     from 'perf_hooks';
-import { HttpException }   from '@tetra/helpers';
+import { log } from '~logger';
+import { STATUS_CODES } from 'node:http';
+import { performance } from 'perf_hooks';
 import type { Middleware } from 'koa';
 
-export function createLoggerMiddleware(ignoredPaths: string[] = []): Middleware {
+export function createLoggerMiddleware(): Middleware {
 	const logger = log.getSubLogger({ name: 'HTTP' });
 	return async (ctx, next) => {
 		const { method, request, requestId } = ctx;
-
-		if (ignoredPaths.includes(request.path)) {
-			return await next();
-		}
-
-		const now = performance.now();
+		const now                            = performance.now();
 
 		logger.info(`${requestId} -> ${method} ${request.path}`);
 
 		try {
 			await next();
-		} catch (err: unknown) {
-			logger.fatal(err);
-
+		} catch (err: any) {
 			let responseStatus  = 500;
-			let responseMessage = STATUS_CODES[responseStatus]
-			if (err instanceof HttpException) {
-				responseStatus  = err.code ?? responseStatus;
-				responseMessage = err.message ?? responseMessage
+			let responseMessage = STATUS_CODES[responseStatus];
+			if ('statusCode' in err) {
+				responseStatus  = err.statusCode;
+				responseMessage = err.message ?? STATUS_CODES[err.statusCode]
+			} else {
+				/**
+				 * While not bulletproof, we only check if the error we caught is a fejl-based HTTP
+				 * error by checking if it has the `statusCode` property. Since these errors are
+				 * non-critical, we only log the error if it appears that it isn't one of these HTTP
+				 * errors.
+				 */
+				logger.error(err);
 			}
 
 			ctx.response.status = responseStatus;

@@ -1,5 +1,5 @@
-import { model, Schema }         from 'mongoose';
-import { UserRole }              from '~common/UserRole';
+import { model, Schema } from 'mongoose';
+import { UserRole } from '~common/UserRole';
 import type { HydratedDocument } from 'mongoose';
 
 type IUser = {

@@ -1,8 +1,8 @@
-import { existsSync, readFileSync }          from 'node:fs';
-import { join, extname }                     from 'node:path';
+import { createHash } from 'node:crypto';
+import { join, extname } from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { existsSync, readFileSync } from 'node:fs';
 import { STATIC_PATH, CLIENT_MANIFEST_PATH } from '~constants';
-import { createHash }                        from 'node:crypto';
-import { readFile }                          from 'node:fs/promises';
 
 const _internalManifest  = {};
 const _internalSriHashes = new Map<string, string[]>();

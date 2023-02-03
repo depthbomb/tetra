@@ -12,10 +12,10 @@ export default defineConfig(() => ({
 	format: ['cjs', 'esm'],
 	minify: production,
 	skipNodeModulesBundle: !production,
-	target: 'node18',
+	target: 'esnext',
 	tsconfig: './tsconfig.json',
 	dts: true,
-	splitting: false,
+	splitting: true,
 	sourcemap: true,
 	keepNames: true,
 }));

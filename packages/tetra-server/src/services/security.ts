@@ -1,10 +1,9 @@
-import argon2                     from 'argon2';
-import { getOrThrow }             from '~config';
-import { signJwt, verifyJwt }     from '~services/jwt';
-import type { Context }           from 'koa';
-import type { ICsrfTokenPayload } from '~@types/ICsrfTokenPayload';
+import argon2 from 'argon2';
+import { getOrThrow } from '~config';
+import { signJwt, verifyJwt } from '~services/jwt';
+import type { Context } from 'koa';
+import type { ICsrfTokenPayload } from '@tetra/types';
 
-const _cryptoKey  = getOrThrow<string>('crypto.key');
 const _cryptoSalt = getOrThrow<string>('crypto.salt');
 
 export async function hashPassword(input: string): Promise<string> {

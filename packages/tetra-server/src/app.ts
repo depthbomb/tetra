@@ -1,7 +1,7 @@
 import 'source-map-support/register';
-import { getOrThrow }  from '~config';
-import { log }         from '~logger';
-import { connect }     from 'mongoose';
+import { log } from '~logger';
+import { connect } from 'mongoose';
+import { getOrThrow } from '~config';
 import { startServer } from '~services/tetra';
 
 const _logger = log.getSubLogger({ name: 'BOOT' });

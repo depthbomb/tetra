@@ -1,13 +1,13 @@
-import { getOrThrow }                       from '~config';
+import { getOrThrow } from '~config';
 import { sign as $sign, verify as $verify } from 'jsonwebtoken';
 
 const _secret    = getOrThrow<string>('jwt.secret');
 const _expiresIn = getOrThrow<string>('jwt.expiresIn');
 
-export async function signJwt(payload: string | Object | Buffer): Promise<string> {
+export async function signJwt(payload: string | object | Buffer, expiresIn?: string): Promise<string> {
 	return new Promise((resolve, reject) => {
 		try {
-			resolve($sign(payload, _secret, { expiresIn: _expiresIn }));
+			resolve($sign(payload, _secret, { expiresIn: expiresIn ?? _expiresIn }));
 		} catch (err: unknown) {
 			reject(err);
 		}

@@ -1,6 +1,6 @@
-import { parse }                    from 'json5';
+import { parse } from 'json5';
+import { join, resolve } from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
-import { join, resolve }            from 'node:path';
 
 const CONFIG_LOAD_ORDER     = ['.tetrarc.dev', '.tetrarc'];
 const CONFIG_LOAD_DIRECTORY = resolve(__dirname, '..');

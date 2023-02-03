@@ -1,4 +1,4 @@
-import { customAlphabet }  from 'nanoid/non-secure';
+import { customAlphabet } from 'nanoid/non-secure';
 import type { Middleware } from 'koa';
 
 export function createRequestIdMiddleware(): Middleware {

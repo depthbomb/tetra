@@ -1,18 +1,37 @@
-import { getOrThrow }          from '~config';
-import { log }                 from '~logger';
-import { randomUUID }          from 'node:crypto';
-import { nanoid }              from 'nanoid/async';
-import { BadRequestException } from '@tetra/helpers';
-import { Duration }            from '@sapphire/duration';
-import { Links }               from '~database/models/Link';
-import { safebrowsing }        from '@googleapis/safebrowsing';
-import type { LinksDocument }  from '~database/models/Link';
+import { log } from '~logger';
+import { getOrThrow } from '~config';
+import { nanoid } from 'nanoid/async';
+import { randomUUID } from 'node:crypto';
+import { Duration } from '@sapphire/duration';
+import { Links } from '~database/models/Link';
+import { safebrowsing } from '@googleapis/safebrowsing';
+import { UnsafeUrlException } from '~common/exceptions/UnsafeUrlException';
+import type { ILinkRedirectionInfo } from '@tetra/types';
+import type { LinksDocument } from '~database/models/Link';
 
 const _logger       = log.getSubLogger({ name: 'LINKS' });
 const _safebrowsing = safebrowsing('v4');
 
+/**
+ * Returns the total number of links on record
+ */
 export async function getTotalLinks(): Promise<number> {
 	return Links.count();
+}
+
+/**
+ * Gets basic info on a link required to perform a redirection
+ * @param shortcode The shortcode of the link to retrieve redirection info on
+ * @returns An object containing the link destination and its expiration date (if applicable), `null` otherwise
+ */
+export async function getRedirectionInfo(shortcode: string): Promise<ILinkRedirectionInfo | null> {
+	const link = await Links.findOne({ shortcode });
+	if (link) {
+		const { destination, expiresAt } = link;
+		return { destination, expiresAt };
+	}
+
+	return null;
 }
 
 /**
@@ -22,7 +41,7 @@ export async function getTotalLinks(): Promise<number> {
  * @param expiresAt The optional {@link Date} that this shortlink expires at
  */
 export async function createLink(creator: string, destination: string, expiresAt?: Date): Promise<LinksDocument> {
-	const isSafe = false /*await checkDestination(destination)*/;
+	const isSafe = await checkDestination(destination);
 	if (isSafe) {
 		const shortcode   = await _generateShortcode();
 		const deletionKey = await _generateDeletionKey();
@@ -39,7 +58,9 @@ export async function createLink(creator: string, destination: string, expiresAt
 		return link;
 	}
 
-	throw new BadRequestException('The provided destination was found in Google\'s Safe Browsing threats list');
+	_logger.warn('Destination', destination, 'was found in Google\'s Safe Browsing threats list');
+
+	throw new UnsafeUrlException();
 }
 
 /**
@@ -49,17 +70,19 @@ export async function createLink(creator: string, destination: string, expiresAt
  * @returns The number of links deleted from this operation
  */
 export async function deleteLink(shortcode: string, deletionKey?: string): Promise<number> {
-	let query = { shortcode };
-	if (deletionKey) {
-		query['deletionKey'] = deletionKey;
-	}
+	try {
+		const { deletedCount } = await Links.deleteOne({ shortcode, deletionKey });
+		if (deletedCount) {
+			_logger.info('Deleted shortlink', shortcode, 'with deletionKey', deletionKey !== null ? deletionKey : '(none)');
+		}
 
-	const { deletedCount } = await Links.deleteOne(query);
-	if (deletedCount) {
-		_logger.info('Deleted shortlink', shortcode, 'with deletionKey', deletionKey !== null ? deletionKey : '(none)');
-	}
+		return deletedCount;
+	} catch (err: unknown) {
+		_logger.error('Failed to delete link with shortcode', shortcode, 'and deletion key', deletionKey);
+		_logger.error(err);
 
-	return deletedCount;
+		throw err;
+	}
 }
 
 /**
@@ -77,6 +100,11 @@ export async function isDurationValid(input: string): Promise<boolean> {
 	}
 }
 
+/**
+ * Uses Google's Safe Browsing service to check if a URL is considered safe
+ * @param destination The destination URL to check
+ * @returns `true` if the {@link destination} URL is marked as a threat according to Google's Safe Browsing service
+ */
 export async function checkDestination(destination: string): Promise<boolean> {
 	const { data } = await _safebrowsing.threatMatches.find({
 		auth: getOrThrow<string>('apiKeys.safebrowsing'),
@@ -109,12 +137,15 @@ export async function checkDestination(destination: string): Promise<boolean> {
 async function _generateShortcode(): Promise<string> {
 	let length    = 3;
 	let shortcode = await nanoid(length);
-	let exists    = false;
 	do {
 		// theoretically this could go on forever, but do you really think it would?
-		exists = await Links.exists({ shortcode }) !== null;
+		const exists = await Links.exists({ shortcode }) !== null;
+		if (!exists) break;
+
 		length++;
-	} while (exists);
+		shortcode = await nanoid(length);
+	// eslint-disable-next-line no-constant-condition
+	} while (true);
 
 	return shortcode;
 }

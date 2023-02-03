@@ -1,7 +1,7 @@
 {
 	"folders": [
 		{
-			"name": "Root",
+			"name": "🐟 Root",
 			"path": "."
 		},
 		{
@@ -22,7 +22,7 @@
 		},
 	],
 	"settings": {
-		"typescript.tsdk": "node_modules\\typescript\\lib",
+		"typescript.tsdk": ".\\node_modules\\typescript\\lib",
 		"files.exclude": {
 			"**/.git": true,
 			"**/.svn": true,

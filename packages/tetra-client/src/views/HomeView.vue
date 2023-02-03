@@ -1,9 +1,9 @@
 <script setup lang="ts">
-	import { reactive }                 from 'vue';
-	import { isValidHttpUrl }           from '~/utils';
-	import { useClipboard }             from '@vueuse/core';
-	import { makeApiRequest }           from '~/services/api';
-	import type { ICreateLinkResponse } from '~/@types/ICreateLinkResponse';
+	import { reactive } from 'vue';
+	import { isValidHttpUrl } from '~/utils';
+	import { useClipboard } from '@vueuse/core';
+	import { makeApiRequest } from '~/services/api';
+	import type { ICreateLinkResponse } from '@tetra/types';
 
 	const { copy, isSupported } = useClipboard({ legacy: true });
 

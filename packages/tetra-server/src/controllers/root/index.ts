@@ -1,14 +1,14 @@
-import Router                        from '@koa/router';
-import { renderView }                from '~services/views';
+import Router from '@koa/router';
+import { renderView } from '~services/views';
+import { createCsrfToken } from '~services/security';
 import { generateVersionedAssetTag } from '~services/static';
-import { createCsrfToken }           from '~services/security';
-import type { Middleware }           from 'koa';
+import type { Middleware } from 'koa';
 
 export function createRootRoutes(): Middleware {
 	const router = new Router();
 
 	// GET /
-	router.get('root', '/', async (ctx) => {
+	router.get('/', async (ctx) => {
 		const { cspNonce } = ctx;
 		const clientJs  = await generateVersionedAssetTag('app.ts', cspNonce);
 		const clientCss = await generateVersionedAssetTag('app.css');
