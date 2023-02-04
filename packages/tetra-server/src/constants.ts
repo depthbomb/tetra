@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 
 export const MONOREPO_ROOT        = join(__dirname, '..', '..', '..');
-export const MONOREPO_CLIENT_PATH = join(MONOREPO_ROOT, 'packages', 'tetra-client2');
+export const MONOREPO_CLIENT_PATH = join(MONOREPO_ROOT, 'packages', 'tetra-client');
 export const MONOREPO_SERVER_PATH = join(MONOREPO_ROOT, 'packages', 'tetra-server');
 
 export const STATIC_PATH          = join(MONOREPO_CLIENT_PATH, 'dist');
