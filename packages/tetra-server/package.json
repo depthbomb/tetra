@@ -13,6 +13,7 @@
 		"@koa/router": "^12.0.0",
 		"@sapphire/duration": "^1.0.0",
 		"@sapphire/ratelimits": "^2.4.5",
+		"@tetra/common": "*",
 		"@tetra/helpers": "*",
 		"@tetra/types": "*",
 		"argon2": "^0.30.3",

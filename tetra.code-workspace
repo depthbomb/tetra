@@ -13,6 +13,10 @@
 			"path": "./packages/tetra-server"
 		},
 		{
+			"name": "Common",
+			"path": "./packages/tetra-common"
+		},
+		{
 			"name": "Helpers",
 			"path": "./packages/tetra-helpers"
 		},
