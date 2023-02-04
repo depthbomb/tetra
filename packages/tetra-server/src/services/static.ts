@@ -1,3 +1,5 @@
+import { getOrThrow } from '~config';
+import { watch } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { join, extname } from 'node:path';
 import { readFile } from 'node:fs/promises';
@@ -8,6 +10,17 @@ const _internalManifest  = {};
 const _internalSriHashes = new Map<string, string[]>();
 
 _loadManifestAssets();
+
+if (getOrThrow<boolean>('development')) {
+	(async() => {
+		const watcher = watch(CLIENT_MANIFEST_PATH);
+		for await (const event of watcher) {
+			if (event.eventType === 'change') {
+				_loadManifestAssets();
+			}
+		}
+	})();
+}
 
 /**
  * Generates an HTML tag linking to the versioned asset from the {@link originalPath}
