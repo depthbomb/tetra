@@ -9,6 +9,11 @@ const _internalSriHashes = new Map<string, string[]>();
 
 _loadManifestAssets();
 
+/**
+ * Generates an HTML tag linking to the versioned asset from the {@link originalPath}
+ * @param originalPath The original path of the asset as defined in the manifest.json file
+ * @param cspNonce Optional CSP nonce to include in the generated HTML tag
+ */
 export async function generateVersionedAssetTag(originalPath: string, cspNonce?: string): Promise<string> {
 	const fileName  = await _getVersionedFileName(originalPath);
 	const sriHashes = await _generateSriHashesForAsset(originalPath);

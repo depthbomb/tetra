@@ -2,6 +2,9 @@ import { log } from '~logger';
 import { Links } from '~database/models/Link';
 import type { ITetraJob } from '@tetra/types';
 
+/**
+ * Creates a job to delete links whose `expiresAt` column is currently or after the current date
+ */
 export function createDeleteExpiredLinksJob(): ITetraJob {
 	const logger = log.getSubLogger({ name: 'JOBS' });
 	return ({

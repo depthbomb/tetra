@@ -12,6 +12,12 @@ configure({
 	rmWhitespace: production,
 });
 
+/**
+ * Renders an [Eta](https://eta.js.org/)-based view template file to HTML
+ * @param name The name of the view relative to the `views` directory minus extension
+ * @param viewData An object containing data that will be passed and accessible in the rendered view
+ * @returns The rendered view HTML content
+ */
 export async function renderView(name: string, viewData: object): Promise<string> {
 	return await renderFileAsync(name, viewData);
 }
