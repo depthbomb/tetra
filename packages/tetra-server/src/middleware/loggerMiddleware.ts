@@ -3,13 +3,16 @@ import { performance } from 'perf_hooks';
 import { STATUS_CODES } from 'node:http';
 import type { Middleware } from 'koa';
 
-export function createLoggerMiddleware(): Middleware {
+export function createLoggerMiddleware(ignoredPaths: string[] = []): Middleware {
 	const logger = log.getSubLogger({ name: 'HTTP' });
 	return async (ctx, next) => {
 		const { method, request, requestId } = ctx;
 		const now                            = performance.now();
+		const shouldLog                      = !ignoredPaths.includes(request.path);
 
-		logger.info(`${requestId} --> ${method} ${request.path}`);
+		if (shouldLog) {
+			logger.info(`${requestId} --> ${method} ${request.path}`);
+		}
 
 		try {
 			await next();
@@ -36,9 +39,11 @@ export function createLoggerMiddleware(): Middleware {
 			};
 		}
 
-		const { status } = ctx;
-		const end        = (performance.now() - now).toFixed(2);
+		if (shouldLog) {
+			const { status } = ctx;
+			const end        = (performance.now() - now).toFixed(2);
 
-		logger.info(`${requestId} <-- ${status} ${STATUS_CODES[status]} (<-->) ${end}ms`);
+			logger.info(`${requestId} <-- ${status} ${STATUS_CODES[status]} (<-->) ${end}ms`);
+		}
 	};
 }

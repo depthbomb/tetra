@@ -56,7 +56,9 @@ async function _loadMiddleware() {
 	_app.use(createRequestIdMiddleware());
 	_app.use(createAuthMiddleware());
 	_app.use(createCspMiddleware());
-	_app.use(createLoggerMiddleware());
+	_app.use(createLoggerMiddleware([
+		'/internal/links-count'
+	]));
 }
 
 async function _loadRoutes() {
