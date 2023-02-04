@@ -20,10 +20,6 @@
 			"name": "Helpers",
 			"path": "./packages/tetra-helpers"
 		},
-		{
-			"name": "Types",
-			"path": "./packages/tetra-types"
-		},
 	],
 	"settings": {
 		"typescript.tsdk": ".\\node_modules\\typescript\\lib",

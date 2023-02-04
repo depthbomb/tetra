@@ -3,9 +3,9 @@
 	import { isValidHttpUrl } from '~/utils';
 	import { useClipboard } from '@vueuse/core';
 	import { makeApiRequest } from '~/services/api';
-	import type { ICreateLinkResponse } from '@tetra/types';
+	import type { ICreateLinkResponse } from '@tetra/common';
 
-	const { copy, isSupported } = useClipboard({ legacy: true });
+	const { copy } = useClipboard({ legacy: true });
 
 	const state = reactive({
 		valid: false,

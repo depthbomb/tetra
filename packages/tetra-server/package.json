@@ -15,7 +15,6 @@
 		"@sapphire/ratelimits": "^2.4.5",
 		"@tetra/common": "*",
 		"@tetra/helpers": "*",
-		"@tetra/types": "*",
 		"argon2": "^0.30.3",
 		"eta": "^2.0.0",
 		"fejl": "^3.0.1",
