@@ -1,7 +1,7 @@
-import { defineConfig }   from 'tsup';
+import { defineConfig } from 'tsup';
+import externals from './scripts/externals';
 import { builtinModules } from 'node:module';
-import { dependencies }   from './package.json';
-import externals          from './scripts/externals';
+import { dependencies } from './package.json';
 
 const production = process.env.NODE_ENV === 'production';
 
@@ -17,7 +17,7 @@ export default defineConfig(() => ({
 	skipNodeModulesBundle: !production,
 	target: 'esnext',
 	tsconfig: './tsconfig.json',
-	splitting: false,
+	splitting: true,
 	sourcemap: production,
 	keepNames: true,
 }));

@@ -1,4 +1,4 @@
-import { defineConfig }   from 'tsup';
+import { defineConfig } from 'tsup';
 import { builtinModules } from 'node:module';
 
 const production = process.env.NODE_ENV === 'production';

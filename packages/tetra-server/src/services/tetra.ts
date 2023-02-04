@@ -3,6 +3,7 @@ import { log } from '~logger';
 import { getOrThrow } from '~config';
 import serveStatic from 'koa-static';
 import { STATIC_PATH } from '~constants';
+import { apiResponse } from '@tetra/helpers';
 import { Duration } from '@sapphire/duration';
 import type { ITetraJob } from '@tetra/types';
 
@@ -13,7 +14,7 @@ const _logger            = log.getSubLogger({ name: 'WEB' });
 /**
  * The underlying Koa instance that the server runs on
  */
-export const app  = _app;
+export const app = _app;
 /**
  * The registry of running background jobs.
  */
@@ -27,6 +28,18 @@ export async function startServer() {
 	await _loadRoutes();
 	await _startJobs();
 
+	// Register a 404 handler here at the very end of the middleware stack so we can return a consistent response
+	_app.use(async (ctx, next) => {
+		if (ctx.status === 404) {
+			return apiResponse(ctx, {
+				status: 404,
+				message: 'Not Found'
+			}, 404);
+		}
+
+		await next();
+	});
+
 	_app.listen(
 		getOrThrow<number>('web.port'),
 		getOrThrow<string>('web.hostname'),
@@ -39,11 +52,11 @@ async function _loadMiddleware() {
 	const { createLoggerMiddleware }    = await import('~middleware/loggerMiddleware');
 	const { createRequestIdMiddleware } = await import('~middleware/requestIdMiddleware');
 
+	_app.use(serveStatic(STATIC_PATH));
 	_app.use(createRequestIdMiddleware());
 	_app.use(createAuthMiddleware());
 	_app.use(createCspMiddleware());
 	_app.use(createLoggerMiddleware());
-	_app.use(serveStatic(STATIC_PATH));
 }
 
 async function _loadRoutes() {
