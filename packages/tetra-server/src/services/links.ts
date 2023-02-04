@@ -42,25 +42,22 @@ export async function getRedirectionInfo(shortcode: string): Promise<ILinkRedire
  */
 export async function createLink(creator: string, destination: string, expiresAt?: Date): Promise<LinksDocument> {
 	const isSafe = await checkDestination(destination);
-	if (isSafe) {
-		const shortcode   = await _generateShortcode();
-		const deletionKey = await _generateDeletionKey();
-		const link        = await Links.create({
-			creator,
-			shortcode,
-			destination,
-			deletionKey,
-			expiresAt
-		});
 
-		_logger.info(creator, 'created link', shortcode, 'that leads to', destination, 'with deletion key', deletionKey)
+	UnsafeUrlException.assert(isSafe);
 
-		return link;
-	}
+	const shortcode   = await _generateShortcode();
+	const deletionKey = await _generateDeletionKey();
+	const link        = await Links.create({
+		creator,
+		shortcode,
+		destination,
+		deletionKey,
+		expiresAt
+	});
 
-	_logger.warn('Destination', destination, 'was found in Google\'s Safe Browsing threats list');
+	_logger.info(creator, 'created link', shortcode, 'that leads to', destination, 'with deletion key', deletionKey)
 
-	throw new UnsafeUrlException();
+	return link;
 }
 
 /**

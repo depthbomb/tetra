@@ -1,1 +1,3 @@
-export class UnsafeUrlException extends Error {}
+import { MakeErrorClass } from 'fejl';
+
+export class UnsafeUrlException extends MakeErrorClass() {}
