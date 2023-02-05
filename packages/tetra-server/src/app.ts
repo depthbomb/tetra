@@ -5,9 +5,9 @@ import { getEnv, getOrThrow } from '~config';
 import { startServer } from '~services/tetra';
 
 const _logger = log.getSubLogger({ name: 'BOOT' });
-const _connetionString = getEnv<string>('TETRA_DATABASE_CONNECTION_STRING') ?? getOrThrow<string>('database.connectionString');
+const _connectionString = getEnv<string>('TETRA_DATABASE_CONNECTION_STRING') ?? getOrThrow<string>('database.connectionString');
 
-connect(_connetionString).then(async () => {
+connect(_connectionString).then(async () => {
 	_logger.info('Connected to database, starting web service...');
 
 	await startServer();
