@@ -57,6 +57,7 @@ async function _loadMiddleware() {
 	_app.use(createAuthMiddleware());
 	_app.use(createCspMiddleware());
 	_app.use(createLoggerMiddleware([
+		'/favicon.ico',
 		'/internal/links-count'
 	]));
 }
