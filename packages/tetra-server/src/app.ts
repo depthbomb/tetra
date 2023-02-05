@@ -1,17 +1,34 @@
 import 'source-map-support/register';
 import { log } from '~logger';
 import { connect } from 'mongoose';
-import { get, getEnv, getOrThrow } from '~config';
 import { startServer } from '~services/tetra';
+import { get, getEnv, getOrThrow } from '~config';
 
-const _logger = log.getSubLogger({ name: 'BOOT' });
-const _connectionString = getEnv<string>('TETRA_DATABASE_CONNECTION_STRING') ?? getOrThrow<string>('database.connectionString');
-const _dbName = getEnv<string>('TETRA_DATABASE_NAME') ?? get<string>('database.name');
+async function run(): Promise<void> {
+	if (process.argv[2] === 'run') {
+		const logger = log.getSubLogger({ name: 'CLI' });
+		let exitCode = 0;
+		try {
+			const { runCli } = await import('~cli');
+			exitCode = await runCli();
+		} catch (err) {
+			logger.error(err);
+		} finally {
+			process.exit(exitCode);
+		}
+	} else {
+		const logger = log.getSubLogger({ name: 'BOOT' });
+		const connectionString = getEnv<string>('TETRA_DATABASE_CONNECTION_STRING') ?? getOrThrow<string>('database.connectionString');
+		const dbName = getEnv<string>('TETRA_DATABASE_NAME') ?? get<string>('database.name');
 
-connect(_connectionString, { dbName: _dbName }).then(async () => {
-	_logger.info('Connected to database, starting web service...');
+		connect(connectionString, { dbName }).then(async () => {
+			logger.info('Connected to database, starting web service...');
 
-	await startServer();
+			await startServer();
 
-	_logger.info('Web service started!');
-});
+			logger.info('Web service started!');
+		});
+	}
+}
+
+run();

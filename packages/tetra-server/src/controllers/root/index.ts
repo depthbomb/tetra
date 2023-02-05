@@ -1,6 +1,8 @@
 import { log } from '~logger';
+import { NotFound } from 'fejl';
 import Router from '@koa/router';
 import { renderView } from '~services/views';
+import { getRedirectionInfo } from '~services/links';
 import { createCsrfToken } from '~services/security';
 import { generateVersionedAssetTag } from '~services/static';
 import type { Middleware } from 'koa';
@@ -9,7 +11,7 @@ export function createRootRoutes(): Middleware {
 	const router = new Router();
 
 	// GET /
-	router.get('/', async (ctx) => {
+	router.get('root', '/', async (ctx) => {
 		try {
 			const { cspNonce } = ctx;
 			const clientJs  = await generateVersionedAssetTag('app.ts', cspNonce);
@@ -25,6 +27,16 @@ export function createRootRoutes(): Middleware {
 			log.fatal('Failed to render root SPA view, likely due to not being able to retrieve a versioned asset path');
 			log.fatal(err);
 		}
+	});
+
+	// <ANY> /:shortcode
+	router.all('links.root', '/:shortcode', async (ctx) => {
+		const { shortcode } = ctx.params;
+		const info          = await getRedirectionInfo(shortcode);
+
+		NotFound.assert(info);
+
+		return ctx.response.redirect(info.destination);
 	});
 
 	return router.routes();

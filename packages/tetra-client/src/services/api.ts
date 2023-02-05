@@ -1,8 +1,17 @@
-const _apiRoutes = [
-	{ name : 'api:links:create',     method: 'POST',   path: '/api/links/create' },
-	{ name : 'api:links:delete',     method: 'DELETE', path: '/api/links/delete/{shortcode}/{deletionKey}' },
-	{ name : 'internal:links-count', method: 'POST',   path: '/internal/links-count' },
-];
+import { routes } from '@tetra/common';
+
+interface IRoute {
+	name: string;
+	methods: string[];
+	path: string;
+	paramNames: Array<{
+		name: string | number;
+		prefix: string;
+		suffix: string;
+		pattern: string;
+		modifier: string;
+	}>
+}
 
 let _csrfToken = '';
 async function _getCsrfToken(): Promise<string> {
@@ -22,23 +31,29 @@ export async function makeApiRequest<T>(endpointName: string, init: RequestInit 
 		throw new Error('Unable to retrieve CSRF token');
 	}
 
-	const endpoint = _apiRoutes.find(r => r.name === endpointName);
+	const endpoint = routes.find(r => r.name === endpointName) as IRoute;
 	if (endpoint) {
+		if (init.method && !endpoint.methods.includes(init.method.toUpperCase())) {
+			throw new Error(`The endpoint "${endpoint.name}" does not accept the method "${init.method}"`);
+		}
+
 		const res = await fetch(endpoint.path, {
 			body: init.body,
-			method: endpoint.method,
+			method: init.method,
 			headers: {
 				'Content-Type': 'application/json',
-				'X-Csrf-Token': csrfToken,
+				'X-CSRF-TOKEN': csrfToken,
 				...init.headers
 			}
 		});
 
+		const data = await res.json();
+
 		if (!res.ok) {
-			throw new Error(res.statusText);
+			throw new Error(data.message);
 		}
 
-		const responseObj = { response: res, ...await res.json() };
+		const responseObj = { response: res, ...data };
 
 		return responseObj as T;
 	}

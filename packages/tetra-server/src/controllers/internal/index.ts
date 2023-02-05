@@ -8,7 +8,7 @@ export function createInternalRoutes(): Middleware {
 	const router = new Router({ prefix: '/internal' });
 
 	// POST /internal/links-count
-	router.post('/links-count',
+	router.post('internal.links-count', '/links-count',
 		createCsrfMiddleware(),
 		async (ctx) => {
 			const count = await getTotalLinks();
@@ -18,7 +18,7 @@ export function createInternalRoutes(): Middleware {
 	);
 
 	// <ANY> /internal/health
-	router.all('/health', async (ctx) => {
+	router.all('internal.health', '/health', async (ctx) => {
 		ctx.response.status = 204;
 		ctx.body            = '';
 	});

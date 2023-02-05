@@ -5,8 +5,9 @@
 	"scripts": {
 		"start": "yarn dist && node .",
 		"start:dev": "yarn build && node .",
-		"dist": "cross-env NODE_ENV=production tsup",
-		"build": "cross-env NODE_ENV=development tsup"
+		"dist": "cross-env NODE_ENV=production tsup && yarn dump-routes",
+		"build": "cross-env NODE_ENV=development tsup && yarn dump-routes",
+		"dump-routes": "node . run dr"
 	},
 	"dependencies": {
 		"@googleapis/safebrowsing": "^3.0.0",
@@ -16,6 +17,7 @@
 		"@tetra/common": "*",
 		"@tetra/helpers": "*",
 		"argon2": "^0.30.3",
+		"clipanion": "^3.2.0-rc.15",
 		"eta": "^2.0.0",
 		"fejl": "^3.0.1",
 		"json5": "^2.2.3",
@@ -25,8 +27,10 @@
 		"koa-static": "^5.0.0",
 		"mongoose": "^6.9.0",
 		"nanoid": "3.3.4",
+		"path-to-regexp": "^6.2.1",
 		"source-map-support": "^0.5.21",
 		"tslog": "^4.7.1",
+		"ufo": "^1.0.1",
 		"zod": "^3.20.2"
 	},
 	"devDependencies": {

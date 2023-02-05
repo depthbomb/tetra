@@ -3,16 +3,11 @@ import App from '~/App.vue';
 import router from '~/router';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import vuetify from '~/plugins/vuetify';
-import hljs from '~/plugins/highlightjs';
 import { useTetraStore } from '~/stores/tetra';
 
 const app = createApp(App)
-	.use(router)
-	.use(vuetify)
-	.use(hljs)
-	.use(createPinia())
-	.component('hljs', hljs.component);
+    .use(router)
+    .use(createPinia());
 
 // Load backend data into store as early as possible
 const store = useTetraStore();

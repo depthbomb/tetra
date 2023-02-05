@@ -5,7 +5,7 @@ import serveStatic from 'koa-static';
 import { STATIC_PATH } from '~constants';
 import { apiResponse } from '@tetra/helpers';
 import { Duration } from '@sapphire/duration';
-import type { ITetraJob } from '@tetra/types';
+import type { ITetraJob } from '@tetra/common';
 
 const _app: Koa          = new Koa();
 const _jobs: ITetraJob[] = [];
@@ -62,15 +62,13 @@ async function _loadMiddleware() {
 }
 
 async function _loadRoutes() {
-	const { createApiRoutes }            = await import('~controllers/api');
-	const { createRootRoutes }           = await import('~controllers/root');
-	const { createLinkRedirectionRoute } = await import('~controllers/links');
-	const { createInternalRoutes }       = await import('~controllers/internal');
+	const { createRootRoutes }     = await import('~controllers/root');
+	const { createLinksRoutes }    = await import('~controllers/links');
+	const { createInternalRoutes } = await import('~controllers/internal');
 
-	_app.use(createApiRoutes());
 	_app.use(createRootRoutes());
+	_app.use(createLinksRoutes());
 	_app.use(createInternalRoutes());
-	_app.use(createLinkRedirectionRoute());
 }
 
 async function _startJobs() {

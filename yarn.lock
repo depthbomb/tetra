@@ -1117,6 +1117,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/inter@npm:^4.5.15":
+  version: 4.5.15
+  resolution: "@fontsource/inter@npm:4.5.15"
+  checksum: d4330957c0a23a6c6a47f6f628b89c5603deec6305f28458fd3277bb652913dc77b31ac454bba96beeaecddef87eaf4b60befa2aad040ebb8c22c39ee33a2cf1
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -1133,13 +1140,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@highlightjs/vue-plugin@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "@highlightjs/vue-plugin@npm:2.1.2"
+"@headlessui/vue@npm:^1.7.9":
+  version: 1.7.9
+  resolution: "@headlessui/vue@npm:1.7.9"
   peerDependencies:
-    highlight.js: ^11.0.1
-    vue: ^3
-  checksum: 7522a78a21f4fd354ceb67f7e8ee74e3d66c38da8b638257c6adf8ba8a8fe19fed03476366c0189049c41d32ca4de6d19e41e60dd6ce9b046374c9791025ac28
+    vue: ^3.2.0
+  checksum: 91ce10f2e5c997b04f4c281aca5386efc3b85bf0c28f440a1efd22afc9ffa7c8822e61bc6ada6b6f8e503d45a745e4c7b7f4007e436837920d69178cd76bd7cc
   languageName: node
   linkType: hard
 
@@ -1498,7 +1504,8 @@ __metadata:
   resolution: "@tetra/client@workspace:packages/tetra-client"
   dependencies:
     "@fontsource/fugaz-one": ^4.5.9
-    "@highlightjs/vue-plugin": ^2.1.2
+    "@fontsource/inter": ^4.5.15
+    "@headlessui/vue": ^1.7.9
     "@mdi/font": ^7.1.96
     "@rushstack/eslint-patch": ^1.2.0
     "@tailwindcss/forms": ^0.5.3
@@ -1514,7 +1521,6 @@ __metadata:
     eslint: ^8.33.0
     eslint-plugin-vue: ^9.9.0
     gsap: ^3.11.4
-    highlight.js: ^11.7.0
     pinia: ^2.0.30
     postcss: ^8.4.21
     postcss-import: ^15.1.0
@@ -1530,7 +1536,6 @@ __metadata:
     vue-eslint-parser: ^9.1.0
     vue-router: 4.1.6
     vue-tsc: ^1.0.24
-    vuetify: 3.1.3
   languageName: unknown
   linkType: soft
 
@@ -1585,6 +1590,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.50.0
     "@typescript-eslint/parser": ^5.50.0
     argon2: ^0.30.3
+    clipanion: ^3.2.0-rc.15
     cross-env: ^7.0.3
     eslint: ^8.33.0
     eta: ^2.0.0
@@ -1596,10 +1602,12 @@ __metadata:
     koa-static: ^5.0.0
     mongoose: ^6.9.0
     nanoid: 3.3.4
+    path-to-regexp: ^6.2.1
     source-map-support: ^0.5.21
     tslog: ^4.7.1
     tsup: ^6.5.0
     typescript: ^4.9.5
+    ufo: ^1.0.1
     vite: ^4.1.1
     zod: ^3.20.2
   languageName: unknown
@@ -3284,6 +3292,17 @@ __metadata:
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
   checksum: 2ac8cd2b2f5ec986a3c743935ec85b07bc174d5421a5efc8017e1f146a1cf5f781ae962618f416352103b32c9cd7e203276e8c28241bbe946160cab16149fb68
+  languageName: node
+  linkType: hard
+
+"clipanion@npm:^3.2.0-rc.15":
+  version: 3.2.0-rc.15
+  resolution: "clipanion@npm:3.2.0-rc.15"
+  dependencies:
+    typanion: ^3.8.0
+  peerDependencies:
+    typanion: "*"
+  checksum: b8b730aacbcf9e0b597accb79c00ab053c27987fa367a46ef70be9149a1813e76dafd5fc2677a2d26fb0b73468d6bc3d42fbb85a286e0b11cd0940a1da3d01c5
   languageName: node
   linkType: hard
 
@@ -5582,13 +5601,6 @@ __metadata:
   version: 1.0.0
   resolution: "hexoid@npm:1.0.0"
   checksum: 27a148ca76a2358287f40445870116baaff4a0ed0acc99900bf167f0f708ffd82e044ff55e9949c71963852b580fc024146d3ac6d5d76b508b78d927fa48ae2d
-  languageName: node
-  linkType: hard
-
-"highlight.js@npm:^11.7.0":
-  version: 11.7.0
-  resolution: "highlight.js@npm:11.7.0"
-  checksum: 19e3fb8b56f4b361b057a8523b989dfeb6479bbd1e29cec3fac6fa5c78d09927d5fa61b7dba6631fdb57cfdca9b3084aa4da49405ceaf4a67f67beae2ed5b77d
   languageName: node
   linkType: hard
 
@@ -8988,6 +9000,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typanion@npm:^3.8.0":
+  version: 3.12.1
+  resolution: "typanion@npm:3.12.1"
+  checksum: a2e26fa216f8a1dbd2ffbaacb75b1e2dc042a0356e9702fba05a968cad95d9f661b24e37f6c6d8c3adad2c8582c99fca4826ff26a2d07cd2ae617ea87e6187eb
+  languageName: node
+  linkType: hard
+
 "type-check@npm:^0.4.0, type-check@npm:~0.4.0":
   version: 0.4.0
   resolution: "type-check@npm:0.4.0"
@@ -9038,6 +9057,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  languageName: node
+  linkType: hard
+
+"ufo@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "ufo@npm:1.0.1"
+  checksum: 63024876f21b7cc44267255a8043062046d3215e09212bd682787a13ccf1e0c5d23f7686a7f1bc7ac9f34c7e8a88100af234f42b509db50f17ce638af6ac87cc
   languageName: node
   linkType: hard
 
@@ -9366,25 +9392,6 @@ __metadata:
     "@vue/server-renderer": 3.2.47
     "@vue/shared": 3.2.47
   checksum: 3b586f61fd2cdfdd24459a946a2831c0f164056993cc005badde4fea10d53e430f1cedf1b62d52a6992b58fe656fc5fc67b32f594a2832dfe440c6db46d6f158
-  languageName: node
-  linkType: hard
-
-"vuetify@npm:3.1.3":
-  version: 3.1.3
-  resolution: "vuetify@npm:3.1.3"
-  peerDependencies:
-    vite-plugin-vuetify: ^1.0.0-alpha.12
-    vue: ^3.2.0
-    vue-i18n: ^9.0.0
-    webpack-plugin-vuetify: ^2.0.0-alpha.11
-  peerDependenciesMeta:
-    vite-plugin-vuetify:
-      optional: true
-    vue-i18n:
-      optional: true
-    webpack-plugin-vuetify:
-      optional: true
-  checksum: 036d7375207ffa77eef662349cdd0f28d3b2bd9324f8e68726d62695c83613a7c6607ca7794f2c8f09be03a3ba059db0c500285f22edcddd6c235ae26d29c569
   languageName: node
   linkType: hard
 

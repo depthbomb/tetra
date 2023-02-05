@@ -1,19 +1,23 @@
 import Router from '@koa/router';
 import { koaBody } from 'koa-body';
+import { getRoute } from '~helpers/routes';
 import { apiResponse } from '@tetra/helpers';
 import { Duration } from '@sapphire/duration';
 import { NotFound, BadRequest, GeneralError } from 'fejl';
 import { CreateLinkBody } from '~common/schemas/createLinkBody';
+import { createThrottleMiddleware } from '~middleware/throttleMiddleware';
 import { UnsafeUrlException } from '~common/exceptions/UnsafeUrlException';
 import { createValidatorMiddleware } from '~middleware/validatorMiddleware';
 import { createLink, deleteLink, getRedirectionInfo } from '~services/links';
 import type { Middleware } from 'koa';
 
 export function createLinksRoutes(): Middleware {
-	const router = new Router({ prefix: '/links' });
+	const router = new Router({ prefix: '/api/links' });
 
-	// GET /links/:shortcode
-	router.get('/:shortcode', async (ctx) => {
+	router.use(createThrottleMiddleware('1s', 2));
+
+	// GET /api/links/:shortcode
+	router.get('api.links.info', '/:shortcode', async (ctx) => {
 		const { shortcode } = ctx.params;
 		const info          = await getRedirectionInfo(shortcode);
 
@@ -22,8 +26,8 @@ export function createLinksRoutes(): Middleware {
 		return apiResponse(ctx, info);
 	});
 
-	// POST /links/create
-	router.post('/create',
+	// POST /api/links/create
+	router.post('api.links.create', '/create',
 		koaBody(),
 		createValidatorMiddleware(CreateLinkBody),
 		async (ctx) => {
@@ -44,6 +48,7 @@ export function createLinksRoutes(): Middleware {
 				const link = await createLink(ctx.ip, destination, linkExpiresAt);
 				return apiResponse(ctx, {
 					shortcode: link.shortcode,
+					shortlink: getRoute('links.root', { shortcode: link.shortcode }),
 					destination: link.destination,
 					deletionKey: link.deletionKey,
 					expiresAt: link.expiresAt,
@@ -58,27 +63,11 @@ export function createLinksRoutes(): Middleware {
 		}
 	);
 
-	// DELETE /links/delete/:shortcode/:deletionKey
-	router.delete('/delete/:shortcode/:deletionKey', async (ctx) => {
+	// DELETE /api/links/delete/:shortcode/:deletionKey
+	router.delete('api.links.delete', '/delete/:shortcode/:deletionKey', async (ctx) => {
 		const { shortcode, deletionKey } = ctx.params
 		await deleteLink(shortcode, deletionKey);
 		return apiResponse(ctx, {});
-	});
-
-	return router.routes();
-}
-
-export function createLinkRedirectionRoute(): Middleware {
-	const router = new Router();
-
-	// <ANY> /:shortcode
-	router.all('/:shortcode', async (ctx) => {
-		const { shortcode } = ctx.params;
-		const info          = await getRedirectionInfo(shortcode);
-
-		NotFound.assert(info);
-
-		return ctx.response.redirect(info.destination);
 	});
 
 	return router.routes();
