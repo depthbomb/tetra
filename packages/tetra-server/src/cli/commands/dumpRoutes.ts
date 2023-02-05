@@ -1,8 +1,6 @@
-import { joinURL } from 'ufo';
 import { join } from 'node:path';
 import Router from '@koa/router';
 import { Command } from 'clipanion';
-import { getOrThrow } from '~config';
 import { MONOREPO_ROOT } from '~constants';
 import { writeFile } from 'node:fs/promises';
 import type { BaseContext } from 'clipanion';
@@ -11,7 +9,6 @@ export class DumpRoutesCommand extends Command<BaseContext> {
 	public static override paths = [['dump-routes'], ['dr']];
 
 	public async execute(): Promise<number | void> {
-		const baseUrl        = getOrThrow<string>('web.url');
 		const router         = new Router();
 		const routesJson     = [];
 		const routesJsonPath = join(MONOREPO_ROOT, 'packages', 'tetra-common', 'src', 'routes.json');
@@ -31,8 +28,7 @@ export class DumpRoutesCommand extends Command<BaseContext> {
 				name,
 				methods,
 				path,
-				paramNames,
-				url: joinURL(baseUrl, path)
+				paramNames
 			});
 		}
 
