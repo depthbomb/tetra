@@ -13,7 +13,7 @@
 	watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));
 
 	useIntervalFn(async () => {
-		makeApiRequest<IInternalStatsResponse>('internal.links-count', { method: 'POST' })
+		makeApiRequest<IInternalStatsResponse>('/internal/links-count', { method: 'POST' })
 			.then(({ count }) => totalLinks.value = count)
 			.catch(err => console.error(err));
 	}, 5_000, { immediateCallback: true });

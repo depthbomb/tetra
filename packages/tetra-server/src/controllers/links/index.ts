@@ -1,6 +1,6 @@
+import { joinURL } from 'ufo';
 import Router from '@koa/router';
 import { koaBody } from 'koa-body';
-import { getRoute } from '~helpers/routes';
 import { apiResponse } from '@tetra/helpers';
 import { Duration } from '@sapphire/duration';
 import { NotFound, BadRequest, GeneralError } from 'fejl';
@@ -48,7 +48,6 @@ export function createLinksRoutes(): Middleware {
 				const link = await createLink(ctx.ip, destination, linkExpiresAt);
 				return apiResponse(ctx, {
 					shortcode: link.shortcode,
-					shortlink: getRoute('links.root', { shortcode: link.shortcode }),
 					destination: link.destination,
 					deletionKey: link.deletionKey,
 					expiresAt: link.expiresAt,

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import { joinURL } from 'ufo';
 	import { reactive } from 'vue';
 	import { isValidHttpUrl } from '~/utils';
 	import { useClipboard } from '@vueuse/core';
@@ -27,12 +28,12 @@
 	const trySubmit = async () => {
 		uiState.submitDisabled = true;
 
-		makeApiRequest<ICreateLinkResponse>('api.links.create', {
+		makeApiRequest<ICreateLinkResponse>('/api/links/create', {
 			method: 'POST',
 			body: JSON.stringify({ destination: uiState.destination })
-		}).then(({ shortlink }) => {
+		}).then(({ shortcode }) => {
 			uiState.resultsDialogOpen  = true;
-			uiState.resultsDestination = shortlink;
+			uiState.resultsDestination = joinURL(window.location.origin, shortcode);
 			copyDestinationToClipboard();
 		}).catch(err => {
 			// TODO handle
