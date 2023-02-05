@@ -7,5 +7,4 @@ export const log = new Logger({
 	name: 'TETRA',
 	type: production ? 'json' : 'pretty',
 	minLevel: production ? 3 : 0,
-	hideLogPositionForProduction: production
 });
