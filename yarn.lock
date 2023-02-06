@@ -1603,7 +1603,6 @@ __metadata:
     koa-static: ^5.0.0
     mongoose: ^6.9.0
     nanoid: 3.3.4
-    path-to-regexp: ^6.2.1
     source-map-support: ^0.5.21
     tslog: ^4.7.1
     tsup: ^6.5.0
