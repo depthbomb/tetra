@@ -5,9 +5,9 @@ import { randomUUID } from 'node:crypto';
 import { Duration } from '@sapphire/duration';
 import { Links } from '~database/models/Link';
 import { safebrowsing } from '@googleapis/safebrowsing';
-import { UnsafeUrlException } from '~common/exceptions/UnsafeUrlException';
+import { UnsafeUrlException } from '~exceptions/UnsafeUrlException';
+import type { ILinkRedirectionInfo } from '@tetra/common';
 import type { LinksDocument } from '~database/models/Link';
-import type { ILinkRedirectionInfo } from '@tetra/common/types';
 
 const _logger       = log.getSubLogger({ name: 'LINKS' });
 const _safebrowsing = safebrowsing('v4');
