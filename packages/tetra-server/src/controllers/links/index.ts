@@ -1,10 +1,9 @@
-import { joinURL } from 'ufo';
 import Router from '@koa/router';
 import { koaBody } from 'koa-body';
 import { apiResponse } from '@tetra/helpers';
 import { Duration } from '@sapphire/duration';
 import { NotFound, BadRequest, GeneralError } from 'fejl';
-import { CreateLinkBody } from '~common/schemas/createLinkBody';
+import { CreateLinkBody } from '~controllers/links/createLinkBody';
 import { createThrottleMiddleware } from '~middleware/throttleMiddleware';
 import { UnsafeUrlException } from '~common/exceptions/UnsafeUrlException';
 import { createValidatorMiddleware } from '~middleware/validatorMiddleware';
