@@ -18,6 +18,6 @@ export default defineConfig(() => ({
 	target: 'esnext',
 	tsconfig: './tsconfig.json',
 	splitting: true,
-	sourcemap: true,
+	sourcemap: !production,
 	keepNames: true,
 }));
