@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
 	const config: UserConfig = {
 		base: './',
 		root: resolve('./src'),
+		publicDir: resolve('./public'),
 		build: {
 			manifest: true,
 			emptyOutDir: true,
