@@ -1,8 +1,8 @@
 import argon2 from 'argon2';
 import { getOrThrow } from '~config';
-import { signJwt, verifyJwt } from '~services/jwt';
 import type { Context } from 'koa';
-import type { ICsrfTokenPayload } from '@tetra/types';
+import { signJwt, verifyJwt } from '~modules/jwt';
+import type { ICsrfTokenPayload } from '@tetra/common';
 
 const _cryptoSalt = getOrThrow<string>('crypto.salt');
 

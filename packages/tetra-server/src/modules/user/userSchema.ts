@@ -1,5 +1,5 @@
-import { model, Schema } from 'mongoose';
 import { UserRole } from '@tetra/common';
+import { model, Schema } from 'mongoose';
 import type { HydratedDocument } from 'mongoose';
 
 type IUser = {
@@ -9,9 +9,9 @@ type IUser = {
 	suspended: boolean;
 };
 
-export type UsersDocument = HydratedDocument<IUser>;
+export type UserDocument = HydratedDocument<IUser>;
 
-export const Users = model<IUser>('Users', new Schema<IUser>({
+export const User = model<IUser>('User', new Schema<IUser>({
 	username: { type: String, unique: true },
 	password: String,
 	role: { type: String, enum: UserRole, default: UserRole.USER },

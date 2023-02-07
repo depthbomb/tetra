@@ -1,4 +1,4 @@
-import { verifyCsrfToken } from '~services/security';
+import { verifyCsrfToken } from '~modules/security';
 import { PreconditionFailed, PreconditionRequired } from 'fejl';
 import type { Middleware } from 'koa';
 

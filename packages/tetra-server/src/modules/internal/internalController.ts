@@ -1,6 +1,6 @@
 import Router from '@koa/router';
 import { apiResponse } from '@tetra/helpers';
-import { getTotalLinks } from '~services/links';
+import { getTotalLinks } from '~modules/links';
 import { createCsrfMiddleware } from '~middleware/csrfMiddleware';
 import type { Middleware } from 'koa';
 

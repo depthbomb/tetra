@@ -3,13 +3,23 @@ import { watch } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { join, extname } from 'node:path';
 import { readFile } from 'node:fs/promises';
+import { configure, renderFileAsync } from 'eta';
 import { existsSync, readFileSync } from 'node:fs';
-import { STATIC_PATH, CLIENT_MANIFEST_PATH } from '~constants';
+import { VIEWS_PATH, STATIC_PATH, CLIENT_MANIFEST_PATH } from '~constants';
 
+const _production        = !getOrThrow<boolean>('development');
 const _internalManifest  = {};
 const _internalSriHashes = new Map<string, string[]>();
 
 _loadManifestAssets();
+
+configure({
+	async: true,
+	cache: _production,
+	views: VIEWS_PATH,
+	autoTrim: _production ? ['nl', 'slurp'] : false,
+	rmWhitespace: _production,
+});
 
 if (getOrThrow<boolean>('development')) {
 	(async() => {
@@ -20,6 +30,16 @@ if (getOrThrow<boolean>('development')) {
 			}
 		}
 	})();
+}
+
+/**
+ * Renders an [Eta](https://eta.js.org/)-based view template file to HTML
+ * @param name The name of the view relative to the `views` directory minus extension
+ * @param viewData An object containing data that will be passed and accessible in the rendered view
+ * @returns The rendered view HTML content
+ */
+export async function renderView(name: string, viewData: object): Promise<string> {
+	return await renderFileAsync(name, viewData);
 }
 
 /**
@@ -88,3 +108,4 @@ function _loadManifestAssets(): void {
 		throw new Error(`Client asset manifest not found at expected path "${CLIENT_MANIFEST_PATH}"`);
 	}
 }
+

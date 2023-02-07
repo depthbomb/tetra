@@ -2,12 +2,12 @@ import Router from '@koa/router';
 import { koaBody } from 'koa-body';
 import { apiResponse } from '@tetra/helpers';
 import { Duration } from '@sapphire/duration';
+import { CreateLinkBody } from './linksSchemas';
+import { UnsafeUrlException } from './linksExceptions';
 import { NotFound, BadRequest, GeneralError } from 'fejl';
-import { CreateLinkBody } from '~controllers/links/createLinkBody';
-import { UnsafeUrlException } from '~exceptions/UnsafeUrlException';
 import { createThrottleMiddleware } from '~middleware/throttleMiddleware';
 import { createValidatorMiddleware } from '~middleware/validatorMiddleware';
-import { createLink, deleteLink, getRedirectionInfo } from '~services/links';
+import { createLink, deleteLink, getRedirectionInfo } from './linksService';
 import type { Middleware } from 'koa';
 
 export function createLinksRoutes(): Middleware {

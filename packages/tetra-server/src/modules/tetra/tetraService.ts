@@ -62,9 +62,9 @@ async function _loadMiddleware() {
 }
 
 async function _loadRoutes() {
-	const { createRootRoutes }     = await import('~controllers/root');
-	const { createLinksRoutes }    = await import('~controllers/links');
-	const { createInternalRoutes } = await import('~controllers/internal');
+	const { createRootRoutes }     = await import('~modules/tetra');
+	const { createLinksRoutes }    = await import('~modules/links');
+	const { createInternalRoutes } = await import('~modules/internal');
 
 	_app.use(createRootRoutes());
 	_app.use(createLinksRoutes());

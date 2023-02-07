@@ -1,7 +1,7 @@
 import 'source-map-support/register';
 import { log } from '~logger';
 import { connect } from 'mongoose';
-import { startServer } from '~services/tetra';
+import { startServer } from '~modules/tetra';
 import { get, getEnv, getOrThrow } from '~config';
 
 async function run(): Promise<void> {

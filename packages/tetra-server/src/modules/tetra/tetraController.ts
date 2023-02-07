@@ -1,10 +1,9 @@
 import { log } from '~logger';
 import { NotFound } from 'fejl';
 import Router from '@koa/router';
-import { renderView } from '~services/views';
-import { getRedirectionInfo } from '~services/links';
-import { createCsrfToken } from '~services/security';
-import { generateVersionedAssetTag } from '~services/static';
+import { createCsrfToken } from '~modules/security';
+import { getRedirectionInfo } from '~modules/links';
+import { renderView, generateVersionedAssetTag } from '~modules/views';
 import type { Middleware } from 'koa';
 
 export function createRootRoutes(): Middleware {

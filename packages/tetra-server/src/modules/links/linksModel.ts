@@ -10,9 +10,9 @@ type ILink = {
 	expiresAt: Date;
 };
 
-export type LinksDocument = HydratedDocument<ILink>;
+export type LinkDocument = HydratedDocument<ILink>;
 
-export const Links = model<ILink>('Links', new Schema<ILink>({
+export const Link = model<ILink>('Link', new Schema<ILink>({
 	creator: String,
 	shortcode: { type: String, unique: true },
 	destination: String,

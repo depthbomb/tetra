@@ -1,13 +1,13 @@
 import { log } from '~logger';
+import { Link } from './linksModel';
 import { getOrThrow } from '~config';
 import { nanoid } from 'nanoid/async';
 import { randomUUID } from 'node:crypto';
 import { Duration } from '@sapphire/duration';
-import { Links } from '~database/models/Link';
 import { safebrowsing } from '@googleapis/safebrowsing';
-import { UnsafeUrlException } from '~exceptions/UnsafeUrlException';
+import { UnsafeUrlException } from './linksExceptions';
+import type { LinkDocument } from './linksModel';
 import type { ILinkRedirectionInfo } from '@tetra/common';
-import type { LinksDocument } from '~database/models/Link';
 
 const _logger       = log.getSubLogger({ name: 'LINKS' });
 const _safebrowsing = safebrowsing('v4');
@@ -16,7 +16,7 @@ const _safebrowsing = safebrowsing('v4');
  * Returns the total number of links on record
  */
 export async function getTotalLinks(): Promise<number> {
-	return Links.count();
+	return Link.count();
 }
 
 /**
@@ -25,7 +25,7 @@ export async function getTotalLinks(): Promise<number> {
  * @returns An object containing the link destination and its expiration date (if applicable), `null` otherwise
  */
 export async function getRedirectionInfo(shortcode: string): Promise<ILinkRedirectionInfo | null> {
-	const link = await Links.findOne({ shortcode });
+	const link = await Link.findOne({ shortcode });
 	if (link) {
 		const { destination, expiresAt } = link;
 		return { destination, expiresAt };
@@ -40,14 +40,14 @@ export async function getRedirectionInfo(shortcode: string): Promise<ILinkRedire
  * @param destination The HTTP/S URL that this shortlink will redirect to
  * @param expiresAt The optional {@link Date} that this shortlink expires at
  */
-export async function createLink(creator: string, destination: string, expiresAt?: Date): Promise<LinksDocument> {
+export async function createLink(creator: string, destination: string, expiresAt?: Date): Promise<LinkDocument> {
 	const isSafe = await checkDestination(destination);
 
 	UnsafeUrlException.assert(isSafe);
 
 	const shortcode   = await _generateShortcode();
 	const deletionKey = await _generateDeletionKey();
-	const link        = await Links.create({
+	const link        = await Link.create({
 		creator,
 		shortcode,
 		destination,
@@ -68,7 +68,7 @@ export async function createLink(creator: string, destination: string, expiresAt
  */
 export async function deleteLink(shortcode: string, deletionKey?: string): Promise<number> {
 	try {
-		const { deletedCount } = await Links.deleteOne({ shortcode, deletionKey });
+		const { deletedCount } = await Link.deleteOne({ shortcode, deletionKey });
 		if (deletedCount) {
 			_logger.info('Deleted shortlink', shortcode, 'with deletionKey', deletionKey !== null ? deletionKey : '(none)');
 		}
@@ -80,6 +80,18 @@ export async function deleteLink(shortcode: string, deletionKey?: string): Promi
 
 		throw err;
 	}
+}
+
+export async function deleteExpiredLinks(): Promise<number> {
+	const now = new Date();
+	const { deletedCount } = await Link.deleteMany({ expiresAt: { $lte: now } });
+	if (deletedCount > 0) {
+		_logger.info('Deleted', deletedCount, 'expired link(s)');
+	} else {
+		_logger.debug('No links to expire');
+	}
+
+	return deletedCount;
 }
 
 /**
@@ -136,7 +148,7 @@ async function _generateShortcode(): Promise<string> {
 	let shortcode = await nanoid(length);
 	do {
 		// theoretically this could go on forever, but do you really think it would?
-		const exists = await Links.exists({ shortcode }) !== null;
+		const exists = await Link.exists({ shortcode }) !== null;
 		if (!exists) break;
 
 		length++;
