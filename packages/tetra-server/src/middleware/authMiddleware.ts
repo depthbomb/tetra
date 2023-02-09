@@ -1,36 +1,36 @@
-import { NotAuthenticated } from 'fejl';
+import { getOrThrow } from '~config';
+import { verifyJwt } from '~modules/jwt';
 import type { Middleware } from 'koa';
+import type { IUserPayload } from '@tetra/common';
 
 /**
  * Creates a middleware that attempts to authenticate the current request.
- * @param {boolean} checkOnly Whether to only check for the presence of the authenticated user
  * @returns {Middleware}
  */
-export function createAuthMiddleware(checkOnly = false): Middleware {
+export function createAuthMiddleware(): Middleware {
+	const sessionCookieName = getOrThrow<string>('auth.sessionCookieName');
+
 	return async (ctx, next) => {
-		if (checkOnly) {
-			NotAuthenticated.assert('user' in ctx && ctx.user);
-		} else {
-			// Obtaining the JWT from the request headers is prioritized, then cookie, then query string.
+		// Obtaining the JWT from the request headers is prioritized over cookie
 
-			const headerAuth = ctx.get('Authorization');
-			const cookieAuth = ctx.cookies.get('tetraJwt');
-			const queryAuth  = ctx.request.query.accessToken as string;
+		const headerAuth    = ctx.get('Authorization');
+		const sessionCookie = ctx.cookies.get(sessionCookieName);
 
-			let accessToken: string;
-			if (headerAuth) {
-				accessToken = headerAuth.replace('Bearer ', '');
-			} else if (cookieAuth) {
-				accessToken = cookieAuth;
-			} else if (queryAuth) {
-				accessToken = queryAuth;
-			}
+		let userJwt: string;
+		if (headerAuth) {
+			userJwt = headerAuth.replace('Bearer ', '');
+		} else if (sessionCookie) {
+			userJwt = sessionCookie;
+		}
 
-			if (accessToken) {
-				const user = {}; // TODO get user info
-				if (user) {
-					ctx.user = user;
-				}
+		if (userJwt) {
+			const user = await verifyJwt<IUserPayload>(userJwt);
+			if (user) {
+				ctx.user = {
+					username: user.username,
+					avatar: user.avatar,
+					sub: user.sub
+				};
 			}
 		}
 

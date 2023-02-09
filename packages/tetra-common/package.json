@@ -14,13 +14,13 @@
 		"build": "cross-env NODE_ENV=development tsup"
 	},
 	"devDependencies": {
-		"@swc/core": "^1.3.32",
+		"@swc/core": "^1.3.34",
 		"@types/eslint": "^8.21.0",
 		"@typescript-eslint/eslint-plugin": "^5.51.0",
 		"@typescript-eslint/parser": "^5.51.0",
 		"cross-env": "^7.0.3",
 		"eslint": "^8.33.0",
-		"tsup": "^6.5.0",
+		"tsup": "^6.6.0",
 		"typescript": "^4.9.5"
 	},
 	"packageManager": "yarn@3.3.1"

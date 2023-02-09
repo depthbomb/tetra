@@ -4,8 +4,8 @@ import { getOrThrow } from '~config';
 import { nanoid } from 'nanoid/async';
 import { randomUUID } from 'node:crypto';
 import { Duration } from '@sapphire/duration';
-import { safebrowsing } from '@googleapis/safebrowsing';
 import { UnsafeUrlException } from './linksExceptions';
+import { safebrowsing } from '@googleapis/safebrowsing';
 import type { LinkDocument } from './linksModel';
 import type { ILinkRedirectionInfo } from '@tetra/common';
 
@@ -17,6 +17,10 @@ const _safebrowsing = safebrowsing('v4');
  */
 export async function getTotalLinks(): Promise<number> {
 	return Link.count();
+}
+
+export async function getLinksByCreator(creator: string): Promise<LinkDocument[]> {
+	return Link.where({ creator });
 }
 
 /**

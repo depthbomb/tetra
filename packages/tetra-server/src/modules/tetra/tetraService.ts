@@ -64,10 +64,12 @@ async function _loadMiddleware() {
 async function _loadRoutes() {
 	const { createRootRoutes }     = await import('~modules/tetra');
 	const { createLinksRoutes }    = await import('~modules/links');
+	const { createAuthRoutes }     = await import('~modules/auth');
 	const { createInternalRoutes } = await import('~modules/internal');
 
 	_app.use(createRootRoutes());
 	_app.use(createLinksRoutes());
+	_app.use(createAuthRoutes());
 	_app.use(createInternalRoutes());
 }
 

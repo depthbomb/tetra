@@ -1,0 +1,38 @@
+.btn {
+	@apply flex flex-row items-center justify-center;
+	@apply px-4 py-2;
+	@apply text-white;
+	@apply rounded;
+	@apply cursor-pointer;
+	@apply transition-colors;
+
+	&.btn--brand {
+		@apply bg-brand-600;
+
+		@apply hover:bg-brand-700;
+	}
+
+	&.btn--success {
+		@apply bg-lime-600;
+
+		@apply hover:bg-lime-700;
+	}
+
+	&.btn--danger,
+	&.btn--error {
+		@apply bg-red-600;
+
+		@apply hover:bg-red-700;
+	}
+
+	&.btn--small {
+		@apply min-h-[28px];
+		@apply px-2 py-1;
+		@apply text-sm;
+	}
+
+	&.btn--large {
+		@apply px-5 py-2.5;
+		@apply text-xl;
+	}
+}

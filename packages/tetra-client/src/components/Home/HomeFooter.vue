@@ -2,11 +2,15 @@
 	import gsap from 'gsap'
 	import { ref, watch, reactive } from 'vue';
 	import { useIntervalFn } from '@vueuse/core';
+	import { useTetraStore } from '~/stores/tetra';
 	import { makeApiRequest } from '~/services/api';
 	import CodeIcon from '~/components/icons/CodeIcon.vue';
+	import SignInIcon from '~/components/icons/SignInIcon.vue';
+	import BrowserIcon from '~/components/icons/BrowserIcon.vue';
 	import CurlyBracesIcon from '~/components/icons/CurlyBracesIcon.vue';
 	import type { IInternalStatsResponse } from '@tetra/common';
 
+	const store      = useTetraStore();
 	const totalLinks = ref(0);
 	const tweened    = reactive({ number: 0 });
 
@@ -20,14 +24,22 @@
 </script>
 
 <template>
-	<footer class="Footer">
-		<div class="Footer-links">
+	<footer class="footer">
+		<div class="footer__links">
+			<a v-if="!store.loggedIn" href="/auth/login">
+				<sign-in-icon class="inline-block h-4"/>
+				<span>Log In</span>
+			</a>
+			<router-link v-else-if="store.loggedIn" :to="{ name: 'dashboard' }">
+				<browser-icon class="inline-block h-4"/>
+				<span>Dashboard</span>
+			</router-link>
 			<router-link :to="{ name: 'api-docs' }">
-				<CurlyBracesIcon class="inline-block h-4"/>
+				<curly-braces-icon class="inline-block h-4"/>
 				<span>API</span>
 			</router-link>
 			<a href="https://github.com/depthbomb/tetra">
-				<CodeIcon class="inline-block h-4"/>
+				<code-icon class="inline-block h-4"/>
 				<span>Source Code</span>
 			</a>
 		</div>
@@ -36,13 +48,13 @@
 </template>
 
 <style scoped lang="scss">
-	.Footer {
+	.footer {
 		@apply mt-3;
 		@apply space-y-2;
 		@apply text-white text-opacity-90 text-center;
 		@apply drop-shadow-sm;
 
-		.Footer-links {
+		.footer__links {
 			@apply flex flex-row justify-center items-center;
 			@apply space-x-4;
 

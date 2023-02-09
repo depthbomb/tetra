@@ -16,11 +16,13 @@ export function createRootRoutes(): Middleware {
 			const clientJs  = await generateVersionedAssetTag('app.ts', cspNonce);
 			const clientCss = await generateVersionedAssetTag('app.css');
 			const csrfToken = await createCsrfToken(ctx);
+			const user      = JSON.stringify(ctx.user ?? {});
 			ctx.body = await renderView('spa', {
 				clientJs,
 				clientCss,
 				csrfToken,
-				cspNonce
+				cspNonce,
+				user
 			});
 		} catch (err: unknown) {
 			log.fatal('Failed to render root SPA view, likely due to not being able to retrieve a versioned asset path');

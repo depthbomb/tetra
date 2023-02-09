@@ -1,11 +1,14 @@
+import { joinURL } from 'ufo';
 import Router from '@koa/router';
+import { getOrThrow } from '~config';
 import { apiResponse } from '@tetra/helpers';
-import { getTotalLinks } from '~modules/links';
 import { createCsrfMiddleware } from '~middleware/csrfMiddleware';
+import { getTotalLinks, getLinksByCreator } from '~modules/links';
 import type { Middleware } from 'koa';
 
 export function createInternalRoutes(): Middleware {
-	const router = new Router({ prefix: '/internal' });
+	const router  = new Router({ prefix: '/internal' });
+	const baseUrl = getOrThrow<string>('web.url');
 
 	// POST /internal/links-count
 	router.post('internal.links-count', '/links-count',
@@ -14,6 +17,25 @@ export function createInternalRoutes(): Middleware {
 			const count = await getTotalLinks();
 
 			return apiResponse(ctx, { count });
+		}
+	);
+
+	// POST /internal/get-user-links
+	router.post('internal.links-count', '/get-user-links',
+		createCsrfMiddleware(),
+		async (ctx) => {
+			const { sub } = ctx.user;
+			const links = await getLinksByCreator(sub);
+			const userLinks = links.map(link => ({
+				shortcode: link.shortcode,
+				shortlink: joinURL(baseUrl, link.shortcode),
+				destination: link.destination,
+				expiresAt: link.expiresAt,
+				deletionKey: link.deletionKey,
+				createdAt: link.createdAt
+			}));
+
+			return apiResponse(ctx, userLinks);
 		}
 	);
 

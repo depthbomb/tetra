@@ -8,6 +8,8 @@ type ILink = {
 	deletionKey: string;
 	disabled: boolean;
 	expiresAt: Date;
+	createdAt: Date;
+	updatedAt: Date;
 };
 
 export type LinkDocument = HydratedDocument<ILink>;
@@ -18,5 +20,7 @@ export const Link = model<ILink>('Link', new Schema<ILink>({
 	destination: String,
 	deletionKey: String,
 	disabled: Boolean,
-	expiresAt: Date
-}));
+	expiresAt: Date,
+	createdAt: Date,
+	updatedAt: Date,
+}, { timestamps: true }));

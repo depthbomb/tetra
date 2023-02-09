@@ -26,11 +26,11 @@ module.exports = {
 				amber: colors.amber,
 				orange: colors.orange,
 				red: colors.red,
-				slate: colors.slate,
-				gray: colors.gray,
-				zinc: colors.zinc,
-				neutral: colors.neutral,
-				stone: colors.stone,
+				// slate: colors.slate,
+				gray: colors.zinc,
+				// zinc: colors.zinc,
+				// neutral: colors.neutral,
+				// stone: colors.stone,
 				brand: {
 					DEFAULT: '#05BEF9',
 					'50': '#B8EDFE',
@@ -47,7 +47,7 @@ module.exports = {
 			},
 			fontFamily: {
 				sans: [
-					'Roboto',
+					'Inter',
 					'ui-sans-serif',
 					'system-ui',
 					'-apple-system',
@@ -71,9 +71,6 @@ module.exports = {
 					'Times',
 					'serif'
 				],
-			},
-			transitionProperty: {
-				'button': 'color, background-color, box-shadow, opacity',
 			},
 			transitionTimingFunction: {
 				'in-back': 'cubic-bezier(0.36, 0, 0.66, -0.56)',

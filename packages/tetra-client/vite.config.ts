@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
 			emptyOutDir: true,
 			outDir: resolve('./dist'),
 			assetsInlineLimit: 0,
-			minify: mode === 'production' ? 'terser' : false,
+			minify: mode === 'production' ? 'esbuild' : false,
 			rollupOptions: {
 				input: resolve('./src/app.ts'),
 				output: {

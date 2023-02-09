@@ -1,8 +1,11 @@
+import { joinURL } from 'ufo';
 import Router from '@koa/router';
 import { koaBody } from 'koa-body';
+import { getOrThrow } from '~config';
 import { apiResponse } from '@tetra/helpers';
 import { Duration } from '@sapphire/duration';
 import { CreateLinkBody } from './linksSchemas';
+import { isUserInContext } from '~modules/auth';
 import { UnsafeUrlException } from './linksExceptions';
 import { NotFound, BadRequest, GeneralError } from 'fejl';
 import { createThrottleMiddleware } from '~middleware/throttleMiddleware';
@@ -11,7 +14,8 @@ import { createLink, deleteLink, getRedirectionInfo } from './linksService';
 import type { Middleware } from 'koa';
 
 export function createLinksRoutes(): Middleware {
-	const router = new Router({ prefix: '/api/links' });
+	const router  = new Router({ prefix: '/api/links' });
+	const baseUrl = getOrThrow<string>('web.url');
 
 	router.use(createThrottleMiddleware('1s', 2));
 
@@ -44,9 +48,10 @@ export function createLinksRoutes(): Middleware {
 			}
 
 			try {
-				const link = await createLink(ctx.ip, destination, linkExpiresAt);
+				const link = await createLink(isUserInContext(ctx) ? ctx.user.sub : ctx.ip, destination, linkExpiresAt);
 				return apiResponse(ctx, {
 					shortcode: link.shortcode,
+					shortlink: joinURL(baseUrl, link.shortcode),
 					destination: link.destination,
 					deletionKey: link.deletionKey,
 					expiresAt: link.expiresAt,

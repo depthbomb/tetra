@@ -32,7 +32,5 @@ export async function makeApiRequest<T>(endpoint: string, init: RequestInit = {}
 		throw new Error(data.message);
 	}
 
-	const responseObj = { response: res, ...data };
-
-	return responseObj as T;
+	return data as T;
 }

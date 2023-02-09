@@ -4,10 +4,11 @@
 	import { isValidHttpUrl } from '~/utils';
 	import { useClipboard } from '@vueuse/core';
 	import { makeApiRequest } from '~/services/api';
+	import GlobalLayout from '~/layouts/GlobalLayout.vue';
 	import LinkIcon from '~/components/icons/LinkIcon.vue';
-	import HomeFooter from '~/components/Home/HomeFooter.vue';
+	import HomeFooter from '~/components/home/HomeFooter.vue';
 	import PaperPlaneTopIcon from '~/components/icons/PaperPlaneTopIcon.vue';
-	import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
+	import { Dialog, DialogPanel, DialogTitle, TransitionRoot, TransitionChild } from '@headlessui/vue';
 	import type { ICreateLinkResponse } from '@tetra/common';
 
 	const { copy } = useClipboard({ legacy: true });
@@ -21,7 +22,7 @@
 	});
 
 	const validateInput = () => {
-		uiState.valid = isValidHttpUrl(uiState.destination);
+		uiState.valid          = isValidHttpUrl(uiState.destination);
 		uiState.submitDisabled = !uiState.valid;
 	};
 
@@ -40,8 +41,8 @@
 			console.error(err);
 		});
 
-		uiState.submitDisabled = false;
 		uiState.destination    = '';
+		uiState.submitDisabled = false;
 	};
 
 	const copyDestinationToClipboard = () => copy(uiState.resultsDestination);
@@ -78,31 +79,33 @@
 			</div>
 		</Dialog>
 	</TransitionRoot>
-	<router-link :to="{ name: 'home' }" class="Header">go.super.fish</router-link>
-	<div class="InputContainer">
-		<LinkIcon class="w-9 text-gray-300"/>
-		<input
-			@input="validateInput"
-			type="url"
-			name="destination"
-			:class="['Input', {
-				'Input--invalid': !uiState.valid && uiState.destination !== '',
-				'Input--valid': uiState.valid
-			}]"
-			autocomplete="off"
-			autofocus
-			v-model.trim="uiState.destination">
-		<button
-			@click="trySubmit"
-			type="button"
-			class="SubmitButton"
-			role="button"
-			:disabled="uiState.submitDisabled || uiState.destination === ''">
-			<span>Submit</span>
-			<PaperPlaneTopIcon class="inline-block ml-2 w-5"/>
-		</button>
-	</div>
-	<HomeFooter/>
+	<GlobalLayout>
+		<router-link :to="{ name: 'home' }" class="Header">go.super.fish</router-link>
+		<div class="InputContainer">
+			<LinkIcon class="w-9 text-gray-300"/>
+			<input
+				@input="validateInput"
+				type="url"
+				name="destination"
+				:class="['Input', {
+					'Input--invalid': !uiState.valid && uiState.destination !== '',
+					'Input--valid': uiState.valid
+				}]"
+				autocomplete="off"
+				autofocus
+				v-model.trim="uiState.destination">
+			<button
+				@click="trySubmit"
+				type="button"
+				class="SubmitButton"
+				role="button"
+				:disabled="uiState.submitDisabled || uiState.destination === ''">
+				<span>Submit</span>
+				<PaperPlaneTopIcon class="inline-block ml-2 w-5"/>
+			</button>
+		</div>
+		<HomeFooter/>
+	</GlobalLayout>
 </template>
 
 <style scoped lang="scss">

@@ -43,7 +43,7 @@ export function createLoggerMiddleware(ignoredPaths: string[] = []): Middleware 
 			const { status } = ctx;
 			const end        = (performance.now() - now).toFixed(2);
 
-			logger.info(`${requestId} <-- ${status} ${STATUS_CODES[status]} (<-->) ${end}ms`);
+			logger.info(`${requestId} <-- ${status} ${STATUS_CODES[status]} (<->) ${end}ms`);
 		}
 	};
 }
