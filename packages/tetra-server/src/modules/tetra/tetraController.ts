@@ -3,6 +3,7 @@ import { NotFound } from 'fejl';
 import Router from '@koa/router';
 import { createCsrfToken } from '~modules/security';
 import { getRedirectionInfo } from '~modules/links';
+import { createCspNonceMiddleware } from '@depthbomb/middleware';
 import { renderView, generateVersionedAssetTag } from '~modules/views';
 import type { Middleware } from 'koa';
 
@@ -10,7 +11,7 @@ export function createRootRoutes(): Middleware {
 	const router = new Router();
 
 	// GET /
-	router.get('root', '/', async (ctx) => {
+	router.get('root', '/', createCspNonceMiddleware(), async (ctx) => {
 		try {
 			const { cspNonce } = ctx;
 			const clientJs  = await generateVersionedAssetTag('app.ts', cspNonce);

@@ -47,7 +47,7 @@ export async function startServer() {
 }
 
 async function _loadMiddleware() {
-	const { createCspMiddleware }       = await import('~middleware/cspMiddleware');
+	// const { createCspMiddleware }       = await import('~middleware/cspMiddleware');
 	const { createAuthMiddleware }      = await import('~middleware/authMiddleware');
 	const { createLoggerMiddleware }    = await import('~middleware/loggerMiddleware');
 	const { createRequestIdMiddleware } = await import('~middleware/requestIdMiddleware');
@@ -55,7 +55,7 @@ async function _loadMiddleware() {
 	_app.use(serveStatic(STATIC_PATH));
 	_app.use(createRequestIdMiddleware());
 	_app.use(createAuthMiddleware());
-	_app.use(createCspMiddleware());
+	// _app.use(createCspMiddleware());
 	_app.use(createLoggerMiddleware([
 		'/internal/links-count'
 	]));

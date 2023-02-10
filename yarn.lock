@@ -918,6 +918,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@depthbomb/middleware@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@depthbomb/middleware@npm:1.0.0"
+  dependencies:
+    "@sapphire/duration": ^1.0.0
+    "@sapphire/ratelimits": ^2.4.5
+    fejl: ^3.0.1
+  peerDependencies:
+    "@types/koa": ^2.13.5
+    koa: 2.14.1
+  checksum: be1b2987ee41316dca01d69da2a89d17732c7c127be7a6b94f03625b927764a7e97d3969669bf011fe06d2bf619cfcc9ae185a491b4e00251392f1d25d084da8
+  languageName: node
+  linkType: hard
+
 "@esbuild/android-arm64@npm:0.16.17":
   version: 0.16.17
   resolution: "@esbuild/android-arm64@npm:0.16.17"
@@ -1708,6 +1722,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tetra/server@workspace:packages/tetra-server"
   dependencies:
+    "@depthbomb/middleware": ^1.0.0
     "@googleapis/safebrowsing": ^3.0.0
     "@koa/router": ^12.0.0
     "@sapphire/duration": ^1.0.0

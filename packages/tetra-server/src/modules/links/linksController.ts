@@ -8,7 +8,7 @@ import { CreateLinkBody } from './linksSchemas';
 import { isUserInContext } from '~modules/auth';
 import { UnsafeUrlException } from './linksExceptions';
 import { NotFound, BadRequest, GeneralError } from 'fejl';
-import { createThrottleMiddleware } from '~middleware/throttleMiddleware';
+import { createThrottleMiddleware } from '@depthbomb/middleware';
 import { createValidatorMiddleware } from '~middleware/validatorMiddleware';
 import { createLink, deleteLink, getRedirectionInfo } from './linksService';
 import type { Middleware } from 'koa';

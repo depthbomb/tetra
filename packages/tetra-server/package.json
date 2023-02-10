@@ -9,6 +9,7 @@
 		"build": "cross-env NODE_ENV=development tsup"
 	},
 	"dependencies": {
+		"@depthbomb/middleware": "^1.0.0",
 		"@googleapis/safebrowsing": "^3.0.0",
 		"@koa/router": "^12.0.0",
 		"@sapphire/duration": "^1.0.0",
