@@ -2,6 +2,7 @@ import { joinURL } from 'ufo';
 import Router from '@koa/router';
 import { getOrThrow } from '~config';
 import { apiResponse } from '@tetra/helpers';
+import { isUserInContext } from '~modules/auth';
 import { createCsrfMiddleware } from '~middleware/csrfMiddleware';
 import { getTotalLinks, getLinksByCreator } from '~modules/links';
 import type { Middleware } from 'koa';
@@ -36,6 +37,15 @@ export function createInternalRoutes(): Middleware {
 			}));
 
 			return apiResponse(ctx, userLinks);
+		}
+	);
+
+	// POST /internal/checkpoint
+	router.post('internal.checkpoint', '/checkpoint',
+		createCsrfMiddleware(),
+		async (ctx) => {
+			const auth = isUserInContext(ctx);
+			return apiResponse(ctx, { auth });
 		}
 	);
 

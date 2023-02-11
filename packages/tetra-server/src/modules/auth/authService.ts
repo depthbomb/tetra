@@ -55,7 +55,7 @@ export async function createAuthorizationUrl(scope: string): Promise<{ url: stri
 }
 
 export function isUserInContext(ctx: Context): boolean {
-	return 'user' in ctx && ctx.user;
+	return !!('user' in ctx && ctx.user);
 }
 
 export async function destroy(ctx: Context): Promise<void> {

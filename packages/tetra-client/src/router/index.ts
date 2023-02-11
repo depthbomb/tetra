@@ -1,3 +1,4 @@
+import { useAuthGuard } from './guards';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 const HomeView = () => import('~/views/HomeView.vue');
@@ -9,23 +10,9 @@ const router = createRouter({
 	routes: [
 		{ path: '/',                name: 'home',      component: HomeView },
 		{ path: '/api',             name: 'api-docs',  component: ApiDocsView },
-		{ path: '/dashboard',       name: 'dashboard', component: DashboardView, meta: { requiresAuth: true } },
+		{ path: '/dashboard',       name: 'dashboard', component: DashboardView, beforeEnter: useAuthGuard() },
 		{ path: '/:pathMatch(.*)*', redirect: '/' },
 	]
-});
-
-router.beforeEach(async (to, from) => {
-	if (to.meta.requiresAuth) {
-		const { useTetraStore } = await import('~/stores/tetra');
-		const store             = useTetraStore();
-		const loggedIn          = store.loggedIn;
-
-		if (!loggedIn) {
-			window.location.href = '/auth/login';
-		}
-
-		return loggedIn;
-	}
 });
 
 export default router;
