@@ -59,7 +59,7 @@ export async function createLink(creator: string, destination: string, expiresAt
 		expiresAt
 	});
 
-	_logger.info(creator, 'created link', shortcode, 'that leads to', destination, 'with deletion key', deletionKey)
+	_logger.info(`${creator} created link "${shortcode}" that leads to "${destination}" with deletion key "${deletionKey}"`)
 
 	return link;
 }
@@ -74,12 +74,12 @@ export async function deleteLink(shortcode: string, deletionKey?: string): Promi
 	try {
 		const { deletedCount } = await Link.deleteOne({ shortcode, deletionKey });
 		if (deletedCount) {
-			_logger.info('Deleted shortlink', shortcode, 'with deletionKey', deletionKey !== null ? deletionKey : '(none)');
+			_logger.info(`Deleted shortlink "${shortcode}" with deletionKey "${deletionKey !== null ? deletionKey : '<none>'}"`);
 		}
 
 		return deletedCount;
 	} catch (err: unknown) {
-		_logger.error('Failed to delete link with shortcode', shortcode, 'and deletion key', deletionKey);
+		_logger.error(`Failed to delete link with shortcode "${shortcode}" and deletion key "${deletionKey}"`);
 		_logger.error(err);
 
 		throw err;
@@ -90,7 +90,7 @@ export async function deleteExpiredLinks(): Promise<number> {
 	const now = new Date();
 	const { deletedCount } = await Link.deleteMany({ expiresAt: { $lte: now } });
 	if (deletedCount > 0) {
-		_logger.info('Deleted', deletedCount, 'expired link(s)');
+		_logger.info(`Deleted ${deletedCount} expired link(s)`);
 	} else {
 		_logger.debug('No links to expire');
 	}
@@ -133,10 +133,10 @@ export async function checkDestination(destination: string): Promise<boolean> {
 
 	const { matches } = data;
 	if (matches && matches.length) {
-		_logger.info('URL', destination, 'has', matches.length, 'match(es)');
+		_logger.info(`URL "${destination}" has ${matches.length} match(es)`);
 
 		for (const match of matches) {
-			_logger.info(`URL "${match.threat.url}" is classified as a ${match.threatType} threat`);
+			_logger.info(`URL "${match.threat.url}" is classified as a "${match.threatType}" threat`);
 		}
 
 		return false;

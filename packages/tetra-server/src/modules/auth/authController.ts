@@ -44,7 +44,7 @@ export function createAuthRoutes(): Middleware {
 		if (access_token) {
 			const { preferred_username, email, sub } = await client.userinfo(access_token);
 
-			logger.info(`${ctx.requestId}: Successfully authenticated as ${preferred_username}`);
+			logger.info(`${ctx.requestId}: Successfully authenticated as "${preferred_username}"`);
 
 			const user        = await getOrCreate(preferred_username, email, sub);
 			const userPayload = await signJwt({

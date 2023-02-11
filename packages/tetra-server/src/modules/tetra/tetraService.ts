@@ -91,7 +91,7 @@ async function _startJobs() {
 			try {
 				await job.execute();
 			} catch (err: unknown) {
-				_logger.error('Failed executing job', job.name);
+				_logger.error(`Failed executing job "${job.name}"`);
 				_logger.error(err);
 			} finally {
 				job.lastRan = new Date();
@@ -99,6 +99,6 @@ async function _startJobs() {
 			}
 		}, jobInterval.offset);
 
-		_logger.info('Registered job', job.name, 'to start from', jobInterval.fromNow);
+		_logger.info(`Registered job "${job.name}" to start from ${jobInterval.fromNow}`);
 	}
 }
