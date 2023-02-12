@@ -23,10 +23,10 @@ export const jobs = _jobs;
 /**
  * Starts the web server on the port and host as defined in `.tetrarc`
  */
-export async function startServer() {
+export async function startServer(): Promise<void> {
 	await _loadMiddleware();
 	await _loadRoutes();
-	await _startJobs();
+	await _loadJobs();
 
 	// Register a 404 handler here at the very end of the middleware stack so we can return a consistent response
 	_app.use(async (ctx, next) => {
@@ -46,7 +46,7 @@ export async function startServer() {
 	);
 }
 
-async function _loadMiddleware() {
+async function _loadMiddleware(): Promise<void> {
 	const { createAuthMiddleware }      = await import('~middleware/authMiddleware');
 	const { createLoggerMiddleware }    = await import('~middleware/loggerMiddleware');
 	const { createRequestIdMiddleware } = await import('~middleware/requestIdMiddleware');
@@ -59,7 +59,7 @@ async function _loadMiddleware() {
 	]));
 }
 
-async function _loadRoutes() {
+async function _loadRoutes(): Promise<void> {
 	const { createRootRoutes }     = await import('~modules/tetra');
 	const { createLinksRoutes }    = await import('~modules/links');
 	const { createAuthRoutes }     = await import('~modules/auth');
@@ -71,32 +71,30 @@ async function _loadRoutes() {
 	_app.use(createInternalRoutes());
 }
 
-async function _startJobs() {
+async function _loadJobs(): Promise<void> {
 	const { createDeleteExpiredLinksJob } = await import('~jobs/deleteExpiredLinksJob');
 
-	const jobs = [
-		createDeleteExpiredLinksJob()
-	];
+	await _startJob(createDeleteExpiredLinksJob());
+}
 
-	for (const job of jobs) {
-		_jobs.push(job);
+async function _startJob(job: ITetraJob): Promise<void> {
+	_jobs.push(job);
 
-		const jobInterval = new Duration(job.interval);
+	const jobInterval = new Duration(job.interval);
 
-		await job.onRegistered?.();
+	await job.onRegistered?.();
 
-		setInterval(async () => {
-			try {
-				await job.execute();
-			} catch (err: unknown) {
-				_logger.error(`Failed executing job "${job.name}"`);
-				_logger.error(err);
-			} finally {
-				job.lastRan = new Date();
-				job.nextRun = jobInterval.fromNow;
-			}
-		}, jobInterval.offset);
+	setInterval(async () => {
+		try {
+			await job.execute();
+		} catch (err: unknown) {
+			_logger.error(`Failed executing job "${job.name}"`);
+			_logger.error(err);
+		} finally {
+			job.lastRan = new Date();
+			job.nextRun = jobInterval.fromNow;
+		}
+	}, jobInterval.offset);
 
-		_logger.info(`Registered job "${job.name}" to start from ${jobInterval.fromNow}`);
-	}
+	_logger.info(`Registered job "${job.name}" to start from ${jobInterval.fromNow}`);
 }
