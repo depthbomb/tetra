@@ -1,36 +1,9 @@
-import argon2 from 'argon2';
 import { getOrThrow } from '~config';
-import type { Context } from 'koa';
 import { signJwt, verifyJwt } from '~modules/jwt';
+import type { Context } from 'koa';
 import type { ICsrfTokenPayload } from '@tetra/common';
 
 const _cryptoSalt = getOrThrow<string>('crypto.salt');
-
-/**
- * Hashes the plaintext {@link input} with argon2 using the application's configured salt value
- * @param input The plaintext password to hash
- */
-export async function hashPassword(input: string): Promise<string> {
-	return argon2.hash(input, {
-		salt: Buffer.from(_cryptoSalt),
-		saltLength: _cryptoSalt.length
-	});
-}
-
-/**
- * Verifies if the {@link plaintext} password matches the hashed {@link password} variant
- * @param plaintext The plaintext password
- * @param password The hashed password
- * @returns `true` if the {@link plaintext} password matches the hashed {@link password}, `false` otherwise
- *
- * @see {@link hashPassword}
- */
-export async function verifyPassword(plaintext: string, password: string): Promise<boolean> {
-	return argon2.verify(password, plaintext, {
-		salt: Buffer.from(_cryptoSalt),
-		saltLength: _cryptoSalt.length
-	});
-}
 
 /**
  * Creates a simple JWT using a request IP to act as a CSRF token

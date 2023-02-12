@@ -16,8 +16,6 @@
 		"@sapphire/ratelimits": "^2.4.5",
 		"@tetra/common": "*",
 		"@tetra/helpers": "*",
-		"argon2": "^0.30.3",
-		"clipanion": "^3.2.0-rc.16",
 		"eta": "^2.0.0",
 		"fejl": "^3.0.1",
 		"json5": "^2.2.3",

@@ -2,22 +2,24 @@ import { parse } from 'json5';
 import { join, resolve } from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
 
-const CONFIG_LOAD_ORDER     = ['.tetrarc.dev', '.tetrarc'];
 const CONFIG_LOAD_DIRECTORY = resolve(__dirname, '..');
 
 let _internalConfig = {};
-let _loadedConfigs  = 0;
-for (const configFile of CONFIG_LOAD_ORDER) {
-	const configPath = join(CONFIG_LOAD_DIRECTORY, configFile);
-	if (existsSync(configPath)) {
-		_internalConfig = parse(readFileSync(configPath, 'utf-8'));
-		_loadedConfigs++;
-		break;
-	}
-}
 
-if (_loadedConfigs === 0) {
-	throw new Error(`Could not load a runtime configuration from the expected directory "${CONFIG_LOAD_DIRECTORY}"`);
+export async function loadConfig(configNames: string[]): Promise<void> {
+	let foundConfig = false;
+	for (const configFile of configNames) {
+		const configPath = join(CONFIG_LOAD_DIRECTORY, configFile);
+		if (existsSync(configPath)) {
+			_internalConfig = parse(readFileSync(configPath, 'utf-8'));
+			foundConfig = true;
+			break;
+		}
+	}
+
+	if (!foundConfig) {
+		throw new Error(`Could not load a runtime configuration from the expected directory "${CONFIG_LOAD_DIRECTORY}"`);
+	}
 }
 
 /**
