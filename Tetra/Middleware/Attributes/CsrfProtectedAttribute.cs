@@ -9,7 +9,8 @@ public class CsrfProtectedAttribute : BaseMiddlewareAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        var ctx = context.HttpContext;
+        var ctx    = context.HttpContext;
+        var logger = ctx.RequestServices.GetRequiredService<ILogger<CsrfProtectedAttribute>>();
         if (!ctx.Request.Headers.TryGetValue("x-csrf-token", out var csrfValue))
         {
             context.Result = new StatusCodeResult(428);
@@ -26,9 +27,9 @@ public class CsrfProtectedAttribute : BaseMiddlewareAttribute
                     context.Result = new StatusCodeResult(412);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // TODO log errors
+                logger.LogError(ex, "CSRF token decrypting failed, returning 412");
                 context.Result = new StatusCodeResult(412);
             }
         }
