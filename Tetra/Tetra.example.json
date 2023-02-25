@@ -1,0 +1,22 @@
+{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "AllowedHosts": "*",
+    "Urls": "https://localhost:5001;http://localhost:5000",
+    "Database": {
+        "Host": "localhost:5432",
+        "User": "postgres",
+        "Pass": "1234",
+        "Name": "tetra_dev"
+    },
+    "OpenId": {
+        "Authority": "https://auth.super.fish/application/o/development/",
+        "ClientId": "",
+        "ClientSecret": ""
+    }
+}

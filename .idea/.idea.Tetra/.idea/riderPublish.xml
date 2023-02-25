@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LocationsWithSilentDeleteHolder">
+    <option name="locations">
+      <list>
+        <option value="$PROJECT_DIR$/Tetra/bin/Publish/win-x86" />
+        <option value="$PROJECT_DIR$/Tetra/bin/Publish/win" />
+        <option value="$PROJECT_DIR$/Tetra/bin/Release/net7.0/win-x64/publish" />
+      </list>
+    </option>
+  </component>
+</project>
