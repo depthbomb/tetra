@@ -11,7 +11,14 @@ public static class Program
     {
         using var host = Host.CreateDefaultBuilder(args)
                              .UseContentRoot(Directory.GetCurrentDirectory())
-                             .ConfigureAppConfiguration(c => c.AddJsonFile("Tetra.json"))
+                             .ConfigureAppConfiguration(config => config.AddJsonFile("Tetra.json"))
+                             .ConfigureLogging((context, logger) =>
+                             {
+                                 if (context.Configuration.GetValue<bool>("Production"))
+                                 {
+                                     logger.AddJsonConsole();
+                                 }
+                             })
                              .ConfigureWebHostDefaults(w => w.UseStartup<Startup>())
                              .Build();
 

@@ -45,7 +45,7 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (_config.GetValue<bool>("Development"))
+        if (!_config.GetValue<bool>("Production"))
         {
             app.UseDeveloperExceptionPage();
         }
