@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
 using Tetra.Data.Entities;
 using Tetra.Shared;
 
@@ -21,7 +20,7 @@ public class LinksService
 
     /// <inheritdoc cref="TetraContext.GetLinksCountAsync"/>
     public async Task<int> GetLinksCountAsync() => await _db.GetLinksCountAsync();
-    
+
     /// <inheritdoc cref="TetraContext.GetLinkByShortcodeAsync"/>
     public async Task<Link> GetLinkByShortcodeAsync(string shortcode) => await _db.GetLinkByShortcodeAsync(shortcode);
 
@@ -32,7 +31,7 @@ public class LinksService
             throw new ArgumentException("Invalid HTTP/HTTPS URL provided", nameof(destination));
         }
 
-        var shortcode   = IdGenerator.Generate(3);
+        var shortcode   = await GenerateUnusedShortcodeAsync();
         var deletionKey = IdGenerator.Generate(64);
         var link = new Link
         {
@@ -58,6 +57,21 @@ public class LinksService
             _db.Links.Remove(link);
             await _db.SaveChangesAsync();
         }
+    }
+
+    private async Task<string> GenerateUnusedShortcodeAsync()
+    {
+        int    length = 3;
+        bool   exists;
+        string shortcode;
+        do
+        {
+            shortcode = IdGenerator.Generate(length);
+            exists    = await _db.LinkExistsByShortcodeAsync(shortcode);
+            length++;
+        } while (exists);
+
+        return shortcode;
     }
 
     private static bool IsValidDestination(string url)

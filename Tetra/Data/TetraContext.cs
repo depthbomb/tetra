@@ -25,6 +25,9 @@ public class TetraContext : DbContext
     
     private static readonly Func<TetraContext, string, Task<Link>> GetLinkByShortcode
         = EF.CompileAsyncQuery((TetraContext context, string shortcode) => context.Links.FirstOrDefault(l => l.Shortcode == shortcode && l.Disabled == false));
+
+    private static readonly Func<TetraContext, string, Task<bool>> LinkExistsByShortcode
+        = EF.CompileAsyncQuery((TetraContext context, string shortcode) => context.Links.Any(l => l.Shortcode == shortcode));
     #endregion
 
     public TetraContext(DbContextOptions<TetraContext> options) : base(options) { }
@@ -45,14 +48,14 @@ public class TetraContext : DbContext
     }
 
     /// <summary>
-    /// Retrieves a user from their OpenID <paramref name="sub"/>.
+    ///     Retrieves a <see cref="User"/> from their OpenID <paramref name="sub"/>.
     /// </summary>
     /// <param name="sub">OpenID sub as retrieved from a <c>/token</c> endpoint</param>
     /// <remarks>This is a compiled query</remarks>
     public async Task<User> GetUserBySubAsync(string sub) => await GetUserBySub(this, sub);
     
     /// <summary>
-    /// Whether or not a user exists by their OpenID <paramref name="sub"/>.
+    ///     Whether or not a <see cref="User"/> exists by their OpenID <paramref name="sub"/>.
     /// </summary>
     /// <param name="sub">OpenID sub as retrieved from a <c>/token</c> endpoint</param>
     /// <returns><c>true</c> if the user exists, <c>false</c> otherwise</returns>
@@ -60,14 +63,20 @@ public class TetraContext : DbContext
     public async Task<bool> UserExistsAsync(string sub) => await UserExists(this, sub);
 
     /// <summary>
-    /// Returns the total number of created links that are not disabled
+    ///     Returns the total number of created <see cref="Link"/>s that are not disabled
     /// </summary>
     public async Task<int> GetLinksCountAsync() => await LinksCount(this);
 
     /// <summary>
-    /// 
+    ///     Returns a <see cref="Link"/> by its <paramref name="shortcode"/>
     /// </summary>
-    /// <param name="shortcode"></param>
-    /// <returns></returns>
+    /// <param name="shortcode">The shortcode to use when looking for an existing link</param>
     public async Task<Link> GetLinkByShortcodeAsync(string shortcode) => await GetLinkByShortcode(this, shortcode);
+
+    /// <summary>
+    ///     Whether or not a <see cref="Link"/> exists by its <paramref name="shortcode"/>
+    /// </summary>
+    /// <param name="shortcode">The shortcode to use when looking for an existing link</param>
+    /// <returns><c>true</c> if a link exists by the provided shortcode, <c>false</c> otherwise</returns>
+    public async Task<bool> LinkExistsByShortcodeAsync(string shortcode) => await LinkExistsByShortcode(this, shortcode);
 }
