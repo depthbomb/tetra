@@ -19,5 +19,10 @@
         "Authority": "https://auth.super.fish/application/o/development/",
         "ClientId": "",
         "ClientSecret": ""
+    },
+    "BackgroundServices": {
+        "LinkCleanup": {
+            "Interval": 30000
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 
 using Tetra.Services;
+using Tetra.Services.Background;
 
 namespace Tetra.Extensions;
 
@@ -24,4 +25,7 @@ public static class ServiceCollectionExtensions
                 .AddSingleton<AssetService>()
                 .AddSingleton<LinksService>()
                 .AddSingleton<SecurityService>();
+
+    public static IServiceCollection AddTetraBackgroundServices(this IServiceCollection services) => 
+        services.AddHostedService<LinkCleanupBackgroundService>();
 }

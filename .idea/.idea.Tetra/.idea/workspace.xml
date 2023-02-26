@@ -4,9 +4,12 @@
     <projectFile>Tetra/Tetra.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acf0b082-3d66-46e1-ab15-fc0127b93e89" name="Changes" comment="chore: don't copy example config on publish">
+    <list default="true" id="acf0b082-3d66-46e1-ab15-fc0127b93e89" name="Changes" comment="feat(server): add health check endpoint">
+      <change afterPath="$PROJECT_DIR$/Tetra/Services/Background/LinkCleanupBackgroundService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tetra/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tetra/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tetra/Extensions/ServiceCollectionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Extensions/ServiceCollectionExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tetra/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Startup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tetra/Tetra.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Tetra.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tetra/Tetra.example.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Tetra.example.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677379661497</updated>
-      <workItem from="1677379663351" duration="1815000" />
+      <workItem from="1677379663351" duration="3065000" />
     </task>
     <task id="LOCAL-00001" summary="chore: don't copy example config on publish">
       <created>1677380115948</created>
@@ -77,7 +80,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677380115948</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat(server): add health check endpoint">
+      <created>1677383005904</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1677383005904</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -87,6 +97,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="chore: don't copy example config on pubish" />
     <MESSAGE value="chore: don't copy example config on publish" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: don't copy example config on publish" />
+    <MESSAGE value="feat(server): add health check endpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(server): add health check endpoint" />
   </component>
 </project>

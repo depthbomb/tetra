@@ -24,6 +24,7 @@ public class Startup
         services.AddTetraDb(_config);
         services.AddMemoryCache();
         services.AddTetraServices();
+        services.AddTetraBackgroundServices();
         services.AddDataProtection();
         services.AddResponseCaching();
         services.AddControllersWithViews()
