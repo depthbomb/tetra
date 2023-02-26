@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr" class="www">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>go.super.fish</title>
+        <meta name="generator" content="Tetra - Built on @GlobalShared.GetAssemblyBuildDate()"/>
+        <meta name="config/user" content="@ViewData["User"]">
+        <meta name="config/csrf-token" content="@ViewData["CsrfToken"]">
+        @Html.Raw(ViewData["ClientJs"])
+        @Html.Raw(ViewData["ClientCss"])
+    </head>
+    <body>
+        @RenderBody()
+    </body>
+</html>
