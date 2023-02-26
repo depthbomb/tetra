@@ -44,9 +44,13 @@
       <Content Update="Tetra.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Update="Tetra.example.json">
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Tetra.example.json" />
+      <None Include="Tetra.example.json">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </Content>
+      </None>
     </ItemGroup>
 
 </Project>
