@@ -4,17 +4,23 @@
     <projectFile>Tetra/Tetra.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acf0b082-3d66-46e1-ab15-fc0127b93e89" name="Changes" comment="feat(server): add health check endpoint">
-      <change afterPath="$PROJECT_DIR$/Tetra/Services/Background/LinkCleanupBackgroundService.cs" afterDir="false" />
+    <list default="true" id="acf0b082-3d66-46e1-ab15-fc0127b93e89" name="Changes" comment="feat(server): ensure shortcode doesn't exist when generating">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tetra/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tetra/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tetra/Extensions/ServiceCollectionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Extensions/ServiceCollectionExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tetra/Extensions/HttpContextExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Extensions/HttpContextExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tetra/GlobalShared.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/GlobalShared.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tetra/Models/AuthUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Models/AuthUser.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tetra/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Startup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tetra/Tetra.example.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tetra/Tetra.example.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Users/reese/Documents/Projects/.cs/Tetra/Tetra/Extensions/ServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/reese/Documents/Projects/.cs/Tetra/Tetra/Models/AuthUser.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/reese/Documents/Projects/.cs/Tetra/Tetra/Services/Background/LinkCleanupBackgroundService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/reese/Documents/Projects/.cs/Tetra/Tetra/Startup.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -74,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677379661497</updated>
-      <workItem from="1677379663351" duration="3065000" />
+      <workItem from="1677379663351" duration="8022000" />
     </task>
     <task id="LOCAL-00001" summary="chore: don't copy example config on publish">
       <created>1677380115948</created>
@@ -90,7 +96,35 @@
       <option name="project" value="LOCAL" />
       <updated>1677383005904</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat(server): add link cleanup background job">
+      <created>1677384153061</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1677384153061</updated>
+    </task>
+    <task id="LOCAL-00004" summary="refactor(server): prioritize some config values from env">
+      <created>1677384512217</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1677384512217</updated>
+    </task>
+    <task id="LOCAL-00005" summary="refactor(server): don't log TaskCanceledException">
+      <created>1677384615968</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1677384615968</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat(server): ensure shortcode doesn't exist when generating">
+      <created>1677385880479</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677385880479</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,6 +135,10 @@
     <MESSAGE value="chore: don't copy example config on pubish" />
     <MESSAGE value="chore: don't copy example config on publish" />
     <MESSAGE value="feat(server): add health check endpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(server): add health check endpoint" />
+    <MESSAGE value="feat(server): add link cleanup background job" />
+    <MESSAGE value="refactor(server): prioritize some config values from env" />
+    <MESSAGE value="refactor(server): don't log TaskCanceledException" />
+    <MESSAGE value="feat(server): ensure shortcode doesn't exist when generating" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(server): ensure shortcode doesn't exist when generating" />
   </component>
 </project>

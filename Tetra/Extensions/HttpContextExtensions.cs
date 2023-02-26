@@ -22,17 +22,6 @@ public static class HttpContextExtensions
 
         return uriBuilder.Uri.AbsoluteUri;
     }
-    
-    public static IActionResult ApiResult(this HttpContext ctx, ApiResponse data, string message = null, int statusCode = 200)
-    {
-        data.RequestId = ctx.TraceIdentifier;
-        data.Message   = message;
-
-        return new JsonResult(data)
-        {
-            StatusCode = statusCode
-        };
-    }
 
     public static IActionResult ApiErrorResult(this HttpContext ctx, string message = null, int statusCode = 200)
     {

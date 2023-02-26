@@ -29,10 +29,10 @@ public static class GlobalShared
         #pragma warning restore IL3000
         if (string.IsNullOrEmpty(assLocation))
         {
-            assLocation = Path.Combine(AppContext.BaseDirectory, "tetra.exe");
+            assLocation = Path.Combine(AppContext.BaseDirectory, "Tetra.exe");
         }
         var buildDate = new FileInfo(assLocation).LastWriteTime;
 
-        return buildDate.ToString("F");
+        return buildDate.ToString("o");
     }
 }

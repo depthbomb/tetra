@@ -24,6 +24,7 @@ public static class ServiceCollectionExtensions
                 .AddSingleton<UserService>()
                 .AddSingleton<AssetService>()
                 .AddSingleton<LinksService>()
+                .AddSingleton<HealthService>()
                 .AddSingleton<SecurityService>();
 
     public static IServiceCollection AddTetraBackgroundServices(this IServiceCollection services) => 

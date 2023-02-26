@@ -1,10 +1,9 @@
 using Microsoft.OpenApi.Models;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+
 using Tetra.Extensions;
 using Tetra.Middleware;
 
@@ -33,8 +32,6 @@ public class Startup
                     o.JsonSerializerOptions.WriteIndented = true;
                     o.JsonSerializerOptions.Encoder       = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
                 });
-        services.AddHealthChecks()
-                .AddDbContextCheck<TetraContext>();
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
@@ -60,22 +57,13 @@ public class Startup
             app.UseHsts();
             app.UseHttpsRedirection();
         }
-
+        
         app.UseStaticFiles();
         app.UseResponseCaching();
         app.UseRouting();
         app.UseMiddleware<AuthMiddleware>();
         app.UseMiddleware<RequestIdMiddleware>();
         app.UseSwagger();
-        app.UseHealthChecks("/health", new HealthCheckOptions
-        {
-            ResultStatusCodes =
-            {
-                [HealthStatus.Healthy] = 200,
-                [HealthStatus.Degraded] = 200,
-                [HealthStatus.Unhealthy] = 503,
-            }
-        });
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
