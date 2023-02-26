@@ -24,6 +24,7 @@ public class LinksController : BaseController
     ///     Creates a shortlink
     /// </summary>
     /// <response code="201">The shortlink was created successfully</response>
+    [HttpPut]
     [HttpPost("create")]
     [ProducesResponseType(typeof(CreateLinkResponse), 201)]
     public async Task<IActionResult> CreateLinkAsync([FromBody] CreateLinkForm body)
@@ -96,7 +97,8 @@ public class LinksController : BaseController
     /// <param name="shortcode">The shortlink's shortcode</param>
     /// <param name="deletionKey">The shortlink's deletion key presented upon creation</param>
     /// <response code="200">Returned regardless of whether the shortlink was deleted or not</response>
-    [HttpDelete("delete/{shortcode}/{deletionKey}")]
+    [HttpDelete("{shortcode}/{deletionKey}")]
+    [HttpPost("delete/{shortcode}/{deletionKey}")]
     [ProducesResponseType(200)]
     public async Task<IActionResult> DeleteLinkAsync(string shortcode, string deletionKey)
     {
