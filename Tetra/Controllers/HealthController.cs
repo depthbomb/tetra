@@ -4,6 +4,7 @@ using Tetra.Services;
 
 namespace Tetra.Controllers;
 
+[ApiExplorerSettings(IgnoreApi = true)]
 public class HealthController : BaseController
 {
     private readonly HealthService _health;
