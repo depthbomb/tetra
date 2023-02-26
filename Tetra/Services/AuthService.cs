@@ -19,7 +19,7 @@ public class AuthService
         {
             Authority    = _config.GetValue<string>("OpenId:Authority"),
             ClientId     = _config.GetValue<string>("OpenId:ClientId"),
-            ClientSecret = _config.GetValue<string>("OpenId:ClientSecret"),
+            ClientSecret = _config.GetValue<string>("OPENID_SECRET") ?? _config.GetValue<string>("OpenId:ClientSecret"),
             RedirectUri  = "https://localhost:5001/auth/callback",
             Scope        = "openid profile email",
             Policy = new Policy

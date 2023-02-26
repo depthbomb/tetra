@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
         {
             var host = config.GetValue<string>("Database:Host");
             var user = config.GetValue<string>("Database:User");
-            var pass = config.GetValue<string>("Database:Pass");
+            var pass = config.GetValue<string>("DB_PASSWORD") ?? config.GetValue<string>("Database:Pass");
             var name = config.GetValue<string>("Database:Name");
 
             options.UseNpgsql($"Host={host};Username={user};Password={pass};Database={name};Include Error Detail=true");
