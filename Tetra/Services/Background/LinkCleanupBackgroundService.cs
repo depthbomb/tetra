@@ -51,7 +51,7 @@ public class LinkCleanupBackgroundService : BackgroundService
                 _logger.LogInformation("Successfully deleted {Count} expired link(s)", expiredLinks.Count);
             }
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not TaskCanceledException)
         {
             _logger.LogCritical(ex, "Failed to delete expired links");
         }
