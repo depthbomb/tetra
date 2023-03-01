@@ -42,6 +42,7 @@ public class Startup
             });
             c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Tetra.xml"));
         });
+        services.AddSignalR();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -67,6 +68,7 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+            endpoints.MapTetraHubs();
         });
     }
 }

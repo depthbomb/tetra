@@ -1,26 +1,39 @@
 <script setup lang="ts">
-	import gsap from 'gsap'
-	import { ref, watch, reactive } from 'vue';
-	import { useIntervalFn } from '@vueuse/core';
+	import gsap from 'gsap';
 	import { useTetraStore } from '~/stores/tetra';
-	import { makeApiRequest } from '~/services/api';
 	import CodeIcon from '~/components/icons/CodeIcon.vue';
+	import { HubConnectionBuilder } from '@microsoft/signalr';
 	import SignInIcon from '~/components/icons/SignInIcon.vue';
 	import BrowserIcon from '~/components/icons/BrowserIcon.vue';
+	import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 	import CurlyBracesIcon from '~/components/icons/CurlyBracesIcon.vue';
-	import type { IInternalStatsResponse } from '~/@types/IInternalStatsResponse';
 
-	const store      = useTetraStore();
-	const totalLinks = ref(0);
-	const tweened    = reactive({ number: 0 });
+	const totalShortlinksMethodName = 'TotalShortlinks';
+	const store                     = useTetraStore();
+	const totalLinks                = ref(0);
+	const tweened                   = reactive({ number: 0 });
+	const connection                = new HubConnectionBuilder().withUrl('/~/stats').build();
+
+	const onTotalShortlinks = (count: number) => totalLinks.value = count;
+
+	onMounted(async () => {
+		connection.on(totalShortlinksMethodName, onTotalShortlinks);
+
+		await connection.start();
+		await connection.invoke('RequestTotalShortlinks');
+	});
+	onUnmounted(async () => {
+		await connection.stop();
+		connection.off(totalShortlinksMethodName, onTotalShortlinks);
+	});
 
 	watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));
 
-	useIntervalFn(async () => {
-		makeApiRequest<IInternalStatsResponse>('/internal/links-count', { method: 'POST' })
-			.then(({ count }) => totalLinks.value = count)
-			.catch(err => console.error(err));
-	}, 5_000, { immediateCallback: true });
+	// useIntervalFn(async () => {
+	// 	makeApiRequest<IInternalStatsResponse>('/internal/links-count', { method: 'POST' })
+	// 		.then(({ count }) => totalLinks.value = count)
+	// 		.catch(err => console.error(err));
+	// }, 5_000, { immediateCallback: true });
 </script>
 
 <template>

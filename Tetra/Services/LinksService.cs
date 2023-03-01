@@ -1,20 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Tetra.Data.Entities;
+
+using Tetra.Hubs;
 using Tetra.Shared;
+using Tetra.Data.Entities;
 
 namespace Tetra.Services;
 
 public class LinksService
 {
-    private readonly ILogger<LinksService> _logger;
     private readonly TetraContext          _db;
+    private readonly IHubContext<StatsHub> _stats;
     private readonly string                _baseUrl;
 
-    public LinksService(ILogger<LinksService> logger, IConfiguration config, TetraContext db)
+    public LinksService(IConfiguration config, TetraContext db, IHubContext<StatsHub> stats)
     {
-        _logger  = logger;
         _db      = db;
+        _stats   = stats;
         _baseUrl = config.GetValue<string>("Urls").Split(";")[0];
     }
 
@@ -45,7 +48,10 @@ public class LinksService
 
         await _db.Links.AddAsync(link);
         await _db.SaveChangesAsync();
-
+        
+        // Broadcast total shortlink count to all clients connected to the stats hub
+        await _stats.Clients.All.SendAsync("TotalShortlinks", await _db.GetLinksCountAsync());
+        
         return link;
     }
 

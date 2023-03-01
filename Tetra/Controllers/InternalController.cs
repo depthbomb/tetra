@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 
 using Tetra.Models;
-using Tetra.Services;
 using Tetra.Middleware.Attributes;
 
 namespace Tetra.Controllers;
@@ -12,26 +11,13 @@ namespace Tetra.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class InternalController : BaseController
 {
-    private readonly LinksService _links;
     private readonly TetraContext _db;
     
-    public InternalController(LinksService links, TetraContext db)
+    public InternalController(TetraContext db)
     {
-        _links = links;
-        _db    = db;
+        _db = db;
     }
-    
-    [HttpPost("links-count")]
-    [RateLimit(2, seconds: 5)]
-    public async Task<IActionResult> LinksCountAsync()
-    {
-        var count = await _links.GetLinksCountAsync();
-        return new JsonResult(new
-        {
-            count = count
-        });
-    }
-    
+
     [HttpPost("checkpoint")]
     [RateLimit(2, seconds: 1)]
     public IActionResult CheckUserAuth()
