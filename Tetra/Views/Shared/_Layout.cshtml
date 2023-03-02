@@ -1,14 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@model SpaViewModel;
+<!DOCTYPE html>
 <html lang="en" dir="ltr" class="www">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>go.super.fish</title>
-        <meta name="generator" content="Tetra - Built on @GlobalShared.GetAssemblyBuildDate()"/>
-        <meta name="config/user" content="@ViewData["User"]">
-        <meta name="config/csrf-token" content="@ViewData["CsrfToken"]">
-        @Html.Raw(ViewData["ClientJs"])
-        @Html.Raw(ViewData["ClientCss"])
+        <meta name="generator" content="@GlobalShared.GetGeneratorString()"/>
+        <meta name="config/user" content="@Model.User">
+        <meta name="config/csrf-token" content="@Model.CsrfToken">
+        <meta name="config/stats-endpoint" content="@Model.StatsHubEndpoint">
+        <asset src="app.ts"/>
+        <asset src="app.css"/>
     </head>
     <body>
         @RenderBody()

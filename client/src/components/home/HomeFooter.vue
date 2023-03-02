@@ -12,7 +12,7 @@
 	const store                     = useTetraStore();
 	const totalLinks                = ref(0);
 	const tweened                   = reactive({ number: 0 });
-	const connection                = new HubConnectionBuilder().withUrl('/~/stats').build();
+	const connection                = new HubConnectionBuilder().withUrl(store.statsHubEndpoint).build();
 
 	const onTotalShortlinks = (count: number) => totalLinks.value = count;
 
@@ -28,12 +28,6 @@
 	});
 
 	watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));
-
-	// useIntervalFn(async () => {
-	// 	makeApiRequest<IInternalStatsResponse>('/internal/links-count', { method: 'POST' })
-	// 		.then(({ count }) => totalLinks.value = count)
-	// 		.catch(err => console.error(err));
-	// }, 5_000, { immediateCallback: true });
 </script>
 
 <template>

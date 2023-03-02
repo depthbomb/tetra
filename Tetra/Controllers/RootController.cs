@@ -25,14 +25,13 @@ public class RootController : BaseController
     
     [Csp]
     [HttpGet]
-    public async Task<IActionResult> IndexAsync()
+    public IActionResult Index()
     {
         var model = new SpaViewModel
         {
-            ClientJs  = await _assets.BuildAssetTagAsync(HttpContext, "app.ts"),
-            ClientCss = await _assets.BuildAssetTagAsync(HttpContext, "app.css"),
-            CsrfToken = _security.GenerateCsrfToken(HttpContext.Connection.RemoteIpAddress),
-            User      = "{}"
+            CsrfToken        = _security.GenerateCsrfToken(HttpContext.Connection.RemoteIpAddress),
+            User             = "{}",
+            StatsHubEndpoint = GlobalShared.StatsHubEndpoint
         };
 
         if (HttpContext.Items.TryGetValue("User", out var user))

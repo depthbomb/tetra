@@ -2,6 +2,8 @@
 
 public static class GlobalShared
 {
+    public static readonly string StatsHubEndpoint = $"/~/{Guid.NewGuid()}";
+    
     public static readonly IDictionary<int, string> HttpStatusMessages = new Dictionary<int, string>
     {
         { 200, "OK" },
@@ -22,7 +24,7 @@ public static class GlobalShared
         { 503, "Service Unavailable" },
     };
 
-    public static string GetAssemblyBuildDate()
+    public static string GetGeneratorString()
     {
         #pragma warning disable IL3000
         string assLocation = Assembly.GetExecutingAssembly().Location;
@@ -33,6 +35,6 @@ public static class GlobalShared
         }
         var buildDate = new FileInfo(assLocation).LastWriteTime;
 
-        return buildDate.ToString("o");
+        return $"Tetra@{((DateTimeOffset)buildDate).ToUnixTimeMilliseconds()}";
     }
 }

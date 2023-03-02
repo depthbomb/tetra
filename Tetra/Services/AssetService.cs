@@ -70,28 +70,6 @@ public class AssetService
         return _sriHashes[originalName];
     }
 
-    public async Task<HtmlString> BuildAssetTagAsync(HttpContext context, string originalName)
-    {
-        var fileUrl   = await GetVersionedFileUrlAsync(originalName);
-        var hashes    = await GetSriHashesAsync(originalName);
-        var extension = Path.GetExtension(fileUrl);
-        var cspNonce  = context.Items["CspNonce"] as string;
-
-        await using (var sw = new StringWriter())
-        {
-            var builder = extension switch
-            {
-                ".js"  => BuildJsTag(fileUrl, hashes, cspNonce),
-                ".css" => BuildCssTag(fileUrl, hashes),
-                _      => throw new ArgumentOutOfRangeException(nameof(originalName))
-            };
-
-            builder.WriteTo(sw, HtmlEncoder.Default);
-
-            return new HtmlString(sw.ToString());
-        }
-    }
-
     private async Task<Asset[]> GetManifestAsync()
     {
         if (_manifest == null)
@@ -109,33 +87,6 @@ public class AssetService
         }
 
         return _manifest;
-    }
-
-    private TagBuilder BuildJsTag(string fileUrl, IEnumerable<string> hashes, string nonce)
-    {
-        var builder = new TagBuilder("script");
-        builder.MergeAttribute("src", fileUrl);
-        builder.MergeAttribute("type", "module");
-        builder.MergeAttribute("crossorigin", "anonymous");
-        builder.MergeAttribute("integrity", string.Join(' ', hashes));
-        builder.MergeAttribute("nonce", nonce);
-
-        return builder;
-    }
-    
-    private TagBuilder BuildCssTag(string fileUrl, IEnumerable<string> hashes)
-    {
-        var builder = new TagBuilder("link")
-        {
-            TagRenderMode = TagRenderMode.SelfClosing
-        };
-        builder.MergeAttribute("href", fileUrl);
-        builder.MergeAttribute("rel", "stylesheet");
-        builder.MergeAttribute("type", "text/css");
-        builder.MergeAttribute("crossorigin", "anonymous");
-        builder.MergeAttribute("integrity", string.Join(' ', hashes));
-
-        return builder;
     }
 
     private record Asset

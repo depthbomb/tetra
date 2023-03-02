@@ -22,6 +22,7 @@ public class Startup
     {
         services.AddTetraDb(_config);
         services.AddMemoryCache();
+        services.AddHttpContextAccessor();
         services.AddTetraServices();
         services.AddTetraBackgroundServices();
         services.AddDataProtection();
