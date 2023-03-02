@@ -12,13 +12,11 @@ namespace Tetra.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class RootController : BaseController
 {
-    private readonly AssetService    _assets;
     private readonly SecurityService _security;
     private readonly LinksService    _links;
-    
-    public RootController(AssetService assets, SecurityService security, LinksService links)
+
+    public RootController(SecurityService security, LinksService links)
     {
-        _assets   = assets;
         _security = security;
         _links    = links;
     }
