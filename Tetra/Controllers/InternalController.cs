@@ -22,23 +22,21 @@ public class InternalController : BaseController
     [RateLimit(2, seconds: 1)]
     public IActionResult CheckUserAuth()
     {
+        bool auth = false;
         if (HttpContext.Items.TryGetValue("User", out var userItem))
         {
             try
             {
-                JsonSerializer.Deserialize<AuthUser>(userItem?.ToString());
-                
-                return new JsonResult(new
-                {
-                    auth = true
-                });
+                JsonSerializer.Deserialize<AuthUser>(userItem.ToString());
+
+                auth = true;
             }
             catch { }
         }
         
         return new JsonResult(new
         {
-            auth = false
+            auth
         });
     }
     

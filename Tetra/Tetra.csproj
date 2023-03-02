@@ -7,7 +7,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>1591</NoWarn>
 		<Company>superfishial</Company>
-		<Product>Tetra Web Application</Product>
+		<Product>Tetra Web Backend</Product>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
 		<NeutralLanguage>en</NeutralLanguage>

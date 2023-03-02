@@ -11,6 +11,9 @@ namespace Tetra.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class AuthController : BaseController
 {
+    private const string StateCookieName   = "state";
+    private const string SessionCookieName = "ru";
+    
     private readonly AuthService _auth;
     private readonly UserService _user;
     
@@ -25,7 +28,7 @@ public class AuthController : BaseController
     {
         var state = await _auth.Client.PrepareLoginAsync();
         
-        HttpContext.Response.Cookies.Append("state", _auth.Protect(JsonSerializer.Serialize(state)));
+        HttpContext.Response.Cookies.Append(StateCookieName, _auth.Protect(JsonSerializer.Serialize(state)));
         
         return Redirect(state.StartUrl);
     }
@@ -33,8 +36,8 @@ public class AuthController : BaseController
     [HttpGet("logout")]
     public IActionResult LogOut()
     {
-        HttpContext.Response.Cookies.Delete("state");
-        HttpContext.Response.Cookies.Delete("ru");
+        HttpContext.Response.Cookies.Delete(StateCookieName);
+        HttpContext.Response.Cookies.Delete(SessionCookieName);
 
         return RedirectToAction("Index", "Root");
     }
@@ -42,12 +45,12 @@ public class AuthController : BaseController
     [HttpGet("callback")]
     public async Task<IActionResult> ReceiveLoginCallbackAsync([FromQuery] string code, [FromQuery] string state)
     {
-        if (!HttpContext.Request.Cookies.TryGetValue("state", out var authorizeStateCookie))
+        if (!HttpContext.Request.Cookies.TryGetValue(StateCookieName, out var authorizeStateCookie))
         {
             return BadRequest();
         }
 
-        HttpContext.Response.Cookies.Delete("state");
+        HttpContext.Response.Cookies.Delete(StateCookieName);
         
         var authorizeState   = JsonSerializer.Deserialize<AuthorizeState>(_auth.Unprotect(authorizeStateCookie));
         var tokenResponse    = await _auth.Client.ProcessResponseAsync($"?state={state}&code={code}", authorizeState);
@@ -61,7 +64,7 @@ public class AuthController : BaseController
             Avatar   = user.Avatar
         });
         
-        HttpContext.Response.Cookies.Append("ru", _auth.Protect(userCookieData), new CookieOptions
+        HttpContext.Response.Cookies.Append(SessionCookieName, _auth.Protect(userCookieData), new CookieOptions
         {
             Expires = DateTimeOffset.Now.AddYears(1)
         });

@@ -13,11 +13,11 @@ namespace Tetra.Controllers;
 [Produces("application/json")]
 public class LinksController : BaseController
 {
-    private readonly LinksService   _links;
+    private readonly LinksService _links;
     
     public LinksController(LinksService links)
     {
-        _links  = links;
+        _links = links;
     }
     
     /// <summary>
