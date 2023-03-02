@@ -47,7 +47,7 @@
 			</router-link>
 			<a href="https://github.com/depthbomb/tetra">
 				<code-icon class="inline-block h-4"/>
-				<span>Source Code</span>
+				<span>Source Code (soon&trade;)</span>
 			</a>
 		</div>
 		<p>Serving <strong>{{ tweened.number.toFixed(0) }}</strong> links</p>
