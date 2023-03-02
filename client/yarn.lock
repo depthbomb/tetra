@@ -5728,10 +5728,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-dist@npm:^4.16.1":
-  version: 4.16.1
-  resolution: "swagger-ui-dist@npm:4.16.1"
-  checksum: 8acfb4755626377df1c876cd472d7890c37accefcbebe80abb0718a80788b19d79620410a284f9757de5348878936c72a17c0667c91db7fea98457908f85317f
+"swagger-ui-dist@npm:^4.17.0":
+  version: 4.17.0
+  resolution: "swagger-ui-dist@npm:4.17.0"
+  checksum: e6e1f13cd50bcf9fe325fb5ce05101c4fed78cb4427d553f4b2c8c631514170c031168221ef0f931368244788a9061117a1f5aeebda5fdd2aa0a041e43fb3960
   languageName: node
   linkType: hard
 
@@ -5844,7 +5844,7 @@ __metadata:
     postcss: ^8.4.21
     postcss-import: ^15.1.0
     sass: ^1.58.3
-    swagger-ui-dist: ^4.16.1
+    swagger-ui-dist: ^4.17.0
     tailwindcss: ^3.2.7
     ts-node: ^10.9.1
     typescript: ^4.9.5
