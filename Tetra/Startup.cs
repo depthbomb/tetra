@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 
 using Tetra.Extensions;
 using Tetra.Middleware;
-using WebMarkupMin.AspNetCore7;
 
 namespace Tetra;
 
@@ -29,13 +28,6 @@ public class Startup
         services.AddTetraBackgroundServices();
         services.AddDataProtection();
         services.AddResponseCaching();
-        services.AddWebMarkupMin()
-                .AddHtmlMinification(o =>
-                {
-                    o.MinificationSettings.RemoveRedundantAttributes         = true;
-                    o.MinificationSettings.RemoveHttpProtocolFromAttributes  = true;
-                    o.MinificationSettings.RemoveHttpsProtocolFromAttributes = true;
-                });
         services.AddControllersWithViews()
                 .AddJsonOptions(o =>
                 {
@@ -75,7 +67,6 @@ public class Startup
         app.UseMiddleware<AuthMiddleware>();
         app.UseMiddleware<RequestIdMiddleware>();
         app.UseSwagger();
-        app.UseWebMarkupMin();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

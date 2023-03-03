@@ -5,6 +5,7 @@
   &lt;Assembly Path="C:\Users\reese\.nuget\packages\microsoft.aspnetcore.authentication.openidconnect\7.0.3\lib\net7.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=crossorigin/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=depthbomb/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=ratelimited/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=shortlink/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Shortlinks/@EntryIndexedValue">True</s:Boolean>

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Tetra.Models;
+using Tetra.Services;
 using Tetra.Middleware.Attributes;
 
 namespace Tetra.Controllers;
@@ -11,11 +12,13 @@ namespace Tetra.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class InternalController : BaseController
 {
-    private readonly TetraContext _db;
-    
-    public InternalController(TetraContext db)
+    private readonly TetraContext  _db;
+    private readonly GitHubService _github;
+
+    public InternalController(TetraContext db, GitHubService github)
     {
-        _db = db;
+        _db     = db;
+        _github = github;
     }
 
     [HttpPost("checkpoint")]
@@ -34,7 +37,7 @@ public class InternalController : BaseController
             catch { }
         }
         
-        return new JsonResult(new
+        return ApiResult(new
         {
             auth
         });
@@ -61,7 +64,7 @@ public class InternalController : BaseController
                                      })
                                      .ToListAsync();
 
-                return new JsonResult(links);
+                return ApiResult(links);
             }
             catch (Exception ex)
             {
@@ -70,5 +73,17 @@ public class InternalController : BaseController
         }
 
         return Unauthorized();
+    }
+
+    [HttpPost("latest-commit")]
+    [RateLimit(2, seconds: 1)]
+    public async Task<IActionResult> GetLatestCommitHashAsync()
+    {
+        var hash = await _github.GetLatestCommitShaAsync();
+
+        return ApiResult(new
+        {
+            hash
+        });
     }
 }

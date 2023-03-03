@@ -10,16 +10,16 @@ const app = createApp(App)
     .use(createPinia());
 
 // Load backend data into store as early as possible
-const tetraStore                    = useTetraStore();
-const userConfigElement             = document.querySelector('meta[name="config/user"]') as HTMLMetaElement;
-const csrfConfigElement             = document.querySelector('meta[name="config/csrf-token"]') as HTMLMetaElement;
-const statsHubEndpointConfigElement = document.querySelector('meta[name="config/stats-endpoint"]') as HTMLMetaElement;
-if (csrfConfigElement) {
-	tetraStore.csrfToken        = csrfConfigElement.content;
-	tetraStore.statsHubEndpoint = statsHubEndpointConfigElement.content;
+const tetraStore         = useTetraStore();
+const setupConfigElement =  document.querySelector('meta[name="tetra/config/setup"]') as HTMLMetaElement;
+if (setupConfigElement) {
+	const user = setupConfigElement.dataset.user;
 
-	if (userConfigElement) {
-		const payload = JSON.parse(decodeURIComponent(userConfigElement.content));
+	tetraStore.csrfToken        = setupConfigElement.dataset.csrfToken!;
+	tetraStore.statsHubEndpoint = setupConfigElement.dataset.statsHub!;
+
+	if (user) {
+		const payload = JSON.parse(decodeURIComponent(user));
 		if (Object.keys(payload)) {
 			tetraStore.username = payload.username;
 			tetraStore.avatar   = payload.avatar;

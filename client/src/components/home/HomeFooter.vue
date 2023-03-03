@@ -1,15 +1,20 @@
 <script setup lang="ts">
 	import gsap from 'gsap';
+	import { useGitStore } from '~/stores/git';
 	import { useTetraStore } from '~/stores/tetra';
+	import { useIntervalFn } from '@vueuse/shared';
 	import CodeIcon from '~/components/icons/CodeIcon.vue';
 	import { HubConnectionBuilder } from '@microsoft/signalr';
 	import SignInIcon from '~/components/icons/SignInIcon.vue';
 	import BrowserIcon from '~/components/icons/BrowserIcon.vue';
 	import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 	import CurlyBracesIcon from '~/components/icons/CurlyBracesIcon.vue';
+	import type { IInternalLatestCommitHashResponse } from '~/@types/IInternalLatestCommitHashResponse';
+import { makeApiRequest } from '~/services/api';
 
 	const totalShortlinksMethodName = 'TotalShortlinks';
 	const store                     = useTetraStore();
+	const gitStore                  = useGitStore();
 	const totalLinks                = ref(0);
 	const tweened                   = reactive({ number: 0 });
 	const connection                = new HubConnectionBuilder().withUrl(store.statsHubEndpoint).build();
@@ -28,6 +33,11 @@
 	});
 
 	watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));
+
+	useIntervalFn(async () => {
+		var { hash } = await makeApiRequest<IInternalLatestCommitHashResponse>('/internal/latest-commit', { method: 'POST' });
+		gitStore.latestSha = hash;
+	}, 60_000, { immediateCallback: true });
 </script>
 
 <template>
@@ -47,7 +57,7 @@
 			</router-link>
 			<a href="https://github.com/depthbomb/tetra">
 				<code-icon class="inline-block h-4"/>
-				<span>Source Code (soon&trade;)</span>
+				<span>{{ gitStore.shortenedLatestSha }}</span>
 			</a>
 		</div>
 		<p>Serving <strong>{{ tweened.number.toFixed(0) }}</strong> links</p>

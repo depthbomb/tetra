@@ -6,6 +6,8 @@ namespace Tetra.Hubs;
 
 public class StatsHub : Hub
 {
+    public static readonly string Endpoint = $"/~/{Guid.NewGuid()}";
+    
     private readonly LinksService _links;
 
     public StatsHub(LinksService links)
