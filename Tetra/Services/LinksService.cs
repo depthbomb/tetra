@@ -29,11 +29,6 @@ public class LinksService
 
     public async Task<Link> CreateLinkAsync(string creator, string destination, DateTime? expiresAt = null)
     {
-        if (!IsValidDestination(destination))
-        {
-            throw new ArgumentException("Invalid HTTP/HTTPS URL provided", nameof(destination));
-        }
-
         var shortcode   = await GenerateUnusedShortcodeAsync();
         var deletionKey = IdGenerator.Generate(64);
         var link = new Link
@@ -64,6 +59,11 @@ public class LinksService
             await _db.SaveChangesAsync();
         }
     }
+    
+    public bool IsValidDestination(string url)
+    {
+        return Uri.IsWellFormedUriString(url, UriKind.Absolute) && (url.StartsWith("http://") || url.StartsWith("https://"));
+    }
 
     private async Task<string> GenerateUnusedShortcodeAsync()
     {
@@ -78,10 +78,5 @@ public class LinksService
         } while (exists);
 
         return shortcode;
-    }
-
-    private static bool IsValidDestination(string url)
-    {
-        return Uri.IsWellFormedUriString(url, UriKind.Absolute) && (url.StartsWith("http://") || url.StartsWith("https://"));
     }
 }

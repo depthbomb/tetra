@@ -10,16 +10,14 @@ public class AuthService
     public OidcClient Client { get; }
     
     private readonly IDataProtector _protector;
-    private readonly IConfiguration _config;
 
     public AuthService(IConfiguration config, IDataProtectionProvider protectionProvider)
     {
-        _config = config;
         Client = new OidcClient(new OidcClientOptions
         {
-            Authority    = _config.GetValue<string>("OpenId:Authority"),
-            ClientId     = _config.GetValue<string>("OpenId:ClientId"),
-            ClientSecret = _config.GetValue<string>("OPENID_SECRET") ?? _config.GetValue<string>("OpenId:ClientSecret"),
+            Authority    = config.GetValue<string>("OpenId:Authority"),
+            ClientId     = config.GetValue<string>("OpenId:ClientId"),
+            ClientSecret = config.GetValue<string>("OPENID_SECRET") ?? config.GetValue<string>("OpenId:ClientSecret"),
             RedirectUri  = "https://localhost:5001/auth/callback",
             Scope        = "openid profile email",
             Policy = new Policy

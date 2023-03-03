@@ -30,6 +30,7 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
       <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
+      <PackageReference Include="WebMarkupMin.AspNetCore7" Version="2.13.8" />
     </ItemGroup>
 
     <ItemGroup>

@@ -3,6 +3,7 @@
 using Tetra.Shared;
 using Tetra.Services;
 using Tetra.Models.Forms;
+using Tetra.Models.Responses;
 using Tetra.Middleware.Attributes;
 using Tetra.Models.Responses.Links;
 
@@ -24,14 +25,21 @@ public class LinksController : BaseController
     ///     Creates a shortlink
     /// </summary>
     /// <response code="201">The shortlink was created successfully</response>
+    /// <response code="400">There was an issue with one or more request parameters</response>
     [HttpPut]
     [HttpPost("create")]
     [ProducesResponseType(typeof(CreateLinkResponse), 201)]
+    [ProducesResponseType(typeof(ApiErrorResponse), 400)]
     public async Task<IActionResult> CreateLinkAsync([FromBody] CreateLinkForm body)
     {
         var destination = body.Destination;
         var duration    = body.Duration;
         var expiresAt   = body.ExpiresAt;
+
+        if (_links.IsValidDestination(destination))
+        {
+            return ApiResult("The provided destination URL is flagged as malicious", 400);
+        }
         
         DateTime? linkExpiresAt = null;
         if (duration != null)
@@ -54,17 +62,14 @@ public class LinksController : BaseController
 
         var link = await _links.CreateLinkAsync(creator, destination, linkExpiresAt);
 
-        return new JsonResult(new
+        return ApiResult(new
         {
             shortcode   = link.Shortcode,
             shortlink   = link.Shortlink,
             destination = link.Destination,
             deletionKey = link.DeletionKey,
             expiresAt   = link.ExpiresAt
-        })
-        {
-            StatusCode = 201
-        };
+        }, 201);
     }
     
     /// <summary>
@@ -75,7 +80,7 @@ public class LinksController : BaseController
     /// <response code="404">The shortlink does not exist</response>
     [HttpGet("{shortcode}")]
     [ProducesResponseType(typeof(LinkInfoResponse), 200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(typeof(ApiErrorResponse), 404)]
     public async Task<IActionResult> GetLinkInfoAsync(string shortcode)
     {
         var link = await _links.GetLinkByShortcodeAsync(shortcode);
@@ -84,7 +89,7 @@ public class LinksController : BaseController
             return NotFound();
         }
 
-        return new JsonResult(new
+        return ApiResult(new
         {
             destination = link.Destination,
             expiresAt   = link.ExpiresAt
@@ -104,6 +109,6 @@ public class LinksController : BaseController
     {
         await _links.DeleteLinkAsync(shortcode, deletionKey);
 
-        return new JsonResult(new {});
+        return ApiResult();
     }
 }

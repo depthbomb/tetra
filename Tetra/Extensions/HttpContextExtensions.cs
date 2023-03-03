@@ -25,7 +25,7 @@ public static class HttpContextExtensions
 
     public static IActionResult ApiErrorResult(this HttpContext ctx, string message = null, int statusCode = 200)
     {
-        return new JsonResult(new ApiResponse
+        return new JsonResult(new ApiErrorResponse
         {
             RequestId = ctx.TraceIdentifier,
             Message   = message
