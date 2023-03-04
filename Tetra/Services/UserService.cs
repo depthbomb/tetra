@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Security.Cryptography;
-
+using Microsoft.EntityFrameworkCore;
 using Tetra.Models;
 using Tetra.Data.Entities;
 
@@ -39,6 +39,13 @@ public class UserService
     {
         var parsedClaims = ParseUserClaims(claims);
         return await _db.UserExistsAsync(parsedClaims.Sub);
+    }
+
+    public async Task<User> GetUserByApiKeyAsync(string key)
+    {
+        var user = await _db.GetUserByApiKeyAsync(key);
+
+        return user;
     }
 
     private async Task<User> GetUserFromClaimsAsync(IEnumerable<Claim> claims)

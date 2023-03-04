@@ -3,6 +3,7 @@
 	import { useGitStore } from '~/stores/git';
 	import { useTetraStore } from '~/stores/tetra';
 	import { useIntervalFn } from '@vueuse/shared';
+	import { makeApiRequest } from '~/services/api';
 	import CodeIcon from '~/components/icons/CodeIcon.vue';
 	import { HubConnectionBuilder } from '@microsoft/signalr';
 	import SignInIcon from '~/components/icons/SignInIcon.vue';
@@ -10,7 +11,6 @@
 	import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 	import CurlyBracesIcon from '~/components/icons/CurlyBracesIcon.vue';
 	import type { IInternalLatestCommitHashResponse } from '~/@types/IInternalLatestCommitHashResponse';
-import { makeApiRequest } from '~/services/api';
 
 	const totalShortlinksMethodName = 'TotalShortlinks';
 	const store                     = useTetraStore();
@@ -42,46 +42,39 @@ import { makeApiRequest } from '~/services/api';
 
 <template>
 	<footer class="footer">
-		<div class="footer__links">
-			<a v-if="!store.loggedIn" href="/auth/login">
-				<sign-in-icon class="inline-block h-4"/>
-				<span>Log In</span>
-			</a>
-			<router-link v-else-if="store.loggedIn" :to="{ name: 'dashboard' }">
-				<browser-icon class="inline-block h-4"/>
-				<span>Dashboard</span>
-			</router-link>
+		<div class="footer__content">
+			<p>Serving <strong>{{ tweened.number.toFixed(0) }}</strong> links</p>
+			<span>|</span>
 			<router-link :to="{ name: 'api-docs' }">
-				<curly-braces-icon class="inline-block h-4"/>
-				<span>API</span>
+				<curly-braces-icon class="inline-block h-3"/>
+				<span>API Docs</span>
 			</router-link>
-			<a href="https://github.com/depthbomb/tetra">
-				<code-icon class="inline-block h-4"/>
+			<span>|</span>
+			<a href="https://github.com/depthbomb/tetra" target="_blank">
+				<code-icon class="inline-block h-3"/>
 				<span>{{ gitStore.shortenedLatestSha }}</span>
 			</a>
 		</div>
-		<p>Serving <strong>{{ tweened.number.toFixed(0) }}</strong> links</p>
 	</footer>
 </template>
 
 <style scoped lang="scss">
 	.footer {
-		@apply mt-3;
+		@apply flex justify-center items-center flex-shrink-0;
+		@apply py-3;
 		@apply space-y-2;
-		@apply text-white text-opacity-90 text-center;
-		@apply drop-shadow-sm;
+		@apply text-white text-sm text-center;
+		@apply border-t border-gray-700;
 
-		.footer__links {
+		.footer__content {
 			@apply flex flex-row justify-center items-center;
-			@apply space-x-4;
+			@apply space-x-2;
 
 			a {
 				@apply flex items-center;
 				@apply space-x-1;
-				@apply text-brand-50;
-				@apply border-b border-dashed border-brand-200;
-				@apply hover:text-white;
-				@apply hover:border-solid hover:border-white;
+				@apply hover:text-brand;
+				@apply transition-colors;
 			}
 		}
 	}

@@ -18,6 +18,9 @@ public class TetraContext : DbContext
     private static readonly Func<TetraContext, string, Task<bool>> UserExists
         = EF.CompileAsyncQuery((TetraContext context, string sub) => context.Users.Any(u => u.Sub == sub));
     
+    private static readonly Func<TetraContext, string, Task<User>> GetUserByApiKey
+        = EF.CompileAsyncQuery((TetraContext context, string key) => context.Users.FirstOrDefault(u => u.ApiKey == key));
+    
     // Links
     
     private static readonly Func<TetraContext, Task<int>> LinksCount
@@ -61,6 +64,12 @@ public class TetraContext : DbContext
     /// <returns><c>true</c> if the user exists, <c>false</c> otherwise</returns>
     /// <remarks>This is a compiled query</remarks>
     public async Task<bool> UserExistsAsync(string sub) => await UserExists(this, sub);
+
+    /// <summary>
+    ///     Retrieves a <see cref="User"/> from their API <paramref name="key"/>, if they have one.
+    /// </summary>
+    /// <param name="key">The user's API key that is generated upon visiting the "API Key" page on the frontend</param>
+    public async Task<User> GetUserByApiKeyAsync(string key) => await GetUserByApiKey(this, key);
 
     /// <summary>
     ///     Returns the total number of created <see cref="Link"/>s that are not disabled

@@ -63,7 +63,7 @@ module.exports = {
 					'"Noto Color Emoji"',
 				],
 				serif: [
-					'"Fugaz One"',
+					'Ubuntu',
 					'ui-serif',
 					'Georgia',
 					'Cambria',
@@ -71,6 +71,17 @@ module.exports = {
 					'Times',
 					'serif'
 				],
+				mono: [
+					'"Fira Code"',
+					'ui-monospace',
+					'SFMono-Regular',
+					'Menlo',
+					'Monaco',
+					'Consolas',
+					'"Liberation Mono"',
+					'"Courier New"',
+					'monospace'
+				]
 			},
 			transitionTimingFunction: {
 				'in-back': 'cubic-bezier(0.36, 0, 0.66, -0.56)',
@@ -83,6 +94,9 @@ module.exports = {
 		},
 	},
 	plugins: [
+		require('@tailwindcss/forms')({
+			strategy: 'class'
+		}),
 		require('@tailwindcss/typography'),
 		function ({ matchUtilities, theme }) {
 			matchUtilities({

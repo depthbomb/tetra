@@ -47,12 +47,12 @@ public class InternalController : BaseController
     [RateLimit(2, seconds: 1)]
     public async Task<IActionResult> GetAuthUserLinksAsync()
     {
-        if (TryGetAuthenticatedUser(out var user))
+        if (TryGetAuthenticatedUser(out var authUser))
         {
             try
             {
                 var links = await _db.Links
-                                     .Where(l => l.Creator == user.Id && l.Disabled == false)
+                                     .Where(l => l.Creator == authUser.Id && l.Disabled == false)
                                      .Select(l => new 
                                      {
                                          l.Shortcode,
@@ -62,9 +62,53 @@ public class InternalController : BaseController
                                          l.ExpiresAt,
                                          l.CreatedAt,
                                      })
+                                     .OrderByDescending(l => l.CreatedAt)
                                      .ToListAsync();
 
                 return ApiResult(links);
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(500);
+            }
+        }
+
+        return Unauthorized();
+    }
+
+    [HttpPost("api-key")]
+    [RateLimit(1, seconds: 1)]
+    public async Task<IActionResult> GetOrCreateApiKeyAsync()
+    {
+        if (TryGetAuthenticatedUser(out var authUser))
+        {
+            try
+            {
+                // TODO move this logic to UserService
+                
+                var user = await _db.Users.Where(u => u.Sub == authUser.Id).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                string apiKey;
+                if (user.ApiKey != null)
+                {
+                    apiKey = user.ApiKey;
+                }
+                else
+                {
+                    apiKey      = Guid.NewGuid().ToString();
+                    user.ApiKey = apiKey;
+                }
+
+                await _db.SaveChangesAsync();
+                
+                return ApiResult(new
+                {
+                    apiKey
+                });
             }
             catch (Exception ex)
             {

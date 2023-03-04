@@ -40,7 +40,7 @@ public class Startup
             {
                 Title       = "Tetra API",
                 Version     = "v1",
-                Description = "<p><strong>Note:</strong> all public API endpoints are ratelimited to two requests per second. Going over this limit will result in errors. You can see your current limits in the <code>X-RateLimit-*</code> response headers.</p><p style=\"margin-top:1rem;\"><a href=\"/\">Return to home</a></p>"
+                Description = "<p><strong>Note:</strong> All public API endpoints are ratelimited to two requests per second. Going over this limit will result in errors. You can see your current limits in the <code>X-RateLimit-*</code> response headers.</p>"
             });
             c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Tetra.xml"));
         });

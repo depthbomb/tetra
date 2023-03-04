@@ -50,6 +50,13 @@ public class LinksService
         return link;
     }
 
+    public async Task<List<Link>> GetLinksByCreatorAsync(string creator)
+    {
+        var links = await _db.Links.Where(l => l.Creator == creator).ToListAsync();
+
+        return links;
+    }
+
     public async Task DeleteLinkAsync(string shortcode, string deletionKey)
     {
         var link = await _db.Links.FirstOrDefaultAsync(l => l.Shortcode == shortcode && l.DeletionKey == deletionKey);

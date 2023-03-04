@@ -15,10 +15,12 @@ namespace Tetra.Controllers;
 public class LinksController : BaseController
 {
     private readonly LinksService _links;
-    
-    public LinksController(LinksService links)
+    private readonly UserService  _users;
+
+    public LinksController(LinksService links, UserService users)
     {
         _links = links;
+        _users = users;
     }
     
     /// <summary>
@@ -30,15 +32,15 @@ public class LinksController : BaseController
     [HttpPost("create")]
     [ProducesResponseType(typeof(CreateLinkResponse), 201)]
     [ProducesResponseType(typeof(ApiErrorResponse), 400)]
-    public async Task<IActionResult> CreateLinkAsync([FromBody] CreateLinkForm body)
+    public async Task<IActionResult> CreateLinkAsync([FromBody] CreateLinkForm body, [FromQuery] string? key)
     {
         var destination = body.Destination;
         var duration    = body.Duration;
         var expiresAt   = body.ExpiresAt;
 
-        if (_links.IsValidDestination(destination))
+        if (!_links.IsValidDestination(destination))
         {
-            return ApiResult("The provided destination URL is flagged as malicious", 400);
+            return ApiResult("The provided destination not a valid HTTP/HTTPS URL", 400);
         }
         
         DateTime? linkExpiresAt = null;
@@ -54,10 +56,24 @@ public class LinksController : BaseController
             linkExpiresAt = expiresAt;
         }
 
-        var creator = HttpContext.Connection.RemoteIpAddress?.ToString();
-        if (TryGetAuthenticatedUser(out var user))
+        string creator;
+        if (key != null)
         {
-            creator = user.Id;
+            var user = await _users.GetUserByApiKeyAsync(key);
+            if (user == null)
+            {
+                return Unauthorized("Invalid API key");
+            }
+
+            creator = user.Sub;
+        }
+        else
+        {
+            creator = HttpContext.Connection.RemoteIpAddress?.ToString();
+            if (TryGetAuthenticatedUser(out var user))
+            {
+                creator = user.Id;
+            }
         }
 
         var link = await _links.CreateLinkAsync(creator, destination, linkExpiresAt);

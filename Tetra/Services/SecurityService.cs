@@ -7,7 +7,7 @@ namespace Tetra.Services;
 
 public class SecurityService
 {
-    private readonly IDataProtector        _csrfProtector;
+    private readonly IDataProtector _csrfProtector;
     
     public SecurityService(IDataProtectionProvider protectionProvider)
     {

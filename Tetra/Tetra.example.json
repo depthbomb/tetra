@@ -20,6 +20,9 @@
         "ClientId": "",
         "ClientSecret": ""
     },
+    "GitHub": {
+        "AccessToken": ""
+    },
     "BackgroundServices": {
         "LinkCleanup": {
             "Interval": 30000

@@ -1,5 +1,3 @@
-import type { IApiResonse } from './IApiResponse';
-
 export interface IInternalUserLink {
 	shortcode: string;
 	shortlink: string;

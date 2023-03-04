@@ -13,7 +13,7 @@ using Tetra.Data;
 namespace Tetra.Data.Migrations
 {
     [DbContext(typeof(TetraContext))]
-    [Migration("20230224042950_Initial")]
+    [Migration("20230304072101_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Tetra.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-preview.1.23111.4")
+                .HasAnnotation("ProductVersion", "7.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -69,6 +69,9 @@ namespace Tetra.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("ApiKey")
+                        .HasColumnType("text");
 
                     b.Property<string>("Avatar")
                         .HasColumnType("text");

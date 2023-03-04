@@ -3,11 +3,32 @@
 @import 'tailwindcss/utilities.css';
 
 @import 'fonts';
+@import 'input';
 
 html, body {
 	@apply w-screen h-screen;
 }
 
-#app {
-	@apply h-full;
+body {
+	@apply bg-gray-900;
+	@apply overflow-x-hidden;
+}
+
+.container {
+	@apply mx-auto;
+	@apply max-w-screen-xl w-full;
+}
+
+ul {
+	@apply list-disc list-inside;
+
+	& > ul {
+		@apply pl-6;
+		@apply list-[circle];
+	}
+
+	& > li {
+		@apply pl-6;
+		@apply list-item;
+	}
 }

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-	import CopyButton from './CopyButton.vue';
+	import Snippet from '../Snippet.vue';
 	import { defineAsyncComponent } from 'vue';
 	import Loader from '~/components/Loader.vue';
 	import { UseTimeAgo } from '@vueuse/components';
 	import { makeApiRequest } from '~/services/api';
 	import TrashIcon from '~/components/icons/TrashIcon.vue';
 	import ActionButton from '~/components/ActionButton.vue';
+	import CopyButton from '~/components/home/CopyButton.vue';
 	import { useTruncation } from '~/composables/useTruncation';
 	import ArrowRightIcon from '~/components/icons/ArrowRightIcon.vue';
 	import type { IInternalUserLink } from '~/@types/IInternalUserLink';
@@ -23,7 +24,7 @@
 
 	const deleteLink = async (shortcode: string, deletionKey: string) => {
 		if (confirm('Are you sure you want to delete this shortlink? This cannot be undone.')) {
-			await makeApiRequest(`/api/links/delete/${shortcode}/${deletionKey}`, { method: 'DELETE' });
+			await makeApiRequest(`/api/links/${shortcode}/${deletionKey}`, { method: 'DELETE' });
 
 			emit('linkDeleted');
 		}
@@ -41,7 +42,7 @@
 			</action-button>
 			<copy-button :text="link.shortcode" :content="link.shortlink"/>
 			<arrow-right-icon class="mx-4 w-6 h-6 text-gray-400"/>
-			<code>{{ truncate(link.destination, 100) }}</code>
+			<snippet>{{ truncate(link.destination, 100) }}</snippet>
 			<div v-if="link.expiresAt" class="flex items-center ml-auto">
 				<timer-icon class="mr-2 w-4 h-4"/>
 				<use-time-ago v-slot="{ timeAgo }" :time="link.expiresAt">Expires {{ timeAgo }}</use-time-ago>
@@ -60,8 +61,8 @@
 			@apply p-4;
 			@apply text-white;
 
-			@apply odd:bg-gray-800;
-			@apply even:bg-gray-900;
+			@apply odd:bg-gray-900;
+			@apply even:bg-gray-800;
 		}
 	}
 </style>

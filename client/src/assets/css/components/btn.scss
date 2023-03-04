@@ -6,23 +6,26 @@
 	@apply cursor-pointer;
 	@apply transition-colors;
 
+	@apply disabled:opacity-50;
+	@apply disabled:cursor-not-allowed;
+
 	&.btn--brand {
 		@apply bg-brand-600;
-
 		@apply hover:bg-brand-700;
+		@apply active:bg-brand-800;
 	}
 
 	&.btn--success {
 		@apply bg-lime-600;
-
 		@apply hover:bg-lime-700;
+		@apply active:bg-lime-800;
 	}
 
 	&.btn--danger,
 	&.btn--error {
 		@apply bg-red-600;
-
 		@apply hover:bg-red-700;
+		@apply active:bg-red-800;
 	}
 
 	&.btn--small {

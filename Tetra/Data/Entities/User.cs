@@ -12,4 +12,5 @@ public class User : BaseEntity
     public string       Email    { get; set; }
     public string       Avatar   { get; set; }
     public List<string> Roles    { get; set; }
+    public string       ApiKey   { get; set; }
 }

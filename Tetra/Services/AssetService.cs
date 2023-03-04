@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
-using System.Text.Encodings.Web;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.Security.Cryptography;
 using Microsoft.Extensions.Configuration;
 
 using Tetra.Shared;
@@ -13,11 +9,13 @@ public class AssetService
 {
     private Asset[] _manifest;
 
+    private readonly IConfiguration                    _config;
     private readonly string                            _baseUrl;
     private readonly IDictionary<string, List<string>> _sriHashes;
 
     public AssetService(IConfiguration config)
     {
+        _config    = config;
         _baseUrl   = config.GetValue<string>("Urls").Split(";")[0];
         _sriHashes = new Dictionary<string, List<string>>();
     }
@@ -50,7 +48,7 @@ public class AssetService
 
     public async Task<List<string>> GetSriHashesAsync(string originalName)
     {
-        if (!_sriHashes.ContainsKey(originalName))
+        if (!_sriHashes.ContainsKey(originalName) || !_config.GetValue<bool>("Production"))
         {
             var hashes    = new List<string>();
             var filePath  = await GetVersionedFilePathAsync(originalName);
@@ -72,7 +70,7 @@ public class AssetService
 
     private async Task<Asset[]> GetManifestAsync()
     {
-        if (_manifest == null)
+        if (_manifest == null || !_config.GetValue<bool>("Production"))
         {
             string manifestPath = Path.Combine(Constants.WwwRootPath, "manifest.json");
             if (!File.Exists(manifestPath))

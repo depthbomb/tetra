@@ -233,10 +233,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/fugaz-one@npm:^4.5.9":
-  version: 4.5.9
-  resolution: "@fontsource/fugaz-one@npm:4.5.9"
-  checksum: 6d964343d8249545ad1213f12aea5a5000abaf3abbc41db637c2fd548b554d4057f98b2fb8b7f30737eb96c37477f5fb79737e2b00c11be5c201fa4ab29806dc
+"@fontsource/fira-code@npm:^4.5.13":
+  version: 4.5.13
+  resolution: "@fontsource/fira-code@npm:4.5.13"
+  checksum: 1ea871025f40b2af2e0c7edabb9d4b4edc10e61e706bdc90c361eb6b954260d18a884bfbb1bec2d9593ebfd7a54c2c99e6ed186a9a7d172ea6fd3f4c6415d583
   languageName: node
   linkType: hard
 
@@ -247,6 +247,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/ubuntu@npm:^4.5.11":
+  version: 4.5.11
+  resolution: "@fontsource/ubuntu@npm:4.5.11"
+  checksum: 71889ee9fcb8cf515fc6cf1daa391b78991fc25e5cbf48542d7454735af3758d26032663c034f93f12d594e0d85e73f293b8167d11c7ae1d6d9376ebbb184b3b
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -254,12 +261,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/vue@npm:^1.7.11":
-  version: 1.7.11
-  resolution: "@headlessui/vue@npm:1.7.11"
+"@headlessui/vue@npm:^1.7.12":
+  version: 1.7.12
+  resolution: "@headlessui/vue@npm:1.7.12"
   peerDependencies:
     vue: ^3.2.0
-  checksum: e313756c5b1c79468fd069d4f726f27b383963f61c6ef2fe08cb2d0ccd044286b9d325684ea1c5b67c76ef53d05c6050cf00f11885d57daa65ff6142b96aca0b
+  checksum: 70b0f55a0bb237eaaa6832b0e0fb18d64c95590cf4d3934292c8d88e12dc9383b941b155ef78fb463a5f6f928ccf6d4e7fa80f13e156f16c3697fe7b98e23002
   languageName: node
   linkType: hard
 
@@ -583,10 +590,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.14.5":
-  version: 18.14.5
-  resolution: "@types/node@npm:18.14.5"
-  checksum: 415fb0edc132baa9580f1b7a381a3f10b662f5d7a7d11641917fa0961788ccede3272badc414aadc47306e9fc35c5f6c59159ac470b46d3f3a15fb0446224c8c
+"@types/node@npm:^18.14.6":
+  version: 18.14.6
+  resolution: "@types/node@npm:18.14.6"
+  checksum: 2f88f482cabadc6dbddd627a1674239e68c3c9beab56eb4ae2309fb96fd17fc3a509d99b0309bafe13b58529574f49ecf3a583f2ebe2896dd32fe4be436dc96e
   languageName: node
   linkType: hard
 
@@ -5821,15 +5828,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tetra-client@workspace:."
   dependencies:
-    "@fontsource/fugaz-one": ^4.5.9
+    "@fontsource/fira-code": ^4.5.13
     "@fontsource/inter": ^4.5.15
-    "@headlessui/vue": ^1.7.11
+    "@fontsource/ubuntu": ^4.5.11
+    "@headlessui/vue": ^1.7.12
     "@microsoft/signalr": ^7.0.3
     "@rushstack/eslint-patch": ^1.2.0
     "@tailwindcss/forms": ^0.5.3
     "@tailwindcss/typography": ^0.5.9
     "@types/eslint": ^8.21.1
-    "@types/node": ^18.14.5
+    "@types/node": ^18.14.6
     "@types/swagger-ui-dist": ^3.30.1
     "@vitejs/plugin-vue": ^4.0.0
     "@vue/eslint-config-typescript": ^11.0.2
@@ -5854,7 +5862,7 @@ __metadata:
     vue: ^3.2.47
     vue-eslint-parser: ^9.1.0
     vue-router: 4.1.6
-    vue-tsc: ^1.2.1
+    vue-tsc: ^1.2.0
   languageName: unknown
   linkType: soft
 
@@ -6310,7 +6318,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-tsc@npm:^1.2.1":
+"vue-tsc@npm:^1.2.0":
   version: 1.2.1
   resolution: "vue-tsc@npm:1.2.1"
   dependencies:
