@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
+using Tetra.Hubs;
 
 namespace Tetra.Services.Background;
 
@@ -9,12 +12,17 @@ public class LinkCleanupBackgroundService : BackgroundService
     private readonly ILogger<LinkCleanupBackgroundService> _logger;
     private readonly IConfiguration                        _config;
     private readonly TetraContext                          _db;
+    private readonly IHubContext<StatsHub>                 _stats;
 
-    public LinkCleanupBackgroundService(ILogger<LinkCleanupBackgroundService> logger, IConfiguration config, TetraContext db)
+    public LinkCleanupBackgroundService(ILogger<LinkCleanupBackgroundService> logger,
+                                        IConfiguration config,
+                                        TetraContext db,
+                                        IHubContext<StatsHub> stats)
     {
         _logger = logger;
         _config = config;
         _db     = db;
+        _stats  = stats;
     }
     
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -49,6 +57,8 @@ public class LinkCleanupBackgroundService : BackgroundService
                 await _db.SaveChangesAsync(ct);
                 
                 _logger.LogInformation("Successfully deleted {Count} expired link(s)", expiredLinks.Count);
+                
+                await _stats.Clients.All.SendAsync("TotalShortlinks", _db.Links.Count(), cancellationToken: ct);
             }
         }
         catch (Exception ex) when (ex is not TaskCanceledException)
