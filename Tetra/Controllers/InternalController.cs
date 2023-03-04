@@ -89,7 +89,7 @@ public class InternalController : BaseController
                 var user = await _db.GetUserBySubAsync(authUser.Id);
                 if (user == null)
                 {
-                    return BadRequest();
+                    return Unauthorized();
                 }
 
                 string apiKey;
