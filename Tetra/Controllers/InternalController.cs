@@ -85,11 +85,11 @@ public class InternalController : BaseController
             try
             {
                 // TODO move this logic to UserService
-                
-                var user = await _db.Users.Where(u => u.Sub == authUser.Id).FirstOrDefaultAsync();
+
+                var user = await _db.GetUserBySubAsync(authUser.Id);
                 if (user == null)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
 
                 string apiKey;
