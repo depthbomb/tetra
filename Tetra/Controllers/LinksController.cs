@@ -59,7 +59,7 @@ public class LinksController : BaseController
         string creator;
         if (key != null)
         {
-            var user = await _users.GetUserByApiKeyAsync(key);
+            var user = await _users.GetByApiKeyAsync(key);
             if (user == null)
             {
                 return Unauthorized("Invalid API key");

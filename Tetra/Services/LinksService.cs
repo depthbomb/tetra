@@ -43,9 +43,7 @@ public class LinksService
 
         await _db.Links.AddAsync(link);
         await _db.SaveChangesAsync();
-        
-        // Broadcast total shortlink count to all clients connected to the stats hub
-        await _stats.Clients.All.SendAsync("TotalShortlinks", _db.Links.Count());
+        await BroadcastTotalShortlinksAsync();
         
         return link;
     }
@@ -64,7 +62,7 @@ public class LinksService
         {
             _db.Links.Remove(link);
             await _db.SaveChangesAsync();
-            await _stats.Clients.All.SendAsync("TotalShortlinks", _db.Links.Count());
+            await BroadcastTotalShortlinksAsync();
         }
     }
     
@@ -86,5 +84,11 @@ public class LinksService
         } while (exists);
 
         return shortcode;
+    }
+
+    private async Task BroadcastTotalShortlinksAsync()
+    {
+        int count = await GetLinksCountAsync();
+        await _stats.Clients.All.SendAsync("TotalShortlinks", count);
     }
 }

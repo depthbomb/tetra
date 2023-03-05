@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
 using System.Security.Cryptography;
-using Microsoft.EntityFrameworkCore;
+
 using Tetra.Models;
+using Tetra.Exceptions;
 using Tetra.Data.Entities;
 
 namespace Tetra.Services;
@@ -20,10 +21,10 @@ public class UserService
         var userExists = await UserExistsAsync(claims);
         if (userExists)
         {
-            return await GetUserFromClaimsAsync(claims);
+            return await GetFromClaimsAsync(claims);
         }
 
-        return await CreateUserFromClaimsAsync(claims);
+        return await CreateFromClaimsAsync(claims);
     }
 
     public string CreateGravatarUrl(string inputEmail, int size = 64, string rating = "g")
@@ -37,26 +38,68 @@ public class UserService
 
     public async Task<bool> UserExistsAsync(IEnumerable<Claim> claims)
     {
-        var parsedClaims = ParseUserClaims(claims);
+        var parsedClaims = ParseClaims(claims);
+        
         return await _db.UserExistsAsync(parsedClaims.Sub);
     }
 
-    public async Task<User> GetUserByApiKeyAsync(string key)
+    public async Task<User> GetByApiKeyAsync(string key)
     {
         var user = await _db.GetUserByApiKeyAsync(key);
 
         return user;
     }
 
-    private async Task<User> GetUserFromClaimsAsync(IEnumerable<Claim> claims)
+    public async Task<string> GetOrCreateApiKeyAsync(string sub)
     {
-        var parsedClaims = ParseUserClaims(claims);
+        var existingApiKey = await GetApiKeyAsync(sub);
+        if (existingApiKey != null)
+        {
+            return existingApiKey;
+        }
+
+        return await CreateApiKeyAsync(sub);
+    }
+
+    public async Task<string> GetApiKeyAsync(string sub)
+    {
+        var user = await _db.GetUserBySubAsync(sub);
+        if (user == null)
+        {
+            throw new UserNotFoundException();
+        }
+
+        return user.ApiKey;
+    }
+    
+    public async Task<string> CreateApiKeyAsync(string sub, bool force = false)
+    {
+        var user = await _db.GetUserBySubAsync(sub);
+        if (user == null)
+        {
+            throw new UserNotFoundException();
+        }
+
+        string apiKey = Guid.NewGuid().ToString();
+        if (user.ApiKey == null || force)
+        {
+            user.ApiKey = apiKey;
+
+            await _db.SaveChangesAsync();
+        }
+
+        return apiKey;
+    }
+
+    private async Task<User> GetFromClaimsAsync(IEnumerable<Claim> claims)
+    {
+        var parsedClaims = ParseClaims(claims);
         return await _db.GetUserBySubAsync(parsedClaims.Sub);
     }
 
-    private async Task<User> CreateUserFromClaimsAsync(IEnumerable<Claim> claims)
+    private async Task<User> CreateFromClaimsAsync(IEnumerable<Claim> claims)
     {
-        var parsedClaims = ParseUserClaims(claims);
+        var parsedClaims = ParseClaims(claims);
         var user = new User
         {
             Sub      = parsedClaims.Sub,
@@ -72,7 +115,7 @@ public class UserService
         return user;
     }
 
-    private OidcUserInfo ParseUserClaims(IEnumerable<Claim> claims)
+    private OidcUserInfo ParseClaims(IEnumerable<Claim> claims)
     {
         var userInfo = new OidcUserInfo
         {

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Tetra.Models;
 using Tetra.Services;
+using Tetra.Exceptions;
 using Tetra.Middleware.Attributes;
 
 namespace Tetra.Controllers;
@@ -12,12 +13,19 @@ namespace Tetra.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class InternalController : BaseController
 {
-    private readonly TetraContext  _db;
-    private readonly GitHubService _github;
+    private readonly ILogger<InternalController> _logger;
+    private readonly TetraContext                _db;
+    private readonly UserService                 _users;
+    private readonly GitHubService               _github;
 
-    public InternalController(TetraContext db, GitHubService github)
+    public InternalController(ILogger<InternalController> logger,
+                              TetraContext db,
+                              UserService users,
+                              GitHubService github)
     {
+        _logger = logger;
         _db     = db;
+        _users  = users;
         _github = github;
     }
 
@@ -34,7 +42,10 @@ public class InternalController : BaseController
 
                 auth = true;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unable to validate user authentication");
+            }
         }
         
         return ApiResult(new
@@ -69,6 +80,8 @@ public class InternalController : BaseController
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Unable to retrieve auth'd user links");
+                
                 return new StatusCodeResult(500);
             }
         }
@@ -84,35 +97,19 @@ public class InternalController : BaseController
         {
             try
             {
-                // TODO move this logic to UserService
+                string apiKey = await _users.GetOrCreateApiKeyAsync(authUser.Id);
 
-                var user = await _db.GetUserBySubAsync(authUser.Id);
-                if (user == null)
-                {
-                    return Unauthorized();
-                }
-
-                string apiKey;
-                if (user.ApiKey != null)
-                {
-                    apiKey = user.ApiKey;
-                }
-                else
-                {
-                    apiKey      = Guid.NewGuid().ToString();
-                    user.ApiKey = apiKey;
-                }
-
-                await _db.SaveChangesAsync();
-                
                 return ApiResult(new
                 {
                     apiKey
                 });
             }
-            catch (Exception ex)
+            
+            catch (UserNotFoundException ex)
             {
-                return new StatusCodeResult(500);
+                _logger.LogError(ex, "Unable to get or create user API key");
+
+                return Unauthorized();
             }
         }
 

@@ -37,7 +37,7 @@
 				</link-button>
 			</template>
 			<template v-else>
-				<link-button variant="brand" size="small" to="/auth/login">
+				<link-button variant="brand" to="/auth/login">
 					<sign-in-icon class="mr-1 h-3.5"/>
 					<span>Sign In</span>
 				</link-button>
