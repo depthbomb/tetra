@@ -5,7 +5,7 @@ using Tetra.Services;
 
 namespace Tetra.Middleware.Attributes;
 
-public class CsrfProtectedAttribute : BaseMiddlewareAttribute
+public class CsrfProtectedAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext context)
     {

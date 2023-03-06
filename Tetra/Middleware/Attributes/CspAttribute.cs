@@ -5,7 +5,7 @@ using Tetra.Services;
 namespace Tetra.Middleware.Attributes;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
-public class CspAttribute : BaseMiddlewareAttribute
+public class CspAttribute : ActionFilterAttribute
 {
     private const string CspHeaderKey = "Content-Security-Policy";
 

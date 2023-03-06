@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tetra.Extensions;
+
 using Tetra.Models;
+using Tetra.Extensions;
 
 namespace Tetra.Controllers;
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Tetra.Middleware.Attributes;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
-public class RateLimitAttribute : BaseMiddlewareAttribute
+public class RateLimitAttribute : ActionFilterAttribute
 {
     private readonly int                                        _limit;
     private readonly TimeSpan                                   _expiryTime;

@@ -4,7 +4,7 @@ using Tetra.Services;
 
 namespace Tetra.Middleware.Attributes;
 
-public class DevOnlyAttribute : BaseMiddlewareAttribute
+public class DevOnlyAttribute : ActionFilterAttribute
 {
     public override Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
     {
