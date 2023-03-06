@@ -2,6 +2,7 @@ using Microsoft.OpenApi.Models;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 
 using Tetra.Extensions;
@@ -44,18 +45,20 @@ public class Startup
             });
             c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Tetra.xml"));
         });
+        services.Configure<ForwardedHeadersOptions>(o => o.ForwardedHeaders = ForwardedHeaders.All);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (!_config.GetValue<bool>("Production"))
         {
-            // app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
         }
         else
         {
             app.UseHsts();
             app.UseHttpsRedirection();
+            app.UseForwardedHeaders();
         }
         
         app.UseStatusCodePagesWithRedirects("/error-handler-route?code={0}");
