@@ -13,7 +13,7 @@ using Tetra.Data;
 namespace Tetra.Data.Migrations
 {
     [DbContext(typeof(TetraContext))]
-    [Migration("20230304072101_Initial")]
+    [Migration("20230306023338_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -69,6 +69,9 @@ namespace Tetra.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("Admin")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ApiKey")
                         .HasColumnType("text");

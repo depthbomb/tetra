@@ -67,6 +67,9 @@ namespace Tetra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("Admin")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("ApiKey")
                         .HasColumnType("text");
 

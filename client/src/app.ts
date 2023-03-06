@@ -24,6 +24,7 @@ if (setupConfigElement) {
 			tetraStore.username = payload.username;
 			tetraStore.avatar   = payload.avatar;
 			tetraStore.id       = payload.id;
+			tetraStore.admin    = payload.admin;
 		}
 	}
 

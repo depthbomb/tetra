@@ -21,35 +21,38 @@ public class AuthMiddleware
     
     public async Task InvokeAsync(HttpContext ctx)
     {
-        string userToken = string.Empty;
-        if (ctx.Request.Headers.TryGetValue("authorization", out var authorizationValue))
+        if (ctx.Response.StatusCode <= 400)
         {
-            userToken = authorizationValue;
+            string userToken = string.Empty;
+            if (ctx.Request.Headers.TryGetValue("authorization", out var authorizationValue))
+            {
+                userToken = authorizationValue;
             
-            _logger.LogDebug("Resolved user token from Authorization header");
-        }
-        else if (ctx.Request.Cookies.TryGetValue(AuthCookieName, out var cookieValue))
-        {
-            userToken = cookieValue;
+                _logger.LogDebug("Resolved user token from Authorization header");
+            }
+            else if (ctx.Request.Cookies.TryGetValue(AuthCookieName, out var cookieValue))
+            {
+                userToken = cookieValue;
             
-            _logger.LogDebug("Resolved user token from cookies");
+                _logger.LogDebug("Resolved user token from cookies");
+            }
+
+            if (userToken != string.Empty)
+            {
+                try
+                {
+                    var user = _auth.Unprotect(userToken);
+                    ctx.Items.Add("User", user);
+                
+                    _logger.LogDebug("User object successfully attached to context");
+                }
+                catch
+                {
+                    _logger.LogWarning("Invalid user token attempted to unprotect: {Token}", userToken);
+                }
+            }
         }
 
-        if (userToken != string.Empty)
-        {
-            try
-            {
-                var user = _auth.Unprotect(userToken);
-                ctx.Items.Add("User", user);
-                
-                _logger.LogDebug("User object successfully attached to context");
-            }
-            catch
-            {
-                _logger.LogWarning("Invalid user token attempted to unprotect: {Token}", userToken);
-            }
-        }
-        
         await _next(ctx);
     }
 }

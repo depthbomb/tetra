@@ -20,6 +20,7 @@
 		</router-link>
 		<div class="masthead__links">
 			<router-link :to="{ name: 'home' }" active-class="masthead__link--active">Home</router-link>
+			<router-link v-if="store.isAdmin" :to="{ name: 'admin' }" active-class="masthead__link--active">Admin</router-link>
 			<router-link v-if="store.loggedIn" :to="{ name: 'api-key' }" active-class="masthead__link--active">API Key</router-link>
 			<router-link :to="{ name: 'faq' }" active-class="masthead__link--active">FAQ</router-link>
 		</div>

@@ -10,4 +10,7 @@ public record AuthUser
 
     [JsonPropertyName("avatar")]
     public string Avatar { get; set; }
+    
+    [JsonPropertyName("admin")]
+    public bool Admin { get; set; }
 }

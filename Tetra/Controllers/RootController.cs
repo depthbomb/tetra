@@ -36,8 +36,8 @@ public class RootController : BaseController
         return Redirect(link.Destination);
     }
 
-    [Route("error-handler-route")]
-    public IActionResult HandleError([FromQuery] int code)
+    [Route("error-handler-route/{code}")]
+    public IActionResult HandleError(int code)
     {
         return HttpContext.ApiErrorResult(GlobalShared.HttpStatusMessages[code], code);
     }

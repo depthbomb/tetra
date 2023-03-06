@@ -61,8 +61,8 @@ public class Startup
             app.UseForwardedHeaders();
         }
         
-        app.UseStatusCodePagesWithRedirects("/error-handler-route?code={0}");
-        app.UseExceptionHandler("/error-handler-route");
+        app.UseStatusCodePagesWithReExecute("/error-handler-route/{0}");
+        app.UseExceptionHandler("/error-handler-route/{0}");
 
         app.UseStaticFiles();
         app.UseResponseCaching();

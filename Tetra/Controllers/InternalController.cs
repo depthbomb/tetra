@@ -33,14 +33,16 @@ public class InternalController : BaseController
     [RateLimit(2, seconds: 1)]
     public IActionResult CheckUserAuth()
     {
-        bool auth = false;
+        bool auth  = false;
+        bool admin = false;
         if (HttpContext.Items.TryGetValue("User", out var userItem))
         {
             try
             {
-                JsonSerializer.Deserialize<AuthUser>(userItem.ToString());
+                var user = JsonSerializer.Deserialize<AuthUser>(userItem.ToString());
 
-                auth = true;
+                auth  = true;
+                admin = user.Admin;
             }
             catch (Exception ex)
             {
@@ -50,7 +52,8 @@ public class InternalController : BaseController
         
         return ApiResult(new
         {
-            auth
+            auth,
+            admin
         });
     }
     
@@ -87,6 +90,35 @@ public class InternalController : BaseController
         }
 
         return Unauthorized();
+    }
+    
+    [HttpPost("get-all-links")]
+    [RateLimit(2, seconds: 1)]
+    [RequireAdmin]
+    public async Task<IActionResult> GetAllLinksAsync()
+    {
+        try
+        {
+            var links = await _db.Links.Select(l => new
+                                 {
+                                     l.Shortcode,
+                                     l.Shortlink,
+                                     l.Destination,
+                                     l.DeletionKey,
+                                     l.ExpiresAt,
+                                     l.CreatedAt,
+                                 })
+                                 .OrderByDescending(l => l.CreatedAt)
+                                 .ToListAsync();
+
+            return ApiResult(links);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unable to retrieve auth'd user links");
+                
+            return new StatusCodeResult(500);
+        }
     }
 
     [HttpPost("api-key")]

@@ -94,6 +94,7 @@ public class UserService
     private async Task<User> GetFromClaimsAsync(IEnumerable<Claim> claims)
     {
         var parsedClaims = ParseClaims(claims);
+        
         return await _db.GetUserBySubAsync(parsedClaims.Sub);
     }
 
@@ -106,7 +107,8 @@ public class UserService
             Username = parsedClaims.PreferredUsername,
             Email    = parsedClaims.Email,
             Avatar   = CreateGravatarUrl(parsedClaims.Email),
-            Roles    = parsedClaims.Groups
+            Roles    = parsedClaims.Groups,
+            Admin    = parsedClaims.Groups.Contains("tetra_admin")
         };
 
         await _db.Users.AddAsync(user);
@@ -129,6 +131,8 @@ public class UserService
             Groups            = claims.Where(c => c.Type          == "groups").Select(c => c.Value).ToList(),
             Sub               = claims.FirstOrDefault(c => c.Type == "sub")?.Value,
         };
+
+        Console.WriteLine(JsonSerializer.Serialize(userInfo));
 
         return userInfo;
     }

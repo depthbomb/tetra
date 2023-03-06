@@ -7,7 +7,7 @@
 	import LinkCreator from '~/components/home/LinkCreator.vue';
 	import type { IInternalUserLink } from '~/@types/IInternalUserLink';
 
-	const LinksList = defineAsyncComponent(() => import('~/components/home/LinksList.vue'));
+	const LinksList = defineAsyncComponent(() => import('~/components/LinksList.vue'));
 
 	const store       = useTetraStore();
 	const userLinks   = ref<IInternalUserLink[]>([]);

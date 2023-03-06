@@ -6,9 +6,11 @@ export const useTetraStore = defineStore('tetra', {
 		username: '',
 		avatar: '',
 		id: '',
+		admin: false,
 		statsHubEndpoint: ''
 	}),
 	getters: {
 		loggedIn: (state) => !!(state.username && state.avatar && state.id),
+		isAdmin: (state) => !!(state.username && state.avatar && state.id) && state.admin
 	}
 });

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-	import Snippet from '../Snippet.vue';
 	import { defineAsyncComponent } from 'vue';
 	import Loader from '~/components/Loader.vue';
+	import Snippet from '~/components/Snippet.vue';
 	import { UseTimeAgo } from '@vueuse/components';
 	import { makeApiRequest } from '~/services/api';
 	import TrashIcon from '~/components/icons/TrashIcon.vue';

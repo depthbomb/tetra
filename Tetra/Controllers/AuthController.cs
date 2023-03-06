@@ -61,7 +61,8 @@ public class AuthController : BaseController
         {
             Id       = user.Sub,
             Username = user.Username,
-            Avatar   = user.Avatar
+            Avatar   = user.Avatar,
+            Admin    = user.Admin
         });
         
         HttpContext.Response.Cookies.Append(SessionCookieName, _auth.Protect(userCookieData), new CookieOptions

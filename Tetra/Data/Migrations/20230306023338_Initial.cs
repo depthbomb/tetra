@@ -43,6 +43,7 @@ namespace Tetra.Data.Migrations
                     Avatar = table.Column<string>(type: "text", nullable: true),
                     Roles = table.Column<List<string>>(type: "text[]", nullable: true),
                     ApiKey = table.Column<string>(type: "text", nullable: true),
+                    Admin = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
