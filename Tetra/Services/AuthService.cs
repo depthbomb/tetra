@@ -13,12 +13,13 @@ public class AuthService
 
     public AuthService(IConfiguration config, IDataProtectionProvider protectionProvider)
     {
+        var baseUrl = config.GetValue<string>("BaseUrl");
         Client = new OidcClient(new OidcClientOptions
         {
             Authority    = config.GetValue<string>("OpenId:Authority"),
             ClientId     = config.GetValue<string>("OpenId:ClientId"),
             ClientSecret = config.GetValue<string>("OPENID_SECRET") ?? config.GetValue<string>("OpenId:ClientSecret"),
-            RedirectUri  = "https://localhost:5001/auth/callback",
+            RedirectUri  = $"{baseUrl}/auth/callback",
             Scope        = "openid profile email",
             Policy = new Policy
             {

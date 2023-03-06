@@ -16,7 +16,7 @@ public class AssetService
     public AssetService(IConfiguration config)
     {
         _config    = config;
-        _baseUrl   = config.GetValue<string>("Urls").Split(";")[0];
+        _baseUrl   = config.GetValue<string>("BaseUrl");
         _sriHashes = new Dictionary<string, List<string>>();
     }
 

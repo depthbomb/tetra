@@ -18,7 +18,7 @@ public class LinksService
     {
         _db      = db;
         _stats   = stats;
-        _baseUrl = config.GetValue<string>("Urls").Split(";")[0];
+        _baseUrl = config.GetValue<string>("BaseUrl");
     }
 
     /// <inheritdoc cref="TetraContext.GetLinksCountAsync"/>
