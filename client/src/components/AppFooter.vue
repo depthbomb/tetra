@@ -2,12 +2,9 @@
 	import gsap from 'gsap';
 	import { useGitStore } from '~/stores/git';
 	import { useTetraStore } from '~/stores/tetra';
-	import { useIntervalFn } from '@vueuse/shared';
 	import { makeApiRequest } from '~/services/api';
 	import CodeIcon from '~/components/icons/CodeIcon.vue';
 	import { HubConnectionBuilder } from '@microsoft/signalr';
-	import SignInIcon from '~/components/icons/SignInIcon.vue';
-	import BrowserIcon from '~/components/icons/BrowserIcon.vue';
 	import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 	import CurlyBracesIcon from '~/components/icons/CurlyBracesIcon.vue';
 	import type { IInternalLatestCommitHashResponse } from '~/@types/IInternalLatestCommitHashResponse';
@@ -26,6 +23,13 @@
 
 		await connection.start();
 		await connection.invoke('RequestTotalShortlinks');
+
+		makeApiRequest<IInternalLatestCommitHashResponse>('/internal/latest-commit', { method: 'POST' }).then(({ hash }) => {
+			gitStore.latestSha = hash;
+		}).catch(err => {
+			console.error('Failed to retrieve latest commit SHA, using fallback value');
+			gitStore.latestSha = 'Source';
+		});
 	});
 	onUnmounted(async () => {
 		await connection.stop();
@@ -33,11 +37,6 @@
 	});
 
 	watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));
-
-	useIntervalFn(async () => {
-		var { hash } = await makeApiRequest<IInternalLatestCommitHashResponse>('/internal/latest-commit', { method: 'POST' });
-		gitStore.latestSha = hash;
-	}, 60_000, { immediateCallback: true });
 </script>
 
 <template>

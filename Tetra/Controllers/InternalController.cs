@@ -120,11 +120,20 @@ public class InternalController : BaseController
     [RateLimit(2, seconds: 1)]
     public async Task<IActionResult> GetLatestCommitHashAsync()
     {
-        var hash = await _github.GetLatestCommitShaAsync();
-
-        return ApiResult(new
+        try
         {
-            hash
-        });
+            var hash = await _github.GetLatestCommitShaAsync();
+
+            return ApiResult(new
+            {
+                hash
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unable to get retrieve latest commit SHA");
+
+            return Problem();
+        }
     }
 }
