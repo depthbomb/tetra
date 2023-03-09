@@ -13,10 +13,13 @@
 
 	const TimerIcon = defineAsyncComponent(() => import('~/components/icons/TimerIcon.vue'));
 
-	defineProps<{
+	withDefaults(defineProps<{
 		linksLoaded: boolean,
 		links: IInternalUserLink[]
-	}>();
+		noResultsMessage: string;
+	}>(), {
+		noResultsMessage: 'You have no links, why not create some?'
+	});
 
 	const emit = defineEmits(['linkDeleted']);
 
@@ -48,7 +51,7 @@
 				<use-time-ago v-slot="{ timeAgo }" :time="link.expiresAt">Expires {{ timeAgo }}</use-time-ago>
 			</div>
 		</div>
-		<p v-else class="my-8 text-center text-white text-xl">You have no links, why not create some?</p>
+		<p v-else class="my-8 text-center text-white text-xl">{{ noResultsMessage }}</p>
 	</div>
 </template>
 
