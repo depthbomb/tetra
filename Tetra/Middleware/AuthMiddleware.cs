@@ -6,7 +6,8 @@ namespace Tetra.Middleware;
 
 public class AuthMiddleware
 {
-    private const string AuthCookieName = "ru";
+    private const string AuthCookieName      = "ru";
+    private const string UserContextItemName = "User";
     
     private readonly RequestDelegate         _next;
     private readonly ILogger<AuthMiddleware> _logger;
@@ -21,35 +22,34 @@ public class AuthMiddleware
     
     public async Task InvokeAsync(HttpContext ctx)
     {
-        if (ctx.Response.StatusCode <= 400)
+        string userToken = string.Empty;
+        if (ctx.Request.Headers.TryGetValue("authorization", out var authorizationValue))
         {
-            string userToken = string.Empty;
-            if (ctx.Request.Headers.TryGetValue("authorization", out var authorizationValue))
-            {
-                userToken = authorizationValue;
+            userToken = authorizationValue;
             
-                _logger.LogDebug("Resolved user token from Authorization header");
-            }
-            else if (ctx.Request.Cookies.TryGetValue(AuthCookieName, out var cookieValue))
-            {
-                userToken = cookieValue;
+            _logger.LogDebug("Resolved user token from Authorization header");
+        }
+        else if (ctx.Request.Cookies.TryGetValue(AuthCookieName, out var cookieValue))
+        {
+            userToken = cookieValue;
             
-                _logger.LogDebug("Resolved user token from cookies");
-            }
+            _logger.LogDebug("Resolved user token from cookies");
+        }
 
-            if (userToken != string.Empty)
+        if (userToken != string.Empty && !ctx.Items.ContainsKey(UserContextItemName))
+        {
+            try
             {
-                try
-                {
-                    var user = _auth.Unprotect(userToken);
-                    ctx.Items.Add("User", user);
+                var user = _auth.Unprotect(userToken);
+                ctx.Items.Add(UserContextItemName, user);
                 
-                    _logger.LogDebug("User object successfully attached to context");
-                }
-                catch
-                {
-                    _logger.LogWarning("Invalid user token attempted to unprotect: {Token}", userToken);
-                }
+                _logger.LogDebug("User object successfully attached to context");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                
+                _logger.LogWarning("Invalid user token attempted to unprotect: {Token}", userToken);
             }
         }
 
