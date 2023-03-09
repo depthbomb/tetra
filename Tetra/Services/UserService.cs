@@ -132,8 +132,6 @@ public class UserService
             Sub               = claims.FirstOrDefault(c => c.Type == "sub")?.Value,
         };
 
-        Console.WriteLine(JsonSerializer.Serialize(userInfo));
-
         return userInfo;
     }
 }
