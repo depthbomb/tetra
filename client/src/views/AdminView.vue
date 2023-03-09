@@ -23,7 +23,12 @@
 	<div class="container">
 		<app-heading>Admin</app-heading>
 		<app-card seamless bordered>
-			<links-list :links="allLinks" :links-loaded="true" @link-deleted="getAllLinks()"/>
+			<links-list
+				:links="allLinks"
+				:links-loaded="true"
+				@link-deleted="getAllLinks()"
+				no-results-message="Looks like no one has created any shortlinks ¯\_(ツ)_/¯"
+			/>
 		</app-card>
 	</div>
 </template>
