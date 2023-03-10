@@ -28,7 +28,7 @@
 			<template v-if="store.loggedIn">
 				<div class="masthead__dropdown">
 					<span class="masthead__avatar">
-						<img :src="store.avatar" :alt="store.username">
+						<img :src="store.avatar" width="24" height="24" :alt="store.username">
 					</span>
 					<span class="masthead__username">{{ store.username }}</span>
 				</div>
@@ -59,10 +59,6 @@
 			@apply flex flex-row items-center;
 			@apply mr-8;
 			@apply space-x-3;
-
-			.masthead__logo {
-
-			}
 
 			.masthead__title {
 				@apply font-serif text-2xl text-gray-50;
