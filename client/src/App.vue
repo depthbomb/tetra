@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { RouterView } from 'vue-router';
-	import AppFooter from './components/AppFooter.vue';
-	import AppMasthead from './components/AppMasthead.vue';
+	import AppFooter from '~/components/AppFooter.vue';
+	import AppMasthead from '~/components/AppMasthead.vue';
 </script>
 
 <template>

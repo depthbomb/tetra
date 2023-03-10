@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Html;
+using System.Security.Cryptography;
 using Microsoft.Extensions.Configuration;
 
 using Tetra.Shared;
@@ -7,7 +8,8 @@ namespace Tetra.Services;
 
 public class AssetService
 {
-    private Asset[] _manifest;
+    private AssetManifest _manifest;
+    private string        _preloadTags = string.Empty;
 
     private readonly IConfiguration                    _config;
     private readonly string                            _baseUrl;
@@ -23,7 +25,7 @@ public class AssetService
     public async Task<string> GetVersionedFileNameAsync(string originalName)
     {
         var manifest = await GetManifestAsync();
-        var record   = manifest.FirstOrDefault(a => a.Original == originalName);
+        var record   = manifest.Assets.FirstOrDefault(a => a.Original == originalName);
         if (record == null)
         {
             throw new KeyNotFoundException($"No asset manifest key \"{originalName}\"");
@@ -67,8 +69,35 @@ public class AssetService
 
         return _sriHashes[originalName];
     }
+    
+    public HtmlString RenderPreloadElements()
+    {
+        if (_preloadTags == null || !_config.GetValue<bool>("Production"))
+        {
+            var sb = new StringBuilder();
+            foreach (var asset in _manifest.Prefetched)
+            {
+                if (asset.EndsWith(".js"))
+                {
+                    sb.Append($"<link rel=\"modulepreload\" href=\"{asset}\" as=\"script\">");
+                }
+                else if (asset.EndsWith(".css"))
+                {
+                    sb.Append($"<link rel=\"preload\" href=\"{asset}\" as=\"style\">");
+                }
+                else if (asset.EndsWith(".woff2") || asset.EndsWith(".woff"))
+                {
+                    sb.Append($"<link rel=\"preload\" href=\"{asset}\" as=\"font\" crossorigin=\"anonymous\">");
+                }
+            }
 
-    private async Task<Asset[]> GetManifestAsync()
+            _preloadTags = sb.ToString();
+        }
+
+        return new HtmlString(_preloadTags);
+    }
+
+    private async Task<AssetManifest> GetManifestAsync()
     {
         if (_manifest == null || !_config.GetValue<bool>("Production"))
         {
@@ -80,19 +109,10 @@ public class AssetService
             
             await using (var fs = File.OpenRead(manifestPath))
             {
-                _manifest = await JsonSerializer.DeserializeAsync<Asset[]>(fs);
+                _manifest = await JsonSerializer.DeserializeAsync<AssetManifest>(fs);
             }
         }
 
         return _manifest;
-    }
-
-    private record Asset
-    {
-        [JsonPropertyName("o")]
-        public string Original { get; set; }
-        
-        [JsonPropertyName("v")]
-        public string Versioned { get; set; }
     }
 }

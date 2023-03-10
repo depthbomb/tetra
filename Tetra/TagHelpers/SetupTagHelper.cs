@@ -33,7 +33,5 @@ public class SetupTagHelper : TagHelper
         }
         
         output.Attributes.SetAttribute("data-csrf-token", _security.GenerateCsrfToken(ctx.Connection.RemoteIpAddress));
-
-        output.Attributes.SetAttribute("data-stats-hub", StatsHub.Endpoint);
     }
 }

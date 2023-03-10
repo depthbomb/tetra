@@ -3,8 +3,8 @@ import { resolve } from 'node:path';
 import vue from '@vitejs/plugin-vue';
 import imagemin from 'vite-plugin-imagemin';
 import { fileURLToPath, URL } from 'node:url';
-import type { UserConfig } from 'vite';
 import { readFile, writeFile } from 'node:fs/promises';
+import type { UserConfig } from 'vite';
 
 const distPath =
 	process.env.DOCKER === 'true' ? resolve('dist') : resolve('..', 'Tetra', 'wwwroot');
@@ -35,17 +35,25 @@ export default defineConfig(({ mode }) => {
 				// by the backend.
 				name: 'transform-manifest',
 				async closeBundle() {
-					const manifestPath = resolve(distPath, 'manifest.json');
-					const json = await readFile(manifestPath, 'utf-8');
-					const manifest = JSON.parse(json);
-					const newManifest = [];
+					const manifestPath     = resolve(distPath, 'manifest.json');
+					const json             = await readFile(manifestPath, 'utf-8');
+					const manifest         = JSON.parse(json);
+					const newManifest: any = { assets: [] };
+					const prefetched       = [];
 					for (const originalPath in manifest) {
 						const asset = manifest[originalPath];
-						newManifest.push({
+
+						if (!asset.isEntry) {
+							prefetched.push(asset.file);
+						}
+
+						newManifest.assets.push({
 							o: originalPath,
 							v: asset.file,
 						});
 					}
+
+					newManifest.prefetched = prefetched;
 
 					await writeFile(manifestPath, JSON.stringify(newManifest), 'utf8');
 				},

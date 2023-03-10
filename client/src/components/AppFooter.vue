@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	import gsap from 'gsap';
 	import { useGitStore } from '~/stores/git';
-	import { useTetraStore } from '~/stores/tetra';
 	import { makeApiRequest } from '~/services/api';
 	import CodeIcon from '~/components/icons/CodeIcon.vue';
 	import { HubConnectionBuilder } from '@microsoft/signalr';
@@ -10,11 +9,10 @@
 	import type { IInternalLatestCommitHashResponse } from '~/@types/IInternalLatestCommitHashResponse';
 
 	const totalShortlinksMethodName = 'TotalShortlinks';
-	const store                     = useTetraStore();
 	const gitStore                  = useGitStore();
 	const totalLinks                = ref(0);
 	const tweened                   = reactive({ number: 0 });
-	const connection                = new HubConnectionBuilder().withUrl(store.statsHubEndpoint).build();
+	const connection                = new HubConnectionBuilder().withUrl('/hubs/stats').build();
 
 	const onTotalShortlinks = (count: number) => totalLinks.value = count;
 
