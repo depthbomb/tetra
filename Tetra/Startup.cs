@@ -29,6 +29,7 @@ public class Startup
         services.AddTetraBackgroundServices();
         services.AddDataProtection();
         services.AddResponseCaching();
+        services.AddResponseCompression();
         services.AddControllersWithViews()
                 .AddJsonOptions(o =>
                 {
@@ -59,13 +60,14 @@ public class Startup
             app.UseHsts();
             app.UseHttpsRedirection();
             app.UseForwardedHeaders();
+            app.UseResponseCaching();
+            app.UseResponseCompression();
         }
         
         app.UseStatusCodePagesWithReExecute("/error-handler-route/{0}");
         app.UseExceptionHandler("/error-handler-route/{0}");
 
         app.UseStaticFiles();
-        app.UseResponseCaching();
         app.UseRouting();
         app.UseMiddleware<AuthMiddleware>();
         app.UseMiddleware<RequestIdMiddleware>();
