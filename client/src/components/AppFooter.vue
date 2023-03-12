@@ -1,8 +1,6 @@
 <script setup lang="ts">
 	import gsap from 'gsap';
-	import { useNow } from '@vueuse/core';
 	import { useGitStore } from '~/stores/git';
-	import { useDateFormat } from '@vueuse/shared';
 	import { makeApiRequest } from '~/services/api';
 	import { HubConnectionBuilder } from '@microsoft/signalr';
 	import GithubIcon from '~/components/icons/GithubIcon.vue';
@@ -16,7 +14,6 @@
 	const totalLinks                = ref(0);
 	const tweened                   = reactive({ number: 0 });
 	const connection                = new HubConnectionBuilder().withUrl('/hubs/stats').build();
-	const copyrightYear             = useDateFormat(useNow(), 'YYYY'); // Reactive lol
 
 	const onTotalShortlinks = (count: number) => totalLinks.value = count;
 
@@ -44,7 +41,7 @@
 <template>
 	<footer class="footer">
 		<div class="footer__content">
-			<p class="text-gray-400"><copyright-icon class="inline-block h-4"/> superfishial {{ copyrightYear }}</p>
+			<p class="text-gray-400"><copyright-icon class="inline-block h-4"/> superfishial {{ new Date().getFullYear() }}</p>
 			<span class="footer__divider">|</span>
 			<p>Serving <strong>{{ tweened.number.toFixed(0) }}</strong> links</p>
 			<span class="footer__divider">|</span>
