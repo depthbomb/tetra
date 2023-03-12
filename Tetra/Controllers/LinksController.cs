@@ -26,8 +26,9 @@ public class LinksController : BaseController
     /// <summary>
     ///     Creates a shortlink
     /// </summary>
+    /// <param name="key">Optional API key</param>
     /// <response code="201">The shortlink was created successfully</response>
-    /// <response code="400">There was an issue with one or more request parameters</response>
+    /// <response code ="400" >There was an issue with one or more request parameters</response>
     [HttpPut]
     [HttpPost("create")]
     [ProducesResponseType(typeof(CreateLinkResponse), 201)]
