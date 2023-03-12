@@ -1,18 +1,22 @@
 <script setup lang="ts">
 	import gsap from 'gsap';
+	import { useNow } from '@vueuse/core';
 	import { useGitStore } from '~/stores/git';
+	import { useDateFormat } from '@vueuse/shared';
 	import { makeApiRequest } from '~/services/api';
-	import CodeIcon from '~/components/icons/CodeIcon.vue';
 	import { HubConnectionBuilder } from '@microsoft/signalr';
+	import GithubIcon from '~/components/icons/GithubIcon.vue';
+	import CopyrightIcon from '~/components/icons/CopyrightIcon.vue';
 	import { ref, watch, reactive, onMounted, onUnmounted } from 'vue';
 	import CurlyBracesIcon from '~/components/icons/CurlyBracesIcon.vue';
-	import type { IInternalLatestCommitHashResponse } from '~/@types/IInternalLatestCommitHashResponse';
+	import type { IAjaxLatestCommitHashResponse } from '~/@types/IAjaxLatestCommitHashResponse';
 
 	const totalShortlinksMethodName = 'TotalShortlinks';
 	const gitStore                  = useGitStore();
 	const totalLinks                = ref(0);
 	const tweened                   = reactive({ number: 0 });
 	const connection                = new HubConnectionBuilder().withUrl('/hubs/stats').build();
+	const copyrightYear             = useDateFormat(useNow(), 'YYYY'); // Reactive lol
 
 	const onTotalShortlinks = (count: number) => totalLinks.value = count;
 
@@ -22,7 +26,7 @@
 		await connection.start();
 		await connection.invoke('RequestTotalShortlinks');
 
-		makeApiRequest<IInternalLatestCommitHashResponse>('/internal/latest-commit', { method: 'POST' }).then(({ hash }) => {
+		makeApiRequest<IAjaxLatestCommitHashResponse>('/ajax/latest-commit', { method: 'POST' }).then(({ hash }) => {
 			gitStore.latestSha = hash;
 		}).catch(err => {
 			console.error('Failed to retrieve latest commit SHA, using fallback value');
@@ -40,15 +44,17 @@
 <template>
 	<footer class="footer">
 		<div class="footer__content">
+			<p class="text-gray-400"><copyright-icon class="inline-block h-4"/> superfishial {{ copyrightYear }}</p>
+			<span class="footer__divider">|</span>
 			<p>Serving <strong>{{ tweened.number.toFixed(0) }}</strong> links</p>
-			<span>|</span>
+			<span class="footer__divider">|</span>
 			<router-link :to="{ name: 'api-docs' }">
-				<curly-braces-icon class="inline-block h-3"/>
+				<curly-braces-icon class="inline-block h-4"/>
 				<span>API Docs</span>
 			</router-link>
-			<span>|</span>
+			<span class="footer__divider">|</span>
 			<a href="https://github.com/depthbomb/tetra" target="_blank">
-				<code-icon class="inline-block h-3"/>
+				<github-icon class="inline-block h-4"/>
 				<span>{{ gitStore.shortenedLatestSha }}</span>
 			</a>
 		</div>
@@ -72,6 +78,10 @@
 				@apply space-x-1;
 				@apply hover:text-brand;
 				@apply transition-colors;
+			}
+
+			.footer__divider {
+				@apply text-gray-500;
 			}
 		}
 	}

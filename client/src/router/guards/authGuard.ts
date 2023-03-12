@@ -1,6 +1,5 @@
-import { makeApiRequest } from '~/services/api';
+import { useUserStore } from '~/stores/user';
 import type { NavigationGuard } from 'vue-router';
-import type { ICheckpointResponse } from '~/@types/ICheckpointResponse';
 
 export function useAuthGuard(): NavigationGuard {
 	const alertNoSession = () => {
@@ -9,8 +8,8 @@ export function useAuthGuard(): NavigationGuard {
 	};
 	return async (to, from, next) => {
 		try {
-			const { auth } = await makeApiRequest<ICheckpointResponse>('/internal/checkpoint', { method: 'POST' });
-			if (!auth) {
+			const { loggedIn } = useUserStore();
+			if (!loggedIn) {
 				alertNoSession();
 			} else {
 				return next();

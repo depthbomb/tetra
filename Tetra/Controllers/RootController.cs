@@ -2,7 +2,6 @@
 
 using Tetra.Services;
 using Tetra.Extensions;
-using Tetra.Middleware.Attributes;
 
 namespace Tetra.Controllers;
 
@@ -17,12 +16,12 @@ public class RootController : BaseController
         _links = links;
     }
     
-    [Csp]
-    [HttpGet]
-    public IActionResult Index()
-    {
-        return View();
-    }
+    // [Csp]
+    // [HttpGet]
+    // public IActionResult Index()
+    // {
+    //     return View();
+    // }
     
     [HttpGet("{shortcode}")]
     public async Task<IActionResult> AttemptLinkRedirectAsync(string shortcode)

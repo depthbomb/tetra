@@ -1,6 +1,5 @@
-import { makeApiRequest } from '~/services/api';
+import { useUserStore } from '~/stores/user';
 import type { NavigationGuard } from 'vue-router';
-import type { ICheckpointResponse } from '~/@types/ICheckpointResponse';
 
 export function useAdminGuard(): NavigationGuard {
 	const redirectToHome = () => {
@@ -8,7 +7,7 @@ export function useAdminGuard(): NavigationGuard {
 	};
 	return async (to, from, next) => {
 		try {
-			const { admin } = await makeApiRequest<ICheckpointResponse>('/internal/checkpoint', { method: 'POST' });
+			const { admin } = useUserStore()
 			if (!admin) {
 				redirectToHome();
 			} else {

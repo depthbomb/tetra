@@ -6,7 +6,7 @@
 	onMounted(() => SwaggerUIBundle({
 		url: '/swagger/v1/swagger.json',
 		dom_id: '#swagger'
-	}))
+	}));
 </script>
 
 <template>

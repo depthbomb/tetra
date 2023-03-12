@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
-using Tetra.Models;
 using Tetra.Services;
 
 namespace Tetra.Controllers;
@@ -11,8 +10,7 @@ namespace Tetra.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class AuthController : BaseController
 {
-    private const string StateCookieName   = "state";
-    private const string SessionCookieName = "ru";
+    private const string StateCookieName = "state";
     
     private readonly AuthService _auth;
     private readonly UserService _user;
@@ -37,9 +35,9 @@ public class AuthController : BaseController
     public IActionResult LogOut()
     {
         HttpContext.Response.Cookies.Delete(StateCookieName);
-        HttpContext.Response.Cookies.Delete(SessionCookieName);
+        HttpContext.Response.Cookies.Delete(GlobalShared.SessionCookieName);
 
-        return RedirectToAction("Index", "Root");
+        return Redirect("/");
     }
     
     [HttpGet("callback")]
@@ -57,19 +55,11 @@ public class AuthController : BaseController
         var userInfoResponse = await _auth.Client.GetUserInfoAsync(tokenResponse.AccessToken);
         var user             = await _user.GetOrCreateUserAsync(userInfoResponse.Claims.ToList());
 
-        var userCookieData = JsonSerializer.Serialize(new AuthUser
-        {
-            Id       = user.Sub,
-            Username = user.Username,
-            Avatar   = user.Avatar,
-            Admin    = user.Admin
-        });
-        
-        HttpContext.Response.Cookies.Append(SessionCookieName, _auth.Protect(userCookieData), new CookieOptions
+        HttpContext.Response.Cookies.Append(GlobalShared.SessionCookieName, _auth.Protect(user.Sub), new CookieOptions
         {
             Expires = DateTimeOffset.Now.AddYears(1)
         });
 
-        return RedirectToAction("Index", "Root");
+        return Redirect("/");
     }
 }

@@ -76,6 +76,7 @@ public class Startup
         {
             endpoints.MapControllers();
             endpoints.MapTetraHubs();
+            endpoints.MapFallbackToFile("index.html");
         });
     }
 }

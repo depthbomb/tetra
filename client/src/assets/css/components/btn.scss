@@ -1,7 +1,7 @@
 .btn {
 	@apply flex flex-row items-center justify-center;
 	@apply px-4 py-2;
-	@apply text-white;
+	@apply text-white font-serif;
 	@apply rounded;
 	@apply cursor-pointer;
 	@apply transition-colors;
@@ -31,7 +31,7 @@
 	&.btn--small {
 		@apply min-h-[28px];
 		@apply px-2 py-1;
-		@apply text-sm;
+		@apply text-[13px];
 	}
 
 	&.btn--large {

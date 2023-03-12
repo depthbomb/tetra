@@ -1,4 +1,4 @@
-export interface IInternalUserLink {
+export interface IAjaxUserLink {
 	shortcode: string;
 	shortlink: string;
 	destination: string;

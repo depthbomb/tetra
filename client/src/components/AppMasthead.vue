@@ -1,13 +1,13 @@
 <script setup lang="ts">
 	import { defineAsyncComponent } from 'vue';
-	import { useTetraStore } from '~/stores/tetra';
+	import { useUserStore } from '~/stores/user';
 	import LinkButton from '~/components/LinkButton.vue';
 	import SuperfishialLogo from '~/components/logos/SuperfishialLogo.vue';
 
 	const SignInIcon  = defineAsyncComponent(() => import('~/components/icons/SignInIcon.vue'));
 	const SignOutIcon = defineAsyncComponent(() => import('~/components/icons/SignOutIcon.vue'));
 
-	const store = useTetraStore();
+	const store = useUserStore();
 </script>
 
 <template>
@@ -33,13 +33,13 @@
 					<span class="masthead__username">{{ store.username }}</span>
 				</div>
 				<link-button variant="danger" size="small" to="/auth/logout">
-					<sign-out-icon class="mr-1 h-3.5"/>
+					<sign-out-icon class="mr-1 h-4"/>
 					<span>Sign Out</span>
 				</link-button>
 			</template>
 			<template v-else>
 				<link-button variant="brand" to="/auth/login">
-					<sign-in-icon class="mr-1 h-3.5"/>
+					<sign-in-icon class="mr-1 h-4"/>
 					<span>Sign In</span>
 				</link-button>
 			</template>

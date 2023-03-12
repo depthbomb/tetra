@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using Tetra.Models;
 using Tetra.Extensions;
+using Tetra.Data.Entities;
 
 namespace Tetra.Controllers;
 
@@ -22,13 +22,11 @@ public abstract class BaseController : Controller
         };
     }
 
-    protected bool TryGetAuthenticatedUser(out AuthUser user)
+    protected bool TryGetAuthenticatedUser(out User user)
     {
-        user = null;
-        if (HttpContext.Items.TryGetValue(UserContextItemKey, out var userItem))
+        user = default;
+        if (HttpContext.Items.TryGetValueAs(UserContextItemKey, out user))
         {
-            user = JsonSerializer.Deserialize<AuthUser>(userItem.ToString());
-
             return true;
         }
         

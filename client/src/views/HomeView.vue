@@ -1,28 +1,29 @@
 <script setup lang="ts">
-	import { useTetraStore } from '~/stores/tetra';
+	import { useUserStore } from '~/stores/user';
 	import AppCard from '~/components/AppCard.vue';
 	import { makeApiRequest } from '~/services/api';
 	import AppHeading from '~/components/AppHeading.vue';
-	import { ref, onMounted, defineAsyncComponent } from 'vue';
 	import LinkCreator from '~/components/home/LinkCreator.vue';
-	import type { IInternalUserLink } from '~/@types/IInternalUserLink';
+	import { ref, watchEffect, defineAsyncComponent } from 'vue';
+	import type { IAjaxUserLink } from '~/@types/IAjaxUserLink';
 
 	const LinksList = defineAsyncComponent(() => import('~/components/LinksList.vue'));
 
-	const store       = useTetraStore();
-	const userLinks   = ref<IInternalUserLink[]>([]);
+	const store       = useUserStore();
+	const userLinks   = ref<IAjaxUserLink[]>([]);
 	const linksLoaded = ref(false);
 
 	const getUserLinks = async () => {
-		// linksLoaded is only ever false once so the list doesn't distractingly go into the loading state on every re-retrieval
+		// linksLoaded is only ever false once so the list doesn't distractingly go into the loading
+		// state on every re-retrieval
 
-		const links = await makeApiRequest<IInternalUserLink[]>('/internal/get-user-links', { method: 'POST' });
+		const links = await makeApiRequest<IAjaxUserLink[]>('/ajax/get-user-links', { method: 'POST' });
 
 		userLinks.value   = links;
 		linksLoaded.value = true;
 	};
 
-	onMounted(async () => {
+	watchEffect(async () => {
 		if (store.loggedIn) {
 			await getUserLinks();
 		}
@@ -38,7 +39,14 @@
 	<div class="mt-6 container">
 		<app-heading>Your Shortlinks</app-heading>
 		<app-card seamless bordered>
-			<links-list v-if="store.loggedIn" :links="userLinks" :links-loaded="linksLoaded" @link-deleted="getUserLinks()"/>
+			<links-list
+				v-if="store.loggedIn"
+				:links="userLinks"
+				:links-loaded="linksLoaded"
+				@link-deleted="getUserLinks()"
+				loading-message="Loading your shortlinks&hellip;"
+				no-results-message="You have no shortlinks - why not create some?"
+			/>
 			<p v-else class="my-8 text-center text-white text-xl">Sign in to view</p>
 		</app-card>
 	</div>

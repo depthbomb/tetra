@@ -22,17 +22,6 @@ public static class GlobalShared
         { 503, "Service Unavailable" },
     };
 
-    public static DateTime GetGeneratorString()
-    {
-        #pragma warning disable IL3000
-        string assLocation = Assembly.GetExecutingAssembly().Location;
-        #pragma warning restore IL3000
-        if (string.IsNullOrEmpty(assLocation))
-        {
-            assLocation = Path.Combine(AppContext.BaseDirectory, "Tetra.exe");
-        }
-        var buildDate = new FileInfo(assLocation).LastWriteTime;
-
-        return buildDate;
-    }
+    public const string SessionCookieName      = "tetra_session";
+    public const string UserContextItemKeyName = "User";
 }

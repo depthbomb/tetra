@@ -1,72 +1,62 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
-using Tetra.Models;
 using Tetra.Services;
 using Tetra.Exceptions;
 using Tetra.Middleware.Attributes;
 
 namespace Tetra.Controllers;
 
-[Route("internal")]
-[CsrfProtected]
+[Route("ajax")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class InternalController : BaseController
+public class AjaxController : BaseController
 {
-    private readonly ILogger<InternalController> _logger;
-    private readonly TetraContext                _db;
-    private readonly UserService                 _users;
-    private readonly GitHubService               _github;
+    private readonly ILogger<AjaxController> _logger;
+    private readonly TetraContext            _db;
+    private readonly IMemoryCache            _cache;
+    private readonly UserService             _users;
 
-    public InternalController(ILogger<InternalController> logger,
-                              TetraContext db,
-                              UserService users,
-                              GitHubService github)
+    public AjaxController(ILogger<AjaxController> logger,
+                          TetraContext db,
+                          IMemoryCache cache,
+                          UserService users)
     {
         _logger = logger;
         _db     = db;
+        _cache  = cache;
         _users  = users;
-        _github = github;
     }
 
-    [HttpPost("checkpoint")]
-    [RateLimit(2, seconds: 1)]
+    [HttpPost("me")]
+    [RateLimit(4, seconds: 1)]
     public IActionResult CheckUserAuth()
     {
-        bool auth  = false;
-        bool admin = false;
-        if (HttpContext.Items.TryGetValue("User", out var userItem))
+        if (TryGetAuthenticatedUser(out var user))
         {
-            try
+            return ApiResult(new
             {
-                var user = JsonSerializer.Deserialize<AuthUser>(userItem.ToString());
-
-                auth  = true;
-                admin = user.Admin;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unable to validate user authentication");
-            }
+                user.Sub,
+                user.Username,
+                user.Avatar,
+                user.ApiKey,
+                user.Admin,
+            });
         }
         
-        return ApiResult(new
-        {
-            auth,
-            admin
-        });
+        return ApiResult();
     }
     
     [HttpPost("get-user-links")]
     [RateLimit(2, seconds: 1)]
     public async Task<IActionResult> GetAuthUserLinksAsync()
     {
-        if (TryGetAuthenticatedUser(out var authUser))
+        if (TryGetAuthenticatedUser(out var user))
         {
             try
             {
                 var links = await _db.Links
-                                     .Where(l => l.Creator == authUser.Id && l.Disabled == false)
+                                     .Where(l => l.Creator == user.Sub && l.Disabled == false)
                                      .Select(l => new 
                                      {
                                          l.Shortcode,
@@ -117,26 +107,24 @@ public class InternalController : BaseController
         {
             _logger.LogError(ex, "Unable to retrieve auth'd user links");
                 
-            return new StatusCodeResult(500);
+            return Problem();
         }
     }
 
     [HttpPost("api-key")]
-    [RateLimit(1, seconds: 1)]
     public async Task<IActionResult> GetOrCreateApiKeyAsync()
     {
-        if (TryGetAuthenticatedUser(out var authUser))
+        if (TryGetAuthenticatedUser(out var user))
         {
             try
             {
-                string apiKey = await _users.GetOrCreateApiKeyAsync(authUser.Id);
+                string apiKey = await _users.GetOrCreateApiKeyAsync(user.Sub);
 
                 return ApiResult(new
                 {
                     apiKey
                 });
             }
-            
             catch (UserNotFoundException ex)
             {
                 _logger.LogError(ex, "Unable to get or create user API key");
@@ -147,25 +135,18 @@ public class InternalController : BaseController
 
         return Unauthorized();
     }
-
+    
     [HttpPost("latest-commit")]
-    [RateLimit(2, seconds: 1)]
-    public async Task<IActionResult> GetLatestCommitHashAsync()
+    public IActionResult GetLatestCommitHash()
     {
-        try
+        if (_cache.TryGetValue("latestSha", out string hash))
         {
-            var hash = await _github.GetLatestCommitShaAsync();
-
             return ApiResult(new
             {
                 hash
             });
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Unable to get retrieve latest commit SHA");
-
-            return Problem();
-        }
+        
+        return Problem();
     }
 }

@@ -18,8 +18,8 @@
 		'btn--success': copiedState,
 	}]);
 	const iconClass = ref([{
-		'mr-1 w-3 h-3': !props.size || props.size === 'small',
-		'mr-2 w-5 h-5': props.size === 'medium' || props.size === 'large',
+		'mr-1.5 h-3.5': !props.size || props.size === 'small',
+		'mr-2 h-5': props.size === 'medium' || props.size === 'large',
 	}]);
 
 	const doCopyLink = () => {

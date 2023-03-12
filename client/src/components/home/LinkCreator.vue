@@ -2,7 +2,7 @@
 	import { reactive } from 'vue';
 	import { isValidHttpUrl } from '~/utils';
 	import { useClipboard } from '@vueuse/core';
-	import { useTetraStore } from '~/stores/tetra';
+	import { useUserStore } from '~/stores/user';
 	import { makeApiRequest } from '~/services/api';
 	import ActionButton from '~/components/ActionButton.vue';
 	import ResultsDialog from '~/components/home/ResultsDialog.vue';
@@ -13,7 +13,7 @@
 
 	const { copy } = useClipboard({ legacy: true });
 
-	const store   = useTetraStore();
+	const store   = useUserStore();
 	const uiState = reactive({
 		valid: false,
 		submitDisabled: true,
@@ -24,27 +24,27 @@
 	});
 
 	const validateInput = () => {
-		console.log('validating');
-		console.log(uiState.destination);
 		uiState.valid          = isValidHttpUrl(uiState.destination);
 		uiState.submitDisabled = !uiState.valid;
 	};
 	const trySubmit = async () => {
 		uiState.submitDisabled = true;
 
-		makeApiRequest<ICreateLinkResponse>('/api/links/create', {
-			method: 'POST',
+		makeApiRequest<ICreateLinkResponse>('/api/links', {
+			method: 'PUT',
 			body: JSON.stringify({ destination: uiState.destination })
 		}).then((link) => {
 			const { shortlink } = link;
 
-			// Only show the results dialog for unauthenticated users since authenticated users
-			// will already see feedback upon shortlink creation.
+			// Only show the results dialog for unauthenticated users since authenticated users will
+			// already see feedback upon shortlink creation.
 			if (!store.loggedIn) {
 				uiState.resultsDialogOpen  = true;
 				uiState.resultsDestination = shortlink;
+
+				copyDestinationToClipboard();
 			}
-			copyDestinationToClipboard();
+
 			emit('linkCreated');
 		}).catch(err => {
 			// TODO handle
@@ -68,7 +68,7 @@
 		<input
 			@input="validateInput"
 			type="url"
-			placeholder="Enter your destination here"
+			placeholder="Your long URL"
 			:class="['--block --large', {
 				'--success': uiState.valid,
 				'--error': !uiState.valid && uiState.destination !== ''
@@ -77,7 +77,7 @@
 		/>
 		<action-button @click="trySubmit" size="large" :disabled="uiState.submitDisabled || uiState.destination === ''">
 			<span>Submit</span>
-			<paper-plane-top-icon class="ml-2 h-4"/>
+			<paper-plane-top-icon class="ml-2 h-5"/>
 		</action-button>
 	</div>
 </template>
@@ -86,12 +86,5 @@
 	.destination-input {
 		@apply flex flex-row items-center;
 		@apply space-x-2;
-	}
-
-	.options-toggle {
-		@apply my-4 mx-auto;
-		@apply flex flex-row items-center justify-center;
-		@apply space-x-3;
-		@apply text-white text-lg;
 	}
 </style>

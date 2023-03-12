@@ -72,7 +72,7 @@ public class LinksController : BaseController
             creator = HttpContext.Connection.RemoteIpAddress?.ToString();
             if (TryGetAuthenticatedUser(out var user))
             {
-                creator = user.Id;
+                creator = user.Sub;
             }
         }
 

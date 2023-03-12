@@ -8,7 +8,7 @@ namespace Tetra.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddTetraDb(this IServiceCollection services, IConfiguration config) =>
+    public static void AddTetraDb(this IServiceCollection services, IConfiguration config) =>
         services.AddDbContextPool<TetraContext>(options =>
         {
             var host = config.GetValue<string>("Database:Host");
@@ -19,15 +19,15 @@ public static class ServiceCollectionExtensions
             options.UseNpgsql($"Host={host};Username={user};Password={pass};Database={name};Include Error Detail=true");
         });
 
-    public static IServiceCollection AddTetraServices(this IServiceCollection services) =>
+    public static void AddTetraServices(this IServiceCollection services) =>
         services.AddSingleton<AuthService>()
                 .AddSingleton<UserService>()
                 .AddSingleton<AssetService>()
                 .AddSingleton<LinksService>()
                 .AddSingleton<HealthService>()
-                .AddSingleton<GitHubService>()
                 .AddSingleton<SecurityService>();
 
-    public static IServiceCollection AddTetraBackgroundServices(this IServiceCollection services) => 
-        services.AddHostedService<LinkCleanupBackgroundService>();
+    public static void AddTetraBackgroundServices(this IServiceCollection services) => 
+        services.AddHostedService<GitHubBackgroundService>()
+                .AddHostedService<LinkCleanupBackgroundService>();
 }

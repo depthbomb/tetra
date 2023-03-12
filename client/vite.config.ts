@@ -1,13 +1,11 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 import vue from '@vitejs/plugin-vue';
+import preload from 'vite-plugin-preload';
 import imagemin from 'vite-plugin-imagemin';
 import { fileURLToPath, URL } from 'node:url';
-import { readFile, writeFile } from 'node:fs/promises';
+import { createHtmlPlugin } from 'vite-plugin-html';
 import type { UserConfig } from 'vite';
-
-const distPath =
-	process.env.DOCKER === 'true' ? resolve('dist') : resolve('..', 'Tetra', 'wwwroot');
 
 export default defineConfig(({ mode }) => {
 	const config: UserConfig = {
@@ -15,12 +13,11 @@ export default defineConfig(({ mode }) => {
 		root: resolve('./src'),
 		publicDir: resolve('./public'),
 		build: {
-			manifest: true,
 			emptyOutDir: true,
-			outDir: distPath,
+			outDir: resolve('..', 'Tetra', 'wwwroot'),
 			minify: mode === 'production' ? 'esbuild' : false,
 			rollupOptions: {
-				input: resolve('./src/app.ts'),
+				// input: resolve('./src/app.ts'),
 				output: {
 					entryFileNames: 'entry-[hash:32].js',
 					chunkFileNames: 'chunk-[hash:32].js',
@@ -30,34 +27,36 @@ export default defineConfig(({ mode }) => {
 		},
 		plugins: [
 			vue(),
-			{
-				// This "plugin" simplifies the manifest file to a format that is more easily parsed
-				// by the backend.
-				name: 'transform-manifest',
-				async closeBundle() {
-					const manifestPath     = resolve(distPath, 'manifest.json');
-					const json             = await readFile(manifestPath, 'utf-8');
-					const manifest         = JSON.parse(json);
-					const newManifest: any = { assets: [] };
-					const prefetched       = [];
-					for (const originalPath in manifest) {
-						const asset = manifest[originalPath];
+			preload(),
+			createHtmlPlugin(),
+			// {
+			// 	// This "plugin" simplifies the manifest file to a format that is more easily parsed
+			// 	// by the backend.
+			// 	name: 'transform-manifest',
+			// 	async closeBundle() {
+			// 		const manifestPath     = resolve(distPath, 'manifest.json');
+			// 		const json             = await readFile(manifestPath, 'utf-8');
+			// 		const manifest         = JSON.parse(json);
+			// 		const newManifest: any = { assets: [] };
+			// 		const prefetched       = [];
+			// 		for (const originalPath in manifest) {
+			// 			const asset = manifest[originalPath];
 
-						if (!asset.isEntry) {
-							prefetched.push(asset.file);
-						}
+			// 			if (!asset.isEntry) {
+			// 				prefetched.push(asset.file);
+			// 			}
 
-						newManifest.assets.push({
-							o: originalPath,
-							v: asset.file,
-						});
-					}
+			// 			newManifest.assets.push({
+			// 				o: originalPath,
+			// 				v: asset.file,
+			// 			});
+			// 		}
 
-					newManifest.prefetched = prefetched;
+			// 		newManifest.prefetched = prefetched;
 
-					await writeFile(manifestPath, JSON.stringify(newManifest), 'utf8');
-				},
-			},
+			// 		await writeFile(manifestPath, JSON.stringify(newManifest), 'utf8');
+			// 	},
+			// },
 		],
 		resolve: {
 			alias: {

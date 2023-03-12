@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-using Tetra.Models;
+using Tetra.Data.Entities;
 
 namespace Tetra.Middleware.Attributes;
 
@@ -12,8 +12,7 @@ public class RequireAdminAttribute : ActionFilterAttribute
         var ctx = context.HttpContext;
         if (ctx.Items.TryGetValue("User", out var userItem))
         {
-            var user = JsonSerializer.Deserialize<AuthUser>(userItem.ToString());
-            if (!user.Admin)
+            if (!((User)userItem)!.Admin)
             {
                 context.Result = new UnauthorizedResult();
             }

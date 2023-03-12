@@ -4,13 +4,13 @@
 	import { makeApiRequest } from '~/services/api';
 	import LinksList from '~/components/LinksList.vue';
 	import AppHeading from '~/components/AppHeading.vue';
-	import type { IInternalUserLink } from '~/@types/IInternalUserLink';
+	import type { IAjaxUserLink } from '~/@types/IAjaxUserLink';
 
-	const allLinks    = ref<IInternalUserLink[]>([]);
+	const allLinks    = ref<IAjaxUserLink[]>([]);
 	const linksLoaded = ref(false);
 
 	const getAllLinks = async () => {
-		const links = await makeApiRequest<IInternalUserLink[]>('/internal/get-all-links', { method: 'POST' });
+		const links = await makeApiRequest<IAjaxUserLink[]>('/ajax/get-all-links', { method: 'POST' });
 
 		allLinks.value    = links;
 		linksLoaded.value = true;
@@ -25,14 +25,11 @@
 		<app-card seamless bordered>
 			<links-list
 				:links="allLinks"
-				:links-loaded="true"
+				:links-loaded="linksLoaded"
 				@link-deleted="getAllLinks()"
+				loading-message="Loading all shortlinks&hellip;"
 				no-results-message="Looks like no one has created any shortlinks ¯\_(ツ)_/¯"
 			/>
 		</app-card>
 	</div>
 </template>
-
-<style scoped lang="scss">
-
-</style>
