@@ -21,8 +21,10 @@
 				store.apiKey         = res.apiKey   ?? null;
 				store.admin          = res.admin    ?? false;
 			} catch (err: unknown) {
-				alert('There was a problem authenticating you. Please log in again.');
-				window.location.href = '/auth/logout';
+				if (store.loggedIn) {
+					alert('There was a problem authenticating you. Please log in again.');
+					window.location.href = '/auth/logout';
+				}
 			}
 		}, 60_000, { immediateCallback: true });
 	});
