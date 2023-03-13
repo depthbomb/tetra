@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using Tetra.Models;
 using Tetra.Exceptions;
 using Tetra.Data.Entities;
+using Tetra.Shared;
 
 namespace Tetra.Services;
 
@@ -50,47 +51,6 @@ public class UserService
         return user;
     }
 
-    public async Task<string> GetOrCreateApiKeyAsync(string sub)
-    {
-        var existingApiKey = await GetApiKeyAsync(sub);
-        if (existingApiKey != null)
-        {
-            return existingApiKey;
-        }
-
-        return await CreateApiKeyAsync(sub);
-    }
-
-    public async Task<string> GetApiKeyAsync(string sub)
-    {
-        var user = await _db.GetUserBySubAsync(sub);
-        if (user == null)
-        {
-            throw new UserNotFoundException();
-        }
-
-        return user.ApiKey;
-    }
-    
-    public async Task<string> CreateApiKeyAsync(string sub, bool force = false)
-    {
-        var user = await _db.GetUserBySubAsync(sub);
-        if (user == null)
-        {
-            throw new UserNotFoundException();
-        }
-
-        string apiKey = Guid.NewGuid().ToString();
-        if (user.ApiKey == null || force)
-        {
-            user.ApiKey = apiKey;
-
-            await _db.SaveChangesAsync();
-        }
-
-        return apiKey;
-    }
-
     private async Task<User> GetFromClaimsAsync(IEnumerable<Claim> claims)
     {
         var parsedClaims = ParseClaims(claims);
@@ -108,6 +68,7 @@ public class UserService
             Email    = parsedClaims.Email,
             Avatar   = CreateGravatarUrl(parsedClaims.Email),
             Roles    = parsedClaims.Groups,
+            ApiKey   = IdGenerator.Generate(48),
             Admin    = parsedClaims.Groups.Contains("tetra_admin")
         };
 

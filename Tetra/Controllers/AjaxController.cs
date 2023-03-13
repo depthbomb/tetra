@@ -126,31 +126,6 @@ public class AjaxController : BaseController
         }
     }
 
-    [HttpPost("api-key")]
-    public async Task<IActionResult> GetOrCreateApiKeyAsync()
-    {
-        if (TryGetAuthenticatedUser(out var user))
-        {
-            try
-            {
-                string apiKey = await _users.GetOrCreateApiKeyAsync(user.Sub);
-
-                return ApiResult(new
-                {
-                    apiKey
-                });
-            }
-            catch (UserNotFoundException ex)
-            {
-                _logger.LogError(ex, "Unable to get or create user API key");
-
-                return Unauthorized();
-            }
-        }
-
-        return Unauthorized();
-    }
-    
     [HttpPost("latest-commit")]
     public IActionResult GetLatestCommitHash()
     {
