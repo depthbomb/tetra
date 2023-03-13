@@ -28,7 +28,7 @@
 	const { truncate } = useTruncation();
 
 	const deleteLink = async (shortcode: string, deletionKey: string) => {
-		if (confirm('Are you sure you want to delete this shortlink?\n\nThis cannot be undone.')) {
+		if (confirm('Are you sure you want to delete this shortlink?\nThis cannot be undone.')) {
 			await makeApiRequest(`/api/links/${shortcode}/${deletionKey}`, { method: 'DELETE' });
 
 			emit('linkDeleted');
@@ -47,7 +47,11 @@
 			</action-button>
 			<copy-button :text="link.shortcode" :content="link.shortlink"/>
 			<arrow-right-icon class="mx-4 h-6 text-gray-400"/>
-			<snippet>{{ truncate(link.destination, 100) }}</snippet>
+			<snippet>{{ truncate(link.destination, 64) }}</snippet>
+			<div v-if="link.user" class="flex items-center ml-auto">
+				<p v-if="link.user.anonymous">Created anonymously</p>
+				<p v-else>Created by {{ link.user.username }}</p>
+			</div>
 			<div v-if="link.expiresAt" class="flex items-center ml-auto">
 				<timer-icon class="mr-2 h-4"/>
 				<use-time-ago v-slot="{ timeAgo }" :time="link.expiresAt">Expires {{ timeAgo }}</use-time-ago>

@@ -22,10 +22,11 @@ public class LinksController : BaseController
         _links = links;
         _users = users;
     }
-    
+
     /// <summary>
     ///     Creates a shortlink
     /// </summary>
+    /// <param name="body">Shortlink creation options</param>
     /// <param name="key">Optional API key</param>
     /// <response code="201">The shortlink was created successfully</response>
     /// <response code ="400" >There was an issue with one or more request parameters</response>
@@ -58,6 +59,7 @@ public class LinksController : BaseController
         }
 
         string creator;
+        bool   anonymous = false;
         if (key != null)
         {
             var user = await _users.GetByApiKeyAsync(key);
@@ -68,16 +70,17 @@ public class LinksController : BaseController
 
             creator = user.Sub;
         }
+        else if (TryGetAuthenticatedUser(out var user))
+        {
+            creator = user.Sub;
+        }
         else
         {
-            creator = HttpContext.Connection.RemoteIpAddress?.ToString();
-            if (TryGetAuthenticatedUser(out var user))
-            {
-                creator = user.Sub;
-            }
+            creator   = HttpContext.Connection.RemoteIpAddress?.ToString();
+            anonymous = true;
         }
 
-        var link = await _links.CreateLinkAsync(creator, destination, linkExpiresAt);
+        var link = await _links.CreateLinkAsync(creator, destination, linkExpiresAt, anonymous);
 
         return ApiResult(new
         {

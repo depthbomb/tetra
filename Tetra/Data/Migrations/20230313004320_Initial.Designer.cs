@@ -13,7 +13,7 @@ using Tetra.Data;
 namespace Tetra.Data.Migrations
 {
     [DbContext(typeof(TetraContext))]
-    [Migration("20230306023338_Initial")]
+    [Migration("20230313004320_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace Tetra.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Creator")
+                    b.Property<string>("CreatorId")
                         .HasColumnType("text");
 
                     b.Property<string>("DeletionKey")
@@ -59,7 +59,12 @@ namespace Tetra.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Links");
                 });
@@ -73,6 +78,9 @@ namespace Tetra.Data.Migrations
                     b.Property<bool>("Admin")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("Anonymous")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("ApiKey")
                         .HasColumnType("text");
 
@@ -81,6 +89,9 @@ namespace Tetra.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("Disabled")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -100,6 +111,20 @@ namespace Tetra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Tetra.Data.Entities.Link", b =>
+                {
+                    b.HasOne("Tetra.Data.Entities.User", "User")
+                        .WithMany("Links")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Tetra.Data.Entities.User", b =>
+                {
+                    b.Navigation("Links");
                 });
 #pragma warning restore 612, 618
         }

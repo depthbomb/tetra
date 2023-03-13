@@ -15,11 +15,16 @@
 			try {
 				const res = await makeApiRequest<IAjaxMeResponse>('/ajax/me', { method: 'POST' });
 
-				store.id             = res.sub      ?? null;
-				store.username       = res.username ?? null;
-				store.avatar         = res.avatar   ?? null;
-				store.apiKey         = res.apiKey   ?? null;
-				store.admin          = res.admin    ?? false;
+				store.id       = res.sub      ?? null;
+				store.username = res.username ?? null;
+				store.avatar   = res.avatar   ?? null;
+				store.apiKey   = res.apiKey   ?? null;
+				store.admin    = res.admin    ?? false;
+
+				// Log the user out if they are disabled
+				if (res.disabled) {
+					window.location.href = '/auth/logout';
+				}
 			} catch (err: unknown) {
 				if (store.loggedIn) {
 					alert('There was a problem authenticating you. Please log in again.');

@@ -54,7 +54,7 @@
 
 <style scoped lang="scss">
 	.banner {
-		@apply flex flex-col;
+		@apply flex flex-col justify-center items-center;
 		@apply py-16;
 		@apply w-full;
 		@apply min-h-max;

@@ -3,5 +3,6 @@ export interface IAjaxMeResponse {
 	username: string;
 	avatar: string;
 	apiKey: string;
+	disabled: boolean;
 	admin: boolean;
 }

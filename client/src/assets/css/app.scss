@@ -16,7 +16,12 @@ body {
 
 .container {
 	@apply mx-auto;
-	@apply max-w-screen-xl w-full;
+	@apply px-4;
+	@apply max-w-screen-2xl w-full;
+
+	&.container__fluid {
+		@apply max-w-full;
+	}
 }
 
 ul {

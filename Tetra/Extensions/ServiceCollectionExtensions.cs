@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 
 using Tetra.Services;
+using Tetra.Services.Hosted;
 using Tetra.Services.Background;
 
 namespace Tetra.Extensions;
@@ -30,4 +31,7 @@ public static class ServiceCollectionExtensions
     public static void AddTetraBackgroundServices(this IServiceCollection services) => 
         services.AddHostedService<GitHubBackgroundService>()
                 .AddHostedService<LinkCleanupBackgroundService>();
+    
+    public static void AddTetraHostedServices(this IServiceCollection services) => 
+        services.AddHostedService<StartupHostedService>();
 }

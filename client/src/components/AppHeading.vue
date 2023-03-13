@@ -15,7 +15,7 @@
 
 <style scoped lang="scss">
 	.app-heading {
-		@apply my-4;
+		@apply my-6;
 
 		h1 {
 			@apply text-4xl text-white font-serif;

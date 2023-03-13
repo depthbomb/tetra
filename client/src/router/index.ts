@@ -2,18 +2,43 @@ import FAQView from '~/views/FAQView.vue';
 import HomeView from '~/views/HomeView.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-const AdminView = () => import('~/views/AdminView.vue');
-const ApiKeyView = () => import('~/views/ApiKeyView.vue');
-const ApiDocsView = () => import('~/views/ApiDocsView.vue');
-
 export const router = createRouter({
 	history: createWebHashHistory(),
 	routes: [
-		{ path: '/',                name: 'home',     component: HomeView },
-		{ path: '/admin',           name: 'admin',    component: AdminView },
-		{ path: '/faq',             name: 'faq',      component: FAQView },
-		{ path: '/api',             name: 'api-docs', component: ApiDocsView },
-		{ path: '/api-key',         name: 'api-key',  component: ApiKeyView },
+		{
+			path: '/',
+			name: 'home',
+			component: HomeView
+		},
+		{
+			path: '/faq',
+			name: 'faq',
+			component: FAQView
+		},
+		{
+			path: '/api',
+			name: 'api-docs',
+			component: () => import('~/views/ApiDocsView.vue')
+		},
+		{
+			path: '/api-key',
+			name: 'api-key',
+			component: () => import('~/views/ApiKeyView.vue')
+		},
+
+		// Admin Routes
+		{
+			path: '/admin',
+			name: 'admin',
+			redirect: '/admin/links'
+		},
+		{
+			path: '/admin/links',
+			name: 'admin.links',
+			component: () => import('~/views/admin/AllLinksView.vue')
+		},
+
+		// Fallback redirect
 		{ path: '/:pathMatch(.*)*', redirect: '/' },
 	]
 });

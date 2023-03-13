@@ -26,6 +26,7 @@ public class Startup
         services.AddMemoryCache();
         services.AddHttpContextAccessor();
         services.AddTetraServices();
+        services.AddTetraHostedServices();
         services.AddTetraBackgroundServices();
         services.AddDataProtection();
         services.AddResponseCaching();

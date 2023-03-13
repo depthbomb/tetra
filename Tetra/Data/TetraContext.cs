@@ -21,6 +21,9 @@ public class TetraContext : DbContext
     private static readonly Func<TetraContext, string, Task<User>> GetUserByApiKey
         = EF.CompileAsyncQuery((TetraContext context, string key) => context.Users.FirstOrDefault(u => u.ApiKey == key));
     
+    private static readonly Func<TetraContext, Task<User>> GetAnonymousUser
+        = EF.CompileAsyncQuery((TetraContext context) => context.Users.FirstOrDefault(u => u.Username == "Anonymous" && u.Anonymous));
+    
     // Links
     
     private static readonly Func<TetraContext, Task<int>> LinksCount
@@ -70,6 +73,12 @@ public class TetraContext : DbContext
     /// </summary>
     /// <param name="key">The user's API key that is generated upon visiting the "API Key" page on the frontend</param>
     public async Task<User> GetUserByApiKeyAsync(string key) => await GetUserByApiKey(this, key);
+
+    /// <summary>
+    ///     Retrieves the application's anonymous user if they exist
+    /// </summary>
+    /// <returns></returns>
+    public async Task<User> GetAnonymousUserAsync() => await GetAnonymousUser(this);
 
     /// <summary>
     ///     Returns the total number of created <see cref="Link"/>s that are not disabled

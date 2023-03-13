@@ -6,7 +6,7 @@
 <template>
 	<div class="container">
 		<app-heading>FAQ</app-heading>
-		<app-card>
+		<app-card id="duration-string">
 			<template #header>
 				<h4>What is a <q>duration string</q>?</h4>
 			</template>
@@ -23,6 +23,13 @@
 				<li>s = second</li>
 				<li>ms = millisecond</li>
 			</ul>
+		</app-card>
+
+		<app-card id="link-privacy">
+			<template #header>
+				<h4>Are my shortlinks private?</h4>
+			</template>
+			<p>Publicly, yes. Admins, however, can see all shortlinks created as well as their destinations and who created them.</p>
 		</app-card>
 	</div>
 </template>

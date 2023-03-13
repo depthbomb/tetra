@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-
+using Tetra.Data.Entities;
 using Tetra.Services;
 using Tetra.Exceptions;
 using Tetra.Middleware.Attributes;
@@ -32,16 +32,25 @@ public class AjaxController : BaseController
     [RateLimit(4, seconds: 1)]
     public IActionResult CheckUserAuth()
     {
-        if (TryGetAuthenticatedUser(out var user))
+        try
         {
-            return ApiResult(new
+            if (TryGetAuthenticatedUser(out var user))
             {
-                user.Sub,
-                user.Username,
-                user.Avatar,
-                user.ApiKey,
-                user.Admin,
-            });
+                return ApiResult(new
+                {
+                    user.Sub,
+                    user.Username,
+                    user.Avatar,
+                    user.ApiKey,
+                    user.Disabled,
+                    user.Admin,
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while attempting to authenticate user");
+            HttpContext.Response.Cookies.Delete(GlobalShared.SessionCookieName);
         }
         
         return ApiResult();
@@ -56,7 +65,7 @@ public class AjaxController : BaseController
             try
             {
                 var links = await _db.Links
-                                     .Where(l => l.Creator == user.Sub && l.Disabled == false)
+                                     .Where(l => l.CreatorId == user.Sub && l.Disabled == false)
                                      .Select(l => new 
                                      {
                                          l.Shortcode,
@@ -91,12 +100,18 @@ public class AjaxController : BaseController
         {
             var links = await _db.Links.Select(l => new
                                  {
+                                     l.CreatorId,
                                      l.Shortcode,
                                      l.Shortlink,
                                      l.Destination,
                                      l.DeletionKey,
                                      l.ExpiresAt,
                                      l.CreatedAt,
+                                     User = new
+                                     {
+                                         l.User.Username,
+                                         l.User.Anonymous,
+                                     }
                                  })
                                  .OrderByDescending(l => l.CreatedAt)
                                  .ToListAsync();
@@ -105,7 +120,7 @@ public class AjaxController : BaseController
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unable to retrieve auth'd user links");
+            _logger.LogError(ex, "Unable to retrieve all user links");
                 
             return Problem();
         }
