@@ -49,6 +49,7 @@ public class AuthMiddleware
             catch (Exception ex)
             {
                 _logger.LogWarning(ex, "Attempted to unprotected invalid protected user sub: {Token}", protectedSub);
+                ctx.Response.Cookies.Delete(GlobalShared.SessionCookieName);
             }
         }
 
