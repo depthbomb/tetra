@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
                 .AddSingleton<UserService>()
                 .AddSingleton<AssetService>()
                 .AddSingleton<LinksService>()
+                .AddSingleton<QueueService>()
                 .AddSingleton<HealthService>()
                 .AddSingleton<SecurityService>();
 
