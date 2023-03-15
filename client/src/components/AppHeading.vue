@@ -18,6 +18,7 @@
 		@apply my-6;
 
 		h1 {
+			@apply flex flex-row items-center;
 			@apply text-4xl text-white font-serif;
 		}
 

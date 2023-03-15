@@ -1,15 +1,16 @@
 <script setup lang="ts">
-	import { ref, onMounted } from 'vue';
 	import { useKeyModifier } from '@vueuse/core';
 	import AppCard from '~/components/AppCard.vue';
 	import { makeApiRequest } from '~/services/api';
 	import AppHeading from '~/components/AppHeading.vue';
 	import ActionButton from '~/components/ActionButton.vue';
+	import { ref, onMounted, defineAsyncComponent } from 'vue';
 	import type { IAjaxUserLink } from '~/@types/IAjaxUserLink';
 
-	const shiftKeyState = useKeyModifier('Shift');
+	const RocketIcon = defineAsyncComponent(() => import('~/components/icons/RocketIcon.vue'));
 
-	const allLinks    = ref<IAjaxUserLink[]>([]);
+	const shiftKeyState = useKeyModifier('Shift');
+	const allLinks      = ref<IAjaxUserLink[]>([]);
 
 	const getAllLinks = async () => {
 		const links = await makeApiRequest<IAjaxUserLink[]>('/ajax/get-all-links', { method: 'POST' });
@@ -29,7 +30,10 @@
 
 <template>
 	<div class="container container__fluid">
-		<app-heading subheading="Hold SHIFT to delete links without confirmation">All Shortlinks</app-heading>
+		<app-heading subheading="Hold SHIFT to enter quick delete mode">
+			<span>All Shortlinks</span>
+			<rocket-icon v-if="shiftKeyState === true" class="ml-2 h-8 text-brand"/>
+		</app-heading>
 		<app-card seamless bordered>
 			<table class="admin-links">
 				<thead>
