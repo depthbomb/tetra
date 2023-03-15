@@ -2,19 +2,19 @@
 using System.Security.Cryptography;
 
 using Tetra.Models;
-using Tetra.Exceptions;
 using Tetra.Data.Entities;
-using Tetra.Shared;
 
 namespace Tetra.Services;
 
 public class UserService
 {
-    private readonly TetraContext _db;
+    private readonly TetraContext  _db;
+    private readonly ApiKeyService _apiKey;
 
-    public UserService(TetraContext db)
+    public UserService(TetraContext db, ApiKeyService apiKey)
     {
-        _db = db;
+        _db     = db;
+        _apiKey = apiKey;
     }
 
     public async Task<User> GetOrCreateUserAsync(List<Claim> claims)
@@ -68,11 +68,13 @@ public class UserService
             Email    = parsedClaims.Email,
             Avatar   = CreateGravatarUrl(parsedClaims.Email),
             Roles    = parsedClaims.Groups,
-            ApiKey   = IdGenerator.Generate(48),
             Admin    = parsedClaims.Groups.Contains("tetra_admin")
         };
 
         await _db.Users.AddAsync(user);
+        
+        user.ApiKey = await _apiKey.CreateAsync(user.Id);
+        
         await _db.SaveChangesAsync();
 
         return user;

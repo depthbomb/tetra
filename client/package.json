@@ -19,6 +19,7 @@
 		"@microsoft/signalr": "^7.0.4",
 		"@vueuse/components": "^9.13.0",
 		"@vueuse/core": "^9.13.0",
+		"floating-vue": "^2.0.0-beta.20",
 		"gsap": "^3.11.4",
 		"pinia": "^2.0.33",
 		"swagger-ui-dist": "^4.18.1",

@@ -27,6 +27,7 @@ public static class ServiceCollectionExtensions
                 .AddSingleton<LinksService>()
                 .AddSingleton<QueueService>()
                 .AddSingleton<HealthService>()
+                .AddSingleton<ApiKeyService>()
                 .AddSingleton<SecurityService>();
 
     public static void AddTetraBackgroundServices(this IServiceCollection services) => 

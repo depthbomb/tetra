@@ -18,7 +18,6 @@
 				store.id       = res.sub      ?? null;
 				store.username = res.username ?? null;
 				store.avatar   = res.avatar   ?? null;
-				store.apiKey   = res.apiKey   ?? null;
 				store.admin    = res.admin    ?? false;
 
 				// Log the user out if they are disabled

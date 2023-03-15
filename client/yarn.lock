@@ -251,6 +251,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/core@npm:^0.3.0":
+  version: 0.3.1
+  resolution: "@floating-ui/core@npm:0.3.1"
+  checksum: b5b646f662994cff2feb694781c1fae2025293b74c6bbdb891a647a26b57aa8499cee8d8211f8dd9eafa53909cc24ad451545678c250162b30c37bc02046845a
+  languageName: node
+  linkType: hard
+
+"@floating-ui/dom@npm:^0.1.10":
+  version: 0.1.10
+  resolution: "@floating-ui/dom@npm:0.1.10"
+  dependencies:
+    "@floating-ui/core": ^0.3.0
+  checksum: 9a247f87ef9fd5d20ebfcb262222adce394c49a9c9b35da966794edf7aecc193ee6481cdb6e25a561c6f3d4eb4dea1dad3bc712ccfdba4aeb565d9228618ca94
+  languageName: node
+  linkType: hard
+
 "@fontsource/fira-code@npm:^4.5.13":
   version: 4.5.13
   resolution: "@fontsource/fira-code@npm:4.5.13"
@@ -3241,6 +3257,18 @@ __metadata:
   version: 3.2.7
   resolution: "flatted@npm:3.2.7"
   checksum: 427633049d55bdb80201c68f7eb1cbd533e03eac541f97d3aecab8c5526f12a20ccecaeede08b57503e772c769e7f8680b37e8d482d1e5f8d7e2194687f9ea35
+  languageName: node
+  linkType: hard
+
+"floating-vue@npm:^2.0.0-beta.20":
+  version: 2.0.0-y.0
+  resolution: "floating-vue@npm:2.0.0-y.0"
+  dependencies:
+    "@floating-ui/dom": ^0.1.10
+    vue-resize: ^2.0.0-alpha.1
+  peerDependencies:
+    vue: ^3.2.0
+  checksum: b2fda2ab779946b42d1ede75d04ad9995369ae5c3b3a79c4bd16765151f17dd334bceca474b1d28cda5fdb011fbb44c4e41365a680f4494bae794b4ba98ad6b2
   languageName: node
   linkType: hard
 
@@ -6420,6 +6448,7 @@ __metadata:
     autoprefixer: ^10.4.14
     eslint: ^8.36.0
     eslint-plugin-vue: ^9.9.0
+    floating-vue: ^2.0.0-beta.20
     gsap: ^3.11.4
     pinia: ^2.0.33
     postcss: ^8.4.21
@@ -6929,6 +6958,15 @@ __metadata:
   peerDependencies:
     eslint: ">=6.0.0"
   checksum: e2e6b05989294c4439d91283a78a0cb444cfba30f2715a5be1950d7815cadb5c8f449d9362a92bdd163cb8944abaac73bb076ce3c27b27586eaa4560002e6dfd
+  languageName: node
+  linkType: hard
+
+"vue-resize@npm:^2.0.0-alpha.1":
+  version: 2.0.0-alpha.1
+  resolution: "vue-resize@npm:2.0.0-alpha.1"
+  peerDependencies:
+    vue: ^3.0.0
+  checksum: 574321cc4792a393fe8f698a840cd6f11c8524da7869cffa8dc17a342521ee17579e14c243510bba96ef197f9a99ef8c57c22e9320c1486f62150f01f7a17ebe
   languageName: node
   linkType: hard
 

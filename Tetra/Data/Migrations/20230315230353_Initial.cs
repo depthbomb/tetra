@@ -22,7 +22,6 @@ namespace Tetra.Data.Migrations
                     Email = table.Column<string>(type: "text", nullable: true),
                     Avatar = table.Column<string>(type: "text", nullable: true),
                     Roles = table.Column<List<string>>(type: "text[]", nullable: true),
-                    ApiKey = table.Column<string>(type: "text", nullable: true),
                     Disabled = table.Column<bool>(type: "boolean", nullable: false),
                     Admin = table.Column<bool>(type: "boolean", nullable: false),
                     Anonymous = table.Column<bool>(type: "boolean", nullable: false),
@@ -32,6 +31,27 @@ namespace Tetra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApiKeys",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Key = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApiKeys", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApiKeys_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,6 +81,12 @@ namespace Tetra.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ApiKeys_UserId",
+                table: "ApiKeys",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Links_UserId",
                 table: "Links",
                 column: "UserId");
@@ -69,6 +95,9 @@ namespace Tetra.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ApiKeys");
+
             migrationBuilder.DropTable(
                 name: "Links");
 

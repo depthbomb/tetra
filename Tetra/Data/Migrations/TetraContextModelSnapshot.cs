@@ -18,10 +18,36 @@ namespace Tetra.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Tetra.Data.Entities.ApiKey", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ApiKeys");
+                });
 
             modelBuilder.Entity("Tetra.Data.Entities.Link", b =>
                 {
@@ -78,9 +104,6 @@ namespace Tetra.Data.Migrations
                     b.Property<bool>("Anonymous")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ApiKey")
-                        .HasColumnType("text");
-
                     b.Property<string>("Avatar")
                         .HasColumnType("text");
 
@@ -110,6 +133,17 @@ namespace Tetra.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Tetra.Data.Entities.ApiKey", b =>
+                {
+                    b.HasOne("Tetra.Data.Entities.User", "User")
+                        .WithOne("ApiKey")
+                        .HasForeignKey("Tetra.Data.Entities.ApiKey", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Tetra.Data.Entities.Link", b =>
                 {
                     b.HasOne("Tetra.Data.Entities.User", "User")
@@ -121,6 +155,8 @@ namespace Tetra.Data.Migrations
 
             modelBuilder.Entity("Tetra.Data.Entities.User", b =>
                 {
+                    b.Navigation("ApiKey");
+
                     b.Navigation("Links");
                 });
 #pragma warning restore 612, 618

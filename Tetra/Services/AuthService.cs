@@ -33,7 +33,7 @@ public class AuthService
                 }
             }
         });
-        _protector = protectionProvider.CreateProtector("Auth Service Protector");
+        _protector = protectionProvider.CreateProtector("Tetra.AuthService");
     }
 
     /// <inheritdoc cref="IDataProtector.Protect"/>

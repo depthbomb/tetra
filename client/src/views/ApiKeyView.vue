@@ -1,17 +1,59 @@
 <script setup lang="ts">
-	import { useUserStore } from '~/stores/user';
+	import { ref, onMounted } from 'vue';
+	import { useClipboard } from '@vueuse/core';
 	import AppCard from '~/components/AppCard.vue';
+	import { makeApiRequest } from '~/services/api';
 	import AppHeading from '~/components/AppHeading.vue';
+	import ActionButton from '~/components/ActionButton.vue';
+	import type { IAjaxApiKeyResponse } from '~/@types/IAjaxApiKeyResponse';
 
-	const store = useUserStore();
+	const apiKey        = ref('Retrieving');
+	const canRegenerate = ref(false);
+	const apiKeyCopied  = ref(false);
+	const { copy }      = useClipboard({ legacy: true });
+
+	const retrieveApiKey = async () => {
+		const res = await makeApiRequest<IAjaxApiKeyResponse>('/ajax/api-key', { method: 'POST' });
+		apiKey.value        = res.apiKey;
+		canRegenerate.value = res.canRequestNewKey;
+	};
+
+	const copyApiKey = () => {
+		copy(apiKey.value);
+
+		if (!apiKeyCopied.value) {
+			apiKeyCopied.value = true;
+			setTimeout(() => apiKeyCopied.value = false, 500);
+		}
+	};
+
+	const regenerateApiKey = async () => {
+		await makeApiRequest('/ajax/regenerate-api-key', { method: 'POST' });
+		await retrieveApiKey();
+	};
+
+	onMounted(async () => await retrieveApiKey());
 </script>
 
 <template>
 	<div class="container">
 		<app-heading>Your API Key</app-heading>
 		<app-card>
-			<p class="my-12 text-2xl text-center font-mono text-lime-500">{{ store.apiKey }}</p>
+			<div class="my-12 space-x-4 flex flex-col justify-center items-center">
+				<p :class="['text-2xl text-center font-mono cursor-pointer transition-colors', {
+					'text-brand': !apiKeyCopied,
+					'text-lime-500': apiKeyCopied
+				}]"
+				v-tooltip="'Click to copy'"
+				@click="copyApiKey"
+				>{{ apiKey }}</p>
+				<p v-if="canRegenerate">
+					<action-button variant="brand" @click="regenerateApiKey">Regenerate API Key</action-button>
+				</p>
+				<p v-else class="text-red-500">You've recently generated an API key. Please wait before generating a new one.</p>
+			</div>
 			<p>Creating shortlinks with an API key is only required if you want to be able to manage your shortlinks through this website. Otherwise, you do not need an API key and can choose to manage them through your own means with our API.</p>
+			<p>Should you need a new API key, you can request a new one be generated once per hour.</p>
 		</app-card>
 	</div>
 </template>

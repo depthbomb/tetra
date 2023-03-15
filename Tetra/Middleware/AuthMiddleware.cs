@@ -36,7 +36,6 @@ public class AuthMiddleware
         if (protectedSub != string.Empty && !ctx.Items.ContainsKey(GlobalShared.UserContextItemKeyName))
         {
             var db = ctx.RequestServices.GetRequiredService<TetraContext>();
-            
             try
             {
                 var userSub = _auth.Unprotect(protectedSub);

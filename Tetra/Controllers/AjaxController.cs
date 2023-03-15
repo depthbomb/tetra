@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Tetra.Data.Entities;
+
 using Tetra.Services;
-using Tetra.Exceptions;
 using Tetra.Middleware.Attributes;
 
 namespace Tetra.Controllers;
@@ -15,17 +14,14 @@ public class AjaxController : BaseController
     private readonly ILogger<AjaxController> _logger;
     private readonly TetraContext            _db;
     private readonly IMemoryCache            _cache;
-    private readonly UserService             _users;
+    private readonly ApiKeyService           _apiKey;
 
-    public AjaxController(ILogger<AjaxController> logger,
-                          TetraContext db,
-                          IMemoryCache cache,
-                          UserService users)
+    public AjaxController(ILogger<AjaxController> logger, TetraContext db, IMemoryCache cache, ApiKeyService apiKey)
     {
         _logger = logger;
         _db     = db;
         _cache  = cache;
-        _users  = users;
+        _apiKey = apiKey;
     }
 
     [HttpPost("me")]
@@ -41,7 +37,6 @@ public class AjaxController : BaseController
                     user.Sub,
                     user.Username,
                     user.Avatar,
-                    user.ApiKey,
                     user.Disabled,
                     user.Admin,
                 });
@@ -54,6 +49,40 @@ public class AjaxController : BaseController
         }
         
         return ApiResult();
+    }
+    
+    [HttpPost("api-key")]
+    [RateLimit(2, seconds: 1)]
+    public async Task<IActionResult> GetUserApiKeyAsync()
+    {
+        if (TryGetAuthenticatedUser(out var user))
+        {
+            var apiKey = await _db.GetApiKeyByUserSubAsync(user.Sub);
+            return ApiResult(new
+            {
+                apiKey           = apiKey.Key,
+                canRequestNewKey = apiKey.CanRequestNewKey()
+            });
+        }
+
+        return ApiResult();
+    }
+    
+    [HttpPost("regenerate-api-key")]
+    [RateLimit(1, seconds: 60)]
+    public async Task<IActionResult> RegenerateApiKeyAsync()
+    {
+        if (TryGetAuthenticatedUser(out var user))
+        {
+            var apiKey = await _db.GetApiKeyByUserIdAsync(user.Id);
+            if (apiKey.CanRequestNewKey())
+            {
+                await _apiKey.RegenerateAsync(user.Id);
+                return ApiResult();
+            }
+        }
+
+        return Forbid();
     }
     
     [HttpPost("get-user-links")]

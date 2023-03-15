@@ -5,7 +5,6 @@ export const useUserStore = defineStore('user', {
 		id: '',
 		username: '',
 		avatar: '',
-		apiKey: '',
 		admin: false,
 	}),
 	getters: {
