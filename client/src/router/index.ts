@@ -30,12 +30,19 @@ export const router = createRouter({
 		{
 			path: '/admin',
 			name: 'admin',
-			redirect: '/admin/links'
-		},
-		{
-			path: '/admin/links',
-			name: 'admin.links',
-			component: () => import('~/views/admin/AllLinksView.vue')
+			redirect: '/admin/links',
+			children: [
+				{
+					path: 'links',
+					name: 'admin.links',
+					component: () => import('~/views/admin/AllLinksView.vue')
+				},
+				{
+					path: 'users',
+					name: 'admin.users',
+					component: () => import('~/views/admin/AllUsersView.vue')
+				},
+			]
 		},
 
 		// Fallback redirect
