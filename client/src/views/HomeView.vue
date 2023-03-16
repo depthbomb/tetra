@@ -59,6 +59,7 @@
 		@apply w-full;
 		@apply min-h-max;
 		@apply bg-gradient-to-b from-gray-800 to-brand-800;
+		@apply shadow-lg;
 
 		.banner__container {
 			@apply mx-auto;

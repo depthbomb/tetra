@@ -47,7 +47,10 @@
 			</action-button>
 			<copy-button :text="link.shortcode" :content="link.shortlink"/>
 			<arrow-right-icon class="mx-4 h-6 text-gray-400"/>
-			<snippet>{{ truncate(link.destination, 64) }}</snippet>
+			<snippet v-tooltip="{
+				content: link.destination,
+				disabled: link.destination.length < 64
+			}">{{ truncate(link.destination, 64) }}</snippet>
 			<div v-if="link.user" class="flex items-center ml-auto">
 				<p v-if="link.user.anonymous">Created anonymously</p>
 				<p v-else>Created by {{ link.user.username }}</p>
