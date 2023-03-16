@@ -70,7 +70,7 @@
 			@apply space-x-4;
 
 			a {
-				@apply text-gray-300;
+				@apply text-gray-300 font-serif;
 				@apply transition-colors;
 				@apply hover:text-white;
 
@@ -103,7 +103,7 @@
 				}
 
 				.masthead__username {
-					@apply text-white text-lg font-bold;
+					@apply text-white text-lg font-serif font-bold;
 				}
 			}
 		}
