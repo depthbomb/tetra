@@ -28,7 +28,7 @@
 			<template v-if="store.loggedIn">
 				<div class="masthead__dropdown">
 					<span class="masthead__avatar">
-						<img :src="store.avatar" width="24" height="24" :alt="store.username">
+						<img :src="store.avatar" width="32" height="32" :alt="store.username">
 					</span>
 					<span class="masthead__username">{{ store.username }}</span>
 				</div>
@@ -97,7 +97,7 @@
 				.masthead__avatar {
 					@apply inline-block;
 					@apply mr-2;
-					@apply w-6 h-6;
+					@apply w-8 h-8;
 					@apply rounded-full;
 					@apply overflow-hidden;
 				}
