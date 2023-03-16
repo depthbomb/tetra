@@ -32,13 +32,13 @@
 					</span>
 					<span class="masthead__username">{{ store.username }}</span>
 				</div>
-				<link-button variant="danger" size="small" to="/auth/logout">
+				<link-button variant="danger" size="small" :to="{ name: 'auth.logout' }">
 					<sign-out-icon class="mr-1 h-4"/>
 					<span>Sign Out</span>
 				</link-button>
 			</template>
 			<template v-else>
-				<link-button variant="brand" to="/auth/login">
+				<link-button variant="brand" :to="{ name: 'auth.login' }">
 					<sign-in-icon class="mr-1 h-4"/>
 					<span>Sign In</span>
 				</link-button>

@@ -31,13 +31,13 @@ public class AuthController : BaseController
         return Redirect(state.StartUrl);
     }
     
-    [HttpGet("logout")]
+    [HttpPost("logout")]
     public IActionResult LogOut()
     {
         HttpContext.Response.Cookies.Delete(StateCookieName);
         HttpContext.Response.Cookies.Delete(GlobalShared.SessionCookieName);
 
-        return Redirect("/");
+        return ApiResult();
     }
     
     [HttpGet("callback")]
