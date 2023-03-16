@@ -23,7 +23,6 @@ public static class ServiceCollectionExtensions
     public static void AddTetraServices(this IServiceCollection services) =>
         services.AddSingleton<AuthService>()
                 .AddSingleton<UserService>()
-                .AddSingleton<AssetService>()
                 .AddSingleton<LinksService>()
                 .AddSingleton<QueueService>()
                 .AddSingleton<HealthService>()
