@@ -58,7 +58,7 @@ namespace Tetra.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CreatorId")
+                    b.Property<string>("CreatorIp")
                         .HasColumnType("text");
 
                     b.Property<string>("DeletionKey")
@@ -82,7 +82,7 @@ namespace Tetra.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -148,7 +148,9 @@ namespace Tetra.Data.Migrations
                 {
                     b.HasOne("Tetra.Data.Entities.User", "User")
                         .WithMany("Links")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

@@ -15,7 +15,6 @@
 			try {
 				const res = await makeApiRequest<IAjaxMeResponse>('/ajax/me', { method: 'POST' });
 
-				store.id       = res.sub      ?? null;
 				store.username = res.username ?? null;
 				store.avatar   = res.avatar   ?? null;
 				store.admin    = res.admin    ?? false;

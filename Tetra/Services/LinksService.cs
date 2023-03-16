@@ -27,13 +27,13 @@ public class LinksService
     /// <inheritdoc cref="TetraContext.GetLinkByShortcodeAsync"/>
     public async Task<Link> GetLinkByShortcodeAsync(string shortcode) => await _db.GetLinkByShortcodeAsync(shortcode);
 
-    public async Task<Link> CreateLinkAsync(string creator, string destination, DateTime? expiresAt = null, bool anonymous = false)
+    public async Task<Link> CreateLinkAsync(Guid userId, string creatorIp, string destination, DateTime? expiresAt = null)
     {
         var shortcode   = await GenerateUnusedShortcodeAsync();
         var deletionKey = IdGenerator.Generate(64);
         var link = new Link
         {
-            CreatorId   = creator,
+            CreatorIp   = creatorIp,
             Shortcode   = shortcode,
             Shortlink   = $"{_baseUrl}/{shortcode}",
             Destination = destination,
@@ -41,17 +41,10 @@ public class LinksService
             ExpiresAt   = expiresAt
         };
 
-        User user;
-        if (anonymous)
-        {
-            user = await _db.GetAnonymousUserAsync();
-        }
-        else
-        {
-            user = await _db.GetUserBySubAsync(creator);
-        }
+        var user = await _db.GetUserByIdAsync(userId);
 
-        link.User = user;
+        link.User   = user;
+        link.UserId = user.Id;
 
         await _db.Links.AddAsync(link);
         await _db.SaveChangesAsync();
@@ -60,9 +53,9 @@ public class LinksService
         return link;
     }
 
-    public async Task<List<Link>> GetLinksByCreatorAsync(string creator)
+    public async Task<List<Link>> GetLinksByUserIdAsync(Guid userId)
     {
-        var links = await _db.Links.Where(l => l.CreatorId == creator).ToListAsync();
+        var links = await _db.Links.Where(l => l.UserId == userId).ToListAsync();
 
         return links;
     }

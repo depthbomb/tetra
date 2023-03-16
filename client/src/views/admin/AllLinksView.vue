@@ -53,7 +53,7 @@
 						</td>
 						<td>{{ link.shortcode }}</td>
 						<td>{{ link.destination }}</td>
-						<td v-if="link.user.anonymous">Anonymous ({{ link.creatorId }})</td>
+						<td v-if="link.user.anonymous">Anonymous ({{ link.creatorIp }})</td>
 						<td v-else>{{ link.user.username }}</td>
 						<td>{{ link.createdAt }}</td>
 						<td>{{ link.expiresAt ?? 'Never expires' }}</td>

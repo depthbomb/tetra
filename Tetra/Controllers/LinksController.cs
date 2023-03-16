@@ -3,6 +3,7 @@
 using Tetra.Shared;
 using Tetra.Services;
 using Tetra.Models.Forms;
+using Tetra.Data.Entities;
 using Tetra.Models.Responses;
 using Tetra.Middleware.Attributes;
 using Tetra.Models.Responses.Links;
@@ -14,11 +15,13 @@ namespace Tetra.Controllers;
 [Produces("application/json")]
 public class LinksController : BaseController
 {
+    private readonly TetraContext _db;
     private readonly LinksService _links;
     private readonly UserService  _users;
 
-    public LinksController(LinksService links, UserService users)
+    public LinksController(TetraContext db, LinksService links, UserService users)
     {
+        _db    = db;
         _links = links;
         _users = users;
     }
@@ -58,29 +61,24 @@ public class LinksController : BaseController
             linkExpiresAt = expiresAt;
         }
 
-        string creator;
-        bool   anonymous = false;
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+        
+        User user;
         if (key != null)
         {
-            var user = await _users.GetByApiKeyAsync(key);
+            user = await _users.GetByApiKeyAsync(key);
             if (user == null)
             {
                 return Unauthorized("Invalid API key");
             }
-
-            creator = user.Sub;
         }
-        else if (TryGetAuthenticatedUser(out var user))
-        {
-            creator = user.Sub;
-        }
+        else if (TryGetAuthenticatedUser(out user)) {}
         else
         {
-            creator   = HttpContext.Connection.RemoteIpAddress?.ToString();
-            anonymous = true;
+            user = await _db.GetAnonymousUserAsync();
         }
 
-        var link = await _links.CreateLinkAsync(creator, destination, linkExpiresAt, anonymous);
+        var link = await _links.CreateLinkAsync(user.Id, ip, destination, linkExpiresAt);
 
         return ApiResult(new
         {

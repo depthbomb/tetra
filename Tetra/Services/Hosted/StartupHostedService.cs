@@ -28,6 +28,7 @@ public class StartupHostedService : IHostedService
             };
 
             await _db.Users.AddAsync(anonymous, cancellationToken);
+            await _db.SaveChangesAsync(cancellationToken);
             
             _logger.LogInformation("Created anonymous user");
         }

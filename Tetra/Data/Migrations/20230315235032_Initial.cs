@@ -59,14 +59,14 @@ namespace Tetra.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatorId = table.Column<string>(type: "text", nullable: true),
+                    CreatorIp = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Shortcode = table.Column<string>(type: "text", nullable: true),
                     Shortlink = table.Column<string>(type: "text", nullable: true),
                     Destination = table.Column<string>(type: "text", nullable: true),
                     DeletionKey = table.Column<string>(type: "text", nullable: true),
                     Disabled = table.Column<bool>(type: "boolean", nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -77,7 +77,8 @@ namespace Tetra.Data.Migrations
                         name: "FK_Links_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

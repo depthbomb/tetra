@@ -34,7 +34,6 @@ public class AjaxController : BaseController
             {
                 return ApiResult(new
                 {
-                    user.Sub,
                     user.Username,
                     user.Avatar,
                     user.Disabled,
@@ -57,7 +56,7 @@ public class AjaxController : BaseController
     {
         if (TryGetAuthenticatedUser(out var user))
         {
-            var apiKey = await _db.GetApiKeyByUserSubAsync(user.Sub);
+            var apiKey = await _db.GetApiKeyByUserIdAsync(user.Id);
             return ApiResult(new
             {
                 apiKey           = apiKey.Key,
@@ -94,7 +93,7 @@ public class AjaxController : BaseController
             try
             {
                 var links = await _db.Links
-                                     .Where(l => l.CreatorId == user.Sub && l.Disabled == false)
+                                     .Where(l => l.UserId == user.Id && l.Disabled == false)
                                      .Select(l => new 
                                      {
                                          l.Shortcode,
@@ -129,7 +128,7 @@ public class AjaxController : BaseController
         {
             var links = await _db.Links.Select(l => new
                                  {
-                                     l.CreatorId,
+                                     l.CreatorIp,
                                      l.Shortcode,
                                      l.Shortlink,
                                      l.Destination,

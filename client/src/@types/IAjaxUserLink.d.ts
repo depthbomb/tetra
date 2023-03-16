@@ -1,5 +1,5 @@
 export interface IAjaxUserLink {
-	creatorId: string;
+	creatorIp: string;
 	shortcode: string;
 	shortlink: string;
 	destination: string;

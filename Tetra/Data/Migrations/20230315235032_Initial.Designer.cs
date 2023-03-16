@@ -13,7 +13,7 @@ using Tetra.Data;
 namespace Tetra.Data.Migrations
 {
     [DbContext(typeof(TetraContext))]
-    [Migration("20230315230353_Initial")]
+    [Migration("20230315235032_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -61,7 +61,7 @@ namespace Tetra.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CreatorId")
+                    b.Property<string>("CreatorIp")
                         .HasColumnType("text");
 
                     b.Property<string>("DeletionKey")
@@ -85,7 +85,7 @@ namespace Tetra.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -151,7 +151,9 @@ namespace Tetra.Data.Migrations
                 {
                     b.HasOne("Tetra.Data.Entities.User", "User")
                         .WithMany("Links")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
