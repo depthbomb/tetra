@@ -41,7 +41,7 @@ public class UserService
     {
         var parsedClaims = ParseClaims(claims);
         
-        return await _db.UserExistsAsync(parsedClaims.Sub);
+        return await _db.UserExistsBySubAsync(parsedClaims.Sub);
     }
 
     public async Task<User> GetByApiKeyAsync(string key)

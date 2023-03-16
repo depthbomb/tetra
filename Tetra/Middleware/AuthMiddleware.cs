@@ -19,27 +19,27 @@ public class AuthMiddleware
     
     public async Task InvokeAsync(HttpContext ctx)
     {
-        string protectedSub = string.Empty;
+        string protectedId = string.Empty;
         if (ctx.Request.Headers.TryGetValue("authorization", out var authorizationValue))
         {
-            protectedSub = authorizationValue;
+            protectedId = authorizationValue;
             
             _logger.LogDebug("Resolved user token from Authorization header");
         }
         else if (ctx.Request.Cookies.TryGetValue(GlobalShared.SessionCookieName, out var cookieValue))
         {
-            protectedSub = cookieValue;
+            protectedId = cookieValue;
             
             _logger.LogDebug("Resolved user token from cookies");
         }
 
-        if (protectedSub != string.Empty && !ctx.Items.ContainsKey(GlobalShared.UserContextItemKeyName))
+        if (protectedId != string.Empty && !ctx.Items.ContainsKey(GlobalShared.UserContextItemKeyName))
         {
             var db = ctx.RequestServices.GetRequiredService<TetraContext>();
             try
             {
-                var userSub = _auth.Unprotect(protectedSub);
-                var user    = await db.GetUserBySubAsync(userSub);
+                var userId = _auth.Unprotect(protectedId);
+                var user   = await db.GetUserByIdAsync(new Guid(userId));
                 
                 ctx.Items.Add(GlobalShared.UserContextItemKeyName, user);
                 
@@ -47,7 +47,7 @@ public class AuthMiddleware
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Attempted to unprotected invalid protected user sub: {Token}", protectedSub);
+                _logger.LogWarning(ex, "Attempted to unprotected invalid protected user ID: {Token}", protectedId);
                 ctx.Response.Cookies.Delete(GlobalShared.SessionCookieName);
             }
         }

@@ -55,7 +55,7 @@ public class AuthController : BaseController
         var userInfoResponse = await _auth.Client.GetUserInfoAsync(tokenResponse.AccessToken);
         var user             = await _user.GetOrCreateUserAsync(userInfoResponse.Claims.ToList());
 
-        HttpContext.Response.Cookies.Append(GlobalShared.SessionCookieName, _auth.Protect(user.Sub), new CookieOptions
+        HttpContext.Response.Cookies.Append(GlobalShared.SessionCookieName, _auth.Protect(user.Id.ToString()), new CookieOptions
         {
             Expires = DateTimeOffset.Now.AddYears(1)
         });

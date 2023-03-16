@@ -19,7 +19,7 @@ public class TetraContext : DbContext
     private static readonly Func<TetraContext, string, Task<User>> GetUserBySub
         = EF.CompileAsyncQuery((TetraContext context, string sub) => context.Users.FirstOrDefault(u => u.Sub == sub));
     
-    private static readonly Func<TetraContext, string, Task<bool>> UserExists
+    private static readonly Func<TetraContext, string, Task<bool>> UserExistsBySub
         = EF.CompileAsyncQuery((TetraContext context, string sub) => context.Users.Any(u => u.Sub == sub));
     
     private static readonly Func<TetraContext, string, Task<User>> GetUserByApiKey
@@ -29,10 +29,7 @@ public class TetraContext : DbContext
         = EF.CompileAsyncQuery((TetraContext context) => context.Users.FirstOrDefault(u => u.Username == "Anonymous" && u.Anonymous));
     
     // API Keys
-    
-    private static readonly Func<TetraContext, string, Task<ApiKey>> GetApiKeyByUserSub
-        = EF.CompileAsyncQuery((TetraContext context, string sub) => context.ApiKeys.FirstOrDefault(a => a.User.Sub == sub));
-    
+
     private static readonly Func<TetraContext, Guid, Task<ApiKey>> GetApiKeyByUserId
         = EF.CompileAsyncQuery((TetraContext context, Guid id) => context.ApiKeys.FirstOrDefault(a => a.User.Id == id));
     
@@ -82,7 +79,7 @@ public class TetraContext : DbContext
     /// </summary>
     /// <param name="sub">OpenID sub as retrieved from a <c>/token</c> endpoint</param>
     /// <returns><c>true</c> if the user exists, <c>false</c> otherwise</returns>
-    public async Task<bool> UserExistsAsync(string sub) => await UserExists(this, sub);
+    public async Task<bool> UserExistsBySubAsync(string sub) => await UserExistsBySub(this, sub);
 
     /// <summary>
     ///     Retrieves a <see cref="User"/> from their API <paramref name="key"/>, if they have one.
@@ -96,12 +93,6 @@ public class TetraContext : DbContext
     /// <returns></returns>
     public async Task<User> GetAnonymousUserAsync() => await GetAnonymousUser(this);
 
-    /// <summary>
-    ///     Retrieves an <see cref="ApiKey"/> from the owner's <paramref name="sub"/>.
-    /// </summary>
-    /// <param name="sub">A <see cref="User"/>'s "sub" value</param>
-    public async Task<ApiKey> GetApiKeyByUserSubAsync(string sub) => await GetApiKeyByUserSub(this, sub);
-    
     /// <summary>
     ///     Retrieves an <see cref="ApiKey"/> from the owner's <paramref name="id"/>.
     /// </summary>
