@@ -32,7 +32,7 @@ public class GitHubBackgroundService : BackgroundService
                 
             _logger.LogDebug("Retrieved latest commit hash from GitHub API: {Hash}", latestCommit.Sha);
 
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
 }
