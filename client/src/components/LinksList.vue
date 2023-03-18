@@ -3,7 +3,7 @@
 	import Loader from '~/components/Loader.vue';
 	import Snippet from '~/components/Snippet.vue';
 	import { UseTimeAgo } from '@vueuse/components';
-	import { makeApiRequest } from '~/services/api';
+	import { makeAPIRequest } from '~/services/api';
 	import CopyButton from '~/components/CopyButton.vue';
 	import TrashIcon from '~/components/icons/TrashIcon.vue';
 	import ActionButton from '~/components/ActionButton.vue';
@@ -29,9 +29,11 @@
 
 	const deleteLink = async (shortcode: string, deletionKey: string) => {
 		if (confirm('Are you sure you want to delete this shortlink?\nThis cannot be undone.')) {
-			await makeApiRequest(`/api/links/${shortcode}/${deletionKey}`, { method: 'DELETE' });
+			const { ok } = await makeAPIRequest(`/api/links/${shortcode}/${deletionKey}`, { method: 'DELETE' });
 
-			emit('linkDeleted');
+			if (ok) {
+				emit('linkDeleted');
+			}
 		}
 	};
 </script>

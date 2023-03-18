@@ -6,7 +6,6 @@ using Tetra.Models.Forms;
 using Tetra.Data.Entities;
 using Tetra.Models.Responses;
 using Tetra.Middleware.Attributes;
-using Tetra.Models.Responses.Links;
 
 namespace Tetra.Controllers;
 
@@ -35,9 +34,9 @@ public class LinksController : BaseController
     /// <response code ="400" >There was an issue with one or more request parameters</response>
     [HttpPut]
     [HttpPost("create")]
-    [ProducesResponseType(typeof(CreateLinkResponse), 201)]
+    [ProducesResponseType(typeof(CreateLinkResponse), 200)]
     [ProducesResponseType(typeof(ApiErrorResponse), 400)]
-    public async Task<IActionResult> CreateLinkAsync([FromBody] CreateLinkForm body, [FromQuery] string? key)
+    public async Task<ActionResult<CreateLinkResponse>> CreateLinkAsync([FromBody] CreateLinkForm body, [FromQuery] string? key)
     {
         var destination = body.Destination;
         var duration    = body.Duration;
@@ -45,7 +44,7 @@ public class LinksController : BaseController
 
         if (!_links.IsValidDestination(destination))
         {
-            return ApiResult("The provided destination not a valid HTTP/HTTPS URL", 400);
+            return BadRequest("The provided destination not a valid HTTP/HTTPS URL");
         }
         
         DateTime? linkExpiresAt = null;
@@ -80,14 +79,14 @@ public class LinksController : BaseController
 
         var link = await _links.CreateLinkAsync(user.Id, ip, destination, linkExpiresAt);
 
-        return ApiResult(new
+        return new CreateLinkResponse
         {
-            shortcode   = link.Shortcode,
-            shortlink   = link.Shortlink,
-            destination = link.Destination,
-            deletionKey = link.DeletionKey,
-            expiresAt   = link.ExpiresAt
-        }, 201);
+            Shortcode   = link.Shortcode,
+            Shortlink   = link.Shortlink,
+            Destination = link.Destination,
+            DeletionKey = link.DeletionKey,
+            ExpiresAt   = link.ExpiresAt
+        };
     }
     
     /// <summary>
@@ -99,7 +98,7 @@ public class LinksController : BaseController
     [HttpGet("{shortcode}")]
     [ProducesResponseType(typeof(LinkInfoResponse), 200)]
     [ProducesResponseType(typeof(ApiErrorResponse), 404)]
-    public async Task<IActionResult> GetLinkInfoAsync(string shortcode)
+    public async Task<ActionResult<LinkInfoResponse>> GetLinkInfoAsync(string shortcode)
     {
         var link = await _links.GetLinkByShortcodeAsync(shortcode);
         if (link == null)
@@ -107,11 +106,11 @@ public class LinksController : BaseController
             return NotFound();
         }
 
-        return ApiResult(new
+        return new LinkInfoResponse
         {
-            destination = link.Destination,
-            expiresAt   = link.ExpiresAt
-        });
+            Destination = link.Destination,
+            ExpiresAt   = link.ExpiresAt
+        };
     }
 
     /// <summary>
@@ -127,6 +126,6 @@ public class LinksController : BaseController
     {
         await _links.DeleteLinkAsync(shortcode, deletionKey);
 
-        return ApiResult();
+        return Ok();
     }
 }

@@ -7,6 +7,8 @@ namespace Tetra.Extensions;
 
 public static class EndpointRouteBuilderExtensions
 {
-    public static HubEndpointConventionBuilder MapTetraHubs(this IEndpointRouteBuilder endpoints) => 
+    public static void MapTetraHubs(this IEndpointRouteBuilder endpoints)
+    {
         endpoints.MapHub<StatsHub>("/hubs/stats");
+    }
 }

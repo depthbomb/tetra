@@ -1,12 +1,14 @@
 <script setup lang="ts">
 	import { onMounted } from 'vue';
 	import AppCard from '~/components/AppCard.vue';
-	import { makeApiRequest } from '~/services/api';
+	import { makeAPIRequest } from '~/services/api';
 	import SpinnerIcon from '~/components/icons/SpinnerIcon.vue';
 
 	onMounted(async () => {
-		await makeApiRequest('/auth/logout', { method: 'POST' });
-		window.location.href = '/';
+		const { ok } = await makeAPIRequest('/auth/logout', { method: 'POST' });
+		if (ok) {
+			window.location.href = '/';
+		}
 	});
 </script>
 

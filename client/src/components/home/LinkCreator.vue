@@ -3,7 +3,7 @@
 	import { isValidHttpUrl } from '~/utils';
 	import { useClipboard } from '@vueuse/core';
 	import { useUserStore } from '~/stores/user';
-	import { makeApiRequest } from '~/services/api';
+	import { makeAPIRequest } from '~/services/api';
 	import ActionButton from '~/components/ActionButton.vue';
 	import ResultsDialog from '~/components/home/ResultsDialog.vue';
 	import PaperPlaneTopIcon from '~/components/icons/PaperPlaneTopIcon.vue';
@@ -30,11 +30,13 @@
 	const trySubmit = async () => {
 		uiState.submitDisabled = true;
 
-		makeApiRequest<ICreateLinkResponse>('/api/links', {
+		const { ok, getJSON } = await makeAPIRequest<ICreateLinkResponse>('/api/links', {
 			method: 'PUT',
 			body: JSON.stringify({ destination: uiState.destination })
-		}).then((link) => {
-			const { shortlink } = link;
+		});
+
+		if (ok) {
+			const { shortlink } = await getJSON();
 
 			// Only show the results dialog for unauthenticated users since authenticated users will
 			// already see feedback upon shortlink creation.
@@ -46,10 +48,7 @@
 			}
 
 			emit('linkCreated');
-		}).catch(err => {
-			// TODO handle
-			console.error(err);
-		});
+		}
 
 		uiState.destination    = '';
 		uiState.submitDisabled = false;

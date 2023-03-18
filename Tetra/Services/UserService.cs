@@ -51,6 +51,9 @@ public class UserService
         return user;
     }
 
+    /// <inheritdoc cref="TetraContext.GetTotalUsersCountAsync"/>
+    public async Task<int> GetTotalCountAsync() => await _db.GetTotalUsersCountAsync();
+
     private async Task<User> GetFromClaimsAsync(IEnumerable<Claim> claims)
     {
         var parsedClaims = ParseClaims(claims);

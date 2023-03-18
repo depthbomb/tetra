@@ -37,7 +37,7 @@ public class AuthController : BaseController
         HttpContext.Response.Cookies.Delete(StateCookieName);
         HttpContext.Response.Cookies.Delete(GlobalShared.SessionCookieName);
 
-        return ApiResult();
+        return Ok();
     }
     
     [HttpGet("callback")]

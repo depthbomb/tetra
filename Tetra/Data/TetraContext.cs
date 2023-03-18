@@ -28,6 +28,9 @@ public class TetraContext : DbContext
     private static readonly Func<TetraContext, Task<User>> GetAnonymousUser
         = EF.CompileAsyncQuery((TetraContext context) => context.Users.FirstOrDefault(u => u.Username == "Anonymous" && u.Anonymous));
     
+    private static readonly Func<TetraContext, Task<int>> GetTotalUsersCount
+        = EF.CompileAsyncQuery((TetraContext context) => context.Users.Count(u => u.Disabled == false));
+    
     // API Keys
 
     private static readonly Func<TetraContext, Guid, Task<ApiKey>> GetApiKeyByUserId
@@ -88,10 +91,16 @@ public class TetraContext : DbContext
     public async Task<User> GetUserByApiKeyAsync(string key) => await GetUserByApiKey(this, key);
 
     /// <summary>
-    ///     Retrieves the application's anonymous user if they exist
+    ///     Retrieves the application's anonymous user if they exist.
     /// </summary>
     /// <returns></returns>
     public async Task<User> GetAnonymousUserAsync() => await GetAnonymousUser(this);
+
+    /// <summary>
+    ///     Returns the total number of <see cref="User"/>s that are not disabled.
+    /// </summary>
+    /// <returns></returns>
+    public async Task<int> GetTotalUsersCountAsync() => await GetTotalUsersCount(this);
 
     /// <summary>
     ///     Retrieves an <see cref="ApiKey"/> from the owner's <paramref name="id"/>.
@@ -100,18 +109,18 @@ public class TetraContext : DbContext
     public async Task<ApiKey> GetApiKeyByUserIdAsync(Guid id) => await GetApiKeyByUserId(this, id);
 
     /// <summary>
-    ///     Returns the total number of created <see cref="Link"/>s that are not disabled
+    ///     Returns the total number of created <see cref="Link"/>s that are not disabled.
     /// </summary>
     public async Task<int> GetLinksCountAsync() => await LinksCount(this);
 
     /// <summary>
-    ///     Returns a <see cref="Link"/> by its <paramref name="shortcode"/>
+    ///     Returns a <see cref="Link"/> by its <paramref name="shortcode"/>.
     /// </summary>
     /// <param name="shortcode">The shortcode to use when looking for an existing link</param>
     public async Task<Link> GetLinkByShortcodeAsync(string shortcode) => await GetLinkByShortcode(this, shortcode);
 
     /// <summary>
-    ///     Whether or not a <see cref="Link"/> exists by its <paramref name="shortcode"/>
+    ///     Whether or not a <see cref="Link"/> exists by its <paramref name="shortcode"/>.
     /// </summary>
     /// <param name="shortcode">The shortcode to use when looking for an existing link</param>
     /// <returns><c>true</c> if a link exists by the provided shortcode, <c>false</c> otherwise</returns>

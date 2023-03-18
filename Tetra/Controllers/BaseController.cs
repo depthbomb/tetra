@@ -7,9 +7,7 @@ namespace Tetra.Controllers;
 
 public abstract class BaseController : Controller
 {
-    private const string UserContextItemKey = "User";
-
-    protected IActionResult ApiResult(object data = default, int statusCode = 200)
+    protected ActionResult ApiResult(object data = default, int statusCode = 200)
     {
         if (statusCode >= 400)
         {
@@ -25,7 +23,7 @@ public abstract class BaseController : Controller
     protected bool TryGetAuthenticatedUser(out User user)
     {
         user = default;
-        if (HttpContext.Items.TryGetValueAs(UserContextItemKey, out user))
+        if (HttpContext.Items.TryGetValueAs(GlobalShared.UserContextItemKeyName, out user))
         {
             return true;
         }

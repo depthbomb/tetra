@@ -22,7 +22,7 @@ public class LinksService
     }
 
     /// <inheritdoc cref="TetraContext.GetLinksCountAsync"/>
-    public async Task<int> GetLinksCountAsync() => await _db.GetLinksCountAsync();
+    public async Task<int> GetTotalCountAsync() => await _db.GetLinksCountAsync();
 
     /// <inheritdoc cref="TetraContext.GetLinkByShortcodeAsync"/>
     public async Task<Link> GetLinkByShortcodeAsync(string shortcode) => await _db.GetLinkByShortcodeAsync(shortcode);
@@ -93,7 +93,7 @@ public class LinksService
 
     private async Task BroadcastTotalShortlinksAsync()
     {
-        int count = await GetLinksCountAsync();
+        int count = await GetTotalCountAsync();
         await _stats.Clients.All.SendAsync("TotalShortlinks", count);
     }
 }

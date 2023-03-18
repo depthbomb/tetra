@@ -23,7 +23,7 @@ public static class HttpContextExtensions
         return uriBuilder.Uri.AbsoluteUri;
     }
 
-    public static IActionResult ApiErrorResult(this HttpContext ctx, string message = null, int statusCode = 200)
+    public static ActionResult ApiErrorResult(this HttpContext ctx, string message = null, int statusCode = 200)
     {
         return new JsonResult(new ApiErrorResponse
         {

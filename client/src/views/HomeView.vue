@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { useUserStore } from '~/stores/user';
 	import AppCard from '~/components/AppCard.vue';
-	import { makeApiRequest } from '~/services/api';
+	import { makeAPIRequest } from '~/services/api';
 	import AppHeading from '~/components/AppHeading.vue';
 	import LinkCreator from '~/components/home/LinkCreator.vue';
 	import { ref, watchEffect, defineAsyncComponent } from 'vue';
@@ -17,7 +17,8 @@
 		// linksLoaded is only ever false once so the list doesn't distractingly go into the loading
 		// state on every re-retrieval
 
-		const links = await makeApiRequest<IAjaxUserLink[]>('/ajax/get-user-links', { method: 'POST' });
+		const { getJSON } = await makeAPIRequest<IAjaxUserLink[]>('/ajax/get-user-links', { method: 'POST' });
+		const links      = await getJSON();
 
 		userLinks.value   = links;
 		linksLoaded.value = true;

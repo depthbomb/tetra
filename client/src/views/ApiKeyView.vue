@@ -2,20 +2,23 @@
 	import { ref, onMounted } from 'vue';
 	import { useClipboard } from '@vueuse/core';
 	import AppCard from '~/components/AppCard.vue';
-	import { makeApiRequest } from '~/services/api';
+	import { makeAPIRequest } from '~/services/api';
 	import AppHeading from '~/components/AppHeading.vue';
 	import ActionButton from '~/components/ActionButton.vue';
 	import type { IAjaxApiKeyResponse } from '~/@types/IAjaxApiKeyResponse';
 
-	const apiKey        = ref('Retrieving');
-	const canRegenerate = ref(false);
-	const apiKeyCopied  = ref(false);
-	const { copy }      = useClipboard({ legacy: true });
+	const apiKey                  = ref('Retrieving');
+	const canRegenerate           = ref(false);
+	const apiKeyCopied            = ref(false);
+	const regenerateButtonClicked = ref(false);
+	const { copy }                = useClipboard({ legacy: true });
 
 	const retrieveApiKey = async () => {
-		const res = await makeApiRequest<IAjaxApiKeyResponse>('/ajax/api-key', { method: 'POST' });
-		apiKey.value        = res.apiKey;
-		canRegenerate.value = res.canRequestNewKey;
+		const { getJSON } = await makeAPIRequest<IAjaxApiKeyResponse>('/ajax/api-key', { method: 'POST' });
+		const data        = await getJSON();
+
+		apiKey.value        = data.apiKey;
+		canRegenerate.value = data.canRequestNewKey;
 	};
 
 	const copyApiKey = () => {
@@ -28,8 +31,13 @@
 	};
 
 	const regenerateApiKey = async () => {
-		await makeApiRequest('/ajax/regenerate-api-key', { method: 'POST' });
-		await retrieveApiKey();
+		regenerateButtonClicked.value = true;
+		const { ok } = await makeAPIRequest('/ajax/regenerate-api-key', { method: 'POST' });
+		if (ok) {
+			await retrieveApiKey();
+		}
+
+		regenerateButtonClicked.value = false;
 	};
 
 	onMounted(async () => await retrieveApiKey());
@@ -48,7 +56,7 @@
 				@click="copyApiKey"
 				>{{ apiKey }}</p>
 				<p v-if="canRegenerate">
-					<action-button variant="brand" @click="regenerateApiKey">Regenerate API Key</action-button>
+					<action-button variant="brand" @click="regenerateApiKey" :disabled="regenerateButtonClicked">Regenerate API Key</action-button>
 				</p>
 				<p v-else class="text-red-500">You've recently generated an API key. Please wait before generating a new one.</p>
 			</div>

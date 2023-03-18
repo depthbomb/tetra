@@ -16,7 +16,7 @@ public class StatsHub : Hub
     [HubMethodName("RequestTotalShortlinks")]
     public async Task RequestTotalShortlinksAsync()
     {
-        int linksCount = await _links.GetLinksCountAsync();
+        int linksCount = await _links.GetTotalCountAsync();
 
         await Clients.Caller.SendAsync("TotalShortlinks", linksCount, Context.ConnectionAborted);
     }

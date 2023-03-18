@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { useKeyModifier } from '@vueuse/core';
 	import AppCard from '~/components/AppCard.vue';
-	import { makeApiRequest } from '~/services/api';
+	import { makeAPIRequest } from '~/services/api';
 	import AppHeading from '~/components/AppHeading.vue';
 	import ActionButton from '~/components/ActionButton.vue';
 	import { ref, onMounted, defineAsyncComponent } from 'vue';
@@ -13,15 +13,18 @@
 	const allLinks      = ref<IAjaxUserLink[]>([]);
 
 	const getAllLinks = async () => {
-		const links = await makeApiRequest<IAjaxUserLink[]>('/ajax/get-all-links', { method: 'POST' });
+		const { getJSON } = await makeAPIRequest<IAjaxUserLink[]>('/ajax/get-all-links', { method: 'POST' });
+		const links       = await getJSON();
 
 		allLinks.value = links;
 	};
 
 	const deleteLink = async (shortcode: string, deletionKey: string) => {
 		if (shiftKeyState.value === true || confirm('Are you sure you want to delete this shortlink?\nThis cannot be undone.')) {
-			await makeApiRequest(`/api/links/${shortcode}/${deletionKey}`, { method: 'DELETE' });
-			await getAllLinks();
+			const { ok } = await makeAPIRequest(`/api/links/${shortcode}/${deletionKey}`, { method: 'DELETE' });
+			if (ok) {
+				await getAllLinks();
+			}
 		}
 	};
 

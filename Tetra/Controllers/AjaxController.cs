@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 using Tetra.Services;
+using Tetra.Data.Entities;
+using Tetra.Models.Responses;
 using Tetra.Middleware.Attributes;
 
 namespace Tetra.Controllers;
@@ -11,158 +13,135 @@ namespace Tetra.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class AjaxController : BaseController
 {
-    private readonly ILogger<AjaxController> _logger;
     private readonly TetraContext            _db;
     private readonly IMemoryCache            _cache;
     private readonly ApiKeyService           _apiKey;
 
-    public AjaxController(ILogger<AjaxController> logger, TetraContext db, IMemoryCache cache, ApiKeyService apiKey)
+    public AjaxController(TetraContext db, IMemoryCache cache, ApiKeyService apiKey)
     {
-        _logger = logger;
         _db     = db;
         _cache  = cache;
         _apiKey = apiKey;
     }
 
     [HttpPost("me")]
+    [RequireAuth]
     [RateLimit(4, seconds: 1)]
     public IActionResult CheckUserAuth()
     {
-        try
+        var user = HttpContext.Items["User"] as User;
+        return ApiResult(new
         {
-            if (TryGetAuthenticatedUser(out var user))
-            {
-                return ApiResult(new
-                {
-                    user.Username,
-                    user.Avatar,
-                    user.Disabled,
-                    user.Admin,
-                });
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error while attempting to authenticate user");
-            HttpContext.Response.Cookies.Delete(GlobalShared.SessionCookieName);
-        }
-        
-        return ApiResult();
+            user.Username,
+            user.Avatar,
+            user.Disabled,
+            user.Admin,
+        });
     }
     
     [HttpPost("api-key")]
+    [RequireAuth]
     [RateLimit(2, seconds: 1)]
     public async Task<IActionResult> GetUserApiKeyAsync()
     {
-        if (TryGetAuthenticatedUser(out var user))
+        var user   = HttpContext.Items["User"] as User;
+        var apiKey = await _db.GetApiKeyByUserIdAsync(user.Id);
+        return ApiResult(new
         {
-            var apiKey = await _db.GetApiKeyByUserIdAsync(user.Id);
-            return ApiResult(new
-            {
-                apiKey           = apiKey.Key,
-                canRequestNewKey = apiKey.CanRequestNewKey()
-            });
-        }
-
-        return ApiResult();
+            apiKey           = apiKey.Key,
+            canRequestNewKey = apiKey.CanRequestNewKey()
+        });
     }
     
     [HttpPost("regenerate-api-key")]
+    [RequireAuth]
     [RateLimit(1, seconds: 60)]
     public async Task<IActionResult> RegenerateApiKeyAsync()
     {
-        if (TryGetAuthenticatedUser(out var user))
+        var user   = HttpContext.Items["User"] as User;
+        var apiKey = await _db.GetApiKeyByUserIdAsync(user.Id);
+        if (apiKey.CanRequestNewKey())
         {
-            var apiKey = await _db.GetApiKeyByUserIdAsync(user.Id);
-            if (apiKey.CanRequestNewKey())
-            {
-                await _apiKey.RegenerateAsync(user.Id);
-                return ApiResult();
-            }
+            await _apiKey.RegenerateAsync(user.Id);
+            return Ok();
         }
 
         return Forbid();
     }
     
     [HttpPost("get-user-links")]
+    [RequireAuth]
     [RateLimit(2, seconds: 1)]
-    public async Task<IActionResult> GetAuthUserLinksAsync()
+    public async Task<List<AjaxUserLinksResponse>> GetAuthUserLinksAsync()
     {
-        if (TryGetAuthenticatedUser(out var user))
-        {
-            try
-            {
-                var links = await _db.Links
-                                     .Where(l => l.UserId == user.Id && l.Disabled == false)
-                                     .Select(l => new 
-                                     {
-                                         l.Shortcode,
-                                         l.Shortlink,
-                                         l.Destination,
-                                         l.DeletionKey,
-                                         l.ExpiresAt,
-                                         l.CreatedAt,
-                                     })
-                                     .OrderByDescending(l => l.CreatedAt)
-                                     .ToListAsync();
+        var user = HttpContext.Items["User"] as User;
+        var links = await _db.Links
+                             .Where(l => l.UserId == user.Id && l.Disabled == false)
+                             .Select(l => new AjaxUserLinksResponse
+                             {
+                                 Shortcode   = l.Shortcode,
+                                 Shortlink   = l.Shortlink,
+                                 Destination = l.Destination,
+                                 DeletionKey = l.DeletionKey,
+                                 ExpiresAt   = l.ExpiresAt,
+                                 CreatedAt   = l.CreatedAt,
+                             })
+                             .OrderByDescending(l => l.CreatedAt)
+                             .ToListAsync();
 
-                return ApiResult(links);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unable to retrieve auth'd user links");
-                
-                return new StatusCodeResult(500);
-            }
-        }
-
-        return Unauthorized();
+        return links;
     }
     
     [HttpPost("get-all-links")]
-    [RateLimit(2, seconds: 1)]
     [RequireAdmin]
-    public async Task<IActionResult> GetAllLinksAsync()
+    [RateLimit(2, seconds: 1)]
+    public async Task<ActionResult<List<AjaxAllLinksResponse>>> GetAllLinksAsync()
     {
-        try
-        {
-            var links = await _db.Links.Select(l => new
+        var links = await _db.Links.Select(l => new AjaxAllLinksResponse
+                             {
+                                 CreatorIp   = l.CreatorIp,
+                                 Shortcode   = l.Shortcode,
+                                 Shortlink   = l.Shortlink,
+                                 Destination = l.Destination,
+                                 DeletionKey = l.DeletionKey,
+                                 ExpiresAt   = l.ExpiresAt,
+                                 CreatedAt   = l.CreatedAt,
+                                 User = new AjaxAllLinksUser
                                  {
-                                     l.CreatorIp,
-                                     l.Shortcode,
-                                     l.Shortlink,
-                                     l.Destination,
-                                     l.DeletionKey,
-                                     l.ExpiresAt,
-                                     l.CreatedAt,
-                                     User = new
-                                     {
-                                         l.User.Username,
-                                         l.User.Anonymous,
-                                     }
-                                 })
-                                 .OrderByDescending(l => l.CreatedAt)
-                                 .ToListAsync();
+                                     Username  = l.User.Username,
+                                     Anonymous = l.User.Anonymous,
+                                 }
+                             })
+                             .OrderByDescending(l => l.CreatedAt)
+                             .ToListAsync();
 
-            return ApiResult(links);
-        }
-        catch (Exception ex)
+        return links;
+    }
+
+    [HttpPost("all-stats")]
+    [RequireAdmin]
+    [RateLimit(2, seconds: 1)]
+    public async Task<ActionResult<AjaxAllStatsResponse>> GetAllStatsAsync()
+    {
+        var linksCount = await _db.GetLinksCountAsync();
+        var usersCount = await _db.GetTotalUsersCountAsync();
+
+        return new AjaxAllStatsResponse
         {
-            _logger.LogError(ex, "Unable to retrieve all user links");
-                
-            return Problem();
-        }
+            TotalLinks = linksCount,
+            TotalUsers = usersCount
+        };
     }
 
     [HttpPost("latest-commit")]
-    public IActionResult GetLatestCommitHash()
+    public ActionResult<AjaxLatestCommitShaResponse> GetLatestCommitHash()
     {
         if (_cache.TryGetValue("latestSha", out string hash))
         {
-            return ApiResult(new
+            return new AjaxLatestCommitShaResponse
             {
-                hash
-            });
+                Hash = hash
+            };
         }
         
         return Problem();

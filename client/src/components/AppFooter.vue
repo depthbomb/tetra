@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import gsap from 'gsap';
 	import { useGitStore } from '~/stores/git';
-	import { makeApiRequest } from '~/services/api';
+	import { makeAPIRequest } from '~/services/api';
 	import { HubConnectionBuilder } from '@microsoft/signalr';
 	import GithubIcon from '~/components/icons/GithubIcon.vue';
 	import CopyrightIcon from '~/components/icons/CopyrightIcon.vue';
@@ -9,7 +9,6 @@
 	import CurlyBracesIcon from '~/components/icons/CurlyBracesIcon.vue';
 	import type { IAjaxLatestCommitHashResponse } from '~/@types/IAjaxLatestCommitHashResponse';
 
-	const totalShortlinksMethodName = 'TotalShortlinks';
 	const gitStore                  = useGitStore();
 	const totalLinks                = ref(0);
 	const tweened                   = reactive({ number: 0 });
@@ -18,21 +17,23 @@
 	const onTotalShortlinks = (count: number) => totalLinks.value = count;
 
 	onMounted(async () => {
-		connection.on(totalShortlinksMethodName, onTotalShortlinks);
+		connection.on('TotalShortlinks', onTotalShortlinks);
 
 		await connection.start();
 		await connection.invoke('RequestTotalShortlinks');
 
-		makeApiRequest<IAjaxLatestCommitHashResponse>('/ajax/latest-commit', { method: 'POST' }).then(({ hash }) => {
+		const { ok, getJSON } = await makeAPIRequest<IAjaxLatestCommitHashResponse>('/ajax/latest-commit', { method: 'POST' });
+		if (ok) {
+			const { hash }     = await getJSON();
 			gitStore.latestSha = hash;
-		}).catch(err => {
+		} else {
 			console.error('Failed to retrieve latest commit SHA, using fallback value');
 			gitStore.latestSha = 'Source';
-		});
+		}
 	});
 	onUnmounted(async () => {
+		connection.off('TotalShortlinks', onTotalShortlinks);
 		await connection.stop();
-		connection.off(totalShortlinksMethodName, onTotalShortlinks);
 	});
 
 	watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));

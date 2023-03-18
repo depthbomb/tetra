@@ -17,7 +17,7 @@ public class HealthController : BaseController
     [HttpGet("/health")]
     public async Task<IActionResult> ReportHealthAsync()
     {
-        bool databaseUp = await _health.IsDatabaseConnectableAsync();
+        var databaseUp = await _health.IsDatabaseConnectableAsync();
         if (databaseUp)
         {
             return new StatusCodeResult(204);

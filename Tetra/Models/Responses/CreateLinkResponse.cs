@@ -1,4 +1,4 @@
-﻿namespace Tetra.Models.Responses.Links;
+﻿namespace Tetra.Models.Responses;
 
 public record CreateLinkResponse
 {

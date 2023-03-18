@@ -1,4 +1,4 @@
-export async function makeApiRequest<T>(endpoint: string, init: RequestInit = {}): Promise<T> {
+export async function makeAPIRequest<T>(endpoint: string, init: RequestInit = {}): Promise<{ ok: boolean; status: number; getJSON: () => Promise<T>; }> {
 	const res = await fetch(endpoint, {
 		body: init.body,
 		method: init.method,
@@ -8,11 +8,11 @@ export async function makeApiRequest<T>(endpoint: string, init: RequestInit = {}
 		}
 	});
 
-	const data = await res.json();
+	const { ok, status } = res;
 
-	if (!res.ok) {
-		throw new Error(data.message);
-	}
+	const getJSON = async () => {
+		return await res.json() as T;
+	};
 
-	return data as T;
+	return { ok, status, getJSON };
 }

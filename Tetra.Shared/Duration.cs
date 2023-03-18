@@ -3,7 +3,7 @@
 namespace Tetra.Shared;
 
 /// <summary>
-/// Provides a utility for parsing a duration string and returning a <see cref="TimeSpan"/>.
+///     Provides a utility for parsing a duration string and returning a <see cref="TimeSpan"/>.
 /// </summary>
 public static class Duration
 {
@@ -14,13 +14,11 @@ public static class Duration
     private static readonly Regex SpacePattern  = new(@"\s+", RegexOptions.Compiled);
 
     /// <summary>
-    /// Parses the specified duration string and returns a <see cref="TimeSpan"/>.
+    ///     Parses the specified duration string and returns a <see cref="TimeSpan"/>.
     /// </summary>
     /// <param name="input">The duration string to parse.</param>
     /// <returns>A <see cref="TimeSpan"/> representing the duration specified by the input string.</returns>
-    /// <exception cref="FormatException">
-    /// Thrown if the input string is not in a recognized format or contains invalid values.
-    /// </exception>
+    /// <exception cref="FormatException">Thrown if the input string is not in a recognized format or contains invalid values.</exception>
     public static TimeSpan Parse(string input)
     {
         var durationString = SpacePattern.Replace(input, string.Empty);

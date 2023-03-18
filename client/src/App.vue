@@ -3,31 +3,41 @@
 	import { RouterView } from 'vue-router';
 	import { useUserStore } from '~/stores/user';
 	import { useIntervalFn } from '@vueuse/shared';
-	import { makeApiRequest } from '~/services/api';
+	import { makeAPIRequest } from '~/services/api';
 	import AppFooter from '~/components/AppFooter.vue';
 	import AppMasthead from '~/components/AppMasthead.vue';
 	import type { IAjaxMeResponse } from '~/@types/IAjaxMeResponse';
 
 	const store = useUserStore();
 
+	const alertSessionExpired = () => {
+		alert('There was a problem authenticating you. Please log in again.');
+		window.location.href = '/auth/logout';
+	};
+
 	onMounted(() => {
 		useIntervalFn(async () => {
 			try {
-				const res = await makeApiRequest<IAjaxMeResponse>('/ajax/me', { method: 'POST' });
+				const { ok, getJSON } = await makeAPIRequest<IAjaxMeResponse>('/ajax/me', { method: 'POST' });
 
-				store.username = res.username ?? null;
-				store.avatar   = res.avatar   ?? null;
-				store.admin    = res.admin    ?? false;
+				if (ok) {
+					const user = await getJSON();
 
-				// Log the user out if they are disabled
-				if (res.disabled) {
-					window.location.href = '/auth/logout';
+					store.username = user.username ?? null;
+					store.avatar   = user.avatar   ?? null;
+					store.admin    = user.admin    ?? false;
+
+					// Log the user out if they are disabled
+					if (user.disabled) {
+						window.location.href = '/auth/logout';
+					}
+				} else {
+					if (store.loggedIn) {
+						alertSessionExpired();
+					}
 				}
 			} catch (err: unknown) {
-				if (store.loggedIn) {
-					alert('There was a problem authenticating you. Please log in again.');
-					window.location.href = '/auth/logout';
-				}
+				alertSessionExpired();
 			}
 		}, 60_000, { immediateCallback: true });
 	});

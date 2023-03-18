@@ -1,7 +1,6 @@
 import FAQView from '~/views/FAQView.vue';
 import HomeView from '~/views/HomeView.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { useAuthGuard, useAdminGuard, useAnonymousGuard } from '~/router/guards';
 
 export const router = createRouter({
 	history: createWebHashHistory(),
@@ -24,7 +23,6 @@ export const router = createRouter({
 		{
 			path: '/api-key',
 			name: 'api-key',
-			beforeEnter: useAuthGuard(),
 			component: () => import('~/views/ApiKeyView.vue')
 		},
 
@@ -36,13 +34,11 @@ export const router = createRouter({
 				{
 					path: 'login',
 					name: 'auth.login',
-					beforeEnter: useAnonymousGuard(),
 					component: () => import('~/views/auth/LogInView.vue')
 				},
 				{
 					path: 'logout',
 					name: 'auth.logout',
-					beforeEnter: useAuthGuard(),
 					component: () => import('~/views/auth/LogOutView.vue')
 				}
 			]
@@ -52,8 +48,7 @@ export const router = createRouter({
 		{
 			path: '/admin',
 			name: 'admin',
-			redirect: '/admin/links',
-			beforeEnter: useAdminGuard(),
+			// component: () => import('~/views/admin/AdminView.vue'),
 			children: [
 				{
 					path: 'links',
