@@ -71,7 +71,7 @@
 	</div>
 	<div v-else class="NoShortlinks">
 		<p v-if="loading">Loading your shortlinks&hellip;</p>
-		<p v-else>You have no shortlinks. Why not create some? <span class="font-mono">(─ω─.)</span></p>
+		<p v-else>You have no shortlinks. Why not create some? <span class="font-mono">\(=ω=.)/</span></p>
 	</div>
 </template>
 
