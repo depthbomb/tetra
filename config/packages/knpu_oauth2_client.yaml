@@ -1,0 +1,10 @@
+knpu_oauth2_client:
+    clients:
+        superfish:
+            type: generic
+            provider_class: App\Security\SuperfishProvider
+
+            client_id: '%env(OIDC_ID)%'
+            client_secret: '%env(OIDC_SECRET)%'
+            redirect_route: oidc_callback
+            redirect_params: {}

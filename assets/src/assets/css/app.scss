@@ -1,0 +1,46 @@
+@import 'tailwindcss/base.css';
+@import 'tailwindcss/components.css';
+@import 'tailwindcss/utilities.css';
+
+@import 'fonts';
+
+:root {
+	color-scheme: dark;
+}
+
+// body {
+// 	@apply bg-cover bg-fixed bg-center bg-[url(../img/backgrounds/bg2.jpg)];
+// }
+
+.MainCard {
+	@apply p-6;
+	@apply w-full;
+	@apply bg-gray-800 bg-opacity-90;
+	@apply backdrop-blur-lg;
+	@apply rounded-3xl;
+	@apply shadow-lg;
+
+	.MainCard-divider {
+		@apply my-6 -mx-6;
+		@apply h-[1px];
+		@apply bg-gray-700;
+	}
+}
+
+code {
+	@apply py-0.5 px-2;
+	@apply text-sm font-mono whitespace-nowrap;
+	@apply bg-gray-700 bg-opacity-75;
+	@apply rounded-lg;
+}
+
+p + p {
+	@apply mt-3;
+}
+
+p a {
+	@apply font-bold text-brand-500;
+	@apply transition-colors;
+
+	@apply hover:text-brand-600;
+}
