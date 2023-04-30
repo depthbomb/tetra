@@ -58,10 +58,14 @@
 			</app-button>
 			<copy-button :content="shortlink.shortlink" :text="shortlink.shortcode"/>
 			<arrow-long-icon direction="right" class="w-8 h-8 text-gray-500"/>
-			<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 64) }}</div>
-			<div v-if="shortlink.expires_at" class="Shortlinks-entryTtl">
-				<timer-icon class="w-4 h-4"/>
-				<span><use-time-ago v-slot="{ timeAgo }" :time="new Date(shortlink.expires_at)">Expires {{ timeAgo }}</use-time-ago></span>
+			<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 50) }}</div>
+			<div class="Shortlinks-entryDates">
+				<p>
+					<use-time-ago v-slot="{ timeAgo }" :time="new Date(shortlink.created_at)">Created {{ timeAgo }}</use-time-ago>
+				</p>
+				<p v-if="shortlink.expires_at">
+					<use-time-ago v-slot="{ timeAgo }" :time="new Date(shortlink.expires_at)">Expires {{ timeAgo }}</use-time-ago>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -97,11 +101,15 @@
 				@apply text-lg font-mono;
 			}
 
-			.Shortlinks-entryTtl {
-				@apply flex items-center;
-				@apply space-x-3;
+			.Shortlinks-entryDates {
+				@apply flex flex-col;
 				@apply ml-auto #{!important};
+				@apply space-y-1.5;
 				@apply text-gray-500;
+
+				p {
+					@apply text-sm text-right;
+				}
 			}
 		}
 	}
