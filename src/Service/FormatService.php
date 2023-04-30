@@ -11,8 +11,8 @@ class FormatService
     private readonly array $outputFormats;
 
     public function __construct(
-        private readonly SerializerInterface $serializer,
         private readonly RequestStack        $requestStack,
+        private readonly SerializerInterface $serializer,
     )
     {
         $this->outputFormats = ['json', 'xml', 'csv', 'php'];

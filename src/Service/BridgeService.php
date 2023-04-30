@@ -9,8 +9,8 @@ class BridgeService
 {
     public function __construct(
         private readonly CsrfTokenManagerInterface $tokenManager,
-        private readonly RequestStack              $request,
         private readonly Security                  $security,
+        private readonly RequestStack              $request,
     ) {}
 
     public function getConfig(): string

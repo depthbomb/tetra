@@ -19,8 +19,8 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
 {
     public function __construct(
         private readonly ClientRegistry  $registry,
-        private readonly UserRepository  $users,
         private readonly RouterInterface $router,
+        private readonly UserRepository  $users,
     ) {}
 
     /**
