@@ -34,7 +34,7 @@
 	onMounted(async () => {
 		apiKey.value = user.apiKey;
 
-		const { getJSON }                = await useApi('/api/api-key-status', { method: 'POST' });
+		const { getJSON }                = await useApi(`/api/v1/users/api-key-status?api_key=${user.apiKey}`, { method: 'GET' });
 		const { regeneration_available } = await getJSON<IApiKeyStatusResponse>();
 
 		canRegenerateKey.value = regeneration_available;

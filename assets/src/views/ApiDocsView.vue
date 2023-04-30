@@ -172,6 +172,11 @@
 
 					<endpoint-data type="response" :data="[
 						{
+							name: 'regeneration_available',
+							type: 'bool',
+							description: 'Whether or not the API key can be regenerated'
+						},
+						{
 							name: 'next_api_key_available',
 							type: 'ISO-8601 date',
 							description: 'The date in which the user\'s API key can be regenerated again'

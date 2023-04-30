@@ -29,9 +29,10 @@ class UsersV1Controller extends BaseController
 
         $this->abortUnless(!!$user, 400, 'Invalid api_key');
 
+        $regeneration_available = $user->canApiKeyBeRegenerated();
         $next_api_key_available = $user->getNextApiKeyAvailable();
 
-        return $this->format->formatData(compact('next_api_key_available'));
+        return $this->format->formatData(compact('regeneration_available', 'next_api_key_available'));
     }
 
     #[Route('/regenerate-api-key', name: 'users_regenerate_api_key_v1', methods: 'POST')]
