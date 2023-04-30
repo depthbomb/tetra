@@ -3,5 +3,5 @@ export interface ICreateShortlinkResponse {
 	shortlink:    string;
 	destination:  string;
 	deletion_key: string;
-	expires_at:   Date;
+	expires_at:   string;
 }

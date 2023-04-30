@@ -3,6 +3,6 @@ export interface IUserShortlinksResponse {
 	shortlink:   string;
 	destination: string;
 	secret:      string;
-	created_at:  Date;
-	expires_at?: Date;
+	created_at:  string;
+	expires_at?: string;
 }
