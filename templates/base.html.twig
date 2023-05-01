@@ -16,17 +16,9 @@
         <link rel="preconnect" href="https://auth.super.fish">
         <link rel="prefetch" href="https://auth.super.fish">
 
-        {% for entry in static.getEntries('css') %}
-            <link href="{{ entry }}" type="text/css" rel="stylesheet" nonce="{{ csp_nonce() }}">
-        {% endfor %}
-
-        {% for entry in static.getEntries('js') %}
-            <script type="module" src="{{ entry }}" nonce="{{ csp_nonce() }}"></script>
-        {% endfor %}
-
-        {% for preload in static.getPreload() %}
-            <link rel="modulepreload" href="{{ preload }}" nonce="{{ csp_nonce() }}">
-        {% endfor %}
+        {% for entry in static.getEntries('css') %}<link href="{{ entry }}" type="text/css" rel="stylesheet" nonce="{{ csp_nonce() }}">{% endfor %}
+        {% for entry in static.getEntries('js') %}<script type="module" src="{{ entry }}" nonce="{{ csp_nonce() }}"></script>{% endfor %}
+        {% for preload in static.getPreload() %}<link rel="modulepreload" href="{{ preload }}" nonce="{{ csp_nonce() }}">{% endfor %}
     </head>
     <body class="not-nirvana-fishfood" data-bridge="{{ bridge.getConfig() }}" data-user="{{ bridge.getUser() }}">
         {% block body %}{% endblock %}

@@ -12,7 +12,7 @@
 
 	const getTotalLinksCount  = async () => {
 		const { success, getJSON } = await useApi('/api/total-shortlinks', { method: 'POST' });
-		if (success) {
+		if (success.value) {
 			const { count }  = await getJSON<ITotalShortlinksResponse>();
 			totalLinks.value = count;
 		}

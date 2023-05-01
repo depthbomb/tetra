@@ -16,7 +16,7 @@
 		loading.value = true;
 		const { success, getJSON } = await useApi('/api/admin/all-shortlinks', { method: 'POST' });
 
-		if (success) {
+		if (success.value) {
 			const links = await getJSON<AllShortlinksResponse>();
 
 			shortlinks.value = links;
@@ -30,7 +30,7 @@
 			loading.value = true;
 
 			const { success } = await useApi(`/api/v1/shortlinks/${shortcode}/${deletionKey}`, { method: 'DELETE' });
-			if (success) {
+			if (success.value) {
 				await getAllShortlinks();
 			}
 		}

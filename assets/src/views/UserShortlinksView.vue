@@ -7,7 +7,6 @@
 	import AppButton from '~/components/AppButton.vue';
 	import CopyButton from '~/components/CopyButton.vue';
 	import TrashIcon from '~/components/icons/TrashIcon.vue';
-	import TimerIcon from '~/components/icons/TimerIcon.vue';
 	import { useTruncation } from '~/composables/useTruncation';
 	import ArrowLongIcon from '~/components/icons/ArrowLongIcon.vue';
 	import type { IUserShortlinksResponse } from '~/@types/IUserShortlinksResponse';
@@ -25,7 +24,7 @@
 		}
 
 		const { success } = await useApi(`/api/v1/shortlinks/${shortcode}/${secret}`, { method: 'DELETE' });
-		if (success) {
+		if (success.value) {
 			toasts.createToast('success', 'Shortlink deleted!');
 
 			await retrieveShortlinks();
@@ -36,7 +35,7 @@
 
 	const retrieveShortlinks = async (page = 1) => {
 		const { success, getJSON } = await useApi(`/api/v1/shortlinks?api_key=${user.apiKey}&page=${page}`, { method: 'GET' });
-		if (success) {
+		if (success.value) {
 			const shortlinksResponse = await getJSON<IUserShortlinksResponse[]>();
 
 			shortlinks.value = shortlinksResponse;
