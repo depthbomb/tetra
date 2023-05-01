@@ -5,6 +5,7 @@
 	import { useUser } from '~/composables/useUser';
 	import { UseTimeAgo } from '@vueuse/components';
 	import AppButton from '~/components/AppButton.vue';
+	import KeyIcon from '~/components/icons/KeyIcon.vue';
 	import CopyButton from '~/components/CopyButton.vue';
 	import TrashIcon from '~/components/icons/TrashIcon.vue';
 	import { useTruncation } from '~/composables/useTruncation';
@@ -29,7 +30,7 @@
 
 			await retrieveShortlinks();
 		} else {
-			toasts.createToast('error', 'Failed to delete shortlinks');
+			toasts.createToast('error', 'Failed to delete shortlink');
 		}
 	};
 
@@ -56,6 +57,7 @@
 				<trash-icon class="w-3.5 h-6"/>
 			</app-button>
 			<copy-button :content="shortlink.shortlink" :text="shortlink.shortcode"/>
+			<copy-button :icon="KeyIcon" :content="shortlink.secret" text="Secret"/>
 			<arrow-long-icon direction="right" class="w-8 h-8 text-gray-500"/>
 			<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 50) }}</div>
 			<div class="Shortlinks-entryDates">
