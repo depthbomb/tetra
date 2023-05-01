@@ -28,14 +28,17 @@ class ShortlinksV1Controller extends BaseController
     #[Route('/{shortcode}', name: 'shortlink_info_v1', methods: 'GET', stateless: true)]
     public function getShortlinkInfo(string $shortcode): Response
     {
-        $shortlink = $this->shortlinks->findOneByShortcode($shortcode);
+        $shortlink = $this->shortlinks->createQueryBuilder('s')
+            ->select('s.shortlink, s.destination, s.expires_at, s.created_at')
+            ->where('s.shortcode = :shortcode')
+            ->setParameter('shortcode', $shortcode)
+            ->andWhere('s.disabled = false')
+            ->getQuery()
+            ->getOneOrNullResult();
 
-        $this->abortIf(!$shortlink, 404);
+        $this->abortUnless(!!$shortlink, 404);
 
-        $destination = $shortlink->getDestination();
-        $expires_at  = $shortlink->getExpiresAt();
-
-        return $this->format->formatData(compact('destination', 'expires_at'));
+        return $this->format->formatData($shortlink);
     }
 
     #[Route('', name: 'shortlink_user_list_v1', methods: 'GET', stateless: true)]
@@ -78,7 +81,7 @@ class ShortlinksV1Controller extends BaseController
         $expires_at = null;
         if ($form->has('duration'))
         {
-            $duration   = $form->get('duration');
+            $duration = $form->get('duration');
             if ($duration !== '')
             {
                 $expires_at = $this->getExpiresAtFromDuration($duration);
@@ -180,7 +183,7 @@ class ShortlinksV1Controller extends BaseController
         return $this->format->formatData(['expires_at' => $expires_at->format('c')]);
     }
 
-    #[Route('/{shortcode}/qr-code', name: 'shortlink_qr_code_v1', methods: 'GET')]
+    #[Route('/{shortcode}/qr-code', name: 'shortlink_qr_code_v1', methods: 'GET', stateless: true)]
     public function getQrCode(QrService $qr, string $shortcode): Response
     {
         $shortlink = $this->shortlinks->createQueryBuilder('s')

@@ -75,9 +75,19 @@
 				<endpoint verb="GET" url="/api/v1/shortlinks/{shortcode}" description="Returns info about a shortlink">
 					<endpoint-data type="response" :data="[
 						{
-							name: 'destination',
+							name: 'shortlink',
 							type: 'string',
 							description: 'The URL that the shortlink redirects to'
+						},
+						{
+							name: 'destination',
+							type: 'string',
+							description: 'The full HTTP/S URL that the shortlink redirects to',
+						},
+						{
+							name: 'created_at',
+							type: 'ISO-8601 date',
+							description: 'The date that the shortlink was created',
 						},
 						{
 							name: 'expires_at',
