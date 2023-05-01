@@ -7,8 +7,8 @@
 	const bridge = useBridge();
 
 	onMounted(async () => {
-		const { ok } = await useApi('/oidc/invalidate', { method: 'POST', headers: { 'X-Csrf-Token': bridge.authToken } });
-		if (ok) {
+		const { success } = await useApi('/oidc/invalidate', { method: 'POST', headers: { 'X-Csrf-Token': bridge.authToken } });
+		if (success.value) {
 			window.location.href = '/';
 		}
 	});

@@ -6,7 +6,10 @@ export function useAdminGuard(): NavigationGuard {
 		window.location.href = '/';
 	};
 	return async (to, from, next) => {
-		const { isAdmin } = useUser()
+		const { isAdmin } = useUser();
+
+		console.log(isAdmin);
+
 		if (!isAdmin) {
 			redirectToHome();
 		} else {

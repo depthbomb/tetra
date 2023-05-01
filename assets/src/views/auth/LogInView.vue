@@ -2,7 +2,7 @@
 	import { onMounted } from 'vue';
 	import SpinnerIcon from '~/components/icons/SpinnerIcon.vue';
 
-	onMounted(async () => window.location.href = '/oidc/start');
+	onMounted(() => window.location.href = '/oidc/start');
 </script>
 
 <template>

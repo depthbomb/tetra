@@ -67,6 +67,15 @@ class ShortlinkRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    public function findByCreatorIp(string $ip): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.creator_ip = :ip')
+            ->setParameter('ip', $ip)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
     /**
      * Deletes a shortlink by its shortcode and secret key
      *

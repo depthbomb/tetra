@@ -5,6 +5,7 @@
 	import SuperfishialLogo from '~/components/logos/SuperfishialLogo.vue';
 	import { Menu, MenuItem, MenuItems, MenuButton } from '@headlessui/vue';
 
+	const ListIcon        = defineAsyncComponent(() => import('~/components/icons/ListIcon.vue'));
 	const SignOutIcon     = defineAsyncComponent(() => import('~/components/icons/SignOutIcon.vue'));
 	const ChevronDownIcon = defineAsyncComponent(() => import('~/components/icons/ChevronDownIcon.vue'));
 
@@ -41,6 +42,9 @@
 					<MenuItems class="Header-userMenu">
 						<div class="py-1 px-1">
 							<MenuItem>
+								<router-link v-if="user.isAdmin" :to="{ name: 'admin.shortlinks' }"><list-icon class="mr-2 w-4 h-4"/> All Shortlinks</router-link>
+							</MenuItem>
+							<MenuItem>
 								<router-link :to="{ name: 'auth.logout' }"><sign-out-icon class="mr-2 w-4 h-4"/> Sign Out</router-link>
 							</MenuItem>
 						</div>
@@ -76,7 +80,7 @@
 
 			a {
 				@apply py-1.5 px-4;
-				@apply bg-black bg-opacity-20;
+				@apply bg-black bg-opacity-25;
 				@apply rounded-xl;
 				@apply backdrop-blur;
 				@apply select-none;
@@ -98,7 +102,7 @@
 				@apply flex items-center;
 				@apply p-1.5;
 				@apply space-x-2;
-				@apply bg-black bg-opacity-20;
+				@apply bg-black bg-opacity-25;
 				@apply backdrop-blur;
 				@apply rounded-xl;
 				@apply transition-colors;

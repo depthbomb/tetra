@@ -1,7 +1,8 @@
 import FAQView from '~/views/FAQView.vue';
 import HomeView from '~/views/HomeView.vue';
+import ApiDocs from '~/views/ApiDocsView.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { useAuthGuard, useAnonymousGuard } from '~/router/guards';
+import { useAuthGuard, useAdminGuard, useAnonymousGuard } from '~/router/guards';
 
 export const router = createRouter({
 	history: createWebHashHistory(),
@@ -31,7 +32,7 @@ export const router = createRouter({
 		{
 			path: '/api',
 			name: 'api-docs',
-			component: () => import('~/views/ApiDocsView.vue')
+			component: ApiDocs
 		},
 
 		// Auth routes
@@ -61,9 +62,10 @@ export const router = createRouter({
 			// component: () => import('~/views/admin/AdminView.vue'),
 			children: [
 				{
-					path: 'links',
-					name: 'admin.links',
-					component: () => import('~/views/admin/AllLinksView.vue')
+					path: 'shortlinks',
+					name: 'admin.shortlinks',
+					beforeEnter: useAdminGuard(),
+					component: () => import('~/views/admin/AllShortlinksView.vue')
 				},
 				{
 					path: 'users',

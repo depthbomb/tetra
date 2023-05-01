@@ -44,6 +44,6 @@ class OAuthController extends BaseController
             $security->logout(false);
         }
 
-        return $this->redirectToRoute('root');
+        return new Response(null, 200);
     }
 }
