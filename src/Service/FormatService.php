@@ -23,10 +23,9 @@ class FormatService
         $format       = $this->determineFormat();
         $content_type = match ($format)
         {
-            'json' => 'application/json',
-            'xml'  => 'application/xml',
-            'csv'  => 'application/csv',
-            'php'  => 'text/plain' // via serialize()
+            'json'       => 'application/json',
+            'xml'        => 'application/xml',
+            'csv', 'php' => 'text/plain'
         };
 
         $headers['Content-Type'] = $content_type;

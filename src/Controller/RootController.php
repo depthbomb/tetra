@@ -2,7 +2,6 @@
 
 use App\Attribute\RateLimited;
 use App\Repository\ShortlinkRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,9 +21,6 @@ class RootController extends BaseController
         return $this->redirect("/#/shortlink/$shortcode");
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     #[RateLimited('redirection')]
     #[Route('/{shortcode}', name: 'shortlink_redirect', stateless: true)]
     public function attemptRedirection(ShortlinkRepository $shortlinks, string $shortcode): Response
