@@ -1,21 +1,23 @@
 <?php namespace App\Service;
 
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class FormatService
 {
     private const DEFAULT_FORMAT = 'json';
+    private const OUTPUT_FORMATS = ['json', 'xml', 'csv', 'php'];
 
-    private readonly array $outputFormats;
+    private readonly Serializer $serializer;
 
-    public function __construct(
-        private readonly RequestStack        $requestStack,
-        private readonly SerializerInterface $serializer,
-    )
+    public function __construct(private readonly RequestStack $requestStack)
     {
-        $this->outputFormats = ['json', 'xml', 'csv', 'php'];
+        $encoders         = [new JsonEncoder(), new XmlEncoder(), new CsvEncoder()];
+        $this->serializer = new Serializer([], $encoders);
     }
 
     public function formatData(mixed $data, int $status_code = 200, array $headers = []): Response
@@ -48,7 +50,7 @@ class FormatService
         $queries = $request->query;
         $format  = $queries->get('format');
 
-        if (in_array($format, $this->outputFormats))
+        if (in_array($format, $this::OUTPUT_FORMATS))
         {
             return $format;
         }
