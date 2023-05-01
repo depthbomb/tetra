@@ -1,6 +1,19 @@
 <script setup lang="ts">
 	import { useToastStore } from '~/stores/toast';
+	import { reactive, defineAsyncComponent } from 'vue';
 	import type { IToast } from '~/@types/IToast';
+
+	const CheckIcon   = defineAsyncComponent(() => import('~/components/icons/CheckIcon.vue'));
+	const CloseIcon   = defineAsyncComponent(() => import('~/components/icons/CloseIcon.vue'));
+	const WarningIcon = defineAsyncComponent(() => import('~/components/icons/WarningIcon.vue'));
+	const InfoIcon    = defineAsyncComponent(() => import('~/components/icons/InfoIcon.vue'));
+
+	const iconMap = reactive({
+		success: CheckIcon,
+		error:   CloseIcon,
+		warning: WarningIcon,
+		info:    InfoIcon
+	});
 
 	const toastStore = useToastStore();
 
@@ -14,6 +27,7 @@
 <template>
 	<transition-group name="toasts-list" tag="aside" class="Toasts">
 		<div :key="toast.id" v-for="toast of toastStore.toasts" :class="['Toast', 'is-' + toast.type]" @click="removeToast(toast)" role="alert">
+			<component :is="iconMap[toast.type]"/>
 			<p>{{ toast.message }}</p>
 		</div>
 	</transition-group>
@@ -33,7 +47,7 @@
 			@apply flex items-center;
 			@apply mr-3;
 			@apply py-3 px-6;
-			@apply max-w-[256px];
+			@apply max-w-[512px];
 			@apply bg-gray-900;
 			@apply border-l-2;
 			@apply rounded-2xl;
@@ -59,6 +73,10 @@
 			&.is-info {
 				@apply text-brand-500;
 				@apply bg-brand-500;
+			}
+
+			svg {
+				@apply mr-3 w-6 h-6;
 			}
 		}
 	}
