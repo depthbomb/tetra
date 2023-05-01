@@ -7,6 +7,7 @@ interface IAPIRequestResponse {
 	status:  Ref<number>;
 	success: Ref<boolean>;
 	getJSON: <T>() => Promise<T>;
+	getBody: () => Promise<string>;
 }
 
 export async function useApi(endpoint: string, init: RequestInit = {}): Promise<IAPIRequestResponse> {
@@ -34,5 +35,9 @@ export async function useApi(endpoint: string, init: RequestInit = {}): Promise<
 		return await res.json() as T;
 	};
 
-	return { ok, status, success, getJSON };
+	async function getBody() {
+		return await res.text();
+	};
+
+	return { ok, status, success, getJSON, getBody };
 }
