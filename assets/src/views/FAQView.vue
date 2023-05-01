@@ -15,4 +15,11 @@
 	<div class="pl-3">
 		<p>Publicly, yes. Admins, however, can see all shortlinks created as well as their destinations and who created them.</p>
 	</div>
+
+	<div class="MainCard-divider"></div>
+
+	<faq-question>Can I view info about a shortlink without using the API?</faq-question>
+	<div class="pl-3">
+		<p>If you add a <code>+</code> to the end of a shortlink then you will be redirected to an info page about the shortlink.</p>
+	</div>
 </template>

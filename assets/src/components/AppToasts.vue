@@ -76,7 +76,7 @@
 			}
 
 			svg {
-				@apply mr-3 w-6 h-6;
+				@apply mr-3 w-4 h-4;
 			}
 		}
 	}

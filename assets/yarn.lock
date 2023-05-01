@@ -937,6 +937,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vueuse/router@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "@vueuse/router@npm:10.1.0"
+  dependencies:
+    "@vueuse/shared": 10.1.0
+    vue-demi: ">=0.14.0"
+  peerDependencies:
+    vue-router: ">=4.0.0-rc.1"
+  checksum: 05d3cc939b525cdf0eab2c5f654d095bd01ae8142aecef19c07f8016dc51cc10c82fbeff8439bbd4ffcf4ec571f92acf0ba47aa17059dc03b1bfed3e3bb19e33
+  languageName: node
+  linkType: hard
+
 "@vueuse/shared@npm:10.1.0":
   version: 10.1.0
   resolution: "@vueuse/shared@npm:10.1.0"
@@ -3582,6 +3594,7 @@ __metadata:
     "@vue/tsconfig": ^0.1.3
     "@vueuse/components": ^10.1.0
     "@vueuse/core": ^10.1.0
+    "@vueuse/router": ^10.1.0
     autoprefixer: ^10.4.14
     eslint: ^8.39.0
     eslint-plugin-vue: ^9.11.0

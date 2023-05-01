@@ -34,6 +34,11 @@ export const router = createRouter({
 			name: 'api-docs',
 			component: ApiDocs
 		},
+		{
+			path: '/shortlink/:shortcode',
+			name: 'shortlink',
+			component: () => import('~/views/ShortlinkView.vue')
+		},
 
 		// Auth routes
 		{

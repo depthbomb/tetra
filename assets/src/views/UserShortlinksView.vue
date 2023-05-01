@@ -1,10 +1,12 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
 	import { useApi } from '~/composables/useApi';
+	import TimeAgo from '~/components/TimeAgo.vue';
 	import { useToastStore } from '~/stores/toast';
 	import { useUser } from '~/composables/useUser';
 	import { UseTimeAgo } from '@vueuse/components';
 	import AppButton from '~/components/AppButton.vue';
+	import AppLoader from '~/components/AppLoader.vue';
 	import KeyIcon from '~/components/icons/KeyIcon.vue';
 	import CopyButton from '~/components/CopyButton.vue';
 	import TrashIcon from '~/components/icons/TrashIcon.vue';
@@ -62,29 +64,21 @@
 			<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 50) }}</div>
 			<div class="Shortlinks-entryDates">
 				<p>
-					<use-time-ago v-slot="{ timeAgo }" :time="new Date(shortlink.created_at)">Created {{ timeAgo }}</use-time-ago>
+					Created <time-ago :date="shortlink.created_at"/>
 				</p>
 				<p v-if="shortlink.expires_at">
-					<use-time-ago v-slot="{ timeAgo }" :time="new Date(shortlink.expires_at)">Expires {{ timeAgo }}</use-time-ago>
+					Expires <time-ago :date="shortlink.expires_at"/>
 				</p>
 			</div>
 		</div>
 	</div>
-	<div v-else class="NoShortlinks">
-		<p v-if="loading">Loading your shortlinks&hellip;</p>
-		<p v-else>You have no shortlinks. Why not create some? <span class="font-mono">\(=ω=.)/</span></p>
-	</div>
+	<template v-else>
+		<app-loader v-if="loading" text="Loading your shortlinks&hellip;"/>
+		<p v-else class="text-center text-lg text-gray-400">You have no shortlinks. Why not create some? <span class="font-mono">\(=ω=.)/</span></p>
+	</template>
 </template>
 
 <style scoped lang="scss">
-	.NoShortlinks {
-		@apply text-center;
-
-		p {
-			@apply text-xl text-gray-400;
-		}
-	}
-
 	.Shortlinks {
 		@apply flex flex-col;
 		@apply space-y-3;
@@ -105,7 +99,7 @@
 			.Shortlinks-entryDates {
 				@apply flex flex-col;
 				@apply ml-auto #{!important};
-				@apply space-y-1.5;
+				@apply space-y-0.5;
 				@apply text-gray-500;
 
 				p {

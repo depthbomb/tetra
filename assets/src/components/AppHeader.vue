@@ -22,8 +22,8 @@
 			<router-link :to="{ name: 'home' }">Home</router-link>
 			<router-link v-if="user.isLoggedIn" :to="{ name: 'user-shortlinks' }">Your Shortlinks</router-link>
 			<router-link v-if="user.isLoggedIn" :to="{ name: 'api-key' }">API Key</router-link>
-			<router-link :to="{ name: 'faq' }">FAQ</router-link>
 			<router-link :to="{ name: 'api-docs' }">API Docs</router-link>
+			<router-link :to="{ name: 'faq' }">FAQ</router-link>
 		</div>
 		<div class="Header-user">
 			<Menu v-if="user.isLoggedIn" v-slot="{ open }" as="div">

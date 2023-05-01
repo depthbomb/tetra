@@ -15,11 +15,18 @@ class RootController extends BaseController
         return $this->render('root/root.html.twig');
     }
 
+    #[RateLimited('redirection')]
+    #[Route('/{shortcode}+', name: 'shortlink_expand', stateless: true)]
+    public function redirectToExpanded(string $shortcode): Response
+    {
+        return $this->redirect("/#/shortlink/$shortcode");
+    }
+
     /**
      * @throws NonUniqueResultException
      */
     #[RateLimited('redirection')]
-    #[Route('/{shortcode}', name: 'shortlink_redirect')]
+    #[Route('/{shortcode}', name: 'shortlink_redirect', stateless: true)]
     public function attemptRedirection(ShortlinkRepository $shortlinks, string $shortcode): Response
     {
         $shortlink = $shortlinks->createQueryBuilder('s')
