@@ -61,7 +61,7 @@
 <style scoped lang="scss">
 	.Header {
 		@apply flex items-center;
-		@apply py-8;
+		@apply p-6;
 		@apply w-full;
 
 		.Header-brand {
