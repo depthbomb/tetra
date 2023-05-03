@@ -2,7 +2,10 @@
 	import gsap from 'gsap';
 	import { useApi } from '~/composables/useApi';
 	import { ref, watch, reactive, onMounted } from 'vue';
+	import GithubIcon from '~/components/icons/GithubIcon.vue';
 	import { useIntervalFn, useWindowFocus } from '@vueuse/core';
+	import ExternalIcon from '~/components/icons/ExternalIcon.vue';
+	import CopyrightIcon from '~/components/icons/CopyrightIcon.vue';
 	import type { ITotalShortlinksResponse } from '~/@types/ITotalShortlinksResponse';
 
 	const totalLinks = ref(0);
@@ -32,13 +35,13 @@
 <template>
 	<footer class="Footer">
 		<div class="Footer-content">
-			<p>&copy; superfishial {{ new Date().getFullYear() }}</p>
+			<p><copyright-icon class="mr-1.5"/> superfishial {{ new Date().getFullYear() }}</p>
 			<span class="Footer-divider">|</span>
-			<p>Serving <span class="font-mono">{{ tweened.number.toFixed(0) }}</span> shortlinks</p>
+			<p><span>Serving <span class="font-mono">{{ tweened.number.toFixed(0) }}</span> shortlinks</span></p>
 			<span class="Footer-divider">|</span>
-			<a href="https://github.com/depthbomb/tetra" target="_blank">Source</a>
+			<a href="https://github.com/depthbomb/tetra" target="_blank"><github-icon class="mr-1.5"/> Source</a>
 			<span class="Footer-divider">|</span>
-			<a href="https://unsplash.com/@jeremybishop" target="_blank" rel="nofollow">Background</a>
+			<a href="https://unsplash.com/@jeremybishop" target="_blank" rel="nofollow">Background <external-icon class="ml-1.5"/></a>
 		</div>
 	</footer>
 </template>
@@ -52,7 +55,16 @@
 			@apply flex;
 			@apply space-x-3;
 
+			p, a {
+				@apply flex items-center;
+
+				svg {
+					@apply w-3 h-3;
+				}
+			}
+
 			a {
+				@apply text-brand-100;
 				@apply hover:text-brand;
 				@apply transition-colors;
 			}
