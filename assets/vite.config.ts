@@ -17,6 +17,9 @@ export default defineConfig(({ mode }) => {
 		base: './',
 		root: resolve('./src'),
 		publicDir: resolve('./public'),
+		json: {
+			stringify: true
+		},
 		build: {
 			outDir: distPath,
 			minify: mode === 'production' ? 'esbuild' : false,

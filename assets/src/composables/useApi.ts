@@ -10,12 +10,16 @@ interface IAPIRequestResponse {
 	getBody: () => Promise<string>;
 }
 
-export async function useApi(endpoint: string, init: RequestInit = {}): Promise<IAPIRequestResponse> {
+export async function useApi(endpoint: string | Ref<string>, init: RequestInit = {}): Promise<IAPIRequestResponse> {
 	const bridge = useBridge();
 
 	const ok      = ref(false);
 	const status  = ref(0);
 	const success = ref(false);
+
+	if (typeof endpoint !== 'string') {
+		endpoint = endpoint.value;
+	}
 
 	const res = await fetch(endpoint, {
 		body: init.body,
