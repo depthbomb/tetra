@@ -58,6 +58,7 @@ class ShortlinksV1Controller extends BaseController
             ->leftJoin('s.creator', 'c')
             ->where('c.id = :id')
             ->setParameter('id', $user->getId())
+            ->andWhere('s.disabled = false')
             ->orderBy('s.created_at', 'DESC')
             ->getQuery()
             ->getArrayResult();
