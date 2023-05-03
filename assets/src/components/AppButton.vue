@@ -38,7 +38,7 @@
 	@apply flex items-center justify-center;
 	@apply py-1.5 px-4;
 	@apply text-white;
-	@apply rounded-xl;
+	@apply rounded-full;
 	@apply border;
 	@apply cursor-pointer;
 	@apply select-none;

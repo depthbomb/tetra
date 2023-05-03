@@ -4,7 +4,6 @@
 	import TimeAgo from '~/components/TimeAgo.vue';
 	import { useToastStore } from '~/stores/toast';
 	import { useUser } from '~/composables/useUser';
-	import { UseTimeAgo } from '@vueuse/components';
 	import AppButton from '~/components/AppButton.vue';
 	import AppLoader from '~/components/AppLoader.vue';
 	import KeyIcon from '~/components/icons/KeyIcon.vue';
@@ -55,11 +54,11 @@
 <template>
 	<div v-if="shortlinks.length !== 0" class="Shortlinks">
 		<div :key="shortlink.shortcode" v-for="shortlink of shortlinks" class="Shortlinks-entry">
-			<app-button variant="danger" @click="deleteShortlink(shortlink.shortcode, shortlink.secret)">
-				<trash-icon class="w-3.5 h-6"/>
+			<app-button variant="danger" size="small" @click="deleteShortlink(shortlink.shortcode, shortlink.secret)">
+				<trash-icon class="mr-1.5 h-3"/> Delete
 			</app-button>
-			<copy-button :content="shortlink.shortlink" :text="shortlink.shortcode"/>
-			<copy-button :icon="KeyIcon" :content="shortlink.secret" text="Secret"/>
+			<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode"/>
+			<copy-button size="small" :icon="KeyIcon" :content="shortlink.secret" text="Secret"/>
 			<arrow-long-icon direction="right" class="w-8 h-8 text-gray-500"/>
 			<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 50) }}</div>
 			<div class="Shortlinks-entryDates">
@@ -89,7 +88,7 @@
 			@apply p-3;
 			@apply w-full;
 			@apply bg-gray-900;
-			@apply rounded-3xl;
+			@apply rounded-full;
 			@apply shadow;
 
 			.Shortlinks-entryDestination {

@@ -81,7 +81,7 @@
 			a {
 				@apply py-1.5 px-4;
 				@apply bg-black bg-opacity-25;
-				@apply rounded-xl;
+				@apply rounded-full;
 				@apply backdrop-blur;
 				@apply select-none;
 				@apply transition-colors;
@@ -104,14 +104,14 @@
 				@apply space-x-2;
 				@apply bg-black bg-opacity-25;
 				@apply backdrop-blur;
-				@apply rounded-xl;
+				@apply rounded-full;
 				@apply transition-colors;
 
 				@apply hover:bg-gray-700 hover:bg-opacity-100;
 
 				img {
 					@apply w-6 h-6;
-					@apply rounded-lg;
+					@apply rounded-full;
 				}
 			}
 
@@ -129,7 +129,7 @@
 					@apply flex items-center;
 					@apply py-1.5 px-3;
 					@apply text-sm;
-					@apply rounded-lg;
+					@apply rounded-full;
 
 					@apply hover:bg-gray-700;
 				}

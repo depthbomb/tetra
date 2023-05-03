@@ -229,7 +229,7 @@
 		.ApiTabs-button {
 			@apply py-1.5 px-4;
 			@apply text-lg text-gray-300;
-			@apply rounded-2xl;
+			@apply rounded-full;
 			@apply outline-none;
 			@apply transition-colors;
 

@@ -50,7 +50,7 @@
 			@apply max-w-[512px];
 			@apply bg-gray-900;
 			@apply border-l-2;
-			@apply rounded-2xl;
+			@apply rounded-full;
 			@apply shadow-lg;
 			@apply cursor-pointer;
 			@apply z-20;
