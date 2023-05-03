@@ -16,14 +16,15 @@
 
 	const copiedState = ref(false);
 	const iconClass   = ref([{
-		'mr-1.5 h-3': !props.size || props.size === 'small',
-		'mr-2 h-5':     props.size === 'normal' || props.size === 'large',
+		'mr-1.5 h-3':   props.size === 'small',
+		'mr-2 h-4': !props.size || props.size === 'normal',
+		'mr-2 h-5':     props.size === 'large',
 	}]);
 
 	const { copy }        = useClipboard({ legacy: true });
 	const { createToast } = useToastStore();
 
-	const doCopyLink = () => {
+	const copyLink = () => {
 		copy(props.content);
 		copiedState.value = true;
 		setTimeout(() => copiedState.value = false, 1_500);
@@ -32,7 +33,7 @@
 </script>
 
 <template>
-	<app-button :variant="copiedState ? 'success' : 'brand'" :size="size" @click.prevent="doCopyLink">
+	<app-button :variant="copiedState ? 'success' : 'brand'" :size="size" @click.prevent="copyLink">
 		<component v-if="!copiedState" :is="icon ?? CopyIcon" :class="iconClass"/>
 		<check-icon v-else :class="iconClass"/>
 		<span v-if="text">{{ text }}</span>
