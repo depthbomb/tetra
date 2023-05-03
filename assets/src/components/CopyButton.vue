@@ -11,13 +11,13 @@
 		text?: string;
 		icon?: Component;
 		content: string;
-		size?: 'small' | 'medium' | 'large';
+		size?: 'normal' | 'small' | 'large';
 	}>();
 
 	const copiedState = ref(false);
 	const iconClass   = ref([{
-		'mr-1.5 h-3.5': !props.size || props.size === 'small',
-		'mr-2 h-5':     props.size === 'medium' || props.size === 'large',
+		'mr-1.5 h-3': !props.size || props.size === 'small',
+		'mr-2 h-5':     props.size === 'normal' || props.size === 'large',
 	}]);
 
 	const { copy }        = useClipboard({ legacy: true });
@@ -32,7 +32,7 @@
 </script>
 
 <template>
-	<app-button :variant="copiedState ? 'success' : 'brand'" @click.prevent="doCopyLink">
+	<app-button :variant="copiedState ? 'success' : 'brand'" :size="size" @click.prevent="doCopyLink">
 		<component v-if="!copiedState" :is="icon ?? CopyIcon" :class="iconClass"/>
 		<check-icon v-else :class="iconClass"/>
 		<span v-if="text">{{ text }}</span>
