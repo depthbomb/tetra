@@ -3,6 +3,7 @@
 	import { useKeyModifier } from '@vueuse/core';
 	import { useApi } from '~/composables/useApi';
 	import AppButton from '~/components/AppButton.vue';
+	import ShortlinkRow from '~/components/admin/ShortlinkRow.vue';
 	import type { IAllShortlinksRecord } from '~/@types/IAllShortlinksRecord';
 
 	type AllShortlinksResponse = IAllShortlinksRecord[];
@@ -25,23 +26,12 @@
 		loading.value = false;
 	};
 
-	const deleteLink = async (shortcode: string, deletionKey: string) => {
-		if (shiftKeyState.value === true || confirm('Are you sure you want to delete this shortlink?\nThis cannot be undone.')) {
-			loading.value = true;
-
-			const { success } = await useApi(`/api/v1/shortlinks/${shortcode}/${deletionKey}`, { method: 'DELETE' });
-			if (success.value) {
-				await getAllShortlinks();
-			}
-		}
-	};
-
 	onMounted(getAllShortlinks);
 </script>
 
 <template>
 	<div class="flex items-center justify-between py-3">
-		<p>Hold SHIFT for <span :class="{ 'text-red-500': shiftKeyState }">quick delete mode</span></p>
+		<p>Hold <span :class="{ 'text-brand-500': shiftKeyState }">SHIFT</span> to bypass action confirmations</p>
 		<app-button size="small" @click="getAllShortlinks">Refresh</app-button>
 	</div>
 	<table class="AdminTable">
@@ -70,20 +60,12 @@
 				leave-active-class="transition duration-75 ease-in"
 				leave-from-class="transform scale-100 opacity-100"
 				leave-to-class="transform scale-95 opacity-0">
-				<tr :key="sl.shortcode" v-for="sl in shortlinks">
-					<td>
-						<app-button variant="danger" size="small" @click.prevent="deleteLink(sl.shortcode, sl.secret)">Delete</app-button>
-					</td>
-					<td>{{ sl.shortcode }}</td>
-					<td>
-						<p>
-							<a :href="sl.destination" target="_blank">{{ sl.destination }}</a>
-						</p>
-					</td>
-					<td>{{ sl.user_username ?? sl.creator_ip }}</td>
-					<td>{{ sl.created_at }}</td>
-					<td>{{ sl.expires_at ?? 'Never expires' }}</td>
-				</tr>
+				<shortlink-row
+					:key="sl.shortcode"
+					v-for="sl in shortlinks"
+					:shortlink="sl"
+					:shift-key="shiftKeyState!"
+					@shortlink-deleted="getAllShortlinks"/>
 			</transition-group>
 		</tbody>
 	</table>
@@ -116,13 +98,6 @@
 
 				@apply first:rounded-l-xl;
 				@apply last:rounded-r-xl;
-			}
-		}
-
-		tbody {
-
-			td {
-				@apply p-3;
 			}
 		}
 	}

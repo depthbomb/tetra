@@ -20,7 +20,7 @@
 <style scoped lang="scss">
 	.Container {
 		@apply mx-auto;
-		@apply w-[1200px];
+		@apply w-[1280px];
 	}
 
 	.BackgroundImage {

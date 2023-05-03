@@ -4,7 +4,7 @@
 
 	const props = defineProps<{
 		to?: RouteLocationRaw;
-		variant?: 'brand' | 'success' | 'danger' | 'error';
+		variant?: 'brand' | 'success' | 'warning' | 'danger' | 'error';
 		size?: 'normal' | 'small' | 'large';
 	}>();
 
