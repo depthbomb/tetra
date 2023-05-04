@@ -20,7 +20,7 @@ class InternalController extends BaseController
     public function getTotalShortlinks(): Response
     {
         $count = $this->cache->get('total_shortlinks', function (ItemInterface $item) {
-            $item->expiresAfter(30);
+            $item->expiresAfter(10);
 
             return $this->shortlinks->getTotal();
         });
