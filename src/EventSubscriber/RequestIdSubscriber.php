@@ -8,9 +8,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RequestIdSubscriber implements EventSubscriberInterface
 {
-    public function __construct(
-        private readonly ResponseHeaderBag $headerBag
-    ) {}
+    public function __construct(private readonly ResponseHeaderBag $headerBag) {}
 
     /**
      * @inheritDoc

@@ -7,9 +7,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ErrorController extends BaseController
 {
-    public function __construct(
-        private readonly FormatService $format,
-    ) {}
+    public function __construct(private readonly FormatService $format,) {}
 
     public function show(Throwable $exception): Response
     {

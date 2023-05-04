@@ -7,9 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CspHeaderSubscriber implements EventSubscriberInterface
 {
-    public function __construct(
-        private readonly CspService $csp
-    ) {}
+    public function __construct(private readonly CspService $csp) {}
 
     /**
      * @inheritDoc

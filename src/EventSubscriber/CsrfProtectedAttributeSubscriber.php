@@ -14,9 +14,7 @@ class CsrfProtectedAttributeSubscriber implements EventSubscriberInterface
 {
     private const CSRF_TOKEN_HEADER = 'X-Csrf-Token';
 
-    public function __construct(
-        private readonly CsrfTokenManagerInterface $tokenManager
-    ) {}
+    public function __construct(private readonly CsrfTokenManagerInterface $tokenManager) {}
 
     /**
      * @inheritDoc

@@ -5,7 +5,7 @@ class ResponseHeaderBag
     /**
      * @var array<string, mixed>
      */
-    protected array $headers = [];
+    private array $headers = [];
 
     /**
      * @return array

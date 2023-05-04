@@ -14,9 +14,7 @@ class OAuthController extends BaseController
 {
     private const OAUTH_PROVIDER = 'superfish';
 
-    public function __construct(
-        private readonly RateLimiterFactory $authenticationLimiter
-    ) {}
+    public function __construct(private readonly RateLimiterFactory $authenticationLimiter) {}
 
     #[RateLimited('authentication')]
     #[Route('/start', name: 'oidc_start')]

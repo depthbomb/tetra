@@ -6,9 +6,7 @@ use Twig\Extension\AbstractExtension;
 
 class CspNonceExtension extends AbstractExtension
 {
-    public function __construct(
-        private readonly CspService $csp
-    ) {}
+    public function __construct(private readonly CspService $csp) {}
 
     public function getFunctions(): array
     {
