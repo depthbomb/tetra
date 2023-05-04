@@ -27,7 +27,7 @@
 		@apply absolute;
 		@apply inset-0;
 		@apply w-full h-full;
-		@apply bg-cover bg-center bg-fixed bg-[url(/assets/img/backgrounds/bg2.jpg)];
+		@apply bg-cover bg-center bg-fixed bg-[url(/assets/img/backgrounds/bg2.webp)];
 		mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
 		@apply opacity-90;
 		@apply -z-10;
