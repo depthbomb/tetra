@@ -54,12 +54,14 @@
 <template>
 	<div v-if="shortlinks.length !== 0" class="Shortlinks">
 		<div :key="shortlink.shortcode" v-for="shortlink of shortlinks" class="Shortlinks-entry">
-			<app-button variant="danger" size="small" @click="deleteShortlink(shortlink.shortcode, shortlink.secret)">
-				<trash-icon class="mr-1.5 h-3"/> Delete
-			</app-button>
-			<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode"/>
-			<copy-button size="small" :icon="KeyIcon" :content="shortlink.secret" text="Secret"/>
-			<arrow-long-icon direction="right" class="w-8 h-8 text-gray-500"/>
+			<div class="Shortlinks-entryControls">
+				<app-button variant="danger" size="small" @click="deleteShortlink(shortlink.shortcode, shortlink.secret)">
+					<trash-icon class="mr-1.5 h-3"/> Delete
+				</app-button>
+				<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode"/>
+				<copy-button size="small" :icon="KeyIcon" :content="shortlink.secret" text="Secret"/>
+			</div>
+			<arrow-long-icon direction="right" class="mx-6 w-8 h-8 text-gray-500"/>
 			<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 50) }}</div>
 			<div class="Shortlinks-entryDates">
 				<p>
@@ -84,12 +86,16 @@
 
 		.Shortlinks-entry {
 			@apply flex items-center;
-			@apply space-x-3;
-			@apply p-3;
+			@apply p-1.5;
 			@apply w-full;
 			@apply bg-gray-900;
 			@apply rounded-full;
 			@apply shadow;
+
+			.Shortlinks-entryControls {
+				@apply flex items-center;
+				@apply space-x-1.5;
+			}
 
 			.Shortlinks-entryDestination {
 				@apply text-lg font-mono;
@@ -97,7 +103,8 @@
 
 			.Shortlinks-entryDates {
 				@apply flex flex-col;
-				@apply ml-auto #{!important};
+				@apply ml-auto mr-3;
+				@apply mr-3;
 				@apply space-y-0.5;
 				@apply text-gray-500;
 
