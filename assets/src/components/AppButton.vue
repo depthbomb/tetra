@@ -42,6 +42,7 @@
 	@apply border;
 	@apply cursor-pointer;
 	@apply select-none;
+	@apply outline-none;
 	@apply transition-all;
 
 	&:active {
