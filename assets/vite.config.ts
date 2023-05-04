@@ -2,8 +2,8 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { existsSync } from 'node:fs';
 import preload from 'vite-plugin-preload';
-import { join, resolve } from 'node:path';
 import { fileURLToPath, URL } from 'node:url';
+import { join, resolve, basename } from 'node:path';
 import { unlink, readFile, writeFile } from 'node:fs/promises';
 import type { UserConfig } from 'vite';
 
@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) => {
 			minify: mode === 'production' ? 'esbuild' : false,
 			emptyOutDir: true,
 			manifest: true,
+			assetsInlineLimit: 0,
 			rollupOptions: {
 				input: resolve('./src/app.ts'),
 				output: {
@@ -35,7 +36,7 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		plugins: [
-			vue(),
+			vue({ isProduction: mode === 'production' }),
 			preload(),
 			{
 				// This "plugin" generates a PHP class for the backend that allows for retrieving
@@ -57,8 +58,10 @@ export default defineConfig(({ mode }) => {
 					const jsEntriesVariableName  = '_' + randomID().toUpperCase();
 					const cssEntriesVariableName = '_' + randomID().toUpperCase();
 					const preloadVariableName    = '_' + randomID().toUpperCase();
-					for (const originalPath in manifest) {
+					for (let originalPath in manifest) {
 						const asset = manifest[originalPath];
+
+						originalPath = basename(originalPath);
 
 						if (!asset.isEntry && !preload.includes(asset.file)) {
 							preload.push(asset.file);
