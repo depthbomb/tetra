@@ -120,7 +120,7 @@
 				@apply right-0;
 				@apply mt-1;
 				@apply bg-gray-800;
-				@apply rounded-xl;
+				@apply rounded-2xl;
 				@apply shadow;
 				@apply origin-top-right;
 				@apply z-10;
