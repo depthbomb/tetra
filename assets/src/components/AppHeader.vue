@@ -2,6 +2,7 @@
 	import { defineAsyncComponent } from 'vue';
 	import { useUser } from '~/composables/useUser';
 	import AppButton from '~/components/AppButton.vue';
+	import SignInIcon from '~/components/icons/SignInIcon.vue';
 	import SuperfishialLogo from '~/components/logos/SuperfishialLogo.vue';
 	import { Menu, MenuItem, MenuItems, MenuButton } from '@headlessui/vue';
 
@@ -39,20 +40,21 @@
 					leave-active-class="transition duration-75 ease-in"
 					leave-from-class="transform scale-100 opacity-100"
 					leave-to-class="transform scale-95 opacity-0">
-					<MenuItems class="Header-userMenu">
+					<menu-items class="Header-userMenu">
 						<div class="py-1 px-1">
-							<MenuItem>
+							<menu-item>
 								<router-link v-if="user.isAdmin" :to="{ name: 'admin.shortlinks' }"><list-icon class="mr-2 w-4 h-4"/> All Shortlinks</router-link>
-							</MenuItem>
-							<MenuItem>
+							</menu-item>
+							<menu-item>
 								<router-link :to="{ name: 'auth.logout' }"><sign-out-icon class="mr-2 w-4 h-4"/> Sign Out</router-link>
-							</MenuItem>
+							</menu-item>
 						</div>
-					</MenuItems>
+					</menu-items>
 				</transition>
 			</Menu>
 			<app-button v-else :to="{ name: 'auth.login' }" variant="brand">
-				Sign In
+				<sign-out-icon class="mr-2 w-4 h-4"/>
+				<span>Sign In</span>
 			</app-button>
 		</div>
 	</div>
