@@ -11,6 +11,7 @@
 	const apiKey           = ref('');
 	const apiKeyHidden     = ref(true);
 	const canRegenerateKey = ref(false);
+	const regeneratingKey  = ref(false);
 
 	const user = useUser();
 
@@ -23,7 +24,7 @@
 			const { getJSON } = await useApi('/api/v1/users/regenerate-api-key', {
 				body: JSON.stringify({ api_key: user.apiKey }),
 				method: 'POST'
-			});
+			}, regeneratingKey);
 			const { api_key } = await getJSON<IRegenerateApiKeyResponse>();
 
 			canRegenerateKey.value = false;
@@ -51,7 +52,7 @@
 				readonly
 				@mouseenter="apiKeyHidden = false"
 				@mouseleave="apiKeyHidden = true">
-			<app-button variant="danger" :disabled="!canRegenerateKey" @click="regenerateKey">
+			<app-button :loading="regeneratingKey" variant="danger" :disabled="!canRegenerateKey" @click="regenerateKey">
 				<refresh-icon :class="['mr-2 w-4 h-4', { 'animate-spin': canRegenerateKey }]"/>
 				<span>Regenerate</span>
 			</app-button>

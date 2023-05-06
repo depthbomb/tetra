@@ -10,12 +10,14 @@ interface IAPIRequestResponse {
 	getBody: () => Promise<string>;
 }
 
-export async function useApi(endpoint: string | Ref<string>, init: RequestInit = {}): Promise<IAPIRequestResponse> {
+export async function useApi(endpoint: string | Ref<string>, init: RequestInit = {}, loadingRef = ref(false)): Promise<IAPIRequestResponse> {
 	const bridge = useBridge();
 
 	const ok      = ref(false);
 	const status  = ref(0);
 	const success = ref(false);
+
+	loadingRef.value = true;
 
 	if (typeof endpoint !== 'string') {
 		endpoint = endpoint.value;
@@ -30,6 +32,8 @@ export async function useApi(endpoint: string | Ref<string>, init: RequestInit =
 			...init.headers
 		}
 	});
+
+	loadingRef.value = false;
 
 	ok.value      = res.ok;
 	status.value  = res.status;

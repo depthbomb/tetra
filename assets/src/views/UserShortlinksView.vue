@@ -1,39 +1,17 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
 	import { useApi } from '~/composables/useApi';
-	import TimeAgo from '~/components/TimeAgo.vue';
 	import { useToastStore } from '~/stores/toast';
 	import { useUser } from '~/composables/useUser';
-	import AppButton from '~/components/AppButton.vue';
 	import AppLoader from '~/components/AppLoader.vue';
-	import KeyIcon from '~/components/icons/KeyIcon.vue';
-	import CopyButton from '~/components/CopyButton.vue';
-	import TrashIcon from '~/components/icons/TrashIcon.vue';
-	import { useTruncation } from '~/composables/useTruncation';
-	import ArrowLongIcon from '~/components/icons/ArrowLongIcon.vue';
+	import UserShortlinksRow from '~/components/user-shortlinks/UserShortlinksRow.vue';
 	import type { IUserShortlinksResponse } from '~/@types/IUserShortlinksResponse';
 
 	const loading    = ref(true);
 	const shortlinks = ref<IUserShortlinksResponse[]>([]);
 
-	const user         = useUser();
-	const toasts       = useToastStore();
-	const { truncate } = useTruncation();
-
-	const deleteShortlink = async (shortcode: string, secret: string) => {
-		if (!confirm('Are you sure you want to permanently delete this shortlink?')) {
-			return;
-		}
-
-		const { success } = await useApi(`/api/v1/shortlinks/${shortcode}/${secret}`, { method: 'DELETE' });
-		if (success.value) {
-			toasts.createToast('success', 'Shortlink deleted!');
-
-			await retrieveShortlinks();
-		} else {
-			toasts.createToast('error', 'Failed to delete shortlink');
-		}
-	};
+	const user   = useUser();
+	const toasts = useToastStore();
 
 	const retrieveShortlinks = async (page = 1) => {
 		const { success, getJSON } = await useApi(`/api/v1/shortlinks?api_key=${user.apiKey}&page=${page}`, { method: 'GET' });
@@ -53,25 +31,11 @@
 
 <template>
 	<div v-if="shortlinks.length !== 0" class="Shortlinks">
-		<div :key="shortlink.shortcode" v-for="shortlink of shortlinks" class="Shortlinks-entry">
-			<div class="Shortlinks-entryControls">
-				<app-button variant="danger" size="small" @click="deleteShortlink(shortlink.shortcode, shortlink.secret)">
-					<trash-icon class="mr-1.5 h-3"/> Delete
-				</app-button>
-				<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode"/>
-				<copy-button size="small" :icon="KeyIcon" :content="shortlink.secret" text="Secret"/>
-			</div>
-			<arrow-long-icon direction="right" class="mx-6 w-8 h-8 text-gray-500"/>
-			<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 50) }}</div>
-			<div class="Shortlinks-entryDates">
-				<p>
-					Created <time-ago :date="shortlink.created_at"/>
-				</p>
-				<p v-if="shortlink.expires_at">
-					Expires <time-ago :date="shortlink.expires_at"/>
-				</p>
-			</div>
-		</div>
+		<user-shortlinks-row
+			:key="shortlink.shortcode"
+			:shortlink="shortlink"
+			v-for="shortlink of shortlinks"
+			@shortlink-deleted="retrieveShortlinks"/>
 	</div>
 	<template v-else>
 		<app-loader v-if="loading" text="Loading your shortlinks&hellip;"/>
@@ -83,35 +47,5 @@
 	.Shortlinks {
 		@apply flex flex-col;
 		@apply space-y-3;
-
-		.Shortlinks-entry {
-			@apply flex items-center;
-			@apply p-1.5;
-			@apply w-full;
-			@apply bg-gray-900;
-			@apply rounded-full;
-			@apply shadow;
-
-			.Shortlinks-entryControls {
-				@apply flex items-center;
-				@apply space-x-1.5;
-			}
-
-			.Shortlinks-entryDestination {
-				@apply text-lg font-mono;
-			}
-
-			.Shortlinks-entryDates {
-				@apply flex flex-col;
-				@apply ml-auto mr-3;
-				@apply mr-3;
-				@apply space-y-0.5;
-				@apply text-gray-500;
-
-				p {
-					@apply text-sm text-right;
-				}
-			}
-		}
 	}
 </style>

@@ -1,16 +1,22 @@
 <script setup lang="ts">
 	import { computed } from 'vue';
+	import SpinnerIcon from '~/components/icons/SpinnerIcon.vue';
 	import { RouterLink, type RouteLocationRaw } from 'vue-router';
 
 	const props = defineProps<{
-		to?: RouteLocationRaw;
+		to?:      RouteLocationRaw;
 		variant?: 'brand' | 'success' | 'warning' | 'danger' | 'error';
-		size?: 'normal' | 'small' | 'large';
+		size?:    'normal' | 'small' | 'large';
+		loading?: boolean;
 	}>();
 
 	const buttonClass = computed(() => ['Button', `is-${props.variant ?? 'brand'}`, {
 		'is-small': props.size === 'small',
 		'is-large': props.size === 'large',
+	}]);
+	const loaderClass = computed(() => ['animate-spin', {
+		'w-4 h-4': !props.size || props.size === 'normal' || props.size === 'small',
+		'w-6 h-6': props.size === 'large',
 	}]);
 
 	const isExternalLink = () => typeof props.to === 'string' && props.to.startsWith('http');
@@ -20,14 +26,23 @@
 <template>
 	<template v-if="to">
 		<a v-if="isExternalLink() || isServerLink()" :href="to.toString()" :class="buttonClass">
-			<slot/>
+			<span v-if="loading" class="Button-loader">
+				<spinner-icon :class="loaderClass"/>
+			</span>
+			<slot v-else/>
 		</a>
 		<router-link v-else :to="to" :class="buttonClass">
-			<slot/>
+			<span v-if="loading" class="Button-loader">
+				<spinner-icon :class="loaderClass"/>
+			</span>
+			<slot v-else/>
 		</router-link>
 	</template>
 	<template v-else>
 		<button :class="buttonClass" type="button">
+			<span v-if="loading" class="Button-loader">
+				<spinner-icon :class="loaderClass"/>
+			</span>
 			<slot/>
 		</button>
 	</template>
@@ -35,8 +50,10 @@
 
 <style scoped lang="scss">
 .Button {
+	@apply relative;
 	@apply flex items-center justify-center;
 	@apply py-1.5 px-4;
+	@apply min-w-max;
 	@apply text-white;
 	@apply rounded-full;
 	@apply border;
@@ -45,40 +62,58 @@
 	@apply outline-none;
 	@apply transition-all;
 
-	&:active {
-		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
-	}
-
 	@apply disabled:opacity-50;
 	@apply disabled:cursor-not-allowed;
+
+	&-loader {
+		@apply absolute;
+		@apply inset-0;
+		@apply flex items-center justify-center;
+		@apply w-full h-full;
+		@apply rounded-full;
+		@apply z-[5];
+	}
 
 	&.is-brand {
 		@apply bg-brand-600 border-brand-600;
 		@apply hover:bg-brand-700;
 		@apply active:bg-brand-800 active:border-brand-700;
+
+		.Button-loader {
+			@apply bg-brand-600;
+		}
 	}
 
 	&.is-success {
-		@apply bg-green-600 border-green-600;
-		@apply hover:bg-green-700;
-		@apply active:bg-green-800 active:border-green-700;
+		&,
+		& .Button-loader {
+			@apply bg-green-600 border-green-600;
+			@apply hover:bg-green-700;
+			@apply active:bg-green-800 active:border-green-700;
+		}
 	}
 
 	&.is-warning {
-		@apply bg-amber-600 border-amber-600;
-		@apply hover:bg-amber-700;
-		@apply active:bg-amber-800 active:border-amber-700;
+		&,
+		& .Button-loader {
+			@apply bg-amber-600 border-amber-600;
+			@apply hover:bg-amber-700;
+			@apply active:bg-amber-800 active:border-amber-700;
+		}
 	}
 
 	&.is-danger,
 	&.is-error {
-		@apply bg-red-600 border-red-600;
-		@apply hover:bg-red-700;
-		@apply active:bg-red-800 active:border-red-700;
+		&,
+		& .Button-loader {
+			@apply bg-red-600 border-red-600;
+			@apply hover:bg-red-700;
+			@apply active:bg-red-800 active:border-red-700;
+		}
 	}
 
 	&.is-small {
-		@apply min-h-[28px];
+		@apply min-h-[30px];
 		@apply px-2 py-1;
 		@apply text-[13px];
 	}
