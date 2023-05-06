@@ -6,16 +6,23 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zenstruck\ScheduleBundle\Schedule\Task\CommandTask;
+use Zenstruck\ScheduleBundle\Schedule\SelfSchedulingCommand;
 
 #[AsCommand(
     name: 'tetra:shortlinks:delete-expired',
     description: 'Deletes shortlink records that have expired',
 )]
-class TetraShortlinksDeleteExpiredCommand extends Command
+class TetraShortlinksDeleteExpiredCommand extends Command implements SelfSchedulingCommand
 {
     public function __construct(private readonly ShortlinkRepository $shortlinks)
     {
         parent::__construct();
+    }
+
+    public function schedule(CommandTask $task): void
+    {
+        $task->everyFiveMinutes();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

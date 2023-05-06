@@ -27,7 +27,8 @@
         "symfony/security-csrf": "6.2.*",
         "symfony/serializer": "6.2.*",
         "symfony/uid": "6.2.*",
-        "symfony/yaml": "6.2.*"
+        "symfony/yaml": "6.2.*",
+        "zenstruck/schedule-bundle": "^1.6"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.48",

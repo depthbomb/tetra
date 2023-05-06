@@ -161,5 +161,8 @@
             "./config/packages/web_profiler.yaml",
             "./config/routes/web_profiler.yaml"
         ]
+    },
+    "zenstruck/schedule-bundle": {
+        "version": "v1.6.0"
     }
 }
