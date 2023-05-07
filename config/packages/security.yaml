@@ -21,7 +21,7 @@ security:
                 - App\Security\OAuthAuthenticator
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 31536000
+                #lifetime: 31536000
                 always_remember_me: true
                 signature_properties: ['sub', 'updated_at']
 
