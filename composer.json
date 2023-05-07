@@ -21,6 +21,7 @@
         "symfony/http-foundation": "6.2.*",
         "symfony/lock": "6.2.*",
         "symfony/mime": "6.2.*",
+        "symfony/monolog-bundle": "^3.8",
         "symfony/polyfill-php83": "^1.27",
         "symfony/rate-limiter": "6.2.*",
         "symfony/runtime": "6.2.*",
