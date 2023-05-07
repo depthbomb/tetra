@@ -14,7 +14,6 @@
 	defineProps<{ shortlink: IUserShortlinksResponse }>();
 	const emit = defineEmits(['shortlink-deleted']);
 
-	const deleted       = ref(false);
 	const deleteLoading = ref(false);
 
 	const toasts       = useToastStore();
@@ -28,9 +27,6 @@
 		const { success } = await useApi(`/api/v1/shortlinks/${shortcode}/${secret}`, { method: 'DELETE' }, deleteLoading);
 		if (success.value) {
 			emit('shortlink-deleted');
-
-			deleted.value = true; // optimistic
-
 			toasts.createToast('success', 'Shortlink deleted!');
 		} else {
 			toasts.createToast('error', 'Failed to delete shortlink');
@@ -39,7 +35,7 @@
 </script>
 
 <template>
-	<div v-if="!deleted" class="Shortlinks-entry">
+	<div class="Shortlinks-entry">
 		<div class="Shortlinks-entryControls">
 			<app-button :loading="deleteLoading" variant="danger" size="small" @click="deleteShortlink(shortlink.shortcode, shortlink.secret)">
 				<trash-icon class="mr-1.5 h-3"/> Delete

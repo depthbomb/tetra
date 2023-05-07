@@ -1,11 +1,14 @@
 import FAQView from '~/views/FAQView.vue';
 import HomeView from '~/views/HomeView.vue';
 import ApiDocs from '~/views/ApiDocsView.vue';
+import LogInView from '~/views/auth/LogInView.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { useAuthGuard, useAdminGuard, useAnonymousGuard } from '~/router/guards';
 
 export const router = createRouter({
 	history: createWebHashHistory(),
+	linkActiveClass: 'is-active',
+	linkExactActiveClass: 'is-exact-active',
 	routes: [
 		{
 			path: '/',
@@ -49,7 +52,7 @@ export const router = createRouter({
 					path: 'login',
 					name: 'auth.login',
 					beforeEnter: useAnonymousGuard(),
-					component: () => import('~/views/auth/LogInView.vue')
+					component: LogInView
 				},
 				{
 					path: 'logout',
