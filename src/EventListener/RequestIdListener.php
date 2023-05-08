@@ -1,22 +1,15 @@
-<?php namespace App\EventSubscriber;
+<?php namespace App\EventListener;
 
 use Symfony\Component\Uid\Ulid;
 use App\Service\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class RequestIdSubscriber implements EventSubscriberInterface
+#[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest', PHP_INT_MAX - 10)]
+class RequestIdListener
 {
     public function __construct(private readonly ResponseHeaderBag $headerBag) {}
-
-    /**
-     * @inheritDoc
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [KernelEvents::REQUEST => ['onKernelRequest', 1024]];
-    }
 
     public function onKernelRequest(RequestEvent $event): void
     {

@@ -1,4 +1,4 @@
-<?php namespace App\EventSubscriber;
+<?php namespace App\EventListener;
 
 use App\Attribute\CsrfProtected;
 use Symfony\Component\HttpFoundation\Request;
@@ -7,22 +7,15 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class CsrfProtectedAttributeSubscriber implements EventSubscriberInterface
+#[AsEventListener(KernelEvents::CONTROLLER_ARGUMENTS, 'onKernelControllerArguments')]
+class CsrfProtectedAttributeListener
 {
     private const CSRF_TOKEN_HEADER = 'X-Csrf-Token';
 
     public function __construct(private readonly CsrfTokenManagerInterface $tokenManager) {}
-
-    /**
-     * @inheritDoc
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [KernelEvents::CONTROLLER_ARGUMENTS => 'onKernelControllerArguments'];
-    }
 
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
     {

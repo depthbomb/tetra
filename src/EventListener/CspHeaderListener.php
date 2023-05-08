@@ -1,21 +1,14 @@
-<?php namespace App\EventSubscriber;
+<?php namespace App\EventListener;
 
 use App\Service\CspService;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class CspHeaderSubscriber implements EventSubscriberInterface
+#[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse')]
+class CspHeaderListener
 {
     public function __construct(private readonly CspService $csp) {}
-
-    /**
-     * @inheritDoc
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [KernelEvents::RESPONSE => 'onKernelResponse'];
-    }
 
     public function onKernelResponse(ResponseEvent $response): void
     {

@@ -1,21 +1,13 @@
-<?php namespace App\EventSubscriber;
+<?php namespace App\EventListener;
 
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-// TODO remove this subscriber when Symfony 8.3 releases to utilize the new getPayload() method that can parse JSON request payloads
-class ParseJsonRequestSubscriber implements EventSubscriberInterface
+// TODO remove this listener when Symfony 8.3 releases to utilize the new getPayload() method that can parse JSON request payloads
+#[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest')]
+class ParseJsonRequestListener
 {
-
-    /**
-     * @inheritDoc
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [KernelEvents::REQUEST => 'onKernelRequest'];
-    }
-
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();

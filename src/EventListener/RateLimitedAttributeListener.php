@@ -1,17 +1,18 @@
-<?php namespace App\EventSubscriber;
+<?php namespace App\EventListener;
 
 use App\Attribute\RateLimited;
 use App\Service\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 
-class RateLimitedAttributeSubscriber implements EventSubscriberInterface
+#[AsEventListener(KernelEvents::CONTROLLER_ARGUMENTS, 'onKernelControllerArguments')]
+class RateLimitedAttributeListener
 {
     public function __construct(
         private readonly RateLimiterFactory $authenticationLimiter,
@@ -19,14 +20,6 @@ class RateLimitedAttributeSubscriber implements EventSubscriberInterface
         private readonly RateLimiterFactory $publicApiLimiter,
         private readonly ResponseHeaderBag  $headerBag
     ) {}
-
-    /**
-     * @inheritDoc
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [KernelEvents::CONTROLLER_ARGUMENTS => 'onKernelControllerArguments'];
-    }
 
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
     {
