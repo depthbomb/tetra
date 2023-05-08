@@ -14,6 +14,7 @@
 	const destination        = ref('');
 	const shortcode          = ref('');
 	const duration           = ref('');
+	const submitting         = ref(false);
 	const destinationFocused = ref(false);
 	const shortlinkResult    = ref('');
 	const isValid = computed(() => {
@@ -58,6 +59,8 @@
 			return;
 		}
 
+		submitting.value = true;
+
 		let endpoint = '/api/v1/shortlinks';
 		if (user.isLoggedIn) {
 			endpoint = endpoint + '?api_key=' + user.apiKey;
@@ -87,6 +90,8 @@
 			const error = await getJSON<IApiErrorResponse>();
 			createToast('error', error.message, true, 5_000);
 		}
+
+		submitting.value = false;
 	};
 
 	whenever(Ctrl_V, tryPasteSubmit);
@@ -126,7 +131,7 @@
 			<div class="col-span-6 flex items-center justify-between">
 				<p v-if="clipboardReadAccess.state.value === 'granted'" class="LinkCreator-sectionHint">Hint: Press <span class="font-mono">CTRL+V</span> to instantly paste and submit!</p>
 				<p v-else class="LinkCreator-sectionHint">Hint: Click <a href="#" @click.prevent="readClipboardContent">here</a> to give the site access to reading your clipboard so you can create links quicker.</p>
-				<app-button :disabled="!isValid" @click="trySubmit">
+				<app-button :disabled="!isValid || submitting" @click="trySubmit">
 					<span>Submit</span>
 					<paper-plane-top-icon class="ml-2 w-4 h-4"/>
 				</app-button>

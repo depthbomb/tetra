@@ -79,7 +79,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
     /**
      * @inheritDoc
      */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
     {
         $target = $this->router->generate('root');
 
@@ -89,7 +89,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
     /**
      * @inheritDoc
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 
