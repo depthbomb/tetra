@@ -3,25 +3,19 @@
 use App\Attribute\RateLimited;
 use App\Attribute\CsrfProtected;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 #[Route('/oidc')]
 class OAuthController extends BaseController
 {
     private const OAUTH_PROVIDER = 'superfish';
 
-    public function __construct(private readonly RateLimiterFactory $authenticationLimiter) {}
-
     #[RateLimited('authentication')]
     #[Route('/start', name: 'oidc_start')]
-    public function startFlow(Request $request, ClientRegistry $registry): Response
+    public function startFlow(ClientRegistry $registry): Response
     {
-        $this->authenticationLimiter->create($request->getClientIp())->consume()->ensureAccepted();
-
         return $registry->getClient($this::OAUTH_PROVIDER)->redirect();
     }
 
