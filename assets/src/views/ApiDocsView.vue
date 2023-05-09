@@ -98,6 +98,16 @@
 					]"/>
 				</endpoint>
 
+				<endpoint verb="GET" url="/api/v1/shortlinks/{shortcode}/availability" description="Checks shortcode availability">
+					<endpoint-data type="response" :data="[
+						{
+							name: 'available',
+							type: 'boolean',
+							description: 'Whether or not the shortcode is available'
+						},
+					]"/>
+				</endpoint>
+
 				<endpoint verb="GET" url="/api/v1/shortlinks/{shortcode}/qr-code" description="Gets an SVG QR Code for the shortlink">
 					<p>This endpoints returns an SVG string on success.</p>
 				</endpoint>

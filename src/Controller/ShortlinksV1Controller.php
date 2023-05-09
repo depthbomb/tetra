@@ -202,6 +202,14 @@ class ShortlinksV1Controller extends BaseController
         return new Response($svg, headers: ['Content-Type' => 'image/svg+xml']);
     }
 
+    #[Route('/{shortcode}/availability', name: 'shortlink_shortcode_availability_v1', methods: 'GET', stateless: true)]
+    public function getShortcodeAvailability(string $shortcode): Response
+    {
+        $available = $this->shortlinks->count(['shortcode' => $shortcode]) === 0;
+
+        return $this->format->formatData(compact('available'));
+    }
+
     private function getExpiresAtFromDuration(string $duration): DateTimeImmutable
     {
         $expires_at = null;
