@@ -1,22 +1,25 @@
 <?php namespace App\Service;
 
+use MessagePack\Packer;
+use MessagePack\PackOptions;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\YamlEncoder;
 
 class FormatService
 {
     private const DEFAULT_FORMAT = 'json';
-    private const OUTPUT_FORMATS = ['json', 'xml', 'csv', 'php'];
+    private const OUTPUT_FORMATS = ['json', 'yaml', 'xml', 'csv', 'msgpack', 'php'];
 
     private readonly Serializer $serializer;
 
     public function __construct(private readonly RequestStack $requestStack)
     {
-        $encoders         = [new JsonEncoder(), new XmlEncoder(), new CsvEncoder()];
+        $encoders         = [new JsonEncoder, new YamlEncoder, new XmlEncoder, new CsvEncoder];
         $this->serializer = new Serializer([], $encoders);
     }
 
@@ -27,18 +30,25 @@ class FormatService
         {
             'json'       => 'application/json',
             'xml'        => 'application/xml',
+            'yaml'       => 'text/yaml',
+            'msgpack'    => 'application/msgpack',
             'csv', 'php' => 'text/plain'
         };
 
         $headers['Content-Type'] = $content_type;
 
-        if ($format === 'php')
+        switch ($format)
         {
-            $serialized_data = serialize($data);
-        }
-        else
-        {
-            $serialized_data = $this->serializer->serialize($data, $format);
+            case 'php':
+                $serialized_data = serialize($data);
+                break;
+            case 'msgpack':
+                $packer = new Packer(PackOptions::DETECT_STR_BIN | PackOptions::DETECT_ARR_MAP);
+                $serialized_data = $packer->pack($data);
+                break;
+            default:
+                $serialized_data = $this->serializer->serialize($data, $format);
+                break;
         }
 
         return new Response($serialized_data, $status_code, $headers);
