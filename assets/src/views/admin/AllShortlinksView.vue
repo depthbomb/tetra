@@ -84,6 +84,7 @@
 			@apply rounded-xl;
 			@apply backdrop-blur-sm;
 			@apply transition-opacity;
+			@apply z-10;
 		}
 
 		thead {
