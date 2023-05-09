@@ -54,7 +54,7 @@ class UserRepository extends ServiceEntityRepository
      *
      * @return User
      */
-    public function findOrCreate(string $username, string $email, string $sub, array $roles = ['ROLE_USER']): User
+    public function findOneOrCreate(string $username, string $email, string $sub, array $roles = ['ROLE_USER']): User
     {
         $user = $this->findOneBy(['username' => $username]);
         if ($user)

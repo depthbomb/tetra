@@ -63,7 +63,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
                     return $user;
                 }
 
-                return $this->users->findOrCreate(
+                return $this->users->findOneOrCreate(
                     $superfish_user->getUsername(),
                     $superfish_user->getEmail(),
                     $superfish_user->getId(),

@@ -23,7 +23,7 @@ class OAuthController extends BaseController
     public function handleCallback(): Response
     {
         // This action should normally be never called as the callback is handled by the authenticator
-        return $this->json(null);
+        return $this->json([]);
     }
 
     #[CsrfProtected('auth')]
@@ -36,6 +36,6 @@ class OAuthController extends BaseController
             $security->logout(false);
         }
 
-        return new Response(null, 200);
+        return new Response([], 200);
     }
 }

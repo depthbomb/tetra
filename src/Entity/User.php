@@ -77,7 +77,7 @@ class User implements UserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string)$this->username;
+        return (string) $this->username;
     }
 
     /**
@@ -178,17 +178,14 @@ class User implements UserInterface
 
     public function setNextApiKeyAvailable(): self
     {
-        $next_available               = new DateTimeImmutable();
-        $this->next_api_key_available = $next_available->modify("+{$_ENV['API_KEY_REGENERATION_DELAY']}")->format('c');
+        $this->next_api_key_available = date_create_immutable("+{$_ENV['API_KEY_REGENERATION_DELAY']}")->format('c');
 
         return $this;
     }
 
     public function canApiKeyBeRegenerated(): bool
     {
-        $now = new DateTimeImmutable();
-
-        return $now->format('c') >= $this->next_api_key_available;
+        return date_create_immutable()->format('c') >= $this->next_api_key_available;
     }
 
     public function regenerateApiKey(): self
@@ -261,14 +258,14 @@ class User implements UserInterface
     {
         if (!$this->created_at)
         {
-            $this->created_at = (new DateTimeImmutable())->format('c');
+            $this->created_at = date_create_immutable()->format('c');
         }
     }
 
     #[ORM\PrePersist]
     public function setAutoUpdatedAt(): void
     {
-        $this->updated_at = (new DateTimeImmutable())->format('c');
+        $this->updated_at = date_create_immutable()->format('c');
     }
 
     #[ORM\PrePersist]

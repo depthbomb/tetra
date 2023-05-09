@@ -1,6 +1,5 @@
 <?php namespace App\Controller;
 
-use Exception;
 use DateTimeImmutable;
 use App\Entity\Shortlink;
 use App\Service\QrService;

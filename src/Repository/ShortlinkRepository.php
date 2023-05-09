@@ -19,7 +19,7 @@ class ShortlinkRepository extends ServiceEntityRepository
 {
     public function __construct(
         private readonly LockFactory $lockFactory,
-        ManagerRegistry $registry,
+        ManagerRegistry              $registry,
     )
     {
         parent::__construct($registry, Shortlink::class);
@@ -93,7 +93,7 @@ class ShortlinkRepository extends ServiceEntityRepository
         $lock         = $this->lockFactory->createLock('mass-delete-expired');
         if ($lock->acquire())
         {
-            $now = new DateTimeImmutable();
+            $now          = date_create_immutable();
             $delete_count = $this->createQueryBuilder('s')
                 ->delete()
                 ->where('s.expires_at <= :now')
