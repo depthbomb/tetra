@@ -17,10 +17,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class ShortlinkRepository extends ServiceEntityRepository
 {
-    public function __construct(
-        private readonly LockFactory $lockFactory,
-        ManagerRegistry              $registry,
-    )
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Shortlink::class);
     }
@@ -89,22 +86,13 @@ class ShortlinkRepository extends ServiceEntityRepository
 
     public function deleteExpired(): int
     {
-        $delete_count = 0;
-        $lock         = $this->lockFactory->createLock('mass-delete-expired');
-        if ($lock->acquire())
-        {
-            $now          = date_create_immutable();
-            $delete_count = $this->createQueryBuilder('s')
-                ->delete()
-                ->where('s.expires_at <= :now')
-                ->setParameter('now', $now->format('c'))
-                ->andWhere('s.expires_at IS NOT null')
-                ->getQuery()
-                ->getResult();
-
-            $lock->release();
-        }
-
-        return $delete_count;
+        $now = date_create_immutable();
+        return $this->createQueryBuilder('s')
+            ->delete()
+            ->where('s.expires_at <= :now')
+            ->setParameter('now', $now->format('c'))
+            ->andWhere('s.expires_at IS NOT null')
+            ->getQuery()
+            ->getResult();
     }
 }
