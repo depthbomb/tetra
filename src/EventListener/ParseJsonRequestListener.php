@@ -4,8 +4,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-// TODO remove this listener when Symfony 8.3 releases to utilize the new getPayload() method that can parse JSON request payloads
-#[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest')]
+// TODO remove this listener when Symfony 8.3 releases to utilize the new getPayload() method which can parse JSON request payloads
+#[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest', PHP_INT_MAX - 20)]
 class ParseJsonRequestListener
 {
     public function onKernelRequest(RequestEvent $event): void
