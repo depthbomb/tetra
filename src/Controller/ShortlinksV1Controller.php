@@ -212,23 +212,17 @@ class ShortlinksV1Controller extends BaseController
 
     private function getExpiresAtFromDuration(string $duration): DateTimeImmutable
     {
-        $expires_at = null;
-        try
-        {
-            $now        = new DateTimeImmutable();
-            $duration   = str_replace(['+', '-'], ['', ''], $duration);
-            $expires_at = $now->modify($duration);
-        }
-        catch (Exception)
-        {
-            $this->abort(400, 'Invalid duration provided');
-        }
+        $now        = date_create_immutable();
+        $duration   = str_replace(['+', '-'], ['', ''], $duration);
+        $expires_at = date_create_immutable($duration);
+
+        $this->abortUnless($expires_at !== false, 400, 'Invalid duration format');
 
         // Check if the requested expires_at is in the past
         $this->abortIf($expires_at <= $now, 400, 'The provided duration must result in a future date');
+
         // Check if the requested expires_at is at least 5 minutes into the future
-        // Note: add a few more seconds as a buffer for potential slower requests
-        $this->abortIf($expires_at->modify('-5 minutes 5 seconds') < $now, 400, 'The minimum duration is 5 minutes');
+        $this->abortIf($expires_at->modify('-5 minutes') < $now, 400, 'The minimum duration is 5 minutes');
 
         return $expires_at;
     }
