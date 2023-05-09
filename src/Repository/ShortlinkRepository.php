@@ -47,33 +47,7 @@ class ShortlinkRepository extends ServiceEntityRepository
 
     public function findOneByShortcode(string $shortcode): ?Shortlink
     {
-        return $this->createQueryBuilder('s')
-            ->where('s.shortcode = :shortcode')
-            ->setParameter('shortcode', $shortcode)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    /**
-     * @return Shortlink[]
-     */
-    public function findByCreatorId(string $id): array
-    {
-        return $this->createQueryBuilder('s')
-            ->leftJoin('s.creator', 'c')
-            ->where('c.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getArrayResult();
-    }
-
-    public function findByCreatorIp(string $ip): array
-    {
-        return $this->createQueryBuilder('s')
-            ->where('s.creator_ip = :ip')
-            ->setParameter('ip', $ip)
-            ->getQuery()
-            ->getArrayResult();
+        return $this->findOneBy(['shortcode' => $shortcode]);
     }
 
     /**
@@ -110,10 +84,7 @@ class ShortlinkRepository extends ServiceEntityRepository
 
     public function getTotal(): int
     {
-        return $this->createQueryBuilder('s')
-            ->select('count(s.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+        return $this->count(['disabled' => false]);
     }
 
     public function deleteExpired(): int
