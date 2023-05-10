@@ -22,6 +22,6 @@ class RequestIdListener
 
         // Add the request ID to the parameter bag, so it can be retrieved elsewhere such as in the BridgeService
         $event->getRequest()->attributes->set('_request_id', $request_id);
-        $this->headerBag->add('X-PoweredBy', 'Tetra')->add('X-Request-Id', $request_id);
+        $this->headerBag->add('X-Powered-By', 'Tetra')->add('X-Request-Id', $request_id);
     }
 }
