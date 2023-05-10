@@ -36,6 +36,6 @@ class OAuthController extends BaseController
             $security->logout(false);
         }
 
-        return new Response([], 200);
+        return new Response(null, 200);
     }
 }
