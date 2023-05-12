@@ -53,7 +53,7 @@
 				</transition>
 			</Menu>
 			<app-button v-else :to="{ name: 'auth.login' }" variant="brand">
-				<sign-out-icon class="mr-2 w-4 h-4"/>
+				<sign-in-icon class="mr-2 w-4 h-4"/>
 				<span>Sign In</span>
 			</app-button>
 		</div>
