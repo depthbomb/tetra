@@ -10,8 +10,8 @@
 </script>
 
 <template>
-	<Disclosure as="div" :class="['Endpoint', { 'is-deprecated': deprecated }]">
-		<DisclosureButton class="Endpoint-http">
+	<disclosure as="div" :class="['Endpoint', { 'is-deprecated': deprecated }]">
+		<disclosure-button class="Endpoint-http">
 			<div :class="['Endpoint-verb', {
 				'is-get': verb === 'GET',
 				'is-put': verb === 'PUT',
@@ -21,7 +21,7 @@
 			}]">{{ verb }}</div>
 			<span class="Endpoint-url">{{ url }}</span>
 			<p v-if="description" class="Endpoint-description">{{ description }}</p>
-		</DisclosureButton>
+		</disclosure-button>
 		<transition
 			enter-active-class="transition duration-100 ease-out"
 			enter-from-class="transform scale-95 opacity-0"
@@ -29,16 +29,16 @@
 			leave-active-class="transition duration-75 ease-out"
 			leave-from-class="transform scale-100 opacity-100"
 			leave-to-class="transform scale-95 opacity-0">
-			<DisclosurePanel>
+			<disclosure-panel>
 				<p v-if="deprecated" class="Endpoint-deprecationWarning">
 					<span><strong>Warning:</strong> This endpoint is deprecated</span>
 				</p>
 				<div class="Endpoint-explanation">
 					<slot/>
 				</div>
-			</DisclosurePanel>
+			</disclosure-panel>
 		</transition>
-	</Disclosure>
+	</disclosure>
 </template>
 
 <style scoped lang="scss">
