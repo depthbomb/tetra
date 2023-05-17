@@ -90,7 +90,7 @@
 
 				@apply hover:bg-gray-700 hover:bg-opacity-100;
 
-				&.router-link-active {
+				&.is-active {
 					@apply bg-brand-700 bg-opacity-100;
 				}
 			}
