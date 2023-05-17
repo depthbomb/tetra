@@ -6,20 +6,20 @@
 	import { useTruncation } from '~/composables/useTruncation';
 	import type { IAllShortlinksRecord } from '~/@types/IAllShortlinksRecord';
 
-	const props = defineProps<{
+	const { shortlink, shiftKey } = defineProps<{
 		shortlink: IAllShortlinksRecord;
 		shiftKey:  boolean;
 	}>();
 	const emit = defineEmits(['shortlink-deleted', 'shortlink-disable-toggled']);
 
-	const disabled       = ref(props.shortlink.disabled);
+	const disabled       = ref(shortlink.disabled);
 	const deleteLoading  = ref(false);
 	const disableLoading = ref(false);
 
 	const { truncate } = useTruncation();
 
 	const deleteShortlink = async (shortcode: string, secret: string) => {
-		if (props.shiftKey === true || confirm('Are you sure you want to delete this shortlink?')) {
+		if (shiftKey === true || confirm('Are you sure you want to delete this shortlink?')) {
 			const { success } = await useApi(`/api/v1/shortlinks/${shortcode}/${secret}`, { method: 'DELETE' }, deleteLoading);
 			if (success.value) {
 				emit('shortlink-deleted');
@@ -28,7 +28,7 @@
 	};
 
 	const toggleShortlinkDisabled = async (shortcode: string) => {
-		if (props.shiftKey === true || confirm(`Are you sure you want to ${disabled.value ? 'enable' : 'disable'} this shortlink?`)) {
+		if (shiftKey === true || confirm(`Are you sure you want to ${disabled.value ? 'enable' : 'disable'} this shortlink?`)) {
 			const { success } = await useApi('/api/admin/toggle-shortlink-disabled', {
 				body: JSON.stringify({ shortcode }),
 				method: 'PATCH'

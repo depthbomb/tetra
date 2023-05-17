@@ -2,20 +2,17 @@
 	import { ref } from 'vue';
 	import { UseTimeAgo } from '@vueuse/components';
 
-	const props = withDefaults(defineProps<{
+	const { date, toggleable = true, inverse = false } = defineProps<{
 		date:        string | number | Date;
 		toggleable?: boolean;
 		inverse?:    boolean;
-	}>(), {
-		toggleable: true,
-		inverse: false
-	});
+	}>();
 
-	const toggled    = ref(props.inverse);
-	const parsedDate = ref(new Date(props.date));
+	const toggled    = ref(inverse);
+	const parsedDate = ref(new Date(date));
 
 	const toggle = () => {
-		if (props.toggleable) {
+		if (toggleable) {
 			toggled.value = !toggled.value;
 		}
 	}
@@ -32,7 +29,6 @@
 
 <style scoped lang="scss">
 	.TimeAgo {
-
 		&.is-toggleable {
 			@apply cursor-pointer;
 			@apply border-b border-current border-dotted;

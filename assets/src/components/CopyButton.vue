@@ -7,7 +7,7 @@
 	import CheckIcon from '~/components/icons/CheckIcon.vue';
 	import type { Component } from 'vue';
 
-	const props = defineProps<{
+	const { text, icon, content, size = 'normal' } = defineProps<{
 		text?: string;
 		icon?: Component;
 		content: string;
@@ -16,16 +16,16 @@
 
 	const copiedState = ref(false);
 	const iconClass   = ref([{
-		'mr-1.5 h-3':   props.size === 'small',
-		'mr-2 h-4': !props.size || props.size === 'normal',
-		'mr-2 h-5':     props.size === 'large',
+		'mr-1.5 h-3': size === 'small',
+		'mr-2 h-4':   size === 'normal',
+		'mr-2 h-5':   size === 'large',
 	}]);
 
 	const { copy }        = useClipboard({ legacy: true });
 	const { createToast } = useToastStore();
 
 	const copyLink = () => {
-		copy(props.content);
+		copy(content);
 		copiedState.value = true;
 		setTimeout(() => copiedState.value = false, 1_500);
 		createToast('success', 'Copied to clipboard!');

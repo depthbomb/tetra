@@ -3,24 +3,24 @@
 	import SpinnerIcon from '~/components/icons/SpinnerIcon.vue';
 	import { RouterLink, type RouteLocationRaw } from 'vue-router';
 
-	const props = defineProps<{
+	const { to, variant = 'brand', size = 'normal', loading } = defineProps<{
 		to?:      RouteLocationRaw;
 		variant?: 'brand' | 'success' | 'warning' | 'danger' | 'error';
 		size?:    'normal' | 'small' | 'large';
 		loading?: boolean;
 	}>();
 
-	const buttonClass = computed(() => ['Button', `is-${props.variant ?? 'brand'}`, {
-		'is-small': props.size === 'small',
-		'is-large': props.size === 'large',
+	const buttonClass = computed(() => ['Button', `is-${variant}`, {
+		'is-small': size === 'small',
+		'is-large': size === 'large',
 	}]);
 	const loaderClass = computed(() => ['animate-spin', {
-		'w-4 h-4': !props.size || props.size === 'normal' || props.size === 'small',
-		'w-6 h-6': props.size === 'large',
+		'w-4 h-4': size === 'normal' || size === 'small',
+		'w-6 h-6': size === 'large',
 	}]);
 
-	const isExternalLink = () => typeof props.to === 'string' && props.to.startsWith('http');
-	const isServerLink   = () => typeof props.to === 'string' && props.to.startsWith('/');
+	const isExternalLink = () => typeof to === 'string' && to.startsWith('http');
+	const isServerLink   = () => typeof to === 'string' && to.startsWith('/');
 </script>
 
 <template>

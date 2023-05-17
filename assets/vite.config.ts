@@ -36,14 +36,14 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		plugins: [
-			vue({ isProduction: mode === 'production' }),
+			vue({ script: { propsDestructure: true } }),
 			preload(),
 			{
 				// This "plugin" generates a PHP class for the backend that allows for retrieving
 				// versioned assets via hardcoded values.
 				name: 'generate-backend-service',
 				async closeBundle() {
-					const manifestPath           = join(distPath, 'manifest.json');
+					const manifestPath = join(distPath, 'manifest.json');
 
 					if (!existsSync(manifestPath)) {
 						return;
