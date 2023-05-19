@@ -1,7 +1,5 @@
 <?php namespace App\Service;
 
-use MessagePack\Packer;
-use MessagePack\PackOptions;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +11,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 class FormatService
 {
     private const DEFAULT_FORMAT = 'json';
-    private const OUTPUT_FORMATS = ['json', 'yaml', 'yml', 'xml', 'csv', 'msgpack', 'php'];
+    private const OUTPUT_FORMATS = ['json', 'yaml', 'yml', 'xml', 'csv', 'php'];
 
     private readonly Serializer $serializer;
 
@@ -31,29 +29,17 @@ class FormatService
             'json'        => 'application/json',
             'xml'         => 'application/xml',
             'yml', 'yaml' => 'text/yaml',
-            'msgpack'     => 'application/msgpack',
             'csv', 'php'  => 'text/plain'
         };
 
         $headers['Content-Type'] = $content_type;
 
-        switch ($format)
+        $serialized_data = match ($format)
         {
-            case 'php':
-                $serialized_data = serialize($data);
-                break;
-            case 'yml':
-            case 'yaml':
-                $serialized_data = Yaml::dump($data);
-                break;
-            case 'msgpack':
-                $packer          = new Packer(PackOptions::DETECT_STR_BIN | PackOptions::DETECT_ARR_MAP);
-                $serialized_data = $packer->pack($data);
-                break;
-            default:
-                $serialized_data = $this->serializer->serialize($data, $format);
-                break;
-        }
+            'php'         => serialize($data),
+            'yml', 'yaml' => Yaml::dump($data),
+            default       => $this->serializer->serialize($data, $format),
+        };
 
         return new Response($serialized_data, $status_code, $headers);
     }
