@@ -28,11 +28,9 @@ class TetraShortlinksDeleteExpiredCommand extends Command implements SelfSchedul
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
         $io->info('Deleting expired shortlinks...');
 
         $delete_count = $this->shortlinks->deleteExpired();
-
         if ($delete_count > 0)
         {
             $io->success("Deleted $delete_count expired shortlink(s)");

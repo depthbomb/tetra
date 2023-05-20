@@ -31,7 +31,6 @@ class TetraUsersRegenerateApiKeyCommand extends Command
         $username = trim($input->getArgument('user'));
 
         $user = $this->users->findOneBy(['username' => $username]);
-
         if (!$user)
         {
             $io->error("No user could be found by the username \"$username\"");
