@@ -242,24 +242,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/fira-code@npm:^4.5.13":
-  version: 4.5.13
-  resolution: "@fontsource/fira-code@npm:4.5.13"
-  checksum: 1ea871025f40b2af2e0c7edabb9d4b4edc10e61e706bdc90c361eb6b954260d18a884bfbb1bec2d9593ebfd7a54c2c99e6ed186a9a7d172ea6fd3f4c6415d583
+"@fontsource/fira-code@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@fontsource/fira-code@npm:5.0.0"
+  checksum: 183fb9af10e9f0cde04184a04992212657e253b03c72cc1558430f9a6228ba871ada73302a7c04bfa277b9cc2fb4a96d9f37dd66a8b1304b11eae300fbaa6f8d
   languageName: node
   linkType: hard
 
-"@fontsource/inter@npm:^4.5.15":
-  version: 4.5.15
-  resolution: "@fontsource/inter@npm:4.5.15"
-  checksum: d4330957c0a23a6c6a47f6f628b89c5603deec6305f28458fd3277bb652913dc77b31ac454bba96beeaecddef87eaf4b60befa2aad040ebb8c22c39ee33a2cf1
+"@fontsource/inter@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@fontsource/inter@npm:5.0.0"
+  checksum: 6366359131def44c531335e74ca7364d85d4c09f2347c8f43d6ac7f6f0a6c11b70483bb545234284b670b99462a9961ed7b0e3079c943cf7d5feb0b4483a66e4
   languageName: node
   linkType: hard
 
-"@fontsource/josefin-sans@npm:^4.5.12":
-  version: 4.5.12
-  resolution: "@fontsource/josefin-sans@npm:4.5.12"
-  checksum: daeb976d2a8c1864ff6e07db3a9c126da2edea65b159b6d4da3a29c343646069c0ff07b5711de2b551ae2b30541233e5667e79ee7ba37396a5dee40adf9690f0
+"@fontsource/josefin-sans@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@fontsource/josefin-sans@npm:5.0.0"
+  checksum: aa594ea2225b0f7cc8c6b077156c060a6a9ee83ddc98690c97ef0b9542aeedfdacb94a62446b74033bcb7a5684ee58a9477ed481b99efeb75d26fcfc13be8a92
   languageName: node
   linkType: hard
 
@@ -3543,9 +3543,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tetra-frontend@workspace:."
   dependencies:
-    "@fontsource/fira-code": ^4.5.13
-    "@fontsource/inter": ^4.5.15
-    "@fontsource/josefin-sans": ^4.5.12
+    "@fontsource/fira-code": ^5.0.0
+    "@fontsource/inter": ^5.0.0
+    "@fontsource/josefin-sans": ^5.0.0
     "@headlessui/vue": ^1.7.13
     "@rushstack/eslint-patch": ^1.2.0
     "@tailwindcss/forms": ^0.5.3
