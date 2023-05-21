@@ -14,20 +14,20 @@ class Shortlink
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $creator_ip = null;
+    #[ORM\Column(length: 255, nullable: false)]
+    private string $creator_ip;
 
-    #[ORM\Column(length: 255)]
-    private ?string $shortcode = null;
+    #[ORM\Column(length: 255, nullable: false)]
+    private string $shortcode;
 
-    #[ORM\Column(length: 255)]
-    private ?string $shortlink = null;
+    #[ORM\Column(length: 255, nullable: false)]
+    private string $shortlink;
 
-    #[ORM\Column(length: 255)]
-    private ?string $destination = null;
+    #[ORM\Column(length: 255, nullable: false)]
+    private string $destination;
 
-    #[ORM\Column(length: 255)]
-    private ?string $secret = null;
+    #[ORM\Column(length: 255, nullable: false)]
+    private string $secret;
 
     #[ORM\Column]
     private bool $disabled = false;

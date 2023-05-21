@@ -18,7 +18,7 @@ class SuperfishProvider extends AbstractProvider
      */
     public function getBaseAuthorizationUrl(): string
     {
-        return $this::DOMAIN . '/application/o/authorize/';
+        return $this::DOMAIN.'/application/o/authorize/';
     }
 
     /**
@@ -26,7 +26,7 @@ class SuperfishProvider extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params): string
     {
-        return $this::DOMAIN . '/application/o/token/';
+        return $this::DOMAIN.'/application/o/token/';
     }
 
     /**
@@ -34,7 +34,7 @@ class SuperfishProvider extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
-        return $this::DOMAIN . '/application/o/userinfo/';
+        return $this::DOMAIN.'/application/o/userinfo/';
     }
 
     /**
