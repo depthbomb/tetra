@@ -28,11 +28,11 @@
 		</div>
 		<div class="Header-user">
 			<Menu v-if="user.isLoggedIn" v-slot="{ open }" as="div">
-				<MenuButton class="Header-userControl">
+				<menu-button class="Header-userControl">
 					<img :src="user.avatar" :alt="user.username">
 					<span>{{ user.username }}</span>
 					<chevron-down-icon class="w-3 h-3 transition-transform" :class="{ 'rotate-180': open }"/>
-				</MenuButton>
+				</menu-button>
 				<transition
 					enter-active-class="transition duration-100 ease-out"
 					enter-from-class="transform scale-95 opacity-0"
@@ -42,8 +42,10 @@
 					leave-to-class="transform scale-95 opacity-0">
 					<menu-items class="Header-userMenu">
 						<div class="py-1 px-1">
-							<menu-item>
-								<router-link v-if="user.isAdmin" :to="{ name: 'admin.shortlinks' }"><list-icon class="mr-2 w-4 h-4"/> All Shortlinks</router-link>
+							<menu-item v-if="user.isAdmin">
+								<router-link :to="{ name: 'admin.shortlinks' }">
+									<list-icon class="mr-2 w-4 h-4"/> All Shortlinks
+								</router-link>
 							</menu-item>
 							<menu-item>
 								<router-link :to="{ name: 'auth.logout' }"><sign-out-icon class="mr-2 w-4 h-4"/> Sign Out</router-link>
