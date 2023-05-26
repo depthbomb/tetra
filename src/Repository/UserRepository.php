@@ -68,7 +68,6 @@ class UserRepository extends ServiceEntityRepository
         $user->setGravatar($email);
         $user->setSub($sub);
         $user->setRoles($roles);
-        $user->setApiKey();
         $this->save($user, true);
 
         return $user;

@@ -268,11 +268,8 @@ class User implements UserInterface
     }
 
     #[ORM\PrePersist]
-    public function setAutoNextApiKeyAvailable(): void
+    public function setAutoApiKey(): void
     {
-        if (!$this->next_api_key_available)
-        {
-            $this->setNextApiKeyAvailable();
-        }
+        $this->regenerateApiKey();
     }
 }
