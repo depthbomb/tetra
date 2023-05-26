@@ -34,7 +34,6 @@ readonly class BridgeService
         {
             /** @var User $user */
             $user = $this->security->getUser();
-
             $user = [
                 'username' => $user->getUsername(),
                 'avatar'   => $user->getGravatar(24),
