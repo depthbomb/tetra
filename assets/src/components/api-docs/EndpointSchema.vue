@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	import BracesIcon from '~/components/icons/BracesIcon.vue';
 	import type { IBaseSchema } from './IBaseSchema';
 
 	defineProps<{
@@ -10,7 +11,8 @@
 <template>
 	<div class="Endpoint-schema">
 		<header class="Endpoint-schemaHeader">
-			<h2>{{ name }}</h2>
+			<braces-icon class="w-6 h-6"/>
+			<h2 class="font-mono">{{ name }}</h2>
 		</header>
 		<table class="Endpoint-schemaTable">
 			<thead>
