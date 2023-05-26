@@ -11,6 +11,8 @@
 	const ChevronDownIcon = defineAsyncComponent(() => import('~/components/icons/ChevronDownIcon.vue'));
 
 	const user = useUser();
+
+	const closeMenu = (close: () => void) => close();
 </script>
 
 <template>
@@ -27,7 +29,7 @@
 			<router-link :to="{ name: 'faq' }">FAQ</router-link>
 		</div>
 		<div class="Header-user">
-			<Menu v-if="user.isLoggedIn" v-slot="{ open }" as="div">
+			<Menu v-if="user.isLoggedIn" v-slot="{ open, close }" as="div">
 				<menu-button class="Header-userControl">
 					<img :src="user.avatar" :alt="user.username">
 					<span>{{ user.username }}</span>
@@ -41,7 +43,8 @@
 					leave-from-class="transform scale-100 opacity-100"
 					leave-to-class="transform scale-95 opacity-0">
 					<menu-items class="Header-userMenu">
-						<div class="py-1 px-1">
+						<!-- The menu component won't close when clicking a router link within a menu item so we'll just close it manually -->
+						<div class="py-1 px-1" @click="closeMenu(close)">
 							<menu-item v-if="user.isAdmin">
 								<router-link :to="{ name: 'admin.shortlinks' }">
 									<list-icon class="mr-2 w-4 h-4"/> All Shortlinks
