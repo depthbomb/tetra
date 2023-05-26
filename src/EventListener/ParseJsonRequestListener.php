@@ -15,15 +15,19 @@ class ParseJsonRequestListener
         if ($request->getContentTypeFormat() === 'json')
         {
             $json = $request->getContent();
-            if (json_validate($json))
-            {
-                $json_body = json_decode($json, true);
 
-                $request->request->replace(is_array($json_body) ? $json_body : []);
-            }
-            else
+            if (!empty($json))
             {
-                throw new HttpException(422);
+                if (json_validate($json))
+                {
+                    $json_body = json_decode($json, true);
+
+                    $request->request->replace($json_body);
+                }
+                else
+                {
+                    throw new HttpException(422);
+                }
             }
         }
     }
