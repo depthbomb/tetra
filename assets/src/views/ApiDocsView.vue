@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import Endpoint from '~/components/api-docs/Endpoint.vue';
 	import EndpointData from '~/components/api-docs/EndpointData.vue';
+	import EndpointSchema from '~/components/api-docs/EndpointSchema.vue';
 	import { Tab, TabList, TabGroup, TabPanel, TabPanels } from '@headlessui/vue';
 </script>
 
@@ -38,6 +39,14 @@
 					<p class="mb-3">This endpoint requires an API key sent with the request via a <code>api_key</code> query string.</p>
 
 					<endpoint-data type="response" :data="[
+						{
+							name: '<root>',
+							type: 'UserShortlinksResponse[]',
+							description: 'An array of shortlinks for the user',
+						}
+					]"/>
+
+					<endpoint-schema class="mt-6" name="UserShortlinksResponse[]" :data="[
 						{
 							name: 'shortcode',
 							type: 'string',

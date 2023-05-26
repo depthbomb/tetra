@@ -2,16 +2,22 @@
 	import CheckIcon from '~/components/icons/CheckIcon.vue';
 	import CloseIcon from '~/components/icons/CloseIcon.vue';
 	import ArrowLongIcon from '~/components/icons/ArrowLongIcon.vue';
+	import type { IBaseSchema } from './IBaseSchema';
+
+	type RequestSchema = IBaseSchema & {
+		required?: boolean;
+	};
+
+	type ResponseSchema = IBaseSchema & {
+		nullable?: boolean;
+	};
 
 	defineProps<{
-		type: 'request' | 'response';
-		data: Array<{
-			name: string;
-			type: string;
-			description: string;
-			required?: boolean;
-			nullable?: boolean;
-		}>
+		type: 'request';
+		data: Array<RequestSchema>;
+	} | {
+		type: 'response';
+		data: Array<ResponseSchema>;
 	}>();
 </script>
 
