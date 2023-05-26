@@ -14,20 +14,20 @@ class Shortlink
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $creator_ip;
+    #[ORM\Column(length: 255)]
+    private ?string $creator_ip = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $shortcode;
+    #[ORM\Column(length: 255)]
+    private ?string $shortcode = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $shortlink;
+    #[ORM\Column(length: 255)]
+    private ?string $shortlink = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $destination;
+    #[ORM\Column(length: 255)]
+    private ?string $destination = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $secret;
+    #[ORM\Column(length: 255)]
+    private ?string $secret = null;
 
     #[ORM\Column]
     private bool $disabled = false;
@@ -193,13 +193,13 @@ class Shortlink
     {
         if (!$this->created_at)
         {
-            $this->created_at = (new DateTimeImmutable())->format('c');
+            $this->created_at = date_create_immutable()->format('c');
         }
     }
 
     #[ORM\PrePersist]
     public function setAutoUpdatedAt(): void
     {
-        $this->updated_at = (new DateTimeImmutable())->format('c');
+        $this->updated_at = date_create_immutable()->format('c');
     }
 }

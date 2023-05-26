@@ -18,23 +18,23 @@ class User implements UserInterface
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
-    #[ORM\Column(length: 36, unique: true, nullable: false)]
-    private string $username;
+    #[ORM\Column(length: 36, unique: true)]
+    private ?string $username = null;
 
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $email;
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $avatar;
+    #[ORM\Column(length: 255)]
+    private ?string $avatar = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $sub;
+    #[ORM\Column(length: 255)]
+    private ?string $sub = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private string $api_key;
+    #[ORM\Column(length: 255)]
+    private ?string $api_key = null;
 
     #[ORM\Column]
     private ?string $next_api_key_available = null;
