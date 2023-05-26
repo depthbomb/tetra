@@ -117,7 +117,7 @@
 					]"/>
 				</endpoint>
 
-				<endpoint verb="GET" url="/api/v1/shortlinks/{shortcode}/qr-code" description="Gets an SVG QR Code for the shortlink">
+				<endpoint verb="GET" url="/api/v1/shortlinks/{shortcode}/qr-code" description="Gets an SVG QR code for the shortlink">
 					<p>This endpoints returns an SVG string on success.</p>
 				</endpoint>
 
