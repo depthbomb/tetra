@@ -7,9 +7,6 @@ export function useAdminGuard(): NavigationGuard {
 	};
 	return async (to, from, next) => {
 		const { isAdmin } = useUser();
-
-		console.log(isAdmin);
-
 		if (!isAdmin) {
 			redirectToHome();
 		} else {
