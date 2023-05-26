@@ -8,9 +8,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::EXCEPTION, 'onKernelException', PHP_INT_MAX - 100)]
-class ErrorHandlerListener
+readonly class ErrorHandlerListener
 {
-    public function __construct(private readonly FormatService $format) {}
+    public function __construct(private FormatService $format) {}
 
     public function onKernelException(ExceptionEvent $event): void
     {

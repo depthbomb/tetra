@@ -1,9 +1,7 @@
 <?php namespace App\Repository;
 
 use App\Utils;
-use DateTimeImmutable;
 use App\Entity\Shortlink;
-use Symfony\Component\Lock\LockFactory;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 

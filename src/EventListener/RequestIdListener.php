@@ -7,9 +7,9 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest', PHP_INT_MAX - 10)]
-class RequestIdListener
+readonly class RequestIdListener
 {
-    public function __construct(private readonly ResponseHeaderBag $headerBag) {}
+    public function __construct(private ResponseHeaderBag $headerBag) {}
 
     public function onKernelRequest(RequestEvent $event): void
     {

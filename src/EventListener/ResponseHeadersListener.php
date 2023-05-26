@@ -6,9 +6,9 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse')]
-class ResponseHeadersListener
+readonly class ResponseHeadersListener
 {
-    public function __construct(private readonly ResponseHeaderBag $headerBag) {}
+    public function __construct(private ResponseHeaderBag $headerBag) {}
 
     public function onKernelResponse(ResponseEvent $event): void
     {

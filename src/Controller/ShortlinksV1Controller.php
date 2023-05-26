@@ -82,7 +82,7 @@ class ShortlinksV1Controller extends BaseController
         if ($form->has('duration'))
         {
             $duration = $form->get('duration');
-            if ($duration !== '')
+            if (!empty($duration))
             {
                 $expires_at = $this->getExpiresAtFromDuration($duration);
             }
@@ -105,8 +105,7 @@ class ShortlinksV1Controller extends BaseController
         // Creator retrieval
 
         $api_key = $query->get('api_key');
-
-        $user = null;
+        $user    = null;
         if ($api_key)
         {
             $user = $this->users->findOneByApiKey($api_key);
@@ -123,12 +122,12 @@ class ShortlinksV1Controller extends BaseController
         $new_shortlink->setShortlink($shortlink);
         $new_shortlink->setDestination($destination);
 
-        if ($expires_at)
+        if (!is_null($expires_at))
         {
             $new_shortlink->setExpiresAt($expires_at);
         }
 
-        if ($user)
+        if (!is_null($user))
         {
             $user->addShortlink($new_shortlink);
             $this->manager->persist($user);
@@ -163,7 +162,6 @@ class ShortlinksV1Controller extends BaseController
 
         $duration   = $form->get('duration');
         $expires_at = $this->getExpiresAtFromDuration($duration);
-
         /** @var ?Shortlink $shortlink */
         $shortlink = $this->shortlinks->createQueryBuilder('s')
             ->where('s.shortcode = :shortcode')

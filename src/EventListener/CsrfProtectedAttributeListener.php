@@ -11,11 +11,11 @@ use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::CONTROLLER_ARGUMENTS, 'onKernelControllerArguments')]
-class CsrfProtectedAttributeListener
+readonly class CsrfProtectedAttributeListener
 {
     private const CSRF_TOKEN_HEADER = 'X-Csrf-Token';
 
-    public function __construct(private readonly CsrfTokenManagerInterface $tokenManager) {}
+    public function __construct(private CsrfTokenManagerInterface $tokenManager) {}
 
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
     {

@@ -1,7 +1,7 @@
 <?php namespace App\Command;
 
-use App\Repository\UserRepository;
 use Exception;
+use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;

@@ -12,13 +12,13 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 
 #[AsEventListener(KernelEvents::CONTROLLER_ARGUMENTS, 'onKernelControllerArguments')]
-class RateLimitedAttributeListener
+readonly class RateLimitedAttributeListener
 {
     public function __construct(
-        private readonly RateLimiterFactory $authenticationLimiter,
-        private readonly RateLimiterFactory $internalApiLimiter,
-        private readonly RateLimiterFactory $publicApiLimiter,
-        private readonly ResponseHeaderBag  $headerBag
+        private RateLimiterFactory $authenticationLimiter,
+        private RateLimiterFactory $internalApiLimiter,
+        private RateLimiterFactory $publicApiLimiter,
+        private ResponseHeaderBag  $headerBag
     ) {}
 
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void

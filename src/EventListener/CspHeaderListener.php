@@ -6,9 +6,9 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse')]
-class CspHeaderListener
+readonly class CspHeaderListener
 {
-    public function __construct(private readonly CspService $csp) {}
+    public function __construct(private CspService $csp) {}
 
     public function onKernelResponse(ResponseEvent $response): void
     {

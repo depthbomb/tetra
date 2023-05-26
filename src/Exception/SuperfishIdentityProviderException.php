@@ -12,6 +12,6 @@ class SuperfishIdentityProviderException extends IdentityProviderException
 
     protected static function fromResponse(ResponseInterface $response, $message = null): static
     {
-        return new static($message, $response->getStatusCode(), (string)$response->getBody());
+        return new static($message, $response->getStatusCode(), (string) $response->getBody());
     }
 }

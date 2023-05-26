@@ -5,12 +5,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-class BridgeService
+readonly class BridgeService
 {
     public function __construct(
-        private readonly CsrfTokenManagerInterface $tokenManager,
-        private readonly Security                  $security,
-        private readonly RequestStack              $request,
+        private CsrfTokenManagerInterface $tokenManager,
+        private Security                  $security,
+        private RequestStack              $request,
     ) {}
 
     public function getConfig(): string
