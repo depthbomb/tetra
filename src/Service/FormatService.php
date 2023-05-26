@@ -21,7 +21,7 @@ class FormatService
         $this->serializer = new Serializer([], $encoders);
     }
 
-    public function formatData(mixed $data, int $status_code = 200, array $headers = []): Response
+    public function createFormattedResponse(mixed $data, int $status_code = 200, array $headers = []): Response
     {
         $format       = $this->determineFormat();
         $content_type = match ($format)

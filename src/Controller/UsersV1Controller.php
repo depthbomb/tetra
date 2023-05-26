@@ -32,7 +32,7 @@ class UsersV1Controller extends BaseController
         $regeneration_available = $user->canApiKeyBeRegenerated();
         $next_api_key_available = $user->getNextApiKeyAvailable();
 
-        return $this->format->formatData(compact('regeneration_available', 'next_api_key_available'));
+        return $this->format->createFormattedResponse(compact('regeneration_available', 'next_api_key_available'));
     }
 
     #[Route('/regenerate-api-key', name: 'users_regenerate_api_key_v1', methods: 'POST')]
@@ -54,6 +54,6 @@ class UsersV1Controller extends BaseController
         $api_key                = $user->getApiKey();
         $next_api_key_available = $user->getNextApiKeyAvailable();
 
-        return $this->format->formatData(compact('api_key', 'next_api_key_available'));
+        return $this->format->createFormattedResponse(compact('api_key', 'next_api_key_available'));
     }
 }

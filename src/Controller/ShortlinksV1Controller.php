@@ -37,7 +37,7 @@ class ShortlinksV1Controller extends BaseController
 
         $this->abortUnless(!!$shortlink, 404);
 
-        return $this->format->formatData($shortlink);
+        return $this->format->createFormattedResponse($shortlink);
     }
 
     #[Route('', name: 'shortlink_user_list_v1', methods: 'GET', stateless: true)]
@@ -62,7 +62,7 @@ class ShortlinksV1Controller extends BaseController
             ->getQuery()
             ->getArrayResult();
 
-        return $this->format->formatData($shortlinks);
+        return $this->format->createFormattedResponse($shortlinks);
     }
 
     #[Route('', name: 'shortlink_create_v1', methods: 'PUT')]
@@ -137,7 +137,7 @@ class ShortlinksV1Controller extends BaseController
         $this->manager->persist($new_shortlink);
         $this->manager->flush();
 
-        return $this->format->formatData([
+        return $this->format->createFormattedResponse([
             'shortcode'   => $shortcode,
             'shortlink'   => $shortlink,
             'destination' => $destination,
@@ -151,7 +151,7 @@ class ShortlinksV1Controller extends BaseController
     {
         $this->shortlinks->delete($shortcode, $secret);
 
-        return $this->format->formatData([]);
+        return $this->format->createFormattedResponse([]);
     }
 
     #[Route('/{shortcode}/{secret}/set-expiry', name: 'shortlink_set_expiry_v1', methods: 'PATCH')]
@@ -180,7 +180,7 @@ class ShortlinksV1Controller extends BaseController
 
         $this->shortlinks->save($shortlink, true);
 
-        return $this->format->formatData(['expires_at' => $expires_at->format('c')]);
+        return $this->format->createFormattedResponse(['expires_at' => $expires_at->format('c')]);
     }
 
     #[Route('/{shortcode}/qr-code', name: 'shortlink_qr_code_v1', methods: 'GET', stateless: true)]
@@ -206,7 +206,7 @@ class ShortlinksV1Controller extends BaseController
     {
         $available = $this->shortlinks->count(['shortcode' => $shortcode]) === 0;
 
-        return $this->format->formatData(compact('available'));
+        return $this->format->createFormattedResponse(compact('available'));
     }
 
     private function getExpiresAtFromDuration(string $duration): DateTimeImmutable
