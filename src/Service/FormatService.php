@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class FormatService
 {
@@ -27,6 +28,7 @@ class FormatService
         $content_type = match ($format)
         {
             'json'        => 'application/json',
+            'jsonp'       => 'text/javascript',
             'xml'         => 'application/xml',
             'yml', 'yaml' => 'text/yaml',
             'csv', 'php'  => 'text/plain'
@@ -38,6 +40,7 @@ class FormatService
         {
             'php'         => serialize($data),
             'yml', 'yaml' => Yaml::dump($data),
+            'jsonp'       => $this->generateJsonpString($data),
             default       => $this->serializer->serialize($data, $format),
         };
 
@@ -48,13 +51,39 @@ class FormatService
     {
         $request = $this->requestStack->getCurrentRequest();
         $queries = $request->query;
-        $format  = strtolower($queries->get('format'));
+        if ($queries->has('jsonp') and !empty($queries->get('jsonp')))
+        {
+            return 'jsonp';
+        }
 
+        $format = strtolower($queries->get('format'));
         if (in_array($format, $this::OUTPUT_FORMATS))
         {
+            if ($format === 'jsonp')
+            {
+                throw new HttpException(400, 'Please use the \'jsonp\' query parameter instead of \'format=jsonp\' when using JSONP format.');
+            }
+
             return $format;
         }
 
         return $this::DEFAULT_FORMAT;
+    }
+
+    private function generateJsonpString(array $data): string
+    {
+        $function_name_pattern = '/^[a-zA-Z_$][a-zA-Z0-9_$]*$/';
+        $request               = $this->requestStack->getCurrentRequest();
+        $queries               = $request->query;
+        $function_name         = $queries->get('jsonp');
+
+        if (!preg_match($function_name_pattern, $function_name))
+        {
+            throw new HttpException(400, 'Invalid JSONP callback name');
+        }
+
+        $obj = json_encode($data);
+
+        return "$function_name($obj);";
     }
 }
