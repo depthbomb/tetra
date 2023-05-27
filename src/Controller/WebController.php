@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class RootController extends BaseController
+class WebController extends BaseController
 {
     #[Route('/', name: 'root')]
     public function serveSpa(): Response
