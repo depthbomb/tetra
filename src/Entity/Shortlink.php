@@ -1,7 +1,7 @@
 <?php namespace App\Entity;
 
-use App\Utils;
 use DateTimeImmutable;
+use App\Util\IdGenerator;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ShortlinkRepository;
 
@@ -180,8 +180,7 @@ class Shortlink
     #[ORM\PrePersist]
     public function setAutoSecret(): void
     {
-        $secret = Utils::generateRandomId($_ENV['SECRET_KEY_LENGTH']);
-
+        $secret = IdGenerator::generate($_ENV['SECRET_KEY_LENGTH']);
         if (!$this->secret)
         {
             $this->secret = $secret;

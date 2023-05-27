@@ -1,9 +1,9 @@
 <?php namespace App\Entity;
 
-use App\Utils;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use App\Util\{Gravatar, IdGenerator};
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -83,10 +83,7 @@ class User implements UserInterface
     /**
      * @inheritDoc
      */
-    public function eraseCredentials()
-    {
-
-    }
+    public function eraseCredentials() {}
 
     /**
      * @see UserInterface
@@ -133,7 +130,7 @@ class User implements UserInterface
 
     public function setGravatar(string $email): self
     {
-        $this->avatar = Utils::createGravatar($email);
+        $this->avatar = Gravatar::create($email);
 
         return $this;
     }
@@ -165,7 +162,7 @@ class User implements UserInterface
 
     public function setApiKey(): self
     {
-        $this->api_key = Utils::generateRandomId($_ENV['API_KEY_LENGTH']);
+        $this->api_key = IdGenerator::generate($_ENV['API_KEY_LENGTH']);
 
         return $this;
     }

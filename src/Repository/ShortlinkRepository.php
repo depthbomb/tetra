@@ -1,7 +1,7 @@
 <?php namespace App\Repository;
 
-use App\Utils;
 use App\Entity\Shortlink;
+use App\Util\IdGenerator;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -70,7 +70,7 @@ class ShortlinkRepository extends ServiceEntityRepository
         $length = 3;
         do
         {
-            $shortcode = Utils::generateRandomId($length);
+            $shortcode = IdGenerator::generate($length);
             $length++;
         } while ($this->findOneByShortcode($shortcode));
 
