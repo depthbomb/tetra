@@ -48,10 +48,13 @@ class FormatService
     {
         $request = $this->requestStack->getCurrentRequest();
         $queries = $request->query;
-        $format  = strtolower($queries->get('format'));
-        if (in_array($format, $this::OUTPUT_FORMATS))
+        if ($queries->has('format'))
         {
-            return $format;
+            $format = strtolower($queries->get('format'));
+            if (in_array($format, $this::OUTPUT_FORMATS))
+            {
+                return $format;
+            }
         }
 
         return $this::DEFAULT_FORMAT;
