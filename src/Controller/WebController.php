@@ -14,7 +14,6 @@ class WebController extends BaseController
         return $this->render('root/root.html.twig');
     }
 
-    #[RateLimited('redirection')]
     #[Route('/{shortcode}+', name: 'shortlink_expand', stateless: true)]
     public function redirectToExpanded(string $shortcode): Response
     {
