@@ -65,6 +65,7 @@
 
 			a {
 				@apply text-brand-100;
+				@apply border-b border-current;
 				@apply hover:text-brand;
 				@apply transition-colors;
 			}
