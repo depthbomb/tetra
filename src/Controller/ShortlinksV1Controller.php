@@ -68,20 +68,20 @@ class ShortlinksV1Controller extends BaseController
     #[Route('', name: 'shortlink_create_v1', methods: 'PUT')]
     public function createShortlink(Request $request): Response
     {
-        $query = $request->query;
-        $form  = $request->request;
+        $query   = $request->query;
+        $payload = $request->getPayload();
 
         // Validate `destination`
 
-        $destination = $form->get('destination');
+        $destination = $payload->get('destination');
         $this->abortIf(!$destination, 400, 'A destination is required');
 
         // Process `duration` into an `expires_at` date
 
         $expires_at = null;
-        if ($form->has('duration'))
+        if ($payload->has('duration'))
         {
-            $duration = $form->get('duration');
+            $duration = $payload->get('duration');
             if (!empty($duration))
             {
                 $expires_at = $this->getExpiresAtFromDuration($duration);
@@ -90,9 +90,9 @@ class ShortlinksV1Controller extends BaseController
 
         // Validate `shortcode`
 
-        if ($form->get('shortcode'))
+        if ($payload->get('shortcode'))
         {
-            $shortcode = $form->get('shortcode');
+            $shortcode = $payload->get('shortcode');
 
             $this->abortIf(preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1, 400, 'Custom shortcode must be between 3 and 255 characters, and can only contain A-Z, 0-9, - and _ characters');
             $this->abortIf($this->shortlinks->findOneByShortcode($shortcode) !== null, 400, 'Shortcode is taken');
@@ -156,11 +156,11 @@ class ShortlinksV1Controller extends BaseController
     #[Route('/{shortcode}/{secret}/set-expiry', name: 'shortlink_set_expiry_v1', methods: 'PATCH')]
     public function setShortlinkExpiry(Request $request, string $shortcode, string $secret): Response
     {
-        $form = $request->request;
+        $payload = $request->getPayload();
 
-        $this->abortUnless($form->has('duration'), 400, 'A duration is required');
+        $this->abortUnless($payload->has('duration'), 400, 'A duration is required');
 
-        $duration   = $form->get('duration');
+        $duration   = $payload->get('duration');
         $expires_at = $this->getExpiresAtFromDuration($duration);
         /** @var ?Shortlink $shortlink */
         $shortlink = $this->shortlinks->createQueryBuilder('s')

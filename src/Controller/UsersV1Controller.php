@@ -38,11 +38,11 @@ class UsersV1Controller extends BaseController
     #[Route('/regenerate-api-key', name: 'users_regenerate_api_key_v1', methods: 'POST')]
     public function regenerateApiKey(Request $request): Response
     {
-        $form = $request->request;
+        $payload = $request->getPayload();
 
-        $this->abortUnless($form->has('api_key'), 400, 'Missing api_key');
+        $this->abortUnless($payload->has('api_key'), 400, 'Missing api_key');
 
-        $api_key = $form->get('api_key');
+        $api_key = $payload->get('api_key');
         $user    = $this->users->findOneByApiKey($api_key);
 
         $this->abortUnless(!!$user, 400, 'Invalid api_key');

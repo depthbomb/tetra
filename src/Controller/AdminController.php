@@ -34,11 +34,11 @@ class AdminController extends BaseController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $form = $request->request;
+        $payload = $request->getPayload();
 
-        $this->abortUnless($form->has('shortcode'), 400, 'Please provide a shortcode');
+        $this->abortUnless($payload->has('shortcode'), 400, 'Please provide a shortcode');
 
-        $shortcode = $form->get('shortcode');
+        $shortcode = $payload->get('shortcode');
         /** @var Shortlink $shortlink */
         $shortlink = $this->shortlinks->createQueryBuilder('s')
             ->where('s.shortcode = :shortcode')
