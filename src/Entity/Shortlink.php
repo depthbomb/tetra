@@ -177,6 +177,13 @@ class Shortlink
         return $this;
     }
 
+    public function hasExpired(): bool
+    {
+        $now = date_create_immutable()->format('c');
+
+        return $now >= $this->getExpiresAt();
+    }
+
     #[ORM\PrePersist]
     public function setAutoSecret(): void
     {
