@@ -13,25 +13,25 @@
         "endroid/qr-code": "^4.8",
         "knpuniversity/oauth2-client-bundle": "^2.14",
         "league/oauth2-client": "^2.7",
-        "symfony/console": "6.2.*",
-        "symfony/doctrine-messenger": "6.2.*",
-        "symfony/dotenv": "6.2.*",
-        "symfony/event-dispatcher": "6.2.*",
-        "symfony/filesystem": "6.2.*",
+        "symfony/console": "6.3.*",
+        "symfony/doctrine-messenger": "6.3.*",
+        "symfony/dotenv": "6.3.*",
+        "symfony/event-dispatcher": "6.3.*",
+        "symfony/filesystem": "6.3.*",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "6.2.*",
-        "symfony/http-foundation": "6.2.*",
-        "symfony/lock": "6.2.*",
-        "symfony/mime": "6.2.*",
+        "symfony/framework-bundle": "6.3.*",
+        "symfony/http-foundation": "6.3.*",
+        "symfony/lock": "6.3.*",
+        "symfony/mime": "6.3.*",
         "symfony/monolog-bundle": "^3.8",
         "symfony/polyfill-php83": "^1.27",
-        "symfony/rate-limiter": "6.2.*",
-        "symfony/runtime": "6.2.*",
-        "symfony/security-bundle": "6.2.*",
-        "symfony/security-csrf": "6.2.*",
-        "symfony/serializer": "6.2.*",
-        "symfony/uid": "6.2.*",
-        "symfony/yaml": "6.2.*",
+        "symfony/rate-limiter": "6.3.*",
+        "symfony/runtime": "6.3.*",
+        "symfony/security-bundle": "6.3.*",
+        "symfony/security-csrf": "6.3.*",
+        "symfony/serializer": "6.3.*",
+        "symfony/uid": "6.3.*",
+        "symfony/yaml": "6.3.*",
         "zenstruck/schedule-bundle": "^1.6"
     },
     "require-dev": {
@@ -79,7 +79,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.2.*"
+            "require": "6.3.*"
         }
     }
 }
