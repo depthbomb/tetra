@@ -2,7 +2,7 @@
 
 final class Gravatar
 {
-    private const BASE_URL = 'https://www.gravatar.com/avatar/';
+    private const BASE_URL = 'https://secure.gravatar.com/avatar/';
 
     public static function create(string $email): string
     {
