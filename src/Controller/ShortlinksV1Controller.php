@@ -24,7 +24,7 @@ class ShortlinksV1Controller extends BaseController
         private readonly UserRepository         $users,
     ) {}
 
-    #[Route('/{shortcode}', name: 'shortlink_info_v1', methods: 'GET', stateless: true)]
+    #[Route('/{shortcode}', name: 'shortlink_info_v1', methods: ['GET'], stateless: true)]
     public function getShortlinkInfo(string $shortcode): Response
     {
         $shortlink = $this->shortlinks->createQueryBuilder('s')
@@ -40,7 +40,7 @@ class ShortlinksV1Controller extends BaseController
         return $this->format->createFormattedResponse($shortlink);
     }
 
-    #[Route('', name: 'shortlink_user_list_v1', methods: 'GET', stateless: true)]
+    #[Route('', name: 'shortlink_user_list_v1', methods: ['GET'], stateless: true)]
     public function getUserShortlinks(Request $request): Response
     {
         $query   = $request->query;
@@ -65,7 +65,7 @@ class ShortlinksV1Controller extends BaseController
         return $this->format->createFormattedResponse($shortlinks);
     }
 
-    #[Route('', name: 'shortlink_create_v1', methods: 'PUT')]
+    #[Route('', name: 'shortlink_create_v1', methods: ['PUT'])]
     public function createShortlink(Request $request): Response
     {
         $query   = $request->query;
@@ -144,7 +144,7 @@ class ShortlinksV1Controller extends BaseController
         ], 201);
     }
 
-    #[Route('/{shortcode}/{secret}', name: 'shortlink_delete_v1', methods: 'DELETE')]
+    #[Route('/{shortcode}/{secret}', name: 'shortlink_delete_v1', methods: ['DELETE'])]
     public function deleteShortlink(string $shortcode, string $secret): Response
     {
         $this->shortlinks->delete($shortcode, $secret);
@@ -152,7 +152,7 @@ class ShortlinksV1Controller extends BaseController
         return $this->format->createFormattedResponse([]);
     }
 
-    #[Route('/{shortcode}/{secret}/set-expiry', name: 'shortlink_set_expiry_v1', methods: 'PATCH')]
+    #[Route('/{shortcode}/{secret}/set-expiry', name: 'shortlink_set_expiry_v1', methods: ['PATCH'])]
     public function setShortlinkExpiry(Request $request, string $shortcode, string $secret): Response
     {
         $payload = $request->getPayload();
@@ -180,7 +180,7 @@ class ShortlinksV1Controller extends BaseController
         return $this->format->createFormattedResponse(['expires_at' => $expires_at->format('c')]);
     }
 
-    #[Route('/{shortcode}/qr-code', name: 'shortlink_qr_code_v1', methods: 'GET', stateless: true)]
+    #[Route('/{shortcode}/qr-code', name: 'shortlink_qr_code_v1', methods: ['GET'], stateless: true)]
     public function getQrCode(QrService $qr, string $shortcode): Response
     {
         $shortlink = $this->shortlinks->createQueryBuilder('s')
@@ -198,7 +198,7 @@ class ShortlinksV1Controller extends BaseController
         return new Response($svg, headers: ['Content-Type' => 'image/svg+xml']);
     }
 
-    #[Route('/{shortcode}/availability', name: 'shortlink_shortcode_availability_v1', methods: 'GET', stateless: true)]
+    #[Route('/{shortcode}/availability', name: 'shortlink_shortcode_availability_v1', methods: ['GET'], stateless: true)]
     public function getShortcodeAvailability(string $shortcode): Response
     {
         $available = $this->shortlinks->count(['shortcode' => $shortcode]) === 0;

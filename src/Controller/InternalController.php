@@ -16,7 +16,7 @@ class InternalController extends BaseController
         private readonly CacheInterface      $cache,
     ) {}
 
-    #[Route('/total-shortlinks', name: 'internal_total_shortlinks', methods: 'POST')]
+    #[Route('/total-shortlinks', name: 'internal_total_shortlinks', methods: ['POST'])]
     public function getTotalShortlinks(): Response
     {
         $count = $this->cache->get('total_shortlinks', function (ItemInterface $item) {

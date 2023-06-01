@@ -13,7 +13,7 @@ class AdminController extends BaseController
 {
     public function __construct(private readonly ShortlinkRepository $shortlinks,) {}
 
-    #[Route('/all-shortlinks', methods: 'POST')]
+    #[Route('/all-shortlinks', methods: ['POST'])]
     public function getAllShortlinks(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -29,7 +29,7 @@ class AdminController extends BaseController
         return $this->json($shortlinks);
     }
 
-    #[Route('/toggle-shortlink-disabled', methods: 'PATCH')]
+    #[Route('/toggle-shortlink-disabled', methods: ['PATCH'])]
     public function toggleShortlinkDisabled(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');

@@ -86,7 +86,7 @@
 						{
 							name: 'shortlink',
 							type: 'string',
-							description: 'The URL that the shortlink redirects to'
+							description: 'The shortlink itself'
 						},
 						{
 							name: 'destination',

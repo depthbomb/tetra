@@ -27,7 +27,7 @@ class OAuthController extends BaseController
     }
 
     #[CsrfProtected('auth')]
-    #[Route('/invalidate', name: 'oidc_destroy', methods: 'POST')]
+    #[Route('/invalidate', name: 'oidc_destroy', methods: ['POST'])]
     public function handleLogout(Security $security): Response
     {
         if ($this->loggedIn())

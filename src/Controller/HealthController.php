@@ -5,7 +5,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HealthController extends BaseController
 {
-    #[Route('/health', name: 'health', methods: 'GET')]
+    #[Route('/health', name: 'health', methods: ['GET'])]
     public function health(): Response
     {
         return new Response(status: 204);

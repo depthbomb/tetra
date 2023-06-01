@@ -16,7 +16,7 @@ class UsersV1Controller extends BaseController
         private readonly UserRepository $users,
     ) {}
 
-    #[Route('/api-key-status', name: 'users_api_key_status_v1', methods: 'GET')]
+    #[Route('/api-key-status', name: 'users_api_key_status_v1', methods: ['GET'])]
     public function getApiKey(Request $request): Response
     {
         $query = $request->query;
@@ -35,7 +35,7 @@ class UsersV1Controller extends BaseController
         return $this->format->createFormattedResponse(compact('regeneration_available', 'next_api_key_available'));
     }
 
-    #[Route('/regenerate-api-key', name: 'users_regenerate_api_key_v1', methods: 'POST')]
+    #[Route('/regenerate-api-key', name: 'users_regenerate_api_key_v1', methods: ['POST'])]
     public function regenerateApiKey(Request $request): Response
     {
         $payload = $request->getPayload();
