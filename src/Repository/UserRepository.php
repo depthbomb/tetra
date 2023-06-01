@@ -65,7 +65,6 @@ class UserRepository extends ServiceEntityRepository
         $user = new User;
         $user->setUsername($username);
         $user->setEmail($email);
-        $user->setGravatar($email);
         $user->setSub($sub);
         $user->setRoles($roles);
         $this->save($user, true);

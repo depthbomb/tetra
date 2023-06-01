@@ -28,9 +28,6 @@ class User implements UserInterface
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $avatar = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $sub = null;
 
     #[ORM\Column(length: 255)]
@@ -114,33 +111,6 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
-    }
-
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(string $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function setGravatar(string $email): self
-    {
-        $this->avatar = Gravatar::create($email);
-
-        return $this;
-    }
-
-    public function getGravatar(int $size = 80, string $default = 'identicon', string $rating = 'pg'): string
-    {
-        $gravatar = $this->avatar;
-        $gravatar .= "?s=$size&d=$default&r=$rating";
-
-        return $gravatar;
     }
 
     public function getSub(): ?string
@@ -247,6 +217,11 @@ class User implements UserInterface
         $this->updated_at = $updated_at->format('c');
 
         return $this;
+    }
+
+    public function getAvatar(int $size = 80, string $default = 'identicon', string $rating = 'pg'): string
+    {
+        return Gravatar::create($this->email, $size, $default, $rating);
     }
 
     #[ORM\PrePersist]
