@@ -93,7 +93,6 @@ class ShortlinksV1Controller extends BaseController
         if ($payload->get('shortcode'))
         {
             $shortcode = $payload->get('shortcode');
-
             $this->abortIf(preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1, 400, 'Custom shortcode must be between 3 and 255 characters, and can only contain A-Z, 0-9, - and _ characters');
             $this->abortIf($this->shortlinks->findOneByShortcode($shortcode) !== null, 400, 'Shortcode is taken');
         }
@@ -141,7 +140,7 @@ class ShortlinksV1Controller extends BaseController
             'shortlink'   => $shortlink,
             'destination' => $destination,
             'secret'      => $new_shortlink->getSecret(),
-            'expires_at'  => $expires_at?->format('c'),
+            'expires_at'  => $new_shortlink->getExpiresAt(),
         ], 201);
     }
 
