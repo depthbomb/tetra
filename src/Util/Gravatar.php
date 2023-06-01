@@ -4,10 +4,21 @@ final class Gravatar
 {
     private const BASE_URL = 'https://secure.gravatar.com/avatar/';
 
-    public static function create(string $email): string
+    public static function create(string $email, int $size = 80, string $default = 'identicon', string $rating = 'pg'): string
     {
-        $hash = md5(strtolower(trim($email)));
+        $hash     = md5(strtolower(trim($email)));
+        $gravatar = self::BASE_URL.$hash;
+        $options  = http_build_query([
+            's' => $size,
+            'd' => $default,
+            'r' => $rating
+        ]);
 
-        return self::BASE_URL.$hash;
+        if (!empty($options))
+        {
+            $gravatar .= '?'.$options;
+        }
+
+        return $gravatar;
     }
 }
