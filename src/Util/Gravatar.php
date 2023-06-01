@@ -11,7 +11,7 @@ final class Gravatar
         $options  = http_build_query([
             's' => $size,
             'd' => $default,
-            'r' => $rating
+            'r' => $rating,
         ]);
 
         if (!empty($options))

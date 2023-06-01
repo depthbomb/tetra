@@ -71,9 +71,10 @@ class SuperfishProvider extends AbstractProvider
 
                 throw SuperfishIdentityProviderException::clientException($response, json_encode([
                     'error'   => $error_name,
-                    'message' => $error_message
+                    'message' => $error_message,
                 ]));
-            } else
+            }
+            else
             {
                 // TODO
                 throw SuperfishIdentityProviderException::clientException($response, json_encode('unknown'));

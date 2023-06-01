@@ -13,7 +13,7 @@ readonly class ErrorHandlerListener
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        $res = $this->errorHandler->createErrorResponseFromException($exception);
+        $res       = $this->errorHandler->createErrorResponseFromException($exception);
 
         $event->setResponse($res);
     }

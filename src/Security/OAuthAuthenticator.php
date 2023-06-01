@@ -71,7 +71,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
                 );
             }),
             [
-                new RememberMeBadge()
+                new RememberMeBadge(),
             ]
         );
     }

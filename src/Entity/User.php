@@ -1,9 +1,10 @@
 <?php namespace App\Entity;
 
 use DateTimeImmutable;
+use App\Util\Gravatar;
+use App\Util\IdGenerator;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use App\Util\{Gravatar, IdGenerator};
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
