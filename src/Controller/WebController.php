@@ -52,11 +52,11 @@ class WebController extends BaseController
             $link = new Link(href: $asset);
             if (str_ends_with($asset, 'js'))
             {
-                $link->withAttribute('as', 'script');
+                $link = $link->withAttribute('as', 'script');
             }
             else
             {
-                $link->withAttribute('as', 'stylesheet');
+                $link = $link->withAttribute('as', 'stylesheet');
             }
 
             $links[] = $link;
