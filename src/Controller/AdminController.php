@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[CsrfProtected('ajax')]
 class AdminController extends BaseController
 {
-    public function __construct(private readonly ShortlinkRepository $shortlinks,) {}
+    public function __construct(private readonly ShortlinkRepository $shortlinks) {}
 
     #[Route('/all-shortlinks', methods: ['POST'])]
     public function getAllShortlinks(): Response

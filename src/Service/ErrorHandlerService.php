@@ -2,11 +2,12 @@
 
 use Throwable;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 readonly class ErrorHandlerService
 {
-    public function __construct(private FormatService $format) {}
+    public function __construct(private FormatService $format, private RequestStack $request) {}
 
     public function createErrorResponseFromException(Throwable $exception): Response
     {
@@ -16,9 +17,12 @@ readonly class ErrorHandlerService
             $code = $exception->getStatusCode();
         }
 
+        $request_id = $this->request->getMainRequest()->attributes->get('_request_id');
+
         return $this->format->createFormattedResponse([
-            'status'  => $code,
-            'message' => $exception->getMessage() !== '' ? $exception->getMessage() : Response::$statusTexts[$code],
+            'request_id' => $request_id,
+            'status'     => $code,
+            'message'    => $exception->getMessage() !== '' ? $exception->getMessage() : Response::$statusTexts[$code],
         ], $code);
     }
 }

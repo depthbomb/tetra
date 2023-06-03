@@ -11,13 +11,13 @@ class QrService
 {
     public function generateQrCode(string $contents, int $size = 256): string
     {
-        $svg_writer = new SvgWriter();
+        $svg_writer = new SvgWriter;
         $qr_code    = QrCode::create($contents)
             ->setEncoding(new Encoding('UTF-8'))
-            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow)
             ->setSize($size)
             ->setMargin(8)
-            ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin)
             ->setForegroundColor(new Color(5, 190, 249))
             ->setBackgroundColor(new Color(255, 255, 255));
 
