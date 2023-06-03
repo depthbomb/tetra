@@ -81,7 +81,7 @@ class User implements UserInterface
     /**
      * @inheritDoc
      */
-    public function eraseCredentials() {}
+    public function eraseCredentials(): void {}
 
     /**
      * @see UserInterface
