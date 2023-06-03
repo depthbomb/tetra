@@ -1,12 +1,12 @@
 <?php namespace App\Twig;
 
 use Twig\TwigFunction;
-use App\Service\CspService;
+use App\Util\CspNonce;
 use Twig\Extension\AbstractExtension;
 
 class CspNonceExtension extends AbstractExtension
 {
-    public function __construct(private readonly CspService $csp) {}
+    public function __construct() {}
 
     public function getFunctions(): array
     {
@@ -17,6 +17,6 @@ class CspNonceExtension extends AbstractExtension
 
     public function getCspNonce(): string
     {
-        return $this->csp->getNonce();
+        return CspNonce::getNonce();
     }
 }
