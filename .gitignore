@@ -9,4 +9,4 @@
 
 /.idea
 /public/assets
-/src/Service/StaticService.php
+/src/Util/Assets.php

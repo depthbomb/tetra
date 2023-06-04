@@ -1,6 +1,7 @@
-import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
+import { resolve } from 'node:path';
 import vue from '@vitejs/plugin-vue';
+import { exec } from 'node:child_process';
 import { fileURLToPath, URL } from 'node:url';
 import type { UserConfig } from 'vite';
 
@@ -31,6 +32,14 @@ export default defineConfig(({ mode }) => {
 		},
 		plugins: [
 			vue({ script: { propsDestructure: true } }),
+			{
+				name: 'generate service',
+				async closeBundle() {
+					exec('php ../bin/console tetra:assets:generate-service', (err, stdout, stderr) => {
+						if (err) return console.log(err);
+					});
+				},
+			},
 		],
 		resolve: {
 			alias: {

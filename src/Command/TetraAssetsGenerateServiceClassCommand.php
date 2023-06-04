@@ -11,10 +11,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[AsCommand(
-    name: 'tetra:assets:generate-static-class',
-    description: 'Generates the static asset service class based off of the manifest.json created at asset build',
+    name: 'tetra:assets:generate-service',
+    description: 'Generates the asset util class based off of the manifest.json created at asset build',
 )]
-class TetraAssetsGenerateStaticClassCommand extends Command
+class TetraAssetsGenerateServiceClassCommand extends Command
 {
     private readonly string $servicePath;
     private readonly string $rootPath;
@@ -22,7 +22,7 @@ class TetraAssetsGenerateStaticClassCommand extends Command
     public function __construct(private readonly ParameterBagInterface $parameters)
     {
         $this->rootPath    = $this->parameters->get('kernel.project_dir');
-        $this->servicePath = join(DIRECTORY_SEPARATOR, [$this->rootPath, 'src', 'Service', 'StaticService.php']);
+        $this->servicePath = join(DIRECTORY_SEPARATOR, [$this->rootPath, 'src', 'Util', 'Assets.php']);
         parent::__construct();
     }
 
@@ -91,7 +91,7 @@ class TetraAssetsGenerateStaticClassCommand extends Command
             }
         }
 
-        $io->writeln('Generating service class...');
+        $io->writeln('Generating util class...');
 
         $preload_variable_name     = $this->generateName();
         $assets_variable_name      = $this->generateName();
@@ -100,51 +100,57 @@ class TetraAssetsGenerateStaticClassCommand extends Command
 
         $now = date_create_immutable();
 
-        $namespace = new PhpNamespace('App\\Service');
+        $namespace = new PhpNamespace('App\\Util');
         $namespace->addUse('DateTimeImmutable');
 
-        $class = $namespace->addClass('StaticService');
-        $class->setComment("This service is automatically generated on {$now->format('c')}. Please do not modify it directly.")
-            ->setFinal();
+        $class = $namespace->addClass('Assets');
+        $class->setComment("This file was automatically generated on {$now->format('c')}. DO NOT modify it directly.")->setFinal();
         $class->addConstant($preload_variable_name, $preload)->setPrivate();
         $class->addConstant($assets_variable_name, $assets)->setPrivate();
         $class->addConstant($js_entries_variable_name, $js_entries)->setPrivate();
         $class->addConstant($css_entries_variable_name, $css_entries)->setPrivate();
         $class->addMethod('getGeneratedDate')
             ->setPublic()
+            ->setStatic()
             ->setComment("Returns the DateTimeImmutable that represents when this service class was generated\n\n@return DateTimeImmutable")
             ->setReturnType('DateTimeImmutable')
             ->setBody("return date_create_immutable('{$now->format('c')}');")
             ->setFinal();
         $class->addMethod('getPreloadAssets')
             ->setPublic()
+            ->setStatic()
             ->setComment("Returns an array of public asset paths that should be preloaded\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody("return \$this::$preload_variable_name;")
+            ->setBody("return self::$preload_variable_name;")
             ->setFinal();
         $class->addMethod('getVersionedAssets')
             ->setPublic()
+            ->setStatic()
             ->setComment("Returns an array of all public asset paths\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody("return \$this::$assets_variable_name;");
+            ->setBody("return self::$assets_variable_name;")
+            ->setFinal();
         $class->addMethod('getVersionedAsset')
             ->setPublic()
+            ->setStatic()
             ->setComment("Returns the public asset path of a file by its original name\n\n@param string \$original_name\n\n@return string|null")
-            ->setBody("return \$this::$assets_variable_name".'[$original_name];')
+            ->setBody("return self::$assets_variable_name".'[$original_name];')
             ->setFinal()
             ->setReturnType('?string')
             ->addParameter('original_name')->setType('string');
         $class->addMethod('getJsEntries')
             ->setPublic()
+            ->setStatic()
             ->setComment("Returns an array of public asset paths that are used as JavaScript entries\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody("return \$this::$js_entries_variable_name;")
+            ->setBody("return self::$js_entries_variable_name;")
             ->setFinal();
         $class->addMethod('getCssEntries')
             ->setPublic()
+            ->setStatic()
             ->setComment("Returns an array of public asset paths that are used as CSS entries\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody("return \$this::$css_entries_variable_name;")
+            ->setBody("return self::$css_entries_variable_name;")
             ->setFinal();
 
         $class = "<?php $namespace";
@@ -157,7 +163,7 @@ class TetraAssetsGenerateStaticClassCommand extends Command
             unlink($manifest_path);
         }
 
-        $io->success('Generated service class from manifest!');
+        $io->success('Generated utils class from manifest!');
 
         return Command::SUCCESS;
     }

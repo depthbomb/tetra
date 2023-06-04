@@ -1,8 +1,5 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
-    globals:
-        static: '@App\Service\StaticService'
-        bridge: '@App\Service\BridgeService'
 
 when@test:
     twig:
