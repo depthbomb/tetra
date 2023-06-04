@@ -35,8 +35,12 @@ export default defineConfig(({ mode }) => {
 			{
 				name: 'generate service',
 				async closeBundle() {
-					exec('php ../bin/console tetra:assets:generate-service', (err, stdout, stderr) => {
-						if (err) return console.log(err);
+					const flags = mode === 'production' ? '-d -n' : '-n';
+					exec(`php ../bin/console tetra:assets:generate-helper ${flags}`, (err, stdout, stderr) => {
+						if (err) return console.error(err);
+						if (stderr) return console.error(stderr);
+
+						console.log(stdout);
 					});
 				},
 			},
