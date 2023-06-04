@@ -61,7 +61,7 @@
 
 	<div class="MainCard-divider"></div>
 
-	<p>As with any API key for any service, do not share it with anyone as it can be used to perform actions on your behalf. If you accidentally leaked your API key and need a new one, you can regenerate one every hour.</p>
+	<p>As with any API key for any service, do not share it with anyone as it can be used to perform actions on your behalf. If you accidentally leaked your API key and need a new one then you can regenerate it. You must wait a while after regenerating your API key before you can regenerate a new one.</p>
 </template>
 
 <style scoped lang="scss">
