@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[AsCommand(
-    name: 'tetra:assets:generate-service',
+    name: 'tetra:assets:generate-helper',
     description: 'Generates the asset util class based off of the manifest.json created at asset build',
 )]
 class TetraAssetsGenerateServiceClassCommand extends Command
@@ -104,7 +104,7 @@ class TetraAssetsGenerateServiceClassCommand extends Command
         $namespace->addUse('DateTimeImmutable');
 
         $class = $namespace->addClass('Assets');
-        $class->setComment("This file was automatically generated on {$now->format('c')}. DO NOT modify it directly.")->setFinal();
+        $class->setComment("This file was automatically generated on {$now->format('c')}. DO NOT modify directly.\n\nThis class allows for retrieving of versioned static assets generated from the frontend build process.\nSee App\\Twig\\AssetsExtension for Twig helper functions.")->setFinal();
         $class->addConstant($preload_variable_name, $preload)->setPrivate();
         $class->addConstant($assets_variable_name, $assets)->setPrivate();
         $class->addConstant($js_entries_variable_name, $js_entries)->setPrivate();
@@ -112,7 +112,7 @@ class TetraAssetsGenerateServiceClassCommand extends Command
         $class->addMethod('getGeneratedDate')
             ->setPublic()
             ->setStatic()
-            ->setComment("Returns the DateTimeImmutable that represents when this service class was generated\n\n@return DateTimeImmutable")
+            ->setComment("Returns the date that this util class was generated\n\n@return DateTimeImmutable")
             ->setReturnType('DateTimeImmutable')
             ->setBody("return date_create_immutable('{$now->format('c')}');")
             ->setFinal();
@@ -134,7 +134,7 @@ class TetraAssetsGenerateServiceClassCommand extends Command
             ->setPublic()
             ->setStatic()
             ->setComment("Returns the public asset path of a file by its original name\n\n@param string \$original_name\n\n@return string|null")
-            ->setBody("return self::$assets_variable_name".'[$original_name];')
+            ->setBody("return self::$assets_variable_name".'[$original_name] ?? null;')
             ->setFinal()
             ->setReturnType('?string')
             ->addParameter('original_name')->setType('string');
