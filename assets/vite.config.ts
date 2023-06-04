@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { existsSync } from 'node:fs';
-import preload from 'vite-plugin-preload';
 import { fileURLToPath, URL } from 'node:url';
 import { join, resolve, basename } from 'node:path';
 import { unlink, readFile, writeFile } from 'node:fs/promises';
@@ -37,7 +36,6 @@ export default defineConfig(({ mode }) => {
 		},
 		plugins: [
 			vue({ script: { propsDestructure: true } }),
-			preload(),
 			{
 				// This "plugin" generates a PHP class for the backend that allows for retrieving
 				// versioned assets via hardcoded values.

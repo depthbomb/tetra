@@ -24,23 +24,18 @@
     {% for s in [57, 60, 76, 114, 120, 144, 180] %}
         <link rel="apple-touch-icon" sizes="{{ s }}x{{ s }}" href="{{ static.getVersioned("apple-icon-"~s~"x"~s~".png") }}">
     {% endfor %}
-    
     {% for s in [36, 48, 72, 96, 144, 192] %}
         <link rel="icon" type="image/png" sizes="{{ s }}x{{ s }}" href="{{ static.getVersioned("android-icon-"~s~"x"~s~".png") }}">
     {% endfor %}
-    
     {% for s in [16, 32, 96] %}
         <link rel="icon" type="image/png" sizes="{{ s }}x{{ s }}" href="{{ static.getVersioned("favicon-"~s~"x"~s~".png") }}">
     {% endfor %}
-    
     {% for preload in static.getPreload() %}
         <link rel="modulepreload" href="{{ preload }}" nonce="{{ csp_nonce() }}">
     {% endfor %}
-    
     {% for entry in static.getEntries('css') %}
         <link href="{{ entry }}" type="text/css" rel="stylesheet" nonce="{{ csp_nonce() }}">
     {% endfor %}
-    
     {% for entry in static.getEntries('js') %}
         <script type="module" src="{{ entry }}" nonce="{{ csp_nonce() }}"></script>
     {% endfor %}
