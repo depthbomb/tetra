@@ -6,12 +6,16 @@ use App\Repository\ShortlinkRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/api/admin')]
 #[CsrfProtected('ajax')]
 class AdminController extends BaseController
 {
-    public function __construct(private readonly ShortlinkRepository $shortlinks) {}
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly ShortlinkRepository $shortlinks
+    ) {}
 
     #[Route('/all-shortlinks', methods: ['POST'])]
     public function getAllShortlinks(): Response
@@ -36,7 +40,7 @@ class AdminController extends BaseController
 
         $payload = $request->getPayload();
 
-        $this->abortUnless($payload->has('shortcode'), 400, 'Please provide a shortcode');
+        $this->abortUnless($payload->has('shortcode'), 400, $this->translator->trans('error.shortlink.shortcode.missing'));
 
         $shortcode = $payload->get('shortcode');
         /** @var Shortlink $shortlink */

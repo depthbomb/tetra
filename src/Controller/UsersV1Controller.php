@@ -6,14 +6,16 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[RateLimited('public_api')]
 #[Route('/api/v1/users')]
 class UsersV1Controller extends BaseController
 {
     public function __construct(
-        private readonly FormatService  $format,
-        private readonly UserRepository $users,
+        private readonly TranslatorInterface $translator,
+        private readonly FormatService       $format,
+        private readonly UserRepository      $users,
     ) {}
 
     #[Route('/api-key-status', name: 'users_api_key_status_v1', methods: ['GET'])]
@@ -21,13 +23,13 @@ class UsersV1Controller extends BaseController
     {
         $query = $request->query;
 
-        $this->abortUnless($query->has('api_key'), 400, 'Missing api_key');
+        $this->abortUnless($query->has('api_key'), 400, $this->translator->trans('error.api_key.missing'));
 
         $api_key = $query->get('api_key');
 
         $user = $this->users->findOneByApiKey($api_key);
 
-        $this->abortUnless(!!$user, 400, 'Invalid api_key');
+        $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
 
         $regeneration_available = $user->canApiKeyBeRegenerated();
         $next_api_key_available = $user->getNextApiKeyAvailable();
@@ -40,13 +42,13 @@ class UsersV1Controller extends BaseController
     {
         $payload = $request->getPayload();
 
-        $this->abortUnless($payload->has('api_key'), 400, 'Missing api_key');
+        $this->abortUnless($payload->has('api_key'), 400, $this->translator->trans('error.api_key.missing'));
 
         $api_key = $payload->get('api_key');
         $user    = $this->users->findOneByApiKey($api_key);
 
-        $this->abortUnless(!!$user, 400, 'Invalid api_key');
-        $this->abortUnless($user->canApiKeyBeRegenerated(), 403, 'A new API key cannot be regenerated at this time. Please try again later.');
+        $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
+        $this->abortUnless($user->canApiKeyBeRegenerated(), 403, $this->translator->trans('error.api_key.on_cooldown'));
 
         $user->regenerateApiKey();
         $this->users->save($user, true);

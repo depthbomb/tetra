@@ -25,9 +25,10 @@
         "symfony/rate-limiter": "6.3.*",
         "symfony/runtime": "6.3.*",
         "symfony/security-bundle": "6.3.*",
-        "symfony/twig-bundle": "6.3.*",
         "symfony/security-csrf": "6.3.*",
         "symfony/serializer": "6.3.*",
+        "symfony/translation": "6.3.*",
+        "symfony/twig-bundle": "6.3.*",
         "symfony/uid": "6.3.*",
         "symfony/yaml": "6.3.*",
         "zenstruck/schedule-bundle": "^1.6"

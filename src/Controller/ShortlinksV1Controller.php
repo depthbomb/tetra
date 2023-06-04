@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[RateLimited('public_api')]
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class ShortlinksV1Controller extends BaseController
 {
     public function __construct(
+        private readonly TranslatorInterface    $translator,
         private readonly ShortlinkRepository    $shortlinks,
         private readonly EntityManagerInterface $manager,
         private readonly FormatService          $format,
@@ -46,11 +48,11 @@ class ShortlinksV1Controller extends BaseController
         $query   = $request->query;
         $api_key = $query->get('api_key');
 
-        $this->abortUnless($api_key, 400, 'Missing api_key');
+        $this->abortUnless($api_key, 400, $this->translator->trans('error.api_key.missing'));
 
         $user = $this->users->findOneByApiKey($api_key);
 
-        $this->abortUnless(!!$user, 400, 'Invalid api_key');
+        $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
 
         $shortlinks = $this->shortlinks->createQueryBuilder('s')
             ->select('s.shortcode, s.shortlink, s.destination, s.secret, s.expires_at, s.created_at')
@@ -74,7 +76,7 @@ class ShortlinksV1Controller extends BaseController
         // Validate `destination`
 
         $destination = $payload->get('destination');
-        $this->abortIf(!$destination, 400, 'A destination is required');
+        $this->abortIf(!$destination, 400, $this->translator->trans('error.shortlinks.destination.missing'));
 
         // Process `duration` into an `expires_at` date
 
@@ -93,8 +95,8 @@ class ShortlinksV1Controller extends BaseController
         if ($payload->get('shortcode'))
         {
             $shortcode = $payload->get('shortcode');
-            $this->abortIf(preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1, 400, 'Custom shortcode must be between 3 and 255 characters, and can only contain A-Z, 0-9, - and _ characters');
-            $this->abortIf($this->shortlinks->findOneByShortcode($shortcode) !== null, 400, 'Shortcode is taken');
+            $this->abortIf(preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1, 400, $this->translator->trans('error.shortlinks.shortcode.invalid'));
+            $this->abortIf($this->shortlinks->findOneByShortcode($shortcode) !== null, 400, $this->translator->trans('error.shortlinks.shortcode.unavailable'));
         }
         else
         {
@@ -108,7 +110,7 @@ class ShortlinksV1Controller extends BaseController
         if ($api_key)
         {
             $user = $this->users->findOneByApiKey($api_key);
-            $this->abortUnless(!!$user, 400, 'Invalid api_key');
+            $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
         }
 
         // Create the shortlink object
@@ -157,7 +159,7 @@ class ShortlinksV1Controller extends BaseController
     {
         $payload = $request->getPayload();
 
-        $this->abortUnless($payload->has('duration'), 400, 'A duration is required');
+        $this->abortUnless($payload->has('duration'), 400, $this->translator->trans('error.shortlinks.duration.missing'));
 
         $duration   = $payload->get('duration');
         $expires_at = $this->getExpiresAtFromDuration($duration);
@@ -212,13 +214,13 @@ class ShortlinksV1Controller extends BaseController
         $duration   = str_replace(['+', '-'], ['', ''], $duration);
         $expires_at = date_create_immutable($duration);
 
-        $this->abortUnless($expires_at !== false, 400, 'Invalid duration format');
+        $this->abortUnless($expires_at !== false, 400, $this->translator->trans('error.shortlinks.duration.invalid'));
 
         // Check if the requested expires_at is in the past
-        $this->abortIf($expires_at <= $now, 400, 'The provided duration must result in a future date');
+        $this->abortIf($expires_at <= $now, 400, $this->translator->trans('error.shortlinks.duration.past_or_present'));
 
         // Check if the requested expires_at is at least 5 minutes into the future
-        $this->abortIf($expires_at->modify('-5 minutes') < $now, 400, 'The minimum duration is 5 minutes');
+        $this->abortIf($expires_at->modify('-5 minutes') < $now, 400, $this->translator->trans('error.shortlinks.duration.too_short'));
 
         return $expires_at;
     }
