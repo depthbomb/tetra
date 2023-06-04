@@ -26,7 +26,7 @@
 				<p>The Tetra API allows you to integrate functionality for creating and deleting shortlinks into your own applications.</p>
 				<p>All requests made to API endpoints that have a payload may either be <code>x-www-form-urlencoded</code> or <code>application/json</code>.</p>
 				<p>All endpoints that return typical content responses support the following formats (via the <code>format</code> query string): <strong>json</strong>, <strong>yaml</strong>, <strong>xml</strong>, <strong>csv</strong> and <strong>php</strong>.</p>
-				<p>Error responses returned by the API will include a <code>status</code> property representing the HTTP status code and a <code>message</code> property describing the problem. Additionally, all requests include a request ID stored in the <code>X-Request-Id</code> header that can be used to debug problems.</p>
+				<p>Error responses returned by the API will include a <code>status</code> property representing the HTTP status code, a <code>message</code> property describing the problem, and a <code>request_id</code> property that can be used to help debug issues.</p>
 			</TabPanel>
 			<TabPanel>
 				<p>All requests made to public API endpoints are subject to a single rate limit to help prevent abuse of the service. This rate limit is generous enough that you likely won't be limited by normal use.</p>
