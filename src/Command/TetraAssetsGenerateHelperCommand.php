@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
     name: 'tetra:assets:generate-helper',
     description: 'Generates the asset util class based off of the manifest.json created at asset build',
 )]
-class TetraAssetsGenerateServiceClassCommand extends Command
+class TetraAssetsGenerateHelperCommand extends Command
 {
     private readonly string $servicePath;
     private readonly string $rootPath;
@@ -93,11 +93,6 @@ class TetraAssetsGenerateServiceClassCommand extends Command
 
         $io->writeln('Generating util class...');
 
-        $preload_variable_name     = $this->generateName();
-        $assets_variable_name      = $this->generateName();
-        $js_entries_variable_name  = $this->generateName();
-        $css_entries_variable_name = $this->generateName();
-
         $now = date_create_immutable();
 
         $namespace = new PhpNamespace('App\\Util');
@@ -105,36 +100,32 @@ class TetraAssetsGenerateServiceClassCommand extends Command
 
         $class = $namespace->addClass('Assets');
         $class->setComment("This file was automatically generated on {$now->format('c')}. DO NOT modify directly.\n\nThis class allows for retrieving of versioned static assets generated from the frontend build process.\nSee App\\Twig\\AssetsExtension for Twig helper functions.")->setFinal();
-        $class->addConstant($preload_variable_name, $preload)->setPrivate();
-        $class->addConstant($assets_variable_name, $assets)->setPrivate();
-        $class->addConstant($js_entries_variable_name, $js_entries)->setPrivate();
-        $class->addConstant($css_entries_variable_name, $css_entries)->setPrivate();
         $class->addMethod('getGeneratedDate')
             ->setPublic()
             ->setStatic()
             ->setComment("Returns the date that this util class was generated\n\n@return DateTimeImmutable")
             ->setReturnType('DateTimeImmutable')
-            ->setBody("return date_create_immutable('{$now->format('c')}');")
+            ->setBody(sprintf('return date_create_immutable(\'%s\');', $now->format('c')))
             ->setFinal();
         $class->addMethod('getPreloadAssets')
             ->setPublic()
             ->setStatic()
             ->setComment("Returns an array of public asset paths that should be preloaded\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody("return self::$preload_variable_name;")
+            ->setBody(sprintf('return %s;', var_export($preload, true)))
             ->setFinal();
         $class->addMethod('getVersionedAssets')
             ->setPublic()
             ->setStatic()
             ->setComment("Returns an array of all public asset paths\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody("return self::$assets_variable_name;")
+            ->setBody(sprintf('return %s;', var_export($assets, true)))
             ->setFinal();
         $class->addMethod('getVersionedAsset')
             ->setPublic()
             ->setStatic()
             ->setComment("Returns the public asset path of a file by its original name\n\n@param string \$original_name\n\n@return string|null")
-            ->setBody("return self::$assets_variable_name".'[$original_name] ?? null;')
+            ->setBody('return self::getVersionedAssets()[$original_name] ?? \'\';')
             ->setFinal()
             ->setReturnType('?string')
             ->addParameter('original_name')->setType('string');
@@ -143,21 +134,21 @@ class TetraAssetsGenerateServiceClassCommand extends Command
             ->setStatic()
             ->setComment("Returns an array of public asset paths that are used as JavaScript entries\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody("return self::$js_entries_variable_name;")
+            ->setBody(sprintf('return %s;', var_export($js_entries, true)))
             ->setFinal();
         $class->addMethod('getCssEntries')
             ->setPublic()
             ->setStatic()
             ->setComment("Returns an array of public asset paths that are used as CSS entries\n\n@return string[]")
             ->setReturnType('array')
-            ->setBody("return self::$css_entries_variable_name;")
+            ->setBody(sprintf('return %s;', var_export($css_entries, true)))
             ->setFinal();
 
         $class = "<?php $namespace";
 
         file_put_contents($this->servicePath, $class);
 
-        if (((bool) $input->getOption('delete-manifest')) === true)
+        if (((bool)$input->getOption('delete-manifest')) === true)
         {
             $io->writeln('Deleting manifest.json...');
             unlink($manifest_path);
@@ -173,10 +164,5 @@ class TetraAssetsGenerateServiceClassCommand extends Command
         $ds         = DIRECTORY_SEPARATOR;
         $public_dir = join($ds, [$this->rootPath, 'public', 'assets']);
         return join($ds, [$public_dir, 'manifest.json']);
-    }
-
-    private function generateName(): string
-    {
-        return '_'.Ulid::generate();
     }
 }
