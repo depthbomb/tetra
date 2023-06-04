@@ -28,7 +28,7 @@ class TetraAssetsGenerateServiceClassCommand extends Command
 
     protected function configure(): void
     {
-        $this->addOption('delete-manifest', 'd', InputOption::VALUE_OPTIONAL, 'Whether to delete the manifest.json file after generating the service class', false);
+        $this->addOption('delete-manifest', 'd', InputOption::VALUE_NONE, 'Whether to delete the manifest.json file after generating the service class');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -157,7 +157,7 @@ class TetraAssetsGenerateServiceClassCommand extends Command
 
         file_put_contents($this->servicePath, $class);
 
-        if ($input->getOption('delete-manifest'))
+        if (((bool) $input->getOption('delete-manifest')) === true)
         {
             $io->writeln('Deleting manifest.json...');
             unlink($manifest_path);
