@@ -47,7 +47,7 @@ class WebController extends BaseController
     private function buildEarlyHints(): Response
     {
         $links = [];
-        foreach ([...$this->static->getEntries(), ...$this->static->getEntries('css')] as $asset)
+        foreach ([...$this->static->getJsEntries(), ...$this->static->getCssEntries()] as $asset)
         {
             $link = new Link(href: $asset);
             if (str_ends_with($asset, 'js'))

@@ -6,8 +6,6 @@ use Twig\Extension\AbstractExtension;
 
 class CspNonceExtension extends AbstractExtension
 {
-    public function __construct() {}
-
     public function getFunctions(): array
     {
         return [
