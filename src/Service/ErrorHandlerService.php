@@ -2,12 +2,17 @@
 
 use Throwable;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 readonly class ErrorHandlerService
 {
-    public function __construct(private FormatService $format, private RequestStack $request) {}
+    public function __construct(
+        private RequestStack    $request,
+        private FormatService   $format,
+        private KernelInterface $kernel,
+    ) {}
 
     public function createErrorResponseFromException(Throwable $exception): Response
     {
@@ -18,11 +23,17 @@ readonly class ErrorHandlerService
         }
 
         $request_id = $this->request->getMainRequest()->attributes->get('_request_id');
-
-        return $this->format->createFormattedResponse([
+        $data = [
             'request_id' => $request_id,
             'status'     => $code,
             'message'    => $exception->getMessage() !== '' ? $exception->getMessage() : Response::$statusTexts[$code],
-        ], $code);
+        ];
+
+        if ($this->kernel->getEnvironment() !== 'prod')
+        {
+            $data['trace'] = $data['message'].PHP_EOL.$exception->getTraceAsString();
+        }
+
+        return $this->format->createFormattedResponse($data, $code);
     }
 }
