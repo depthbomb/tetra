@@ -67,12 +67,23 @@ class ShortlinkRepository extends ServiceEntityRepository
 
     public function getUnusedShortcode(): string
     {
-        $length = 3;
+        $attempts = 0;
+        $length   = 3;
         do
         {
             $shortcode = IdGenerator::generate($length);
-            $length++;
-        } while ($this->findOneByShortcode($shortcode));
+            $found     = !!$this->findOneByShortcode($shortcode);
+
+            if ($attempts < 5)
+            {
+                $attempts++;
+            }
+            else
+            {
+                $length++;
+                $attempts = 0;
+            }
+        } while ($found);
 
         return $shortcode;
     }
