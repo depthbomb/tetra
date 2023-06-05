@@ -35,8 +35,8 @@ export default defineConfig(({ mode }) => {
 			{
 				name: 'generate service',
 				async closeBundle() {
-					const flags = mode === 'production' ? '-d -n' : '-n';
-					exec(`php ../bin/console tetra:assets:generate-helper ${flags}`, (err, stdout, stderr) => {
+					const flags = mode === 'production' ? '-d --namespace=App\\Util' : '--namespace=App\\Util';
+					exec(`php ../bin/urchin.phar generate ../src/Util ../public/assets ${flags}`, (err, stdout, stderr) => {
 						if (err) return console.error(err);
 						if (stderr) return console.error(stderr);
 
