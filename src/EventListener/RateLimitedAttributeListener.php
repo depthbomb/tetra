@@ -17,8 +17,9 @@ readonly class RateLimitedAttributeListener
     public function __construct(
         private RateLimiterFactory $authenticationLimiter,
         private RateLimiterFactory $internalApiLimiter,
+        private RateLimiterFactory $redirectionLimiter,
         private RateLimiterFactory $publicApiLimiter,
-        private ResponseHeaderBag  $headerBag
+        private ResponseHeaderBag  $headerBag,
     ) {}
 
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
@@ -70,6 +71,9 @@ readonly class RateLimitedAttributeListener
                 break;
             case 'internal_api':
                 $limiter = $this->internalApiLimiter;
+                break;
+            case 'redirection':
+                $limiter = $this->redirectionLimiter;
                 break;
             case 'authentication':
                 $limiter = $this->authenticationLimiter;
