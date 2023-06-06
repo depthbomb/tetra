@@ -1912,10 +1912,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gsap@npm:^3.11.5":
-  version: 3.11.5
-  resolution: "gsap@npm:3.11.5"
-  checksum: 0d62c9405ed9703f8c65e6190b648d9691fa84bd03bcde0d286cd29d80c5865c22aa57a128b33299c0c15d41473e83f13be1645700325f3821dd912a3022350d
+"gsap@npm:^3.12.0":
+  version: 3.12.0
+  resolution: "gsap@npm:3.12.0"
+  checksum: 487b6615b4d1eeb0bfb96c90aabb38a6ca11990fb7b5d8e777bd292fe618e6c5f77b5eafe3ff827c5ee715758eb45b1513a9eee4f9a5ea302e171eccb65aeea1
   languageName: node
   linkType: hard
 
@@ -3243,7 +3243,7 @@ __metadata:
     autoprefixer: ^10.4.14
     eslint: ^8.42.0
     eslint-plugin-vue: ^9.14.1
-    gsap: ^3.11.5
+    gsap: ^3.12.0
     pinia: ^2.1.3
     postcss: ^8.4.24
     postcss-import: ^15.1.0
