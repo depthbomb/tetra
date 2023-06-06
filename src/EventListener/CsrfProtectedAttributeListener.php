@@ -13,6 +13,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 #[AsEventListener(KernelEvents::CONTROLLER_ARGUMENTS, 'onKernelControllerArguments')]
 readonly class CsrfProtectedAttributeListener
 {
+    private const CSRF_TOKEN_FIELD  = '_csrf_token';
     private const CSRF_TOKEN_HEADER = 'X-Csrf-Token';
 
     public function __construct(private CsrfTokenManagerInterface $tokenManager) {}
@@ -38,6 +39,12 @@ readonly class CsrfProtectedAttributeListener
 
     private function getTokenFromRequest(Request $request): ?string
     {
+        $payload = $request->getPayload();
+        if ($payload->has($this::CSRF_TOKEN_FIELD))
+        {
+            return $payload->get($this::CSRF_TOKEN_FIELD);
+        }
+
         $headers = $request->headers;
         $token   = null;
 

@@ -22,7 +22,7 @@ class User implements UserInterface
     #[ORM\Column(length: 36, unique: true)]
     private ?string $username = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     #[ORM\Column(length: 255)]
