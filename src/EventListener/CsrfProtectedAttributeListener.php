@@ -39,10 +39,13 @@ readonly class CsrfProtectedAttributeListener
 
     private function getTokenFromRequest(Request $request): ?string
     {
-        $payload = $request->getPayload();
-        if ($payload->has($this::CSRF_TOKEN_FIELD))
+        if ($request->getContent() !== '')
         {
-            return $payload->get($this::CSRF_TOKEN_FIELD);
+            $payload = $request->getPayload();
+            if ($payload->has($this::CSRF_TOKEN_FIELD))
+            {
+                return $payload->get($this::CSRF_TOKEN_FIELD);
+            }
         }
 
         $headers = $request->headers;
