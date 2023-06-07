@@ -21,19 +21,30 @@ readonly class CsrfProtectedAttributeListener
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
     {
         $attributes = $event->getAttributes();
-        if (array_key_exists(CsrfProtected::class, $attributes))
-        {
-            /** @var CsrfProtected $token_attr */
-            $token_attr = $attributes[CsrfProtected::class][0];
-            $request    = $event->getRequest();
-            $token      = $this->getTokenFromRequest($request);
-            $token_id   = $token_attr->tokenId;
 
-            if (!$token or !$this->tokenManager->isTokenValid(new CsrfToken($token_id, $token)))
-            {
-                $code = Response::HTTP_PRECONDITION_FAILED;
-                throw new HttpException($code, Response::$statusTexts[$code]);
-            }
+        /** @var ?CsrfProtected $token_attr */
+        $token_attr = $attributes[CsrfProtected::class][0] ?? null;
+        if (!$token_attr)
+        {
+            return;
+        }
+
+        $request  = $event->getRequest();
+        $token    = $this->getTokenFromRequest($request);
+        $token_id = $token_attr->tokenId;
+
+        if (!$token)
+        {
+            $code = Response::HTTP_PRECONDITION_REQUIRED;
+        }
+        elseif (!$this->tokenManager->isTokenValid(new CsrfToken($token_id, $token)))
+        {
+            $code = Response::HTTP_PRECONDITION_FAILED;
+        }
+
+        if (isset($code))
+        {
+            throw new HttpException($code, Response::$statusTexts[$code]);
         }
     }
 
