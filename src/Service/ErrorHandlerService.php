@@ -57,7 +57,7 @@ readonly class ErrorHandlerService
 
         if ($this->isDebug())
         {
-            $data['trace'] = $data['message'].PHP_EOL.$exception->getTraceAsString();
+            $data['trace'] = $exception->getMessage().PHP_EOL.$exception->getTraceAsString();
         }
 
         return $this->format->createFormattedResponse($data, $code);
