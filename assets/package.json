@@ -13,9 +13,9 @@
 		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
 	},
 	"dependencies": {
-		"@fontsource/fira-code": "^5.0.2",
-		"@fontsource/inter": "^5.0.2",
-		"@fontsource/josefin-sans": "^5.0.2",
+		"@fontsource/fira-code": "^5.0.3",
+		"@fontsource/inter": "^5.0.3",
+		"@fontsource/josefin-sans": "^5.0.3",
 		"@headlessui/vue": "^1.7.14",
 		"@vueuse/components": "^10.1.2",
 		"@vueuse/core": "^10.1.2",
@@ -30,7 +30,7 @@
 		"@tailwindcss/forms": "^0.5.3",
 		"@tailwindcss/typography": "^0.5.9",
 		"@types/eslint": "^8.40.1",
-		"@types/node": "^20.2.5",
+		"@types/node": "^20.3.0",
 		"@vitejs/plugin-vue": "^4.2.3",
 		"@vue/eslint-config-typescript": "^11.0.3",
 		"@vue/tsconfig": "^0.4.0",
