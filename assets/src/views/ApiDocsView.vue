@@ -101,7 +101,7 @@
 						{
 							name: 'expires_at',
 							type: 'ISO-8601 date',
-							description: 'The date in which the shortlink expires',
+							description: 'The date that the shortlink expires',
 							nullable: true,
 						},
 					]"/>
