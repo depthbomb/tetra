@@ -113,7 +113,7 @@
 
 		<section class="LinkCreator-section">
 			<div class="LinkCreator-sectionTitle">
-				<h2>(Optional) Shortcode</h2>
+				<h2>Shortcode <span>(optional)</span></h2>
 				<p>3-255 characters, <code>a-z, 0-9, -, _</code> allowed</p>
 			</div>
 			<input :placeholder="`Ex: ${exampleShortcode}`" type="text" v-model.trim="shortcode">
@@ -121,7 +121,7 @@
 
 		<section class="LinkCreator-section">
 			<div class="LinkCreator-sectionTitle">
-				<h2>(Optional) Shortlink Duration</h2>
+				<h2>Shortlink Duration <span>(optional)</span></h2>
 				<p>See <router-link :to="{ name: 'faq' }">FAQ</router-link> for more info</p>
 			</div>
 			<input placeholder="Ex: 1 hour 30 minutes" type="text" v-model.trim="duration">
@@ -159,6 +159,10 @@
 
 				h2 {
 					@apply text-xl font-bold;
+
+					span {
+						@apply text-sm font-normal text-gray-400 align-super;
+					}
 				}
 
 				p {
