@@ -45,7 +45,6 @@ readonly class RateLimitedAttributeListener
             }
 
             $result = $limiter->consume($consume_amount);
-
             $this->headerBag
                 ->add('X-RateLimit-Limit', $result->getLimit())
                 ->add('X-RateLimit-Remaining', $result->getRemainingTokens())

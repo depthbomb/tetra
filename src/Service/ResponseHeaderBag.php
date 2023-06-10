@@ -3,12 +3,12 @@
 class ResponseHeaderBag
 {
     /**
-     * @var array<string, mixed>
+     * @var array<string, string>[]
      */
     private array $headers = [];
 
     /**
-     * @return array
+     * @return array<string, string>[]
      */
     public function getHeaders(): array
     {
@@ -17,15 +17,28 @@ class ResponseHeaderBag
 
     /**
      * @param string $key
-     * @param mixed  $value
+     * @param string $value
      *
      * @return $this
      */
-    public function add(string $key, mixed $value): self
+    public function add(string $key, string $value): self
     {
         $this->headers[$key] = $value;
 
         return $this;
+    }
+
+    public function get(string $key, string $default = null): ?string
+    {
+        foreach ($this->headers as $header)
+        {
+            if (isset($header[$key]))
+            {
+                return $header[$key];
+            }
+        }
+
+        return $default;
     }
 
     /**
