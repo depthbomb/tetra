@@ -12,8 +12,8 @@ readonly class ResponseHeadersListener
 
     public function onKernelResponse(ResponseEvent $event): void
     {
-        $headers = $event->getResponse()->headers;
-
-        $headers->add($this->headerBag->getHeaders());
+        $event->getResponse()->headers->add(
+            $this->headerBag->getHeaders()
+        );
     }
 }
