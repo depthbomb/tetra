@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 class FormatService
 {
     private const DEFAULT_FORMAT = 'json';
-    private const OUTPUT_FORMATS = ['json', 'yaml', 'yml', 'xml', 'csv', 'php'];
+    private const OUTPUT_FORMATS = ['json', 'js', 'yaml', 'yml', 'xml', 'csv', 'php'];
 
     private readonly Serializer $serializer;
 
@@ -26,7 +26,7 @@ class FormatService
         $format       = $this->determineFormat();
         $content_type = match ($format)
         {
-            'json'        => 'application/json',
+            'json', 'js'  => 'application/json',
             'xml'         => 'application/xml',
             'yml', 'yaml' => 'text/yaml',
             'csv', 'php'  => 'text/plain'
