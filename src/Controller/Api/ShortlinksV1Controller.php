@@ -1,4 +1,4 @@
-<?php namespace App\Controller;
+<?php namespace App\Controller\Api;
 
 use DateTimeImmutable;
 use App\Entity\Shortlink;
@@ -6,6 +6,7 @@ use App\Service\QrService;
 use App\Service\FormatService;
 use App\Attribute\RateLimited;
 use App\Repository\UserRepository;
+use App\Controller\BaseController;
 use App\Repository\ShortlinkRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
