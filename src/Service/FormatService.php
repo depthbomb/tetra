@@ -32,8 +32,6 @@ class FormatService
             'csv', 'php'  => 'text/plain'
         };
 
-        $headers['Content-Type'] = $content_type;
-
         $serialized_data = match ($format)
         {
             'php'         => serialize($data),
@@ -41,7 +39,10 @@ class FormatService
             default       => $this->serializer->serialize($data, $format),
         };
 
-        return new Response($serialized_data, $status_code, $headers);
+        return new Response($serialized_data, $status_code, [
+            ...$headers,
+            'Content-Type' =>$content_type
+        ]);
     }
 
     private function determineFormat(): string
