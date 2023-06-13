@@ -53,6 +53,11 @@ class FormatService
             $format = strtolower($queries->get('format'));
             if (in_array($format, $this::OUTPUT_FORMATS))
             {
+                if ($format === 'js')
+                {
+                    $format = self::DEFAULT_FORMAT;
+                }
+
                 return $format;
             }
         }
