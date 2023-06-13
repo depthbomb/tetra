@@ -74,12 +74,19 @@ class ShortlinksV1Controller extends BaseController
         $payload = $request->getPayload();
 
         // Validate `destination`
-
         $destination = $payload->get('destination');
         $this->abortIf(!$destination, 400, $this->translator->trans('error.shortlinks.destination.missing'));
 
-        // Process `duration` into an `expires_at` date
+        // Retrieve the creator from the provided API key
+        $api_key = $query->get('api_key');
+        $user    = null;
+        if ($api_key)
+        {
+            $user = $this->users->findOneByApiKey($api_key);
+            $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
+        }
 
+        // Process `duration` into an `expires_at` date
         $expires_at = null;
         if ($payload->has('duration'))
         {
@@ -91,7 +98,6 @@ class ShortlinksV1Controller extends BaseController
         }
 
         // Validate `shortcode`
-
         if ($payload->get('shortcode'))
         {
             $shortcode = $payload->get('shortcode');
@@ -100,22 +106,13 @@ class ShortlinksV1Controller extends BaseController
         }
         else
         {
+            // Fall back to generating a random unused shortcode
             $shortcode = $this->shortlinks->getUnusedShortcode();
         }
 
-        // Creator retrieval
-
-        $api_key = $query->get('api_key');
-        $user    = null;
-        if ($api_key)
-        {
-            $user = $this->users->findOneByApiKey($api_key);
-            $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
-        }
+        $shortlink = $this->generateUrl('shortlink_redirect', compact('shortcode'), UrlGeneratorInterface::ABSOLUTE_URL);
 
         // Create the shortlink object
-
-        $shortlink = $this->generateUrl('shortlink_redirect', compact('shortcode'), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $new_shortlink = new Shortlink;
         $new_shortlink->setCreatorIp($request->getClientIp());
