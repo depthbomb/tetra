@@ -39,22 +39,23 @@
     {% for entry in get_js_entries() %}
         <script src="{{ entry }}" type="module" nonce="{{ csp_nonce() }}"></script>
     {% endfor %}
-    
+
     <script type="text/javascript" nonce="{{ csp_nonce() }}">
         window.Config = {};
         {% for key, val in get_bridge() %}
-        window.Config.{{ key }} = "{{ val }}";
+            window.Config.{{ key }} = "{{ val }}";
         {% endfor %}
 
         window.Config.User = {};
         {% if get_user()|length > 0 %}
-        {% for key, val in get_user() %}
-        window.Config.User.{{ key }} = {{ val|json_encode|raw }}
-        {% endfor %}
+            {% for key, val in get_user() %}
+                window.Config.User.{{ key }} = {{ val|json_encode|raw }}
+            {% endfor %}
         {% endif %}
     </script>
 </head>
 <body class="not-nirvana-fishfood">
+    <noscript>This site requires JavaScript to be enabled.</noscript>
     {% block body %}{% endblock %}
 </body>
 </html>

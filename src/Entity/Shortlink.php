@@ -2,17 +2,20 @@
 
 use DateTimeImmutable;
 use App\Util\IdGenerator;
+use Symfony\Component\Uid\Ulid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ShortlinkRepository;
+use Symfony\Bridge\Doctrine\Types\UlidType;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ShortlinkRepository::class)]
 class Shortlink
 {
     #[ORM\Id]
-    #[ORM\Column]
-    #[ORM\GeneratedValue]
-    private ?int $id = null;
+    #[ORM\Column(type: UlidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.ulid_generator')]
+    private ?Ulid $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $creator_ip = null;
@@ -44,7 +47,7 @@ class Shortlink
     #[ORM\ManyToOne(inversedBy: 'shortlinks')]
     private ?User $creator = null;
 
-    public function getId(): ?int
+    public function getId(): ?Ulid
     {
         return $this->id;
     }

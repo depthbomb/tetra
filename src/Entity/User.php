@@ -3,9 +3,11 @@
 use DateTimeImmutable;
 use App\Util\Gravatar;
 use App\Util\IdGenerator;
+use Symfony\Component\Uid\Ulid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Types\UlidType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -15,9 +17,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     #[ORM\Id]
-    #[ORM\Column]
-    #[ORM\GeneratedValue]
-    private ?int $id = null;
+    #[ORM\Column(type: UlidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.ulid_generator')]
+    private ?Ulid $id = null;
 
     #[ORM\Column(length: 36, unique: true)]
     private ?string $username = null;
@@ -51,7 +54,7 @@ class User implements UserInterface
         $this->shortlinks = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?Ulid
     {
         return $this->id;
     }

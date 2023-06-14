@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use App\Controller\BaseController;
 use App\Repository\ShortlinkRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Types\UlidType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,7 +61,7 @@ class ShortlinksV1Controller extends BaseController
             ->select('s.shortcode, s.shortlink, s.destination, s.secret, s.expires_at, s.created_at')
             ->leftJoin('s.creator', 'c')
             ->where('c.id = :id')
-            ->setParameter('id', $user->getId())
+            ->setParameter('id', $user->getId(), UlidType::NAME)
             ->andWhere('s.disabled = false')
             ->orderBy('s.created_at', 'DESC')
             ->getQuery()
@@ -221,10 +222,10 @@ class ShortlinksV1Controller extends BaseController
 
         $this->abortUnless($expires_at !== false, 400, $this->translator->trans('error.shortlinks.duration.invalid'));
 
-        // Check if the requested expires_at is in the past
+        // Check if the duration is in the past
         $this->abortIf($expires_at <= $now, 400, $this->translator->trans('error.shortlinks.duration.past_or_present'));
 
-        // Check if the requested expires_at is at least 5 minutes into the future
+        // Check if the duration is at least 5 minutes into the future
         $this->abortIf($expires_at->modify('-5 minutes') < $now, 400, $this->translator->trans('error.shortlinks.duration.too_short'));
 
         return $expires_at;
