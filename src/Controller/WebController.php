@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class WebController extends BaseController
+class WebController extends Controller
 {
     #[Route('/', name: 'root')]
     public function index(): Response

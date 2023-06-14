@@ -7,7 +7,7 @@ use App\Service\QrService;
 use App\Service\FormatService;
 use App\Attribute\RateLimited;
 use App\Repository\UserRepository;
-use App\Controller\BaseController;
+use App\Controller\Controller;
 use App\Repository\ShortlinkRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Types\UlidType;
@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[RateLimited('public_api')]
 #[Route('/api/v1/shortlinks')]
-class ShortlinksV1Controller extends BaseController
+class ShortlinksV1Controller extends Controller
 {
     public function __construct(
         private readonly TranslatorInterface    $translator,

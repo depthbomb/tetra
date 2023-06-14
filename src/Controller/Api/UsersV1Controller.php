@@ -3,7 +3,7 @@
 use App\Attribute\RateLimited;
 use App\Service\FormatService;
 use App\Repository\UserRepository;
-use App\Controller\BaseController;
+use App\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +11,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[RateLimited('public_api')]
 #[Route('/api/v1/users')]
-class UsersV1Controller extends BaseController
+class UsersV1Controller extends Controller
 {
     public function __construct(
         private readonly TranslatorInterface $translator,

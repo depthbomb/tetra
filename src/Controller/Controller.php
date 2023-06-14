@@ -3,7 +3,7 @@
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class BaseController extends AbstractController
+class Controller extends AbstractController
 {
     public function abort(int $code, string $message = ''): void
     {

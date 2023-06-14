@@ -9,7 +9,7 @@ use Depthbomb\CsrfBundle\Attribute\CsrfProtected;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 
 #[Route('/oidc')]
-class OAuthController extends BaseController
+class OAuthController extends Controller
 {
     private const OAUTH_PROVIDER = 'superfish';
 

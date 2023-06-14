@@ -12,7 +12,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/api')]
 #[CsrfProtected('ajax')]
-class InternalController extends BaseController
+class InternalController extends Controller
 {
     public function __construct(
         private readonly TranslatorInterface $translator,
