@@ -720,9 +720,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/language-core@npm:1.7.11":
-  version: 1.7.11
-  resolution: "@vue/language-core@npm:1.7.11"
+"@vue/language-core@npm:1.7.12":
+  version: 1.7.12
+  resolution: "@vue/language-core@npm:1.7.12"
   dependencies:
     "@volar/language-core": 1.7.4
     "@volar/source-map": 1.7.4
@@ -737,7 +737,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: b1c2f30710f337acc3bf9b678321f9a49a011715d1e4e1bfb78a0db3ba2d967181fdda843e29c9471cfd9519e1d6daf21a1c29917cd5a953227515f853523d27
+  checksum: 493ecebbd492b52c8ae264387f8b0d48392900665b67662ee15eed99de8ad04cac4206814aeac95cd5998a3ea85c299d3783f4a1a4233e6509aa6d131b7cc441
   languageName: node
   linkType: hard
 
@@ -810,13 +810,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/typescript@npm:1.7.11":
-  version: 1.7.11
-  resolution: "@vue/typescript@npm:1.7.11"
+"@vue/typescript@npm:1.7.12":
+  version: 1.7.12
+  resolution: "@vue/typescript@npm:1.7.12"
   dependencies:
     "@volar/typescript": 1.7.4
-    "@vue/language-core": 1.7.11
-  checksum: 75c4f37a49187ae540fbb2bd01396afc8f352ee4b67c80ac0ef8d22481e44626cc0b3471631243b6018c9c02815dac6f92cd106cfd2aad0afe4996fe77a5d94b
+    "@vue/language-core": 1.7.12
+  checksum: 42be81c0a881d1273634b22b31bfd72b7a32ff4ae138722991429c12ecb2d6336e5971627265dbba89311dd658ee423a08e7dafcd4e8bee6276423d93d4b6b27
   languageName: node
   linkType: hard
 
@@ -2972,16 +2972,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.63.3":
-  version: 1.63.3
-  resolution: "sass@npm:1.63.3"
+"sass@npm:^1.63.4":
+  version: 1.63.4
+  resolution: "sass@npm:1.63.4"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 41d1d7e875be738a8b5ef92bc722b20fd88f9fc8db61caa17dec37e0a53739cf28dc3b79481b1998c410c82c30247f473c2559e64cec7c4d851e5cea0434ec4e
+  checksum: 12bde5beff85a7018157d90c8b9d5aec8b56832f89fcfeca146f10936eecf97e669d22fd41f812b3407ed259bbb114d69c9ecbfc7ee9b15308211fb910cdf5eb
   languageName: node
   linkType: hard
 
@@ -3248,14 +3248,14 @@ __metadata:
     pinia: ^2.1.3
     postcss: ^8.4.24
     postcss-import: ^15.1.0
-    sass: ^1.63.3
+    sass: ^1.63.4
     tailwindcss: ^3.3.2
     typescript: 5.1.3
     vite: ^4.3.9
     vue: ^3.3.4
     vue-eslint-parser: ^9.3.1
     vue-router: 4.2.2
-    vue-tsc: 1.7.11
+    vue-tsc: 1.7.12
   languageName: unknown
   linkType: soft
 
@@ -3507,19 +3507,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-tsc@npm:1.7.11":
-  version: 1.7.11
-  resolution: "vue-tsc@npm:1.7.11"
+"vue-tsc@npm:1.7.12":
+  version: 1.7.12
+  resolution: "vue-tsc@npm:1.7.12"
   dependencies:
-    "@vue/language-core": 1.7.11
-    "@vue/typescript": 1.7.11
+    "@vue/language-core": 1.7.12
+    "@vue/typescript": 1.7.12
     semver: ^7.3.8
     vscode-uri: ^3.0.7
   peerDependencies:
     typescript: "*"
   bin:
     vue-tsc: bin/vue-tsc.js
-  checksum: 9f5262f88cbc0709b3d3cf0b2f71864716285647c2e2dffdb2b6450f042df31e4e0cb95f497a8f79fb3dadf775eed4e13ee3b668893fc0e956d0863bfcb5ac44
+  checksum: 6c57954d37eca3bec5f3e174655a896ae831258b4e9d03c2dbc0a0c329702184e0cd48b75759f3ede4979b88b369d68773ffea15f942501150211ffd3b2653b9
   languageName: node
   linkType: hard
 
