@@ -1,14 +1,37 @@
 <?php namespace App\Util;
 
+/**
+ * Utility class for creating Gravatar URLs
+ */
 final class Gravatar
 {
-    private const BASE_URL = 'https://secure.gravatar.com/avatar/';
+    private const BASE_URL        = 'https:/gravatar.com/avatar/';
+    private const SECURE_BASE_URL = 'https://secure.gravatar.com/avatar/';
 
-    public static function create(string $email, int $size = 80, string $default = 'identicon', string $rating = 'pg'): string
+    /**
+     * Creates a Gravatar URL
+     *
+     * @param string $email
+     * @param int    $size
+     * @param string $default
+     * @param string $rating
+     * @param bool   $secure
+     *
+     * @return string
+     */
+    public static function create(string $email, int $size = 80, string $default = 'identicon', string $rating = 'pg', bool $secure = true): string
     {
-        $hash     = hash('sha256', strtolower(trim($email)));
+        $email    = strtolower(trim($email));
+        $hash     = md5($email);
         $gravatar = self::BASE_URL.$hash;
-        $options  = http_build_query([
+
+        if ($secure)
+        {
+            $hash     = hash('sha256', $email);
+            $gravatar = self::SECURE_BASE_URL.$hash;
+        }
+
+        $options = http_build_query([
             's' => $size,
             'd' => $default,
             'r' => $rating,
