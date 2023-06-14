@@ -1,6 +1,6 @@
 <?php namespace App\EventListener;
 
-use Symfony\Component\Uid\UuidV7;
+use Symfony\Component\Uid\Ulid;
 use App\Service\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -18,7 +18,7 @@ readonly class RequestIdListener
             return;
         }
 
-        $request_id = UuidV7::generate();
+        $request_id = Ulid::generate();
 
         // Add the request ID to the parameter bag, so it can be retrieved elsewhere such as in the BridgeService
         $event->getRequest()->attributes->set('_request_id', $request_id);
