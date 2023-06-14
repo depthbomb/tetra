@@ -29,7 +29,7 @@ class FormatService
             'json', 'js'  => 'application/json',
             'xml'         => 'application/xml',
             'yml', 'yaml' => 'text/yaml',
-            'csv', 'php'  => 'text/plain'
+            'csv', 'php'  => 'text/plain',
         };
 
         $serialized_data = match ($format)
@@ -41,7 +41,7 @@ class FormatService
 
         return new Response($serialized_data, $status_code, [
             ...$headers,
-            'Content-Type' =>$content_type
+            'Content-Type' => $content_type,
         ]);
     }
 

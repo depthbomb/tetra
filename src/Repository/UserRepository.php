@@ -50,7 +50,7 @@ class UserRepository extends ServiceEntityRepository
      * @param string $username
      * @param string $email
      * @param string $sub
-     * @param array  $roles
+     * @param array $roles
      *
      * @return User
      */

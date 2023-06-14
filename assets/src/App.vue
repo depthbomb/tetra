@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	import { RouterView } from 'vue-router';
-	import AppToasts from './components/AppToasts.vue';
+	import AppToasts from '~/components/AppToasts.vue';
 	import AppHeader from '~/components/AppHeader.vue';
 	import AppFooter from '~/components/AppFooter.vue';
 </script>
