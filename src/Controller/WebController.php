@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class WebController extends BaseController
 {
     #[Route('/', name: 'root')]
-    public function serveSpa(): Response
+    public function index(): Response
     {
-        return $this->render('root/root.html.twig');
+        return $this->render('web/index.html.twig');
     }
 
     #[Route('/{shortcode}+', name: 'shortlink_expand', stateless: true)]
