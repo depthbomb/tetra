@@ -1,6 +1,7 @@
 <?php namespace App\Controller\Api;
 
 use DateTimeImmutable;
+use App\Util\Killswitch;
 use App\Entity\Shortlink;
 use App\Service\QrService;
 use App\Service\FormatService;
@@ -71,6 +72,12 @@ class ShortlinksV1Controller extends BaseController
     #[Route('', name: 'shortlink_create_v1', methods: ['PUT'])]
     public function createShortlink(Request $request): Response
     {
+        $this->abortUnless(
+            Killswitch::isEnabled(Killswitch::SHORTLINK_CREATION_ENABLED),
+            Response::HTTP_BAD_GATEWAY,
+            'Shortlink creation is temporarily disabled'
+        );
+
         $query   = $request->query;
         $payload = $request->getPayload();
 

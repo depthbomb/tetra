@@ -1,5 +1,6 @@
 <?php namespace App\Controller;
 
+use App\Util\Killswitch;
 use App\Attribute\RateLimited;
 use App\Repository\ShortlinkRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,12 @@ class WebController extends BaseController
     #[Route('/{shortcode}', name: 'shortlink_redirect', stateless: true)]
     public function attemptRedirection(ShortlinkRepository $shortlinks, string $shortcode): Response
     {
+        $this->abortUnless(
+            Killswitch::isEnabled(Killswitch::SHORTLINK_REDIRECTION_ENABLED),
+            Response::HTTP_BAD_GATEWAY,
+            'Shortlink redirection is temporarily disabled'
+        );
+
         $shortlink = $shortlinks->createQueryBuilder('s')
             ->where('s.shortcode = :shortcode')
             ->andWhere('s.disabled = false')

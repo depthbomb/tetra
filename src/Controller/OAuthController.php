@@ -1,5 +1,6 @@
 <?php namespace App\Controller;
 
+use App\Util\Killswitch;
 use App\Attribute\RateLimited;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,12 @@ class OAuthController extends BaseController
     #[Route('/start', name: 'oidc_start')]
     public function startFlow(ClientRegistry $registry): Response
     {
+        $this->abortUnless(
+            Killswitch::isEnabled(Killswitch::USER_LOGIN_ENABLED),
+            Response::HTTP_BAD_GATEWAY,
+            'User authentication is temporarily disabled'
+        );
+
         return $registry->getClient($this::OAUTH_PROVIDER)->redirect();
     }
 
