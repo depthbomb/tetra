@@ -23,7 +23,7 @@
 		</router-link>
 		<div class="Header-links">
 			<router-link :to="{ name: 'home' }">Home</router-link>
-			<router-link v-if="user.isLoggedIn" :to="{ name: 'user-shortlinks' }">Your Shortlinks</router-link>
+			<router-link v-if="user.isLoggedIn" :to="{ name: 'user-shortlinks' }">My Shortlinks</router-link>
 			<router-link v-if="user.isLoggedIn" :to="{ name: 'api-key' }">API Key</router-link>
 			<router-link :to="{ name: 'api-docs' }">API Docs</router-link>
 			<router-link :to="{ name: 'faq' }">FAQ</router-link>
