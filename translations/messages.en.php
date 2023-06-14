@@ -3,9 +3,9 @@
 return [
     'error' => [
         'api_key'   => [
-            'missing' => 'Missing API key',
-            'invalid' => 'Invalid API key',
-            'on_cooldown' => 'A new API key cannot be regenerated at this time. Please try again later.'
+            'missing'     => 'Missing API key',
+            'invalid'     => 'Invalid API key',
+            'on_cooldown' => 'A new API key cannot be regenerated at this time. Please try again later.',
         ],
         'shortlink' => [
             'destination' => [

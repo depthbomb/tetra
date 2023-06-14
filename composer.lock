@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0688ef4a77db7a04e03f5707fe8f8a75",
+    "content-hash": "00259dcdda44fe47dbbc7132730e7185",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -109,6 +109,53 @@
                 "source": "https://github.com/DASPRiD/Enum/tree/1.0.4"
             },
             "time": "2023-03-01T18:44:03+00:00"
+        },
+        {
+            "name": "depthbomb/csrf-bundle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/depthbomb/CsrfBundle.git",
+                "reference": "b5e7e81ff6991ec3df62cc03823646e7136ece94"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/depthbomb/CsrfBundle/zipball/b5e7e81ff6991ec3df62cc03823646e7136ece94",
+                "reference": "b5e7e81ff6991ec3df62cc03823646e7136ece94",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "symfony/config": "6.3.*",
+                "symfony/dependency-injection": "6.3.*",
+                "symfony/event-dispatcher": "6.3.*",
+                "symfony/http-foundation": "6.3.*",
+                "symfony/http-kernel": "6.3.*",
+                "symfony/security-csrf": "6.3.*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Depthbomb\\CsrfBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "depthbomb"
+                }
+            ],
+            "description": "Simple CSRF protection for Symfony routes",
+            "support": {
+                "issues": "https://github.com/depthbomb/CsrfBundle/issues",
+                "source": "https://github.com/depthbomb/CsrfBundle/tree/1.0.0"
+            },
+            "time": "2023-06-14T02:41:38+00:00"
         },
         {
             "name": "doctrine/cache",

@@ -1,13 +1,13 @@
 <?php namespace App\Controller;
 
 use App\Entity\Shortlink;
-use App\Attribute\CsrfProtected;
 use App\Repository\ShortlinkRepository;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Depthbomb\CsrfBundle\Attribute\CsrfProtected;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/api')]

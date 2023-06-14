@@ -1,10 +1,10 @@
 <?php namespace App\Controller;
 
 use App\Attribute\RateLimited;
-use App\Attribute\CsrfProtected;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Depthbomb\CsrfBundle\Attribute\CsrfProtected;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 
 #[Route('/oidc')]

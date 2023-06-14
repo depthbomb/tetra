@@ -1,4 +1,7 @@
 {
+    "depthbomb/csrf-bundle": {
+        "version": "1.0.0"
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.9",
         "recipe": {
