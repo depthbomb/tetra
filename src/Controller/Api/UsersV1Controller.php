@@ -26,7 +26,7 @@ class UsersV1Controller extends BaseController
 
         $this->abortUnless($query->has('api_key'), 400, $this->translator->trans('error.api_key.missing'));
 
-        $api_key = $query->get('api_key');
+        $api_key = $query->getString('api_key');
 
         $user = $this->users->findOneByApiKey($api_key);
 
@@ -45,7 +45,7 @@ class UsersV1Controller extends BaseController
 
         $this->abortUnless($payload->has('api_key'), 400, $this->translator->trans('error.api_key.missing'));
 
-        $api_key = $payload->get('api_key');
+        $api_key = $payload->getString('api_key');
         $user    = $this->users->findOneByApiKey($api_key);
 
         $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));

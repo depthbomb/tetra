@@ -36,7 +36,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
      */
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'oidc_callback';
+        return $request->attributes->getString('_route') === 'oidc_callback';
     }
 
     /**

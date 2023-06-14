@@ -8,7 +8,7 @@ class CspNonce
     {
         if (is_null(self::$nonce))
         {
-            self::$nonce = base64_encode(random_bytes(16));
+            self::$nonce = base64_encode(random_bytes(24));
         }
 
         return self::$nonce;

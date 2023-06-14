@@ -48,7 +48,7 @@ readonly class ErrorHandlerService
             }
         }
 
-        $request_id = $this->request->getMainRequest()->attributes->get('_request_id');
+        $request_id = $this->request->getMainRequest()->attributes->getString('_request_id');
         $data       = [
             'request_id' => $request_id,
             'status'     => $code,

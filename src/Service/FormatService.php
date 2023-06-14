@@ -51,7 +51,7 @@ class FormatService
         $queries = $request->query;
         if ($queries->has('format'))
         {
-            $format = strtolower($queries->get('format'));
+            $format = strtolower($queries->getString('format'));
             if (in_array($format, $this::OUTPUT_FORMATS))
             {
                 if ($format === 'js')

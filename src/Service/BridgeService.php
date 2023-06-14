@@ -19,7 +19,7 @@ readonly class BridgeService
         return [
             'route'     => $request->get('_route'),
             'remoteIp'  => $request->getClientIp(),
-            'requestId' => $request->attributes->get('_request_id'),
+            'requestId' => $request->attributes->getString('_request_id'),
             'authToken' => $this->tokenManager->getToken('auth')->getValue(),
             'ajaxToken' => $this->tokenManager->getToken('ajax')->getValue(),
         ];

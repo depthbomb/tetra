@@ -48,7 +48,7 @@ class ShortlinksV1Controller extends BaseController
     public function getUserShortlinks(Request $request): Response
     {
         $query   = $request->query;
-        $api_key = $query->get('api_key');
+        $api_key = $query->getString('api_key');
 
         $this->abortUnless($api_key, 400, $this->translator->trans('error.api_key.missing'));
 
@@ -82,11 +82,11 @@ class ShortlinksV1Controller extends BaseController
         $payload = $request->getPayload();
 
         // Validate `destination`
-        $destination = $payload->get('destination');
+        $destination = $payload->getString('destination');
         $this->abortIf(!$destination, 400, $this->translator->trans('error.shortlinks.destination.missing'));
 
         // Retrieve the creator from the provided API key
-        $api_key = $query->get('api_key');
+        $api_key = $query->getString('api_key');
         $user    = null;
         if ($api_key)
         {
@@ -98,7 +98,7 @@ class ShortlinksV1Controller extends BaseController
         $expires_at = null;
         if ($payload->has('duration'))
         {
-            $duration = $payload->get('duration');
+            $duration = $payload->getString('duration');
             if (!empty($duration))
             {
                 $expires_at = $this->getExpiresAtFromDuration($duration);
@@ -106,9 +106,9 @@ class ShortlinksV1Controller extends BaseController
         }
 
         // Validate `shortcode`
-        if ($payload->get('shortcode'))
+        if ($payload->has('shortcode'))
         {
-            $shortcode = $payload->get('shortcode');
+            $shortcode = $payload->getString('shortcode');
             $this->abortIf(preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1, 400, $this->translator->trans('error.shortlinks.shortcode.invalid'));
             $this->abortIf($this->shortlinks->findOneByShortcode($shortcode) !== null, 400, $this->translator->trans('error.shortlinks.shortcode.unavailable'));
         }
@@ -166,7 +166,7 @@ class ShortlinksV1Controller extends BaseController
 
         $this->abortUnless($payload->has('duration'), 400, $this->translator->trans('error.shortlinks.duration.missing'));
 
-        $duration   = $payload->get('duration');
+        $duration   = $payload->getString('duration');
         $expires_at = $this->getExpiresAtFromDuration($duration);
         /** @var ?Shortlink $shortlink */
         $shortlink = $this->shortlinks->createQueryBuilder('s')

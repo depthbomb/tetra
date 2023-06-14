@@ -57,7 +57,7 @@ class InternalController extends BaseController
 
         $this->abortUnless($payload->has('shortcode'), 400, $this->translator->trans('error.shortlink.shortcode.missing'));
 
-        $shortcode = $payload->get('shortcode');
+        $shortcode = $payload->getString('shortcode');
         /** @var Shortlink $shortlink */
         $shortlink = $this->shortlinks->createQueryBuilder('s')
             ->where('s.shortcode = :shortcode')
