@@ -12,6 +12,11 @@ readonly class ErrorHandlerListener
 
     public function onKernelException(ExceptionEvent $event): void
     {
+        if (!$event->isMainRequest())
+        {
+            return;
+        }
+
         $exception = $event->getThrowable();
         $res       = $this->errorHandler->createErrorResponseFromException($exception);
 

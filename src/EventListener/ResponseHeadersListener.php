@@ -12,6 +12,11 @@ readonly class ResponseHeadersListener
 
     public function onKernelResponse(ResponseEvent $event): void
     {
+        if (!$event->isMainRequest())
+        {
+            return;
+        }
+
         $event->getResponse()->headers->add(
             $this->headerBag->getHeaders()
         );
