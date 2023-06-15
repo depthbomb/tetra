@@ -1,5 +1,7 @@
 <?php namespace App\Controller;
 
+use App\Util\Killswitch;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -21,6 +23,15 @@ class Controller extends AbstractController
     public function abortUnless(bool $predicate, int $code, string $message = ''): void
     {
         $this->abortIf(!$predicate, $code, $message);
+    }
+
+    public function abortIfFeatureDisabled(bool $feature, string $message = 'This feature is temporarily disabled. Please try again later.'): void
+    {
+        $this->abortUnless(
+            Killswitch::isEnabled($feature),
+            Response::HTTP_BAD_GATEWAY,
+            $message
+        );
     }
 
     /**

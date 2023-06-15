@@ -4,10 +4,10 @@ use DateTimeImmutable;
 use App\Util\Killswitch;
 use App\Entity\Shortlink;
 use App\Service\QrService;
+use App\Controller\Controller;
 use App\Service\FormatService;
 use App\Attribute\RateLimited;
 use App\Repository\UserRepository;
-use App\Controller\Controller;
 use App\Repository\ShortlinkRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Types\UlidType;
@@ -73,11 +73,7 @@ class ShortlinksV1Controller extends Controller
     #[Route('', name: 'shortlink_create_v1', methods: ['PUT'])]
     public function createShortlink(Request $request): Response
     {
-        $this->abortUnless(
-            Killswitch::isEnabled(Killswitch::SHORTLINK_CREATION_ENABLED),
-            Response::HTTP_BAD_GATEWAY,
-            'Shortlink creation is temporarily disabled'
-        );
+        $this->abortIfFeatureDisabled(Killswitch::SHORTLINK_CREATION_ENABLED, 'Shortlink creation is temporarily disabled.');
 
         $query   = $request->query;
         $payload = $request->getPayload();
@@ -97,19 +93,14 @@ class ShortlinksV1Controller extends Controller
 
         // Process `duration` into an `expires_at` date
         $expires_at = null;
-        if ($payload->has('duration'))
+        if ($duration = $payload->getString('duration'))
         {
-            $duration = $payload->getString('duration');
-            if (!empty($duration))
-            {
-                $expires_at = $this->getExpiresAtFromDuration($duration);
-            }
+            $expires_at = $this->getExpiresAtFromDuration($duration);
         }
 
         // Validate `shortcode`
-        if ($payload->has('shortcode'))
+        if ($shortcode = $payload->getString('shortcode'))
         {
-            $shortcode = $payload->getString('shortcode');
             $this->abortIf(preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1, 400, $this->translator->trans('error.shortlinks.shortcode.invalid'));
             $this->abortIf($this->shortlinks->findOneByShortcode($shortcode) !== null, 400, $this->translator->trans('error.shortlinks.shortcode.unavailable'));
         }

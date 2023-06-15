@@ -14,7 +14,7 @@ class SuperfishResourceOwner implements ResourceOwnerInterface
      */
     public function getId(): string
     {
-        return $this->getValueByKey($this->response, 'sub');
+        return $this->getSub();
     }
 
     public function getUsername(): string
@@ -37,7 +37,12 @@ class SuperfishResourceOwner implements ResourceOwnerInterface
 
     public function getSub(): string
     {
-        return $this->getId();
+        return $this->getValueByKey($this->response, 'sub');
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array('tetra_admin', $this->getGroups());
     }
 
     /**

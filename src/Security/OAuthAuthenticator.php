@@ -51,7 +51,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
             new UserBadge($token->getToken(), function () use ($token, $client) {
                 /** @var SuperfishResourceOwner $superfish_user */
                 $superfish_user = $client->fetchUserFromToken($token);
-                $roles          = [in_array('tetra_admin', $superfish_user->getGroups()) ? 'ROLE_ADMIN' : 'ROLE_USER'];
+                $roles          = [$superfish_user->isAdmin() ? 'ROLE_ADMIN' : 'ROLE_USER'];
                 $user           = $this->users->findOneBy(['sub' => $superfish_user->getId()]);
 
                 if ($user)

@@ -11,19 +11,13 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 #[Route('/oidc')]
 class OAuthController extends Controller
 {
-    private const OAUTH_PROVIDER = 'superfish';
-
     #[RateLimited('authentication')]
     #[Route('/start', name: 'oidc_start')]
     public function startFlow(ClientRegistry $registry): Response
     {
-        $this->abortUnless(
-            Killswitch::isEnabled(Killswitch::USER_LOGIN_ENABLED),
-            Response::HTTP_BAD_GATEWAY,
-            'User authentication is temporarily disabled'
-        );
+        $this->abortIfFeatureDisabled(Killswitch::USER_LOGIN_ENABLED, 'User authentication is temporarily disabled');
 
-        return $registry->getClient($this::OAUTH_PROVIDER)->redirect();
+        return $registry->getClient('superfish')->redirect();
     }
 
     #[Route('/callback', name: 'oidc_callback')]
