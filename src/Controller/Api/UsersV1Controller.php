@@ -24,7 +24,7 @@ class UsersV1Controller extends Controller
     {
         $query = $request->query;
 
-        $this->abortUnless($query->has('api_key'), 400, $this->translator->trans('error.api_key.missing'));
+        $this->abortUnless($query->has('api_key'), Response::HTTP_BAD_GATEWAY, $this->translator->trans('error.api_key.missing'));
 
         $api_key = $query->getString('api_key');
 
@@ -43,13 +43,13 @@ class UsersV1Controller extends Controller
     {
         $payload = $request->getPayload();
 
-        $this->abortUnless($payload->has('api_key'), 400, $this->translator->trans('error.api_key.missing'));
+        $this->abortUnless($payload->has('api_key'), Response::HTTP_BAD_GATEWAY, $this->translator->trans('error.api_key.missing'));
 
         $api_key = $payload->getString('api_key');
         $user    = $this->users->findOneByApiKey($api_key);
 
         $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
-        $this->abortUnless($user->canApiKeyBeRegenerated(), 403, $this->translator->trans('error.api_key.on_cooldown'));
+        $this->abortUnless($user->canApiKeyBeRegenerated(), Response::HTTP_FORBIDDEN, $this->translator->trans('error.api_key.on_cooldown'));
 
         $user->regenerateApiKey();
         $this->users->save($user, true);

@@ -15,7 +15,7 @@ class OAuthController extends Controller
     #[Route('/start', name: 'oidc_start')]
     public function startFlow(ClientRegistry $registry): Response
     {
-        $this->abortIfFeatureDisabled(Killswitch::USER_LOGIN_ENABLED, 'User authentication is temporarily disabled');
+        $this->requireFeature(Killswitch::USER_LOGIN_ENABLED, 'User authentication is temporarily disabled');
 
         return $registry->getClient('superfish')->redirect();
     }
@@ -37,6 +37,6 @@ class OAuthController extends Controller
             $security->logout(false);
         }
 
-        return new Response(null, 200);
+        return new Response(null, Response::HTTP_OK);
     }
 }

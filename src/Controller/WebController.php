@@ -25,7 +25,7 @@ class WebController extends Controller
     #[Route('/{shortcode}', name: 'shortlink_redirect', stateless: true)]
     public function attemptRedirection(ShortlinkRepository $shortlinks, string $shortcode): Response
     {
-        $this->abortIfFeatureDisabled(Killswitch::SHORTLINK_REDIRECTION_ENABLED, 'Shortlink redirection is temporarily disabled');
+        $this->requireFeature(Killswitch::SHORTLINK_REDIRECTION_ENABLED, 'Shortlink redirection is temporarily disabled');
 
         $shortlink = $shortlinks->createQueryBuilder('s')
             ->where('s.shortcode = :shortcode')

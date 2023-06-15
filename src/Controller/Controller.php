@@ -25,7 +25,7 @@ class Controller extends AbstractController
         $this->abortIf(!$predicate, $code, $message);
     }
 
-    public function abortIfFeatureDisabled(bool $feature, string $message = 'This feature is temporarily disabled. Please try again later.'): void
+    public function requireFeature(bool $feature, string $message = 'This feature is temporarily disabled. Please try again later.'): void
     {
         $this->abortUnless(
             Killswitch::isEnabled($feature),

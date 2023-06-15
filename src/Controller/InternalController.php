@@ -55,7 +55,11 @@ class InternalController extends Controller
 
         $payload = $request->getPayload();
 
-        $this->abortUnless($payload->has('shortcode'), 400, $this->translator->trans('error.shortlink.shortcode.missing'));
+        $this->abortUnless(
+            $payload->has('shortcode'),
+            Response::HTTP_BAD_REQUEST,
+            $this->translator->trans('error.shortlink.shortcode.missing')
+        );
 
         $shortcode = $payload->getString('shortcode');
         /** @var Shortlink $shortlink */
@@ -65,7 +69,7 @@ class InternalController extends Controller
             ->getQuery()
             ->getOneOrNullResult();
 
-        $this->abortUnless(!!$shortlink, 404);
+        $this->abortUnless(!!$shortlink, Response::HTTP_NOT_FOUND);
 
         $shortlink->toggleDisabled();
 

@@ -8,6 +8,6 @@ class HealthController extends Controller
     #[Route('/health', name: 'health', methods: ['GET'])]
     public function health(): Response
     {
-        return new Response(status: 204);
+        return new Response(status: Response::HTTP_NO_CONTENT);
     }
 }

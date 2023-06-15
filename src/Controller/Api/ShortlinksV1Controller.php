@@ -40,7 +40,7 @@ class ShortlinksV1Controller extends Controller
             ->getQuery()
             ->getOneOrNullResult();
 
-        $this->abortUnless(!!$shortlink, 404);
+        $this->abortUnless(!!$shortlink, Response::HTTP_NOT_FOUND);
 
         return $this->format->createFormattedResponse($shortlink);
     }
@@ -51,11 +51,11 @@ class ShortlinksV1Controller extends Controller
         $query   = $request->query;
         $api_key = $query->getString('api_key');
 
-        $this->abortUnless($api_key, 400, $this->translator->trans('error.api_key.missing'));
+        $this->abortUnless($api_key, Response::HTTP_BAD_REQUEST, $this->translator->trans('error.api_key.missing'));
 
         $user = $this->users->findOneByApiKey($api_key);
 
-        $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
+        $this->abortUnless(!!$user, Response::HTTP_BAD_REQUEST, $this->translator->trans('error.api_key.invalid'));
 
         $shortlinks = $this->shortlinks->createQueryBuilder('s')
             ->select('s.shortcode, s.shortlink, s.destination, s.secret, s.expires_at, s.created_at')
@@ -73,14 +73,14 @@ class ShortlinksV1Controller extends Controller
     #[Route('', name: 'shortlink_create_v1', methods: ['PUT'])]
     public function createShortlink(Request $request): Response
     {
-        $this->abortIfFeatureDisabled(Killswitch::SHORTLINK_CREATION_ENABLED, 'Shortlink creation is temporarily disabled.');
+        $this->requireFeature(Killswitch::SHORTLINK_CREATION_ENABLED, 'Shortlink creation is temporarily disabled.');
 
         $query   = $request->query;
         $payload = $request->getPayload();
 
         // Validate `destination`
         $destination = $payload->getString('destination');
-        $this->abortIf(!$destination, 400, $this->translator->trans('error.shortlinks.destination.missing'));
+        $this->abortIf(!$destination, Response::HTTP_BAD_REQUEST, $this->translator->trans('error.shortlinks.destination.missing'));
 
         // Retrieve the creator from the provided API key
         $api_key = $query->getString('api_key');
@@ -88,7 +88,7 @@ class ShortlinksV1Controller extends Controller
         if ($api_key)
         {
             $user = $this->users->findOneByApiKey($api_key);
-            $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
+            $this->abortUnless(!!$user, Response::HTTP_BAD_REQUEST, $this->translator->trans('error.api_key.invalid'));
         }
 
         // Process `duration` into an `expires_at` date
@@ -101,8 +101,17 @@ class ShortlinksV1Controller extends Controller
         // Validate `shortcode`
         if ($shortcode = $payload->getString('shortcode'))
         {
-            $this->abortIf(preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1, 400, $this->translator->trans('error.shortlinks.shortcode.invalid'));
-            $this->abortIf($this->shortlinks->findOneByShortcode($shortcode) !== null, 400, $this->translator->trans('error.shortlinks.shortcode.unavailable'));
+            $this->abortIf(
+                preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1,
+                Response::HTTP_BAD_REQUEST,
+                $this->translator->trans('error.shortlinks.shortcode.invalid')
+            );
+
+            $this->abortUnless(
+                $this->shortlinks->count(['shortcode' => $shortcode]) === 0,
+                Response::HTTP_BAD_REQUEST,
+                $this->translator->trans('error.shortlinks.shortcode.unavailable')
+            );
         }
         else
         {
@@ -140,7 +149,7 @@ class ShortlinksV1Controller extends Controller
             'destination' => $destination,
             'secret'      => $new_shortlink->getSecret(),
             'expires_at'  => $new_shortlink->getExpiresAt(),
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     #[Route('/{shortcode}/{secret}', name: 'shortlink_delete_v1', methods: ['DELETE'])]
@@ -156,7 +165,11 @@ class ShortlinksV1Controller extends Controller
     {
         $payload = $request->getPayload();
 
-        $this->abortUnless($payload->has('duration'), 400, $this->translator->trans('error.shortlinks.duration.missing'));
+        $this->abortUnless(
+            $payload->has('duration'),
+            Response::HTTP_BAD_REQUEST,
+            $this->translator->trans('error.shortlinks.duration.missing')
+        );
 
         $duration   = $payload->getString('duration');
         $expires_at = $this->getExpiresAtFromDuration($duration);
@@ -170,7 +183,7 @@ class ShortlinksV1Controller extends Controller
             ->getQuery()
             ->getOneOrNullResult();
 
-        $this->abortUnless(!!$shortlink, 404);
+        $this->abortUnless(!!$shortlink, Response::HTTP_NOT_FOUND);
 
         $shortlink->setExpiresAt($expires_at);
 
@@ -190,7 +203,7 @@ class ShortlinksV1Controller extends Controller
             ->getQuery()
             ->getSingleScalarResult();
 
-        $this->abortUnless(!!$shortlink, 404);
+        $this->abortUnless(!!$shortlink, Response::HTTP_NOT_FOUND);
 
         $svg = $qr->generateQrCode($shortlink);
 
@@ -211,13 +224,23 @@ class ShortlinksV1Controller extends Controller
         $duration   = str_replace(['+', '-'], ['', ''], $duration);
         $expires_at = date_create_immutable($duration);
 
-        $this->abortUnless($expires_at !== false, 400, $this->translator->trans('error.shortlinks.duration.invalid'));
+        $this->abortUnless(
+            $expires_at !== false,
+            Response::HTTP_BAD_REQUEST,
+            $this->translator->trans('error.shortlinks.duration.invalid')
+        );
 
         // Check if the duration is in the past
-        $this->abortIf($expires_at <= $now, 400, $this->translator->trans('error.shortlinks.duration.past_or_present'));
+        $this->abortIf($expires_at <= $now,
+            Response::HTTP_BAD_REQUEST,
+            $this->translator->trans('error.shortlinks.duration.past_or_present')
+        );
 
         // Check if the duration is at least 5 minutes into the future
-        $this->abortIf($expires_at->modify('-5 minutes') < $now, 400, $this->translator->trans('error.shortlinks.duration.too_short'));
+        $this->abortIf($expires_at->modify('-5 minutes') < $now,
+            Response::HTTP_BAD_REQUEST,
+            $this->translator->trans('error.shortlinks.duration.too_short')
+        );
 
         return $expires_at;
     }
