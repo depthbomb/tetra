@@ -80,7 +80,7 @@ class ShortlinksV1Controller extends Controller
 
         // Validate `destination`
         $destination = $payload->getString('destination');
-        $this->abortIf(!$destination, Response::HTTP_BAD_REQUEST, $this->translator->trans('error.shortlinks.destination.missing'));
+        $this->abortIf(!$destination, Response::HTTP_BAD_REQUEST, $this->translator->trans('error.shortlink.destination.missing'));
 
         // Retrieve the creator from the provided API key
         $api_key = $query->getString('api_key');
@@ -104,13 +104,13 @@ class ShortlinksV1Controller extends Controller
             $this->abortIf(
                 preg_match("/[a-zA-Z0-9_-]{3,255}/", $shortcode) !== 1,
                 Response::HTTP_BAD_REQUEST,
-                $this->translator->trans('error.shortlinks.shortcode.invalid')
+                $this->translator->trans('error.shortlink.shortcode.invalid')
             );
 
             $this->abortUnless(
                 $this->shortlinks->count(['shortcode' => $shortcode]) === 0,
                 Response::HTTP_BAD_REQUEST,
-                $this->translator->trans('error.shortlinks.shortcode.unavailable')
+                $this->translator->trans('error.shortlink.shortcode.unavailable')
             );
         }
         else
@@ -168,7 +168,7 @@ class ShortlinksV1Controller extends Controller
         $this->abortUnless(
             $payload->has('duration'),
             Response::HTTP_BAD_REQUEST,
-            $this->translator->trans('error.shortlinks.duration.missing')
+            $this->translator->trans('error.shortlink.duration.missing')
         );
 
         $duration   = $payload->getString('duration');
@@ -227,19 +227,19 @@ class ShortlinksV1Controller extends Controller
         $this->abortUnless(
             $expires_at !== false,
             Response::HTTP_BAD_REQUEST,
-            $this->translator->trans('error.shortlinks.duration.invalid')
+            $this->translator->trans('error.shortlink.duration.invalid')
         );
 
         // Check if the duration is in the past
         $this->abortIf($expires_at <= $now,
             Response::HTTP_BAD_REQUEST,
-            $this->translator->trans('error.shortlinks.duration.past_or_present')
+            $this->translator->trans('error.shortlink.duration.past_or_present')
         );
 
         // Check if the duration is at least 5 minutes into the future
         $this->abortIf($expires_at->modify('-5 minutes') < $now,
             Response::HTTP_BAD_REQUEST,
-            $this->translator->trans('error.shortlinks.duration.too_short')
+            $this->translator->trans('error.shortlink.duration.too_short')
         );
 
         return $expires_at;
