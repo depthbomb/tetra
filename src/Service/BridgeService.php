@@ -13,19 +13,19 @@ readonly class BridgeService
         private RequestStack              $request,
     ) {}
 
-    public function getConfig(): array
+    public function getConfig(): string
     {
         $request = $this->request->getCurrentRequest();
-        return [
+        return json_encode([
             'route'     => $request->get('_route'),
             'remoteIp'  => $request->getClientIp(),
             'requestId' => $request->attributes->getString('_request_id'),
             'authToken' => $this->tokenManager->getToken('auth')->getValue(),
             'ajaxToken' => $this->tokenManager->getToken('ajax')->getValue(),
-        ];
+        ]);
     }
 
-    public function getUserConfig(): array
+    public function getUserConfig(): string
     {
         $user = [];
         if ($this->security->isGranted('IS_AUTHENTICATED_REMEMBERED'))
@@ -40,6 +40,6 @@ readonly class BridgeService
             ];
         }
 
-        return $user;
+        return json_encode($user);
     }
 }

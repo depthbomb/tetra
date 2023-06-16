@@ -1,5 +1,13 @@
 export function useBridge() {
-	const { route, remoteIp, requestId, authToken, ajaxToken } = window.Config;
+	const attributeValue = document.body.dataset.config!;
+	const data           = JSON.parse(attributeValue);
+
+	const route: string     = data.route;
+	const remoteIp: string  = data.remoteIp;
+	const requestId: string = data.requestId;
+	const authToken: string = data.authToken;
+	const ajaxToken: string = data.ajaxToken;
+
 	return {
 		route,
 		remoteIp,

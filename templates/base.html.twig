@@ -27,22 +27,8 @@
     {% for preload in get_preload_assets() %}<link href="{{ preload }}" rel="modulepreload" nonce="{{ csp_nonce() }}">{% endfor %}
     {% for entry in get_css_entries() %}<link href="{{ entry }}" type="text/css" rel="stylesheet" nonce="{{ csp_nonce() }}">{% endfor %}
     {% for entry in get_js_entries() %}<script src="{{ entry }}" type="module" nonce="{{ csp_nonce() }}"></script>{% endfor %}
-
-    <script type="text/javascript" nonce="{{ csp_nonce() }}">
-        window.Config = {};
-        {% for key, val in get_bridge() %}
-            window.Config.{{ key }} = "{{ val }}";
-        {% endfor %}
-
-        window.Config.User = {};
-        {% if get_user()|length > 0 %}
-            {% for key, val in get_user() %}
-                window.Config.User.{{ key }} = {{ val|json_encode|raw }}
-            {% endfor %}
-        {% endif %}
-    </script>
 </head>
-<body class="not-nirvana-fishfood">
+<body class="not-nirvana-fishfood" data-config="{{ get_bridge() }}" data-user="{{ get_user() }}">
     <noscript>This site requires JavaScript to be enabled.</noscript>
     {% block body %}{% endblock %}
 </body>
