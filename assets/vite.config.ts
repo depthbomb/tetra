@@ -35,8 +35,8 @@ export default defineConfig(({ mode }) => {
 			{
 				name: 'generate helper',
 				async closeBundle() {
-					const flags = mode === 'production' ? '-d --namespace=App\\Util' : '--namespace=App\\Util';
-					exec(`php ../bin/urchin.phar generate-class ../src/Util ../public/assets ${flags}`, (err, stdout, stderr) => {
+					const options = mode === 'production' ? '-d --namespace=App\\Util' : '--namespace=App\\Util';
+					exec(`php ../bin/urchin.phar generate-class ../src/Util ../public/assets ${options}`, (err, stdout, stderr) => {
 						if (err) return console.error(err);
 						if (stderr) return console.error(stderr);
 

@@ -28,7 +28,7 @@ class Controller extends AbstractController
     public function requireFeature(bool $feature, string $message = 'This feature is temporarily disabled. Please try again later.'): void
     {
         $this->abortUnless(
-            Killswitch::isEnabled($feature),
+            $feature,
             Response::HTTP_BAD_GATEWAY,
             $message
         );
