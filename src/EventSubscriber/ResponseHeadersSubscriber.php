@@ -1,4 +1,4 @@
-<?php namespace App\EventListener;
+<?php namespace App\EventSubscriber;
 
 use App\Service\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse')]
-readonly class ResponseHeadersListener
+readonly class ResponseHeadersSubscriber
 {
     public function __construct(private ResponseHeaderBag $headerBag) {}
 

@@ -1,4 +1,4 @@
-<?php namespace App\EventListener;
+<?php namespace App\EventSubscriber;
 
 use Symfony\Component\Uid\Ulid;
 use App\Service\ResponseHeaderBag;
@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest', PHP_INT_MAX - 10)]
-readonly class RequestIdListener
+readonly class RequestIdSubscriber
 {
     public function __construct(private ResponseHeaderBag $headerBag) {}
 

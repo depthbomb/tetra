@@ -1,4 +1,4 @@
-<?php namespace App\EventListener;
+<?php namespace App\EventSubscriber;
 
 use App\Util\CspNonce;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse')]
-readonly class SecurityHeadersListener
+readonly class SecurityHeadersSubscriber
 {
     public function onKernelResponse(ResponseEvent $event): void
     {

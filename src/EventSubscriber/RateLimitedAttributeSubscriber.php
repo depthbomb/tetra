@@ -1,4 +1,4 @@
-<?php namespace App\EventListener;
+<?php namespace App\EventSubscriber;
 
 use App\Attribute\RateLimited;
 use App\Service\ResponseHeaderBag;
@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 
 #[AsEventListener(KernelEvents::CONTROLLER_ARGUMENTS, 'onKernelControllerArguments')]
-readonly class RateLimitedAttributeListener
+readonly class RateLimitedAttributeSubscriber
 {
     public function __construct(
         private RateLimiterFactory $authenticationLimiter,
