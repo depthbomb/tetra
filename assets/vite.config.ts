@@ -33,10 +33,10 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			vue({ script: { propsDestructure: true } }),
 			{
-				name: 'generate service',
+				name: 'generate helper',
 				async closeBundle() {
 					const flags = mode === 'production' ? '-d --namespace=App\\Util' : '--namespace=App\\Util';
-					exec(`php ../bin/urchin.phar generate ../src/Util ../public/assets ${flags}`, (err, stdout, stderr) => {
+					exec(`php ../bin/urchin.phar generate-class ../src/Util ../public/assets ${flags}`, (err, stdout, stderr) => {
 						if (err) return console.error(err);
 						if (stderr) return console.error(stderr);
 
