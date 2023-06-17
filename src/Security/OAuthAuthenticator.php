@@ -58,7 +58,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
                 {
                     // set user roles just in case they may have changed
                     $user->setRoles($roles);
-                    $this->users->save($user);
+                    $this->users->save($user, true);
 
                     return $user;
                 }
