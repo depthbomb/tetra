@@ -235,10 +235,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.42.0":
-  version: 8.42.0
-  resolution: "@eslint/js@npm:8.42.0"
-  checksum: 750558843ac458f7da666122083ee05306fc087ecc1e5b21e7e14e23885775af6c55bcc92283dff1862b7b0d8863ec676c0f18c7faf1219c722fe91a8ece56b6
+"@eslint/js@npm:8.43.0":
+  version: 8.43.0
+  resolution: "@eslint/js@npm:8.43.0"
+  checksum: 580487a09c82ac169744d36e4af77bc4f582c9a37749d1e9481eb93626c8f3991b2390c6e4e69e5642e3b6e870912b839229a0e23594fae348156ea5a8ed7e2e
   languageName: node
   linkType: hard
 
@@ -618,30 +618,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@volar/language-core@npm:1.7.5":
-  version: 1.7.5
-  resolution: "@volar/language-core@npm:1.7.5"
+"@volar/language-core@npm:1.7.6":
+  version: 1.7.6
+  resolution: "@volar/language-core@npm:1.7.6"
   dependencies:
-    "@volar/source-map": 1.7.5
-  checksum: 082a70a31001e85c01f2bc06e6e31862be1f795c70a5a48c0018dd818fcce313861017e2cd0d63e7d53e9c7a7502716c8733b9bdd71b4ed988a80cbe8ecbada6
+    "@volar/source-map": 1.7.6
+  checksum: e616784020e5ce5cbedde8f45bf8ff4cecce471738b233408d27cad9cb0593e0ea6e53fcd7773e4abc1c722485b97e1dcb41b9d18996750fd292e8dd2ad2729d
   languageName: node
   linkType: hard
 
-"@volar/source-map@npm:1.7.5":
-  version: 1.7.5
-  resolution: "@volar/source-map@npm:1.7.5"
+"@volar/source-map@npm:1.7.6":
+  version: 1.7.6
+  resolution: "@volar/source-map@npm:1.7.6"
   dependencies:
     muggle-string: ^0.3.1
-  checksum: 6361286f935af533c9cc4823582a7570b1edfe48317cec4591c7f711ae07b5923b602aea356dece7f519a2c338e7397665c08b8eb591035f2b3c9ee7de7d8e44
+  checksum: a2bc742bf0093b9addf5108333f8c1add79b72063ba4e0e8f921d2dca211089742ab06d4d159d75da8b09793be9a23eb7dce251c02cb9d3eb8726d2bad54e4cc
   languageName: node
   linkType: hard
 
-"@volar/typescript@npm:1.7.5":
-  version: 1.7.5
-  resolution: "@volar/typescript@npm:1.7.5"
+"@volar/typescript@npm:1.7.6":
+  version: 1.7.6
+  resolution: "@volar/typescript@npm:1.7.6"
   dependencies:
-    "@volar/language-core": 1.7.5
-  checksum: 20bc40c79b9f216799d69c02a0edf182fb009fe6d21a21979190a42af6e21456e0918f7065f37d6e1ac8fb20f165bc2e629572078cb14eb41c00a13827f3bca0
+    "@volar/language-core": 1.7.6
+  checksum: 3c485699c4da1fd61cd382b9bf51caac9f1cd41ae781d914db0426ba25f4bb348aa2dfe1a01d5f5e33eff2ee02ea4d050a7ee98e3563b9d40aae20d4b9300d8f
   languageName: node
   linkType: hard
 
@@ -720,12 +720,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/language-core@npm:1.7.13":
-  version: 1.7.13
-  resolution: "@vue/language-core@npm:1.7.13"
+"@vue/language-core@npm:1.8.0":
+  version: 1.8.0
+  resolution: "@vue/language-core@npm:1.8.0"
   dependencies:
-    "@volar/language-core": 1.7.5
-    "@volar/source-map": 1.7.5
+    "@volar/language-core": 1.7.6
+    "@volar/source-map": 1.7.6
     "@vue/compiler-dom": ^3.3.0
     "@vue/reactivity": ^3.3.0
     "@vue/shared": ^3.3.0
@@ -737,7 +737,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 3647795ad9f093aa9c67160dcca1e2da91e6e3b6356545902f039612fc0326b00363679597fa34b9e3773b2a480be224a40b160cb7dc32340ad7b3ade913e33b
+  checksum: b1d893a401296042592308e3a0ef8d8ad2dc02d48a8b8c84b2fd4b48d5be71eca67a98e6a97b4623fe3f493e56df955ed515af240f02cdf95c2d7c39c0e8a0d8
   languageName: node
   linkType: hard
 
@@ -810,13 +810,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/typescript@npm:1.7.13":
-  version: 1.7.13
-  resolution: "@vue/typescript@npm:1.7.13"
+"@vue/typescript@npm:1.8.0":
+  version: 1.8.0
+  resolution: "@vue/typescript@npm:1.8.0"
   dependencies:
-    "@volar/typescript": 1.7.5
-    "@vue/language-core": 1.7.13
-  checksum: f404c77ae8378aaea1a06fe9dc5f211c5a8243ea7e4a1edfc681e90192b3585988e7186759c679ca2d38597dbff06ff004d69eb36b0e604f0ed57003f3182c17
+    "@volar/typescript": 1.7.6
+    "@vue/language-core": 1.8.0
+  checksum: c1788c5669ddaa6317676913c482f5a6c192f153349e5fafd4883149066f85dea980a340a664ffc1afbe24586736317a3998b4d715439cdd81fd5beafeced2bf
   languageName: node
   linkType: hard
 
@@ -1519,14 +1519,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.42.0":
-  version: 8.42.0
-  resolution: "eslint@npm:8.42.0"
+"eslint@npm:^8.43.0":
+  version: 8.43.0
+  resolution: "eslint@npm:8.43.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.4.0
     "@eslint/eslintrc": ^2.0.3
-    "@eslint/js": 8.42.0
+    "@eslint/js": 8.43.0
     "@humanwhocodes/config-array": ^0.11.10
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
@@ -1564,7 +1564,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 07105397b5f2ff4064b983b8971e8c379ec04b1dfcc9d918976b3e00377189000161dac991d82ba14f8759e466091b8c71146f602930ca810c290ee3fcb3faf0
+  checksum: 55654ce00b0d128822b57526e40473d0497c7c6be3886afdc0b41b6b0dfbd34d0eae8159911b18451b4db51a939a0e6d2e117e847ae419086884fc3d4fe23c7c
   languageName: node
   linkType: hard
 
@@ -3242,7 +3242,7 @@ __metadata:
     "@vueuse/core": ^10.2.0
     "@vueuse/router": ^10.2.0
     autoprefixer: ^10.4.14
-    eslint: ^8.42.0
+    eslint: ^8.43.0
     eslint-plugin-vue: ^9.14.1
     gsap: ^3.12.1
     pinia: ^2.1.4
@@ -3255,7 +3255,7 @@ __metadata:
     vue: ^3.3.4
     vue-eslint-parser: ^9.3.1
     vue-router: 4.2.2
-    vue-tsc: 1.7.13
+    vue-tsc: 1.8.0
   languageName: unknown
   linkType: soft
 
@@ -3507,19 +3507,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-tsc@npm:1.7.13":
-  version: 1.7.13
-  resolution: "vue-tsc@npm:1.7.13"
+"vue-tsc@npm:1.8.0":
+  version: 1.8.0
+  resolution: "vue-tsc@npm:1.8.0"
   dependencies:
-    "@vue/language-core": 1.7.13
-    "@vue/typescript": 1.7.13
+    "@vue/language-core": 1.8.0
+    "@vue/typescript": 1.8.0
     semver: ^7.3.8
     vscode-uri: ^3.0.7
   peerDependencies:
     typescript: "*"
   bin:
     vue-tsc: bin/vue-tsc.js
-  checksum: f1b45b9a87c92b17d79cb4a43cc14ce543e8a28e77422304ca84806698057bd0e6e0734df389b5727b16d1c15df7028f330a628f3eb0e080cc0d837f4118d620
+  checksum: df1ef5d7d114a9d7d24fcc6a464d5cd9bc663a9105c6fd8ee6dab31ea73b20095d611319268ed94b5b733812a6e830f2062e3805f74cba4d64225efdb0784495
   languageName: node
   linkType: hard
 

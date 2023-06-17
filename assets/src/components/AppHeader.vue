@@ -44,7 +44,7 @@
 					leave-to-class="transform scale-95 opacity-0">
 					<menu-items class="Header-userMenu">
 						<!-- The menu component won't close when clicking a router link within a menu item so we'll just close it manually -->
-						<div class="py-1 px-1" @click="closeMenu(close)">
+						<div class="p-1" @click="closeMenu(close)">
 							<menu-item v-if="user.isAdmin">
 								<router-link :to="{ name: 'admin.shortlinks' }">
 									<list-icon class="mr-2 w-4 h-4"/> All Shortlinks

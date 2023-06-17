@@ -1,4 +1,5 @@
 {
+    "name": "depthbomb/tetra",
     "type": "project",
     "license": "MIT",
     "minimum-stability": "stable",
