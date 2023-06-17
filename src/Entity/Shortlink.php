@@ -33,6 +33,9 @@ class Shortlink
     private ?string $secret = null;
 
     #[ORM\Column]
+    private bool $checked = false;
+
+    #[ORM\Column]
     private bool $disabled = false;
 
     #[ORM\Column(nullable: true)]
@@ -108,6 +111,25 @@ class Shortlink
     public function setSecret(string $secret): self
     {
         $this->secret = $secret;
+
+        return $this;
+    }
+
+    public function isChecked(): bool
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(bool $checked): self
+    {
+        $this->checked = $checked;
+
+        return $this;
+    }
+
+    public function toggleChecked(): self
+    {
+        $this->checked = !$this->checked;
 
         return $this;
     }

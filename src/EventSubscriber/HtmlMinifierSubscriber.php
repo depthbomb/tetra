@@ -8,18 +8,18 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse', PHP_INT_MIN)]
-class HtmlMinifierSubscriber
+readonly class HtmlMinifierSubscriber
 {
-    public function __construct(private readonly KernelInterface $kernel) {}
+    public function __construct(private KernelInterface $kernel) {}
 
     public function onKernelResponse(ResponseEvent $event): void
     {
-        $dev      = $this->kernel->getEnvironment() === 'dev';
-        $request  = $event->getRequest();
-        $response = $event->getResponse();
-        $route    = $request->attributes->getString('_route');
+        $is_dev      = $this->kernel->getEnvironment() === 'dev';
+        $request     = $event->getRequest();
+        $response    = $event->getResponse();
+        $is_not_root = $request->attributes->getString('_route') !== 'root';
 
-        if (!$event->isMainRequest() or $dev or $route !== 'root' or !Killswitch::RENDERED_HTML_MINIFICATION_ENABLED)
+        if (!$event->isMainRequest() or $is_dev or $is_not_root or !Killswitch::RENDERED_HTML_MINIFICATION_ENABLED)
         {
             return;
         }
