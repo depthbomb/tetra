@@ -11,12 +11,15 @@ class HtmlMinifierSubscriber
 {
     public function onKernelResponse(ResponseEvent $event): void
     {
-        if (!$event->isMainRequest() or !Killswitch::RENDERED_HTML_MINIFICATION_ENABLED)
+        $request  = $event->getRequest();
+        $response = $event->getResponse();
+        $route    = $request->attributes->getString('_route');
+
+        if (!$event->isMainRequest() or $route !== 'root' or !Killswitch::RENDERED_HTML_MINIFICATION_ENABLED)
         {
             return;
         }
 
-        $response = $event->getResponse();
         $content  = $response->getContent();
         $minifier = new HtmlMin;
         $minified = $minifier->minify($content);

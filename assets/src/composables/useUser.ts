@@ -8,7 +8,7 @@ export function useUser() {
 	const roles: string[]  = data.roles;
 
 	const isLoggedIn = username && avatar && apiKey && roles;
-	const isAdmin = isLoggedIn && roles.includes('ROLE_ADMIN');
+	const isAdmin    = isLoggedIn && roles.includes('ROLE_ADMIN');
 
 	return {
 		username,
