@@ -5,7 +5,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsEventListener(KernelEvents::EXCEPTION, 'onKernelException', PHP_INT_MAX - 100)]
+#[AsEventListener(KernelEvents::EXCEPTION, 'onKernelException', 2048)]
 readonly class ErrorHandlerSubscriber
 {
     public function __construct(private ErrorHandlerService $errorHandler) {}

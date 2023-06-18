@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest', PHP_INT_MAX - 10)]
+#[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest', 1024)]
 readonly class RequestIdSubscriber
 {
     public function __construct(private ResponseHeaderBag $headerBag) {}

@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse', PHP_INT_MIN)]
+#[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse', -2048)]
 readonly class HtmlMinifierSubscriber
 {
     public function __construct(private KernelInterface $kernel) {}

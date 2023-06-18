@@ -5,7 +5,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse')]
+#[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse', -1024)]
 readonly class ResponseHeadersSubscriber
 {
     public function __construct(private ResponseHeaderBag $headerBag) {}
