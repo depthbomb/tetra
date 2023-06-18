@@ -7,11 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\RateLimiter\LimiterInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
-use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 
-#[AsEventListener(KernelEvents::CONTROLLER_ARGUMENTS, 'onKernelControllerArguments', 1024)]
+#[AsEventListener(KernelEvents::CONTROLLER, 'onKernelController', 1024)]
 readonly class RateLimitedAttributeSubscriber
 {
     public function __construct(
@@ -22,7 +22,7 @@ readonly class RateLimitedAttributeSubscriber
         private ResponseHeaderBag  $headerBag,
     ) {}
 
-    public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
+    public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest())
         {
