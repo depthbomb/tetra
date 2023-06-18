@@ -7,15 +7,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Depthbomb\CsrfBundle\Attribute\CsrfProtected;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/oidc')]
 class OAuthController extends Controller
 {
+    public function __construct(private readonly TranslatorInterface $translator) {}
+
     #[RateLimited('authentication')]
     #[Route('/start', name: 'oidc_start')]
     public function startFlow(ClientRegistry $registry): Response
     {
-        $this->requireFeature(Killswitch::USER_LOGIN_ENABLED, 'User authentication is temporarily disabled');
+        $this->requireFeature(Killswitch::USER_LOGIN_ENABLED, $this->translator->trans('error.user.authentication_feature_disabled'));
 
         return $registry->getClient('superfish')->redirect();
     }

@@ -73,7 +73,7 @@ class ShortlinksV1Controller extends Controller
     #[Route('', name: 'shortlink_create_v1', methods: ['PUT'])]
     public function createShortlink(Request $request): Response
     {
-        $this->requireFeature(Killswitch::SHORTLINK_CREATION_ENABLED, 'Shortlink creation is temporarily disabled.');
+        $this->requireFeature(Killswitch::SHORTLINK_CREATION_ENABLED, $this->translator->trans('error.shortlink.creation_feature_disabled'));
 
         $query   = $request->query;
         $payload = $request->getPayload();
