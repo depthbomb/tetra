@@ -21,27 +21,27 @@
 
     <link href="{{ get_versioned_asset('apple-icon-precomposed.png') }}" rel="apple-touch-icon-precomposed">
 
-    {% for s in [57, 60, 76, 114, 120, 144, 180] %}
+    {%- for s in [57, 60, 76, 114, 120, 144, 180] -%}
         <link href="{{ get_versioned_asset("apple-icon-"~s~"x"~s~".png") }}" rel="apple-touch-icon" sizes="{{ s }}x{{ s }}" >
-    {% endfor %}
-    {% for s in [36, 48, 72, 96, 144, 192] %}
+    {%- endfor -%}
+    {%- for s in [36, 48, 72, 96, 144, 192] -%}
         <link href="{{ get_versioned_asset("android-icon-"~s~"x"~s~".png") }}" rel="icon" type="image/png" sizes="{{ s }}x{{ s }}">
-    {% endfor %}
-    {% for s in [16, 32, 96] %}
+    {%- endfor -%}
+    {%- for s in [16, 32, 96] -%}
         <link href="{{ get_versioned_asset("favicon-"~s~"x"~s~".png") }}" rel="icon" type="image/png" sizes="{{ s }}x{{ s }}">
-    {% endfor %}
-    {% for preload in get_preload_assets() %}
+    {%- endfor -%}
+    {%- for preload in get_preload_assets() -%}
         <link href="{{ preload }}" rel="modulepreload" nonce="{{ csp_nonce() }}">
-    {% endfor %}
-    {% for entry in get_css_entries() %}
+    {%- endfor -%}
+    {%- for entry in get_css_entries() -%}
         <link href="{{ entry }}" type="text/css" rel="stylesheet" nonce="{{ csp_nonce() }}">
-    {% endfor %}
-    {% for entry in get_js_entries() %}
+    {%- endfor -%}
+    {%- for entry in get_js_entries() -%}
         <script src="{{ entry }}" type="module" nonce="{{ csp_nonce() }}"></script>
-    {% endfor %}
+    {%- endfor -%}
 </head>
 <body class="not-nirvana-fishfood" data-config="{{ get_bridge() }}" data-user="{{ get_user() }}">
     <noscript>This site requires JavaScript to be enabled.</noscript>
-    {% block body %}{% endblock %}
+    {%- block body -%}{%- endblock -%}
 </body>
 </html>
