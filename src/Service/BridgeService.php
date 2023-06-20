@@ -17,8 +17,8 @@ readonly class BridgeService
     {
         $request = $this->request->getCurrentRequest();
         return json_encode([
-            'route'     => $request->get('_route'),
-            'remoteIp'  => $request->getClientIp(),
+            'route' => $request->get('_route'),
+            'remoteIp' => $request->getClientIp(),
             'requestId' => $request->attributes->getString('_request_id'),
             'authToken' => $this->tokenManager->getToken('auth')->getValue(),
             'ajaxToken' => $this->tokenManager->getToken('ajax')->getValue(),
@@ -34,9 +34,10 @@ readonly class BridgeService
             $user = $this->security->getUser();
             $user = [
                 'username' => $user->getUsername(),
-                'avatar'   => $user->getAvatar(24),
-                'roles'    => $user->getRoles(),
-                'apiKey'   => $user->getApiKey(),
+                'avatar' => $user->getAvatar(24),
+                'drawerAvatar' => $user->getAvatar(32),
+                'roles' => $user->getRoles(),
+                'apiKey' => $user->getApiKey(),
             ];
         }
 

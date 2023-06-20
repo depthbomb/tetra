@@ -93,6 +93,18 @@ module.exports = {
 				'out-circ': 'cubic-bezier(0, 0.55, 0.45, 1)',
 				'in-out-circ': 'cubic-bezier(0.85, 0, 0.15, 1)',
 			},
+			keyframes: {
+				'fadeIn': {
+					'0%': { opacity: '100%' }
+				},
+				'slideInLeft': {
+					'0%': { transform: 'translateX(100%)' }
+				}
+			},
+			animation: {
+				'fadeIn': 'fadeIn 15s linear 0s 1 normal none running',
+				'slideInLeft': 'slideInLeft .15s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 normal none running',
+			}
 		},
 	},
 	plugins: [

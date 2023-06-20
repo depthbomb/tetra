@@ -8,6 +8,13 @@
 	color-scheme: dark;
 }
 
+body {
+
+	&.is-locked {
+		@apply overflow-hidden;
+	}
+}
+
 .MainCard {
 	@apply p-6;
 	@apply w-full;
