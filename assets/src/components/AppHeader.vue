@@ -23,8 +23,8 @@
 		</div>
 		<div class="Header-user">
 			<app-user-drawer v-if="isLoggedIn"/>
-			<app-button v-else :to="{ name: 'auth.login' }" variant="brand">
-				<sign-in-icon class="mr-2 w-4 h-4"/>
+			<app-button v-else :to="{ name: 'auth.login' }" variant="brand" size="small">
+				<sign-in-icon class="mr-2 w-3.5 h-3.5"/>
 				<span>Sign In</span>
 			</app-button>
 		</div>
