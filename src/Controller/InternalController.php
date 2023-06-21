@@ -36,11 +36,7 @@ class InternalController extends Controller
     #[Route('/total-shortlinks', name: 'internal_total_shortlinks', methods: ['POST'])]
     public function getTotalShortlinks(): Response
     {
-        $count = $this->cache->get('total_shortlinks', function (ItemInterface $item) {
-            $item->expiresAfter(10);
-
-            return $this->shortlinks->getTotal();
-        });
+        $count = $this->shortlinks->getTotal();
 
         return $this->json(compact('count'));
     }
