@@ -10,7 +10,7 @@
 	const sidebar    = ref(null);
 	const drawerOpen = ref(false);
 
-	const user = useUser();
+	const { username, avatar, isAdmin } = useUser();
 
 	const toggleDrawer = () => {
 		drawerOpen.value = !drawerOpen.value;
@@ -24,15 +24,15 @@
 <template>
 	<aside class="UserDrawer">
 		<button class="UserDrawer-activator" type="button" @click="toggleDrawer()">
-			<img :src="user.avatar" :alt="user.username">
-			<span>{{ user.username }}</span>
+			<img :src="avatar" :alt="username">
+			<span>{{ username }}</span>
 		</button>
 		<div v-if="drawerOpen" class="UserDrawer-overlay">
 			<div ref="sidebar" class="UserDrawer-sidebar">
 				<header class="UserDrawer-sidebar-header">
 					<div class="UserDrawer-user">
-						<img :src="user.drawerAvatar" :alt="user.username">
-						<span>{{ user.username }}</span>
+						<img :src="avatar" :alt="username">
+						<span>{{ username }}</span>
 					</div>
 					<div class="UserDrawer-close-button">
 						<button type="button" @click="toggleDrawer()">
@@ -45,7 +45,7 @@
 					I come up with a more thorough solution.
 				-->
 				<div class="UserDrawer-sidebar-links" @click="toggleDrawer()">
-					<template v-if="user.isAdmin">
+					<template v-if="isAdmin">
 						<router-link :to="{ name: 'admin.shortlinks' }">
 							<list-icon/> All Shortlinks (Admin)
 						</router-link>
@@ -80,7 +80,7 @@
 			@apply hover:bg-gray-800;
 
 			img {
-				@apply w-6 h-6;
+				@apply w-8 h-8;
 				@apply rounded-full;
 			}
 		}
