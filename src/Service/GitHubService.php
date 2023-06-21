@@ -7,12 +7,12 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 
-class GitHubService
+readonly class GitHubService
 {
     private const REPO_AUTHOR = 'depthbomb';
     private const REPO_NAME   = 'tetra';
 
-    public function __construct(private readonly HttpClientInterface $http) {}
+    public function __construct(private HttpClientInterface $http) {}
 
     /**
      * @throws TransportExceptionInterface
@@ -23,9 +23,9 @@ class GitHubService
      */
     public function getLatestCommitHash(bool $short = true): string
     {
-        $commits = $this->getRepoCommits();
+        $commits       = $this->getRepoCommits();
         $latest_commit = $commits[0];
-        $commit_sha = $latest_commit['sha'];
+        $commit_sha    = $latest_commit['sha'];
 
         if ($short)
         {
@@ -44,7 +44,7 @@ class GitHubService
      */
     public function getRepoCommits(): array
     {
-        $url = sprintf('https://api.github.com/repos/%s/%s/commits', self::REPO_AUTHOR, self::REPO_NAME);
+        $url      = sprintf('https://api.github.com/repos/%s/%s/commits', self::REPO_AUTHOR, self::REPO_NAME);
         $response = $this->http->request('GET', $url);
 
         return $response->toArray();
