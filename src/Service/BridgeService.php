@@ -28,7 +28,7 @@ readonly class BridgeService
     public function getUserConfig(): string
     {
         $user = [];
-        if ($this->security->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+        if ($this->security->isGranted('IS_AUTHENTICATED'))
         {
             /** @var User $user */
             $user = $this->security->getUser();

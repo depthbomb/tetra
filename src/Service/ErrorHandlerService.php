@@ -70,6 +70,6 @@ readonly class ErrorHandlerService
 
     private function isLoggedIn(): bool
     {
-        return $this->security->isGranted('IS_AUTHENTICATED_REMEMBERED');
+        return $this->security->isGranted('IS_AUTHENTICATED');
     }
 }

@@ -35,12 +35,12 @@ class Controller extends AbstractController
     }
 
     /**
-     * A shortcut for `$this->isGranted('IS_AUTHENTICATED_REMEMBERED')`
+     * A shortcut for `$this->isGranted('IS_AUTHENTICATED')`
      *
      * @return bool
      */
     public function loggedIn(): bool
     {
-        return $this->isGranted('IS_AUTHENTICATED_REMEMBERED');
+        return $this->isGranted('IS_AUTHENTICATED');
     }
 }
