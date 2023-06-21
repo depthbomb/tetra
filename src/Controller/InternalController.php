@@ -1,6 +1,7 @@
 <?php namespace App\Controller;
 
 use App\Entity\Shortlink;
+use App\Service\GitHubService;
 use App\Repository\ShortlinkRepository;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -19,6 +20,18 @@ class InternalController extends Controller
         private readonly ShortlinkRepository $shortlinks,
         private readonly CacheInterface      $cache,
     ) {}
+
+    #[Route('/git-hash', name: 'internal_git_latest_commit_hash', methods: ['POST'])]
+    public function getLatestGitHash(GitHubService $gh): Response
+    {
+        $hash = $this->cache->get('latest_commit_hash', function (ItemInterface $item) use ($gh) {
+            $item->expiresAfter(60*5);
+
+            return $gh->getLatestCommitHash();
+        });
+
+        return $this->json(compact('hash'));
+    }
 
     #[Route('/total-shortlinks', name: 'internal_total_shortlinks', methods: ['POST'])]
     public function getTotalShortlinks(): Response
