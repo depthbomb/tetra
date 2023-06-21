@@ -34,7 +34,10 @@ readonly class BridgeService
             $user = $this->security->getUser();
             $user = [
                 'username' => $user->getUsername(),
-                'avatar' => $user->getAvatar(24),
+                'avatars' => [
+                    'x24' => $user->getAvatar(24),
+                    'x32' => $user->getAvatar(32),
+                ],
                 'roles' => $user->getRoles(),
                 'apiKey' => $user->getApiKey(),
             ];

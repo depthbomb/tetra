@@ -10,7 +10,7 @@
 	const sidebar    = ref(null);
 	const drawerOpen = ref(false);
 
-	const { username, avatar, isAdmin } = useUser();
+	const { username, avatars, isAdmin } = useUser();
 
 	const toggleDrawer = () => {
 		drawerOpen.value = !drawerOpen.value;
@@ -24,14 +24,14 @@
 <template>
 	<aside class="UserDrawer">
 		<button class="UserDrawer-activator" type="button" @click="toggleDrawer()">
-			<img :src="avatar" :alt="username">
+			<img :src="avatars.x24" :alt="username">
 			<span>{{ username }}</span>
 		</button>
 		<div v-if="drawerOpen" class="UserDrawer-overlay">
 			<div ref="sidebar" class="UserDrawer-sidebar">
 				<header class="UserDrawer-sidebar-header">
 					<div class="UserDrawer-user">
-						<img :src="avatar" :alt="username">
+						<img :src="avatars.x32" :alt="username">
 						<span>{{ username }}</span>
 					</div>
 					<div class="UserDrawer-close-button">
