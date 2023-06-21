@@ -1,18 +1,22 @@
 <?php namespace App\Service;
 
-class ResponseHeaderBag
+use Symfony\Component\HttpFoundation\ParameterBag;
+
+readonly class ResponseHeaderBag
 {
-    /**
-     * @var array<string, string>[]
-     */
-    private array $headers = [];
+    private ParameterBag $headers;
+
+    public function __construct()
+    {
+        $this->headers = new ParameterBag();
+    }
 
     /**
      * @return array<string, string>[]
      */
     public function getHeaders(): array
     {
-        return $this->headers;
+        return $this->headers->all();
     }
 
     /**
@@ -23,22 +27,14 @@ class ResponseHeaderBag
      */
     public function add(string $key, string $value): self
     {
-        $this->headers[$key] = $value;
+        $this->headers->set($key, $value);
 
         return $this;
     }
 
     public function get(string $key, string $default = null): ?string
     {
-        foreach ($this->headers as $header)
-        {
-            if (isset($header[$key]))
-            {
-                return $header[$key];
-            }
-        }
-
-        return $default;
+        return $this->headers->get($key, $default);
     }
 
     /**
@@ -48,7 +44,7 @@ class ResponseHeaderBag
      */
     public function set(array $headers): self
     {
-        $this->headers = $headers;
+        $this->headers->replace($headers);
 
         return $this;
     }
