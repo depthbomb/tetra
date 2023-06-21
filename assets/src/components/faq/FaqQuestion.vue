@@ -5,7 +5,9 @@
 <template>
 	<h1 class="QuestionHeader">
 		<quote-icon class="mr-3 w-6 h-6 text-gray-500" placement="left"/>
-		<span><slot/></span>
+		<span>
+			<slot/>
+		</span>
 		<quote-icon class="ml-auto w-6 h-6 text-gray-500" placement="right"/>
 	</h1>
 </template>
@@ -16,8 +18,7 @@
 		@apply mb-3;
 		@apply p-3;
 		@apply text-xl font-bold;
-		@apply bg-gray-700 bg-opacity-90;
+		@apply bg-gray-700;
 		@apply rounded-lg;
-		@apply backdrop-blur;
 	}
 </style>
