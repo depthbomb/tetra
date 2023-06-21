@@ -70,43 +70,6 @@
 		.Header-user {
 			@apply relative;
 			@apply ml-auto;
-
-			.Header-userControl {
-				@apply flex items-center;
-				@apply p-1.5;
-				@apply space-x-2;
-				@apply bg-black bg-opacity-25;
-				@apply backdrop-blur;
-				@apply rounded-full;
-				@apply transition-colors;
-
-				@apply hover:bg-gray-700 hover:bg-opacity-100;
-
-				img {
-					@apply w-6 h-6;
-					@apply rounded-full;
-				}
-			}
-
-			.Header-userMenu {
-				@apply absolute;
-				@apply right-0;
-				@apply mt-1;
-				@apply bg-gray-800;
-				@apply rounded-2xl;
-				@apply shadow;
-				@apply origin-top-right;
-				@apply z-10;
-
-				a {
-					@apply flex items-center;
-					@apply py-1.5 px-3;
-					@apply text-sm;
-					@apply rounded-full;
-
-					@apply hover:bg-gray-700;
-				}
-			}
 		}
 	}
 </style>
