@@ -8,14 +8,14 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
-class FormatService
+readonly class FormatService
 {
     private const DEFAULT_FORMAT = 'json';
     private const OUTPUT_FORMATS = ['json', 'js', 'yaml', 'yml', 'xml', 'csv', 'php'];
 
-    private readonly Serializer $serializer;
+    private Serializer $serializer;
 
-    public function __construct(private readonly RequestStack $requestStack)
+    public function __construct(private RequestStack $requestStack)
     {
         $encoders         = [new JsonEncoder, new XmlEncoder, new CsvEncoder];
         $this->serializer = new Serializer([], $encoders);

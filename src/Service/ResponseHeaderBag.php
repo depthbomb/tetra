@@ -1,11 +1,16 @@
 <?php namespace App\Service;
 
-class ResponseHeaderBag
+readonly class ResponseHeaderBag
 {
     /**
      * @var array<string, string>[]
      */
-    private array $headers = [];
+    private array $headers;
+
+    public function __construct()
+    {
+        $this->headers = [];
+    }
 
     /**
      * @return array<string, string>[]
