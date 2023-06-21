@@ -14,7 +14,7 @@
 	<div class="Header">
 		<router-link :to="{ name: 'home' }" class="Header-brand">
 			<superfishial-logo class="w-12"/>
-			<p>go.super.fish</p>
+			<span>go.super.fish</span>
 		</router-link>
 		<div class="Header-links">
 			<router-link :to="{ name: 'home' }">Home</router-link>
@@ -46,7 +46,7 @@
 			@apply mr-6;
 			@apply space-x-3;
 
-			p {
+			span {
 				@apply text-2xl font-serif;
 			}
 		}

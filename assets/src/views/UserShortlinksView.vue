@@ -39,7 +39,7 @@
 	</div>
 	<template v-else>
 		<app-loader v-if="loading" text="Loading your shortlinks&hellip;"/>
-		<p v-else class="text-center text-lg text-gray-400">You have no shortlinks. Why not create some? <span class="font-mono">\(=ω=.)/</span></p>
+		<p v-else class="text-center text-lg text-gray-400">You have no shortlinks. Why not create some? <span class="ml-6 font-mono">\(=ω=.)/</span></p>
 	</template>
 </template>
 
