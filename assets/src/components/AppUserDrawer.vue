@@ -71,35 +71,36 @@
 	.UserDrawer {
 		.UserDrawer-activator {
 			@apply flex items-center;
-			@apply p-1.5;
+			@apply py-1.5 px-3;
 			@apply space-x-2;
+			@apply text-gray-300;
 			@apply bg-transparent;
-			@apply rounded-full;
+			@apply rounded;
 			@apply transition-colors;
 
-			@apply hover:bg-gray-800;
+			@apply hover:text-white hover:bg-gray-700;
+			@apply active:text-white active:bg-gray-900;
 
 			img {
-				@apply w-8 h-8;
-				@apply rounded-full;
+				@apply w-6 h-6;
+				@apply rounded;
 			}
 		}
 
 		.UserDrawer-overlay {
 			@apply fixed;
 			@apply top-0 right-0 bottom-0 left-0;
-			@apply flex;
-			@apply justify-end items-center;
+			@apply flex justify-end items-center;
+			@apply h-screen;
 			@apply bg-black bg-opacity-50;
-			@apply backdrop-blur;
 			@apply z-[512];
 
 			.UserDrawer-sidebar {
 				@apply p-4;
 				@apply min-w-[256px];
 				@apply h-screen;
-				@apply bg-gray-700;
-				@apply rounded-l-xl;
+				@apply bg-gray-800;
+				@apply rounded-l-lg;
 				@apply shadow-lg;
 				@apply animate-slideInLeft;
 
@@ -122,14 +123,15 @@
 						@apply flex items-center justify-end;
 
 						button {
-							@apply p-3;
-							@apply text-gray-200;
+							@apply p-1.5;
+							@apply text-gray-300;
 							@apply bg-transparent;
-							@apply rounded-full;
+							@apply rounded;
 							@apply transition-colors;
 
 							@apply hover:text-white;
-							@apply hover:bg-gray-800;
+							@apply hover:bg-gray-700;
+							@apply active:bg-gray-900;
 						}
 					}
 				}
@@ -142,14 +144,16 @@
 					a, button {
 						@apply py-1.5 px-3;
 						@apply flex flex-row items-center;
-						@apply text-sm;
+						@apply text-sm text-gray-300;
 						@apply bg-transparent;
-						@apply rounded-full;
+						@apply rounded;
 						@apply transition-colors;
 
-						@apply hover:bg-gray-800;
+						@apply hover:text-white hover:bg-gray-700;
+						@apply active:text-white active:bg-gray-900;
 
 						&.is-active {
+							@apply text-white;
 							@apply bg-brand-700;
 						}
 
@@ -161,7 +165,7 @@
 
 					hr {
 						@apply h-[1px];
-						@apply bg-gray-600;
+						@apply bg-gray-700;
 						@apply border-0;
 					}
 				}

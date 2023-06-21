@@ -55,7 +55,7 @@
 	@apply py-1.5 px-4;
 	@apply min-w-max;
 	@apply text-white;
-	@apply rounded-full;
+	@apply rounded;
 	@apply border;
 	@apply cursor-pointer;
 	@apply select-none;
@@ -70,7 +70,7 @@
 		@apply inset-0;
 		@apply flex items-center justify-center;
 		@apply w-full h-full;
-		@apply rounded-full;
+		@apply rounded;
 		@apply z-[5];
 	}
 

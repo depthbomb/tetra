@@ -17,7 +17,7 @@
 		@apply p-3;
 		@apply text-xl font-bold;
 		@apply bg-gray-700 bg-opacity-90;
-		@apply rounded-full;
+		@apply rounded-lg;
 		@apply backdrop-blur;
 	}
 </style>

@@ -38,7 +38,7 @@
 <style scoped lang="scss">
 	.Endpoint-schema {
 		@apply bg-gray-800;
-		@apply rounded-2xl;
+		@apply rounded;
 		@apply overflow-hidden;
 
 		.Endpoint-schemaHeader {

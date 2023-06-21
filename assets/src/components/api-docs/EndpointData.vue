@@ -77,7 +77,7 @@
 <style scoped lang="scss">
 	.Endpoint-data {
 		@apply bg-gray-800;
-		@apply rounded-2xl;
+		@apply rounded;
 		@apply overflow-hidden;
 
 		& + & {

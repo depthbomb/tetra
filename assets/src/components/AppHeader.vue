@@ -13,7 +13,7 @@
 <template>
 	<div class="Header">
 		<router-link :to="{ name: 'home' }" class="Header-brand">
-			<superfishial-logo class="w-14"/>
+			<superfishial-logo class="w-12"/>
 			<p>go.super.fish</p>
 		</router-link>
 		<div class="Header-links">
@@ -33,9 +33,13 @@
 
 <style scoped lang="scss">
 	.Header {
+		@apply fixed;
 		@apply flex items-center;
-		@apply p-6;
+		@apply py-1.5 px-3;
 		@apply w-full;
+		@apply bg-gray-900 bg-opacity-90;
+		@apply backdrop-blur-lg;
+		@apply z-[256];
 
 		.Header-brand {
 			@apply flex items-center;
@@ -43,7 +47,7 @@
 			@apply space-x-3;
 
 			p {
-				@apply text-3xl font-serif;
+				@apply text-2xl font-serif;
 			}
 		}
 
@@ -52,17 +56,19 @@
 			@apply space-x-3;
 
 			a {
-				@apply py-1.5 px-4;
-				@apply bg-black bg-opacity-25;
-				@apply rounded-full;
-				@apply backdrop-blur;
+				@apply py-1.5 px-3;
+				@apply text-gray-300;
+				@apply bg-transparent;
+				@apply rounded;
 				@apply select-none;
 				@apply transition-colors;
 
-				@apply hover:bg-gray-700 hover:bg-opacity-100;
+				@apply hover:text-white hover:bg-gray-700;
+				@apply active:text-white active:bg-gray-900;
 
 				&.is-active {
-					@apply bg-brand-700 bg-opacity-100;
+					@apply text-white;
+					@apply bg-brand-700;
 				}
 			}
 		}

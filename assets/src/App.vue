@@ -7,8 +7,8 @@
 
 <template>
 	<app-toasts/>
+	<app-header/>
 	<div class="Container">
-		<app-header/>
 		<div class="MainCard">
 			<router-view/>
 		</div>
@@ -20,6 +20,7 @@
 <style scoped lang="scss">
 	.Container {
 		@apply mx-auto;
+		@apply pt-16;
 		@apply w-[1280px];
 	}
 

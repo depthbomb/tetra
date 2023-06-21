@@ -176,7 +176,7 @@
 				@apply w-full;
 				@apply h-10;
 				@apply bg-gray-700;
-				@apply rounded-full;
+				@apply rounded;
 				@apply shadow-inner;
 				@apply ring-1 ring-inset ring-gray-500;
 				@apply outline-none;

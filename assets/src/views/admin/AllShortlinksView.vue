@@ -81,7 +81,7 @@
 			@apply flex flex-col items-center justify-center;
 			@apply w-full h-full;
 			@apply bg-black bg-opacity-25;
-			@apply rounded-xl;
+			@apply rounded;
 			@apply backdrop-blur-sm;
 			@apply transition-opacity;
 			@apply z-10;
@@ -90,15 +90,15 @@
 		thead {
 
 			tr {
-				@apply bg-gray-900;
+				@apply bg-gray-950;
 			}
 
 			th {
 				@apply p-3;
 				@apply text-left;
 
-				@apply first:rounded-l-xl;
-				@apply last:rounded-r-xl;
+				@apply first:rounded-l;
+				@apply last:rounded-r;
 			}
 		}
 	}

@@ -248,11 +248,12 @@
 		.ApiTabs-button {
 			@apply py-1.5 px-4;
 			@apply text-lg text-gray-300;
-			@apply rounded-full;
+			@apply rounded;
 			@apply outline-none;
 			@apply transition-colors;
 
 			@apply hover:text-white hover:bg-gray-700;
+			@apply active:text-white active:bg-gray-900;
 
 			&.is-selected {
 				@apply text-white;

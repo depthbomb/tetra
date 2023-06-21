@@ -18,9 +18,9 @@ body {
 .MainCard {
 	@apply p-6;
 	@apply w-full;
-	@apply bg-gray-800 bg-opacity-90;
+	@apply bg-gray-900 bg-opacity-90;
 	@apply backdrop-blur-lg;
-	@apply rounded-3xl;
+	@apply rounded-lg;
 	@apply shadow-lg;
 
 	.MainCard-divider {
@@ -34,7 +34,7 @@ code {
 	@apply py-0.5 px-2;
 	@apply text-sm font-mono whitespace-nowrap;
 	@apply bg-gray-700 bg-opacity-75;
-	@apply rounded-full;
+	@apply rounded;
 }
 
 p + p {

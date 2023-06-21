@@ -36,12 +36,13 @@
 <style scoped lang="scss">
 	.Toasts {
 		@apply absolute;
-		@apply top-0 right-0;
+		@apply top-14 right-0;
 		@apply flex flex-col items-end;
 		@apply mt-3;
 		@apply space-y-3;
 		@apply max-h-screen;
 		@apply overflow-hidden;
+		@apply z-[512];
 
 		.Toast {
 			@apply flex items-center;
@@ -50,7 +51,7 @@
 			@apply max-w-[512px];
 			@apply bg-gray-900;
 			@apply border-l-2;
-			@apply rounded-full;
+			@apply rounded;
 			@apply shadow-lg;
 			@apply cursor-pointer;
 			@apply z-20;

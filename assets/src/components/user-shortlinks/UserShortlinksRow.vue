@@ -40,7 +40,7 @@
 			<app-button :loading="deleteLoading" variant="danger" size="small" @click="deleteShortlink(shortlink.shortcode, shortlink.secret)">
 				<trash-icon class="mr-1.5 h-3"/> Delete
 			</app-button>
-			<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode"/>
+			<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode" class="font-mono"/>
 			<copy-button size="small" :icon="KeyIcon" :content="shortlink.secret" text="Secret"/>
 		</div>
 		<arrow-long-icon direction="right" class="mx-6 w-8 h-8 text-gray-500"/>
@@ -61,9 +61,8 @@
 	@apply flex items-center;
 	@apply p-1.5;
 	@apply w-full;
-	@apply bg-gray-900;
-	@apply rounded-full;
-	@apply shadow;
+	@apply bg-gray-950;
+	@apply rounded;
 
 	.Shortlinks-entryControls {
 		@apply flex items-center;
