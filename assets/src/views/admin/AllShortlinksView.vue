@@ -1,8 +1,8 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
-	import { useKeyModifier } from '@vueuse/core';
 	import { useApi } from '~/composables/useApi';
 	import AppButton from '~/components/AppButton.vue';
+	import { useThrottleFn, useKeyModifier } from '@vueuse/core';
 	import ShortlinkRow from '~/components/admin/ShortlinkRow.vue';
 	import type { IAllShortlinksRecord } from '~/@types/IAllShortlinksRecord';
 
@@ -13,7 +13,7 @@
 
 	const shiftKeyState = useKeyModifier('Shift');
 
-	const getAllShortlinks = async () => {
+	const getAllShortlinks = useThrottleFn(async () => {
 		loading.value = true;
 		const { success, getJSON } = await useApi('/api/admin/all-shortlinks', { method: 'POST' });
 
@@ -24,7 +24,7 @@
 		}
 
 		loading.value = false;
-	};
+	}, 1_000);
 
 	onMounted(getAllShortlinks);
 </script>
