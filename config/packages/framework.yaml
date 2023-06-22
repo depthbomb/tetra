@@ -22,7 +22,7 @@ framework:
         internal_api:
             policy: 'sliding_window'
             limit: 100
-            interval: '5 minutes'
+            interval: '3 minutes'
         redirection:
             policy: 'sliding_window'
             limit: 5

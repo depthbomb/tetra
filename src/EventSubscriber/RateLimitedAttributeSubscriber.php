@@ -72,7 +72,7 @@ class RateLimitedAttributeSubscriber
         $remaining = $this->rateLimitRemaining;
         $reset     = $this->rateLimitReset;
 
-        if (isset($limit, $remaining, $reset))
+        if ($limit and $remaining and $reset)
         {
             $response = $event->getResponse();
             $response->headers->set('X-RateLimit-Limit', $limit);

@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class RequestIdSubscriber
 {
-    private ?string $requestId;
+    private ?string $requestId = null;
 
     #[AsEventListener(priority: 1024)]
     public function onRequest(RequestEvent $event): void
