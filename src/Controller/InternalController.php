@@ -3,6 +3,7 @@
 use App\Entity\User;
 use App\Entity\Shortlink;
 use App\Service\GitHubService;
+use App\Attribute\RateLimited;
 use App\Repository\UserRepository;
 use App\Repository\ShortlinkRepository;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/api')]
 #[CsrfProtected('ajax')]
+#[RateLimited('internal_api')]
 class InternalController extends Controller
 {
     public function __construct(
@@ -93,7 +95,7 @@ class InternalController extends Controller
     #[Route('/admin/all-users', methods: ['POST'])]
     public function getAllUsers(): Response
     {
-        $users         = [];
+        $users = [];
         /** @var User[] $users_results */
         $users_results = $this->users->createQueryBuilder('u')
             ->orderBy('u.created_at', 'DESC')
