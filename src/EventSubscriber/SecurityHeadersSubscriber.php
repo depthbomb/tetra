@@ -6,10 +6,10 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse')]
-readonly class SecurityHeadersSubscriber
+class SecurityHeadersSubscriber
 {
-    public function onKernelResponse(ResponseEvent $event): void
+    #[AsEventListener]
+    public function onResponse(ResponseEvent $event): void
     {
         if (!$event->isMainRequest())
         {

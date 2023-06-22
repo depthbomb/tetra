@@ -5,13 +5,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-readonly class SafeBrowsingService
+class SafeBrowsingService
 {
     private const BASE_URI = 'https://safebrowsing.googleapis.com/v4/threatMatches:find';
 
     private string $apiKey;
 
-    public function __construct(private HttpClientInterface $http)
+    public function __construct(private readonly HttpClientInterface $http)
     {
         $this->apiKey = $_ENV['GOOGLE_SAFE_BROWSING_KEY'];
     }

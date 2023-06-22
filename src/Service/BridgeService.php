@@ -6,13 +6,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-readonly class BridgeService
+class BridgeService
 {
     public function __construct(
-        private CsrfTokenManagerInterface $tokenManager,
-        private Security                  $security,
-        private RequestStack              $request,
-        private UrlGeneratorInterface     $url,
+        private readonly CsrfTokenManagerInterface $tokenManager,
+        private readonly Security                  $security,
+        private readonly RequestStack              $request,
+        private readonly UrlGeneratorInterface     $url,
     ) {}
 
     public function getConfig(): string

@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-readonly class ErrorHandlerService
+class ErrorHandlerService
 {
     public function __construct(
-        private RequestStack    $request,
-        private FormatService   $format,
-        private KernelInterface $kernel,
-        private Security        $security,
+        private readonly Security        $security,
+        private readonly RequestStack    $request,
+        private readonly FormatService   $format,
+        private readonly KernelInterface $kernel,
     ) {}
 
     public function createErrorResponseFromException(Throwable $exception): Response

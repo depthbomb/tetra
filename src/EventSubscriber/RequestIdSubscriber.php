@@ -1,27 +1,40 @@
 <?php namespace App\EventSubscriber;
 
 use Symfony\Component\Uid\Ulid;
-use App\Service\ResponseHeaderBag;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsEventListener(KernelEvents::REQUEST, 'onKernelRequest', 1024)]
-readonly class RequestIdSubscriber
+class RequestIdSubscriber
 {
-    public function __construct(private ResponseHeaderBag $headerBag) {}
+    private ?string $requestId;
 
-    public function onKernelRequest(RequestEvent $event): void
+    #[AsEventListener(priority: 1024)]
+    public function onRequest(RequestEvent $event): void
     {
         if (!$event->isMainRequest())
         {
             return;
         }
 
-        $request_id = Ulid::generate();
+        $this->requestId = Ulid::generate();
 
         // Add the request ID to the parameter bag, so it can be retrieved elsewhere such as in the BridgeService
-        $event->getRequest()->attributes->set('_request_id', $request_id);
-        $this->headerBag->add('X-Powered-By', 'Tetra')->add('X-Request-Id', $request_id);
+        $event->getRequest()->attributes->set('_request_id', $this->requestId);
+    }
+
+    #[AsEventListener]
+    public function onResponse(ResponseEvent $event): void
+    {
+        if (!$event->isMainRequest())
+        {
+            return;
+        }
+
+        if ($this->requestId)
+        {
+            $response = $event->getResponse();
+            $response->headers->set('X-Request-Id', $this->requestId);
+        }
     }
 }

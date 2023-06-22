@@ -7,12 +7,12 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 
-readonly class GitHubService
+class GitHubService
 {
     private const REPO_AUTHOR = 'depthbomb';
     private const REPO_NAME   = 'tetra';
 
-    public function __construct(private HttpClientInterface $http) {}
+    public function __construct(private readonly HttpClientInterface $http) {}
 
     /**
      * @throws TransportExceptionInterface

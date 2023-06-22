@@ -7,9 +7,9 @@ use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
 
-readonly class QrService
+class QrService
 {
-    private SvgWriter $writer;
+    private readonly SvgWriter $writer;
 
     public function __construct()
     {

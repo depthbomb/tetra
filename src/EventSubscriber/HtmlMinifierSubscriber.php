@@ -7,11 +7,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-#[AsEventListener(KernelEvents::RESPONSE, 'onKernelResponse', -2048)]
-readonly class HtmlMinifierSubscriber
+class HtmlMinifierSubscriber
 {
-    public function __construct(private KernelInterface $kernel) {}
+    public function __construct(private readonly KernelInterface $kernel) {}
 
+    #[AsEventListener(priority: -2048)]
     public function onKernelResponse(ResponseEvent $event): void
     {
         $is_dev      = $this->kernel->getEnvironment() === 'dev';
