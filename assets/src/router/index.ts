@@ -67,7 +67,6 @@ export const router = createRouter({
 		{
 			path: '/admin',
 			name: 'admin',
-			// component: () => import('~/views/admin/AdminView.vue'),
 			children: [
 				{
 					path: 'shortlinks',
@@ -75,11 +74,11 @@ export const router = createRouter({
 					beforeEnter: useAdminGuard(),
 					component: () => import('~/views/admin/AllShortlinksView.vue')
 				},
-				// {
-				// 	path: 'users',
-				// 	name: 'admin.users',
-				// 	component: () => import('~/views/admin/AllUsersView.vue')
-				// },
+				{
+					path: 'users',
+					name: 'admin.users',
+					component: () => import('~/views/admin/AllUsersView.vue')
+				},
 			]
 		},
 

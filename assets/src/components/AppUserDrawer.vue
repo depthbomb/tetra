@@ -4,6 +4,7 @@
 	import { useUser } from '~/composables/useUser';
 	import KeyIcon from '~/components/icons/KeyIcon.vue';
 	import ListIcon from '~/components/icons/ListIcon.vue';
+	import UsersIcon from '~/components/icons/UsersIcon.vue';
 	import CloseIcon from '~/components/icons/CloseIcon.vue';
 	import SignOutIcon from '~/components/icons/SignOutIcon.vue';
 
@@ -48,6 +49,9 @@
 					<template v-if="isAdmin">
 						<router-link :to="{ name: 'admin.shortlinks' }">
 							<list-icon/> All Shortlinks (Admin)
+						</router-link>
+						<router-link :to="{ name: 'admin.users' }">
+							<users-icon/> All Users (Admin)
 						</router-link>
 						<hr>
 					</template>
