@@ -253,7 +253,7 @@
 			@apply transition-colors;
 
 			@apply hover:text-white hover:bg-gray-700;
-			@apply active:text-white active:bg-gray-900;
+			@apply active:text-white active:bg-gray-950;
 
 			&.is-selected {
 				@apply text-white;

@@ -83,7 +83,7 @@
 			@apply transition-colors;
 
 			@apply hover:text-white hover:bg-gray-700;
-			@apply active:text-white active:bg-gray-900;
+			@apply active:text-white active:bg-gray-950;
 
 			img {
 				@apply w-6 h-6;
@@ -135,7 +135,7 @@
 
 							@apply hover:text-white;
 							@apply hover:bg-gray-700;
-							@apply active:bg-gray-900;
+							@apply active:bg-gray-950;
 						}
 					}
 				}
@@ -154,7 +154,7 @@
 						@apply transition-colors;
 
 						@apply hover:text-white hover:bg-gray-700;
-						@apply active:text-white active:bg-gray-900;
+						@apply active:text-white active:bg-gray-950;
 
 						&.is-active {
 							@apply text-white;
