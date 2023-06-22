@@ -2,11 +2,13 @@
 	import { defineAsyncComponent } from 'vue';
 	import { useUser } from '~/composables/useUser';
 	import AppButton from '~/components/AppButton.vue';
+	import { useBridge } from '~/composables/useBridge';
 	import SignInIcon from '~/components/icons/SignInIcon.vue';
 	import SuperfishialLogo from '~/components/logos/SuperfishialLogo.vue';
 
 	const AppUserDrawer = defineAsyncComponent(() => import('./AppUserDrawer.vue'));
 
+	const { authUrl }    = useBridge();
 	const { isLoggedIn } = useUser();
 </script>
 
@@ -23,7 +25,7 @@
 		</div>
 		<div class="Header-user">
 			<app-user-drawer v-if="isLoggedIn"/>
-			<app-button v-else :to="{ name: 'auth.login' }" variant="brand" size="small">
+			<app-button v-else :to="authUrl" variant="brand" size="small">
 				<sign-in-icon class="mr-2 w-3.5 h-3.5"/>
 				<span>Sign In</span>
 			</app-button>

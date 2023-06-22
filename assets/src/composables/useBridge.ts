@@ -7,6 +7,7 @@ export function useBridge() {
 	const requestId: string = data.requestId;
 	const authToken: string = data.authToken;
 	const ajaxToken: string = data.ajaxToken;
+	const authUrl: string   = data.authUrl;
 
 	return {
 		route,
@@ -14,5 +15,6 @@ export function useBridge() {
 		requestId,
 		authToken,
 		ajaxToken,
+		authUrl,
 	};
 }

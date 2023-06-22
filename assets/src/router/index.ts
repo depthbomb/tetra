@@ -1,9 +1,8 @@
 import FAQView from '~/views/FAQView.vue';
 import HomeView from '~/views/HomeView.vue';
 import ApiDocs from '~/views/ApiDocsView.vue';
-import LogInView from '~/views/auth/LogInView.vue';
+import { useAuthGuard, useAdminGuard } from '~/router/guards';
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { useAuthGuard, useAdminGuard, useAnonymousGuard } from '~/router/guards';
 
 export const router = createRouter({
 	history: createWebHashHistory(),
@@ -48,12 +47,6 @@ export const router = createRouter({
 			path: '/auth',
 			name: 'auth',
 			children: [
-				{
-					path: 'login',
-					name: 'auth.login',
-					beforeEnter: useAnonymousGuard(),
-					component: LogInView
-				},
 				{
 					path: 'logout',
 					name: 'auth.logout',

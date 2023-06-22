@@ -4,6 +4,7 @@ use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 readonly class BridgeService
 {
@@ -11,18 +12,31 @@ readonly class BridgeService
         private CsrfTokenManagerInterface $tokenManager,
         private Security                  $security,
         private RequestStack              $request,
+        private UrlGeneratorInterface     $url,
     ) {}
 
     public function getConfig(): string
     {
         $request = $this->request->getCurrentRequest();
-        return json_encode([
+        $config  = [
             'route' => $request->get('_route'),
             'remoteIp' => $request->getClientIp(),
             'requestId' => $request->attributes->getString('_request_id'),
-            'authToken' => $this->tokenManager->getToken('auth')->getValue(),
+            'authToken' => null,
             'ajaxToken' => $this->tokenManager->getToken('ajax')->getValue(),
-        ]);
+            'authUrl' => null,
+        ];
+
+        if ($this->security->isGranted('IS_AUTHENTICATED'))
+        {
+            $config['authToken'] = $this->tokenManager->getToken('auth')->getValue();
+        }
+        else
+        {
+            $config['authUrl'] = $this->url->generate('oidc_start', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        }
+
+        return json_encode($config);
     }
 
     public function getUserConfig(): string
