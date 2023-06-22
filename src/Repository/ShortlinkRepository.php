@@ -1,5 +1,6 @@
 <?php namespace App\Repository;
 
+use Exception;
 use App\Entity\Shortlink;
 use App\Util\IdGenerator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -65,6 +66,9 @@ class ShortlinkRepository extends ServiceEntityRepository
                 ->getResult() > 0;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getUnusedShortcode(): string
     {
         $attempts = 0;
