@@ -3,14 +3,21 @@
 use App\Util\Killswitch;
 use App\Attribute\RateLimited;
 use App\Repository\ShortlinkRepository;
+use App\Message\RecordShortlinkHitMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WebController extends Controller
 {
-    public function __construct(private readonly TranslatorInterface $translator) {}
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+        private readonly RequestStack        $request,
+        private readonly MessageBusInterface $bus,
+    ) {}
 
     #[Route('/', name: 'root')]
     public function index(): Response
@@ -40,6 +47,15 @@ class WebController extends Controller
 
         if ($shortlink and !$shortlink['disabled'])
         {
+            $request    = $this->request->getMainRequest();
+            $headers    = $request->headers;
+            $server     = $request->server;
+            $ip         = $request->getClientIp();
+            $user_agent = $server->getString('HTTP_USER_AGENT', 'Unknown');
+            $referrer   = $headers->get('Referrer');
+
+            $this->bus->dispatch(new RecordShortlinkHitMessage($shortcode, $ip, $user_agent, $referrer));
+
             return new RedirectResponse($shortlink['destination']);
         }
 

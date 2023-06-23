@@ -2,6 +2,8 @@
 
 use DateTimeImmutable;
 use App\Util\IdGenerator;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Uid\Ulid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ShortlinkRepository;
@@ -38,6 +40,9 @@ class Shortlink
     #[ORM\Column]
     private bool $disabled = false;
 
+    #[ORM\OneToMany(mappedBy: 'shortlink', targetEntity: Hit::class, orphanRemoval: true)]
+    private Collection $hits;
+
     #[ORM\Column(nullable: true)]
     private ?string $expires_at = null;
 
@@ -49,6 +54,11 @@ class Shortlink
 
     #[ORM\ManyToOne(inversedBy: 'shortlinks')]
     private ?User $creator = null;
+
+    public function __construct()
+    {
+        $this->hits = new ArrayCollection();
+    }
 
     public function getId(): ?Ulid
     {
@@ -153,6 +163,37 @@ class Shortlink
         return $this;
     }
 
+    /**
+     * @return Collection<int, Hit>
+     */
+    public function getHits(): Collection
+    {
+        return $this->hits;
+    }
+
+    public function addHit(Hit $hit): static
+    {
+        if (!$this->hits->contains($hit))
+        {
+            $this->hits->add($hit);
+            $hit->setShortlink($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHit(Hit $hit): static
+    {
+        if ($this->hits->removeElement($hit))
+        {
+            if ($hit->getShortlink() === $this)
+            {
+                $hit->setShortlink(null);
+            }
+        }
+
+        return $this;
+    }
 
     public function getExpiresAt(): ?string
     {
