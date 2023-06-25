@@ -1,5 +1,5 @@
 #!/bin/bash
-PUBLIC_DIR=!ChangeMe!
+PUBLIC_DIR=/var/www/html/public
 RANDOM_NAME=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13)
 echo "<?php opcache_reset(); ?>" > ${PUBLIC_DIR}${RANDOM_NAME}.php
 curl http://localhost/${RANDOM_NAME}.php
