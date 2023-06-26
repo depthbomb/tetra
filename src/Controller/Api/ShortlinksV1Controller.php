@@ -60,10 +60,13 @@ class ShortlinksV1Controller extends Controller
         $shortlinks = $this->shortlinks->createQueryBuilder('s')
             ->select('s.shortcode, s.shortlink, s.destination, s.secret, s.expires_at, s.created_at')
             ->leftJoin('s.creator', 'c')
+            ->leftJoin('s.hits', 'h')
+            ->addSelect('COUNT(h.id) as hits')
             ->where('c.id = :id')
             ->setParameter('id', $user->getId(), UlidType::NAME)
             ->andWhere('s.disabled = false')
             ->orderBy('s.created_at', 'DESC')
+            ->groupBy('s.id')
             ->getQuery()
             ->getArrayResult();
 

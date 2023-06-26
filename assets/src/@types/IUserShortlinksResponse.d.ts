@@ -5,4 +5,5 @@ export interface IUserShortlinksResponse {
 	secret:      string;
 	created_at:  string;
 	expires_at?: string;
+	hits:        number;
 }

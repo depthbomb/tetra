@@ -4,7 +4,6 @@
 	import TimeAgo from '~/components/TimeAgo.vue';
 	import { useToastStore } from '~/stores/toast';
 	import AppButton from '~/components/AppButton.vue';
-	import KeyIcon from '~/components/icons/KeyIcon.vue';
 	import CopyButton from '~/components/CopyButton.vue';
 	import TrashIcon from '~/components/icons/TrashIcon.vue';
 	import { useTruncation } from '~/composables/useTruncation';
@@ -41,17 +40,17 @@
 				<trash-icon class="mr-1.5 h-3"/> Delete
 			</app-button>
 			<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode" class="font-mono"/>
-			<copy-button size="small" :icon="KeyIcon" :content="shortlink.secret" text="Secret"/>
 		</div>
 		<arrow-long-icon direction="right" class="mx-6 w-8 h-8 text-gray-500"/>
 		<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 50) }}</div>
+		<div class="Shortlinks-entryHits">{{ shortlink.hits }} hit{{ shortlink.hits === 1 ? '' : 's' }}</div>
 		<div class="Shortlinks-entryDates">
-			<p>
+			<span>
 				Created <time-ago :date="shortlink.created_at"/>
-			</p>
-			<p v-if="shortlink.expires_at">
+			</span>
+			<span v-if="shortlink.expires_at">
 				Expires <time-ago :date="shortlink.expires_at"/>
-			</p>
+			</span>
 		</div>
 	</div>
 </template>
@@ -73,16 +72,15 @@
 		@apply text-lg font-mono;
 	}
 
+	.Shortlinks-entryHits {
+		@apply ml-auto mr-6;
+		@apply text-sm text-gray-500;
+	}
+
 	.Shortlinks-entryDates {
 		@apply flex flex-col;
-		@apply ml-auto mr-3;
-		@apply mr-3;
 		@apply space-y-0.5;
-		@apply text-gray-500;
-
-		p {
-			@apply text-sm text-right;
-		}
+		@apply text-sm text-gray-500;
 	}
 }
 </style>

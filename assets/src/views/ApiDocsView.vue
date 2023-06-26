@@ -78,6 +78,11 @@
 							description: 'The date that the shortlink expires',
 							nullable: true
 						},
+						{
+							name: 'hits',
+							type: 'int',
+							description: 'The number of times the shortlink has been accessed'
+						},
 					]"/>
 				</endpoint>
 
