@@ -56,14 +56,22 @@ class ShortlinkRepository extends ServiceEntityRepository
      */
     public function delete(string $shortcode, string $secret): bool
     {
-        return $this->createQueryBuilder('s')
-                ->delete()
-                ->where('s.shortcode = :shortcode')
-                ->setParameter('shortcode', $shortcode)
-                ->andWhere('s.secret = :secret')
-                ->setParameter('secret', $secret)
-                ->getQuery()
-                ->getResult() > 0;
+        /** @var Shortlink $shortlink */
+        $shortlink = $this->createQueryBuilder('s')
+            ->where('s.shortcode = :shortcode')
+            ->setParameter('shortcode', $shortcode)
+            ->andWhere('s.secret = :secret')
+            ->setParameter('secret', $secret)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (is_null($shortlink))
+        {
+            return false;
+        }
+
+        $this->remove($shortlink, true);
+        return true;
     }
 
     /**
@@ -99,13 +107,29 @@ class ShortlinkRepository extends ServiceEntityRepository
 
     public function deleteExpired(): int
     {
+        $em  = $this->getEntityManager();
         $now = date_create_immutable();
-        return $this->createQueryBuilder('s')
-            ->delete()
+        /** @var Shortlink[] $expired_shortlinks */
+        $expired_shortlinks = $this->createQueryBuilder('s')
             ->where('s.expires_at <= :now')
             ->setParameter('now', $now->format('c'))
             ->andWhere('s.expires_at IS NOT null')
             ->getQuery()
             ->getResult();
+
+        $expired_count = count($expired_shortlinks);
+        if ($expired_count === 0)
+        {
+            return 0;
+        }
+
+        foreach ($expired_shortlinks as $shortlink)
+        {
+            $em->remove($shortlink);
+        }
+
+        $em->flush();
+
+        return $expired_count;
     }
 }
