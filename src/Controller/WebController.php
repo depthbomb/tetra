@@ -25,14 +25,14 @@ class WebController extends Controller
         return $this->render('web/index.html.twig');
     }
 
-    #[Route('/{shortcode}+', name: 'shortlink_expand', stateless: true)]
+    #[Route('/{shortcode}+', name: 'shortlink_expand')]
     public function redirectToExpanded(string $shortcode): Response
     {
         return $this->redirect("/#/shortlink/$shortcode");
     }
 
     #[RateLimited('redirection')]
-    #[Route('/{shortcode}', name: 'shortlink_redirect', stateless: true)]
+    #[Route('/{shortcode}', name: 'shortlink_redirect')]
     public function attemptRedirection(ShortlinkRepository $shortlinks, string $shortcode): Response
     {
         $this->requireFeature(Killswitch::SHORTLINK_REDIRECTION_ENABLED, $this->translator->trans('error.shortlink.redirection_feature_disabled'));

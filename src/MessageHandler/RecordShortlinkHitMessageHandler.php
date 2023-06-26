@@ -43,6 +43,8 @@ final class RecordShortlinkHitMessageHandler
 
         $secret = $_ENV['APP_SECRET'];
 
+        // This is in no way a super secure way to hash a user's IP, but IPs aren't a bulletproof way to identify
+        // someone anyway.
         return base64_encode(hash_hmac('sha3-512', $secret.$ip.$shortcode.$secret, $secret, true));
     }
 }
