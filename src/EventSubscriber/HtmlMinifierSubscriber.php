@@ -2,7 +2,6 @@
 
 use voku\helper\HtmlMin;
 use App\Util\Killswitch;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;

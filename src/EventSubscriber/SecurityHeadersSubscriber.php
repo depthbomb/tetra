@@ -1,9 +1,7 @@
 <?php namespace App\EventSubscriber;
 
 use App\Util\CspNonce;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class SecurityHeadersSubscriber

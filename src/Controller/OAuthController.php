@@ -15,7 +15,7 @@ class OAuthController extends Controller
     public function __construct(private readonly TranslatorInterface $translator) {}
 
     #[RateLimited('authentication')]
-    #[Route('/start', name: 'oidc_start')]
+    #[Route('/start', name: 'oidc_start', methods: ['GET'])]
     public function startFlow(ClientRegistry $registry): Response
     {
         $this->requireFeature(Killswitch::USER_LOGIN_ENABLED, $this->translator->trans('error.user.authentication_feature_disabled'));
@@ -23,7 +23,7 @@ class OAuthController extends Controller
         return $registry->getClient('superfish')->redirect();
     }
 
-    #[Route('/callback', name: 'oidc_callback')]
+    #[Route('/callback', name: 'oidc_callback', methods: ['GET'])]
     public function handleCallback(): Response
     {
         // This action should normally be never called as the callback is handled by the authenticator

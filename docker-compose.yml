@@ -10,7 +10,7 @@ services:
             POSTGRES_PASSWORD: ???
             PGDATA: /var/lib/postgresql/data
         volumes:
-            - ./db:/var/lib/postgresql/data:rw
+            - db_data:/var/lib/postgresql/data:rw
     web:
         image: ubuntu:20.04
         expose:
@@ -23,3 +23,5 @@ services:
             - ./:/var/www/html
         depends_on:
             - db
+volumes:
+    db_data:
