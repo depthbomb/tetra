@@ -115,6 +115,8 @@ module.exports = {
 		function ({ matchUtilities, theme }) {
 			matchUtilities({
 					highlight: (value) => ({ boxShadow: `inset 0 1px 0 0 ${value}` }),
+					popup: (value) => ({ boxShadow: `inset 0 -3px 0 0 ${value}` }),
+					'popup-depressed': (value) => ({ boxShadow: `inset 0 -2px 0 0 ${value}` }),
 				},
 				{ values: flattenColorPalette(theme('backgroundColor')), type: 'color' }
 			);

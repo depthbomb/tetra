@@ -5,6 +5,7 @@
 	import { useApi } from '~/composables/useApi';
 	import { useToastStore } from '~/stores/toast';
 	import { useUser } from '~/composables/useUser';
+	import KeyCombo from '~/components/KeyCombo.vue';
 	import AppButton from '~/components/AppButton.vue';
 	import PaperPlaneTopIcon from '~/components/icons/PaperPlaneTopIcon.vue';
 	import { whenever, useClipboard, useMagicKeys, usePermission, useThrottleFn } from '@vueuse/core';
@@ -129,7 +130,7 @@
 
 		<section class="pt-6 LinkCreator-section">
 			<div class="col-span-6 flex items-center justify-between">
-				<p v-if="clipboardReadAccess.state.value === 'granted'" class="LinkCreator-sectionHint">Hint: Press <span class="font-mono">CTRL+V</span> to instantly paste and submit!</p>
+				<p v-if="clipboardReadAccess.state.value === 'granted'" class="LinkCreator-sectionHint">Hint: Press <key-combo :keys="['ctrl', 'v']"/> to instantly paste and submit!</p>
 				<p v-else class="LinkCreator-sectionHint">Hint: Click <a href="#" @click.prevent="readClipboardContent">here</a> to give the site access to reading your clipboard so you can create links quicker.</p>
 				<app-button :disabled="!isValid || submitting" @click="trySubmit">
 					<span>Submit</span>

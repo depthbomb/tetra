@@ -1,6 +1,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
 	import { useApi } from '~/composables/useApi';
+	import KeyCombo from '~/components/KeyCombo.vue';
 	import AppButton from '~/components/AppButton.vue';
 	import { useThrottleFn, useKeyModifier } from '@vueuse/core';
 	import ShortlinkRow from '~/components/admin/ShortlinkRow.vue';
@@ -31,7 +32,7 @@
 
 <template>
 	<div class="flex items-center justify-between py-3">
-		<p>Hold <span :class="{ 'text-brand-500': shiftKeyState }">SHIFT</span> to bypass action confirmations</p>
+		<p>Hold <key-combo :keys="['shift']"/> to bypass action confirmations</p>
 		<app-button size="small" @click="getAllShortlinks">Refresh</app-button>
 	</div>
 	<table class="AdminTable">
