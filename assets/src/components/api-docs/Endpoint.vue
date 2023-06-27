@@ -66,7 +66,7 @@
 
 			.Endpoint-verb {
 				@apply py-1.5 px-6;
-				@apply font-mono;
+				@apply font-mono font-bold;
 				@apply rounded;
 				@apply border;
 
