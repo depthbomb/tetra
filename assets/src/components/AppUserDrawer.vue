@@ -62,7 +62,7 @@
 						<key-icon/> API Key
 					</router-link>
 					<hr>
-					<router-link :to="{ name: 'auth.logout' }">
+					<router-link :to="{ name: 'auth.logout' }" class="is-danger">
 						<sign-out-icon/> Sign Out
 					</router-link>
 				</div>
@@ -155,6 +155,11 @@
 
 						@apply hover:text-white hover:bg-gray-700;
 						@apply active:text-white active:bg-gray-950;
+
+						&.is-danger {
+							@apply hover:bg-red-600;
+							@apply active:text-white active:bg-red-950;
+						}
 
 						&.is-active {
 							@apply text-white;
