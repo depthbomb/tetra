@@ -1,6 +1,7 @@
 <?php namespace App\Service;
 
 use App\Entity\User;
+use App\Util\Features;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -58,5 +59,10 @@ class BridgeService
         }
 
         return json_encode($user);
+    }
+
+    public function getEnabledFeatures(): string
+    {
+        return join(',', Features::getEnabledFeatures());
     }
 }

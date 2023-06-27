@@ -1,7 +1,7 @@
 <?php namespace App\Controller\Api;
 
 use DateTimeImmutable;
-use App\Util\Killswitch;
+use App\Util\Features;
 use App\Entity\Shortlink;
 use App\Service\QrService;
 use App\Controller\Controller;
@@ -76,7 +76,7 @@ class ShortlinksV1Controller extends Controller
     #[Route('', name: 'shortlink_create_v1', methods: ['PUT'])]
     public function createShortlink(Request $request): Response
     {
-        $this->requireFeature(Killswitch::SHORTLINK_CREATION_ENABLED, $this->translator->trans('error.shortlink.creation_feature_disabled'));
+        $this->requireFeature('SHORTLINK_CREATION', $this->translator->trans('error.shortlink.creation_feature_disabled'));
 
         $query   = $request->query;
         $payload = $request->getPayload();

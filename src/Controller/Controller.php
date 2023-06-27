@@ -1,6 +1,6 @@
 <?php namespace App\Controller;
 
-use App\Util\Killswitch;
+use App\Util\Features;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,10 +25,10 @@ class Controller extends AbstractController
         $this->abortIf(!$predicate, $code, $message);
     }
 
-    public function requireFeature(bool $feature, string $message = 'This feature is temporarily disabled. Please try again later.'): void
+    public function requireFeature(string $feature, string $message = 'This feature is temporarily disabled. Please try again later.'): void
     {
         $this->abortUnless(
-            $feature,
+            Features::isFeatureEnabled($feature),
             Response::HTTP_BAD_GATEWAY,
             $message
         );

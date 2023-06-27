@@ -1,6 +1,6 @@
 <?php namespace App\Controller;
 
-use App\Util\Killswitch;
+use App\Util\Features;
 use App\Attribute\RateLimited;
 use App\Repository\ShortlinkRepository;
 use App\Message\RecordShortlinkHitMessage;
@@ -35,7 +35,7 @@ class WebController extends Controller
     #[Route('/{shortcode}', name: 'shortlink_redirect', methods: ['GET'])]
     public function attemptRedirection(ShortlinkRepository $shortlinks, string $shortcode): Response
     {
-        $this->requireFeature(Killswitch::SHORTLINK_REDIRECTION_ENABLED, $this->translator->trans('error.shortlink.redirection_feature_disabled'));
+        $this->requireFeature('SHORTLINK_REDIRECTION', $this->translator->trans('error.shortlink.redirection_feature_disabled'));
 
         $shortlink = $shortlinks->createQueryBuilder('s')
             ->where('s.shortcode = :shortcode')

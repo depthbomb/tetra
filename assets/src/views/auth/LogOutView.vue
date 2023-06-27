@@ -2,12 +2,12 @@
 	import { onMounted } from 'vue';
 	import { useApi } from '~/composables/useApi';
 	import AppLoader from '~/components/AppLoader.vue';
-	import { useBridge } from '~/composables/useBridge';
+	import { useConfig } from '~/composables/useConfig';
 
-	const bridge = useBridge();
+	const { authToken } = useConfig();
 
 	onMounted(async () => {
-		const { success } = await useApi('/oidc/invalidate', { method: 'POST', headers: { 'X-Csrf-Token': bridge.authToken } });
+		const { success } = await useApi('/oidc/invalidate', { method: 'POST', headers: { 'X-Csrf-Token': authToken } });
 		if (success.value) {
 			window.location.href = '/';
 		}

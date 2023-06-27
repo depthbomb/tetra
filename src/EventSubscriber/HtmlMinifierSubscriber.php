@@ -1,7 +1,7 @@
 <?php namespace App\EventSubscriber;
 
-use voku\helper\HtmlMin;
-use App\Util\Killswitch;
+use App\Util\Features;
+use voku\helper\HtmlMin as Minifier;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -18,13 +18,13 @@ class HtmlMinifierSubscriber
         $response    = $event->getResponse();
         $is_not_root = $request->attributes->getString('_route') !== 'root';
 
-        if (!$event->isMainRequest() or $is_dev or $is_not_root or !Killswitch::RENDERED_HTML_MINIFICATION_ENABLED)
+        if (!$event->isMainRequest() or $is_dev or $is_not_root or !Features::isFeatureEnabled('RENDERED_HTML_MINIFICATION'))
         {
             return;
         }
 
         $content  = $response->getContent();
-        $minifier = new HtmlMin;
+        $minifier = new Minifier;
         $minified = $minifier->minify($content);
 
         $response->setContent($minified);

@@ -1,6 +1,6 @@
 <?php namespace App\Controller;
 
-use App\Util\Killswitch;
+use App\Util\Features;
 use App\Attribute\RateLimited;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class OAuthController extends Controller
     #[Route('/start', name: 'oidc_start', methods: ['GET'])]
     public function startFlow(ClientRegistry $registry): Response
     {
-        $this->requireFeature(Killswitch::USER_LOGIN_ENABLED, $this->translator->trans('error.user.authentication_feature_disabled'));
+        $this->requireFeature('USER_LOGIN', $this->translator->trans('error.user.authentication_feature_disabled'));
 
         return $registry->getClient('superfish')->redirect();
     }

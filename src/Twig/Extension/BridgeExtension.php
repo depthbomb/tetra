@@ -9,8 +9,9 @@ class BridgeExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_bridge', [BridgeExtensionRuntime::class, 'getBridge']),
+            new TwigFunction('get_config', [BridgeExtensionRuntime::class, 'getConfig']),
             new TwigFunction('get_user', [BridgeExtensionRuntime::class, 'getUser']),
+            new TwigFunction('get_enabled_features', [BridgeExtensionRuntime::class, 'getEnabledFeatures']),
         ];
     }
 }

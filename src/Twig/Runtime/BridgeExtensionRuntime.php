@@ -3,11 +3,11 @@
 use App\Service\BridgeService;
 use Twig\Extension\RuntimeExtensionInterface;
 
-readonly class BridgeExtensionRuntime implements RuntimeExtensionInterface
+class BridgeExtensionRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private BridgeService $bridge) {}
+    public function __construct(private readonly BridgeService $bridge) {}
 
-    public function getBridge(): string
+    public function getConfig(): string
     {
         return $this->bridge->getConfig();
     }
@@ -15,5 +15,10 @@ readonly class BridgeExtensionRuntime implements RuntimeExtensionInterface
     public function getUser(): string
     {
         return $this->bridge->getUserConfig();
+    }
+
+    public function getEnabledFeatures(): string
+    {
+        return $this->bridge->getEnabledFeatures();
     }
 }

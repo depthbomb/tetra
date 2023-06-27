@@ -1,6 +1,6 @@
-export function useBridge() {
-	const attributeValue = document.body.dataset.config!;
-	const data           = JSON.parse(attributeValue);
+export function useConfig() {
+	const attribute = document.querySelector('meta[name="config"]') as HTMLMetaElement;
+	const data      = JSON.parse(attribute.content);
 
 	const route: string     = data.route;
 	const remoteIp: string  = data.remoteIp;

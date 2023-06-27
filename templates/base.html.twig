@@ -39,8 +39,12 @@
     {%- for entry in get_js_entries() -%}
         <script src="{{ entry }}" type="module" nonce="{{ csp_nonce() }}"></script>
     {%- endfor -%}
+
+    <meta name="config" content="{{ get_config() }}">
+    <meta name="user" content="{{ get_user() }}">
+    <meta name="enabled-features" content="{{ get_enabled_features() }}">
 </head>
-<body class="not-nirvana-fishfood" data-config="{{ get_bridge() }}" data-user="{{ get_user() }}">
+<body class="not-nirvana-fishfood">
     <noscript>This site requires JavaScript to be enabled.</noscript>
     {%- block body -%}{%- endblock -%}
 </body>

@@ -2,13 +2,13 @@
 	import { defineAsyncComponent } from 'vue';
 	import { useUser } from '~/composables/useUser';
 	import AppButton from '~/components/AppButton.vue';
-	import { useBridge } from '~/composables/useBridge';
+	import { useConfig } from '~/composables/useConfig';
 	import SignInIcon from '~/components/icons/SignInIcon.vue';
 	import SuperfishialLogo from '~/components/logos/SuperfishialLogo.vue';
 
 	const AppUserDrawer = defineAsyncComponent(() => import('./AppUserDrawer.vue'));
 
-	const { authUrl }    = useBridge();
+	const { authUrl }    = useConfig();
 	const { isLoggedIn } = useUser();
 </script>
 

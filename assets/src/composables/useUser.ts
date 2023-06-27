@@ -1,6 +1,6 @@
 export function useUser() {
-	const attributeValue = document.body.dataset.user!;
-	const data           = JSON.parse(attributeValue);
+	const attribute = document.querySelector('meta[name="user"]') as HTMLMetaElement;
+	const data      = JSON.parse(attribute.content);
 
 	const username: string                   = data.username;
 	const avatars: { [key: string]: string } = data.avatars;
