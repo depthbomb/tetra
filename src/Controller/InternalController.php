@@ -27,7 +27,7 @@ class InternalController extends Controller
         private readonly CacheInterface      $cache,
     ) {}
 
-    #[Route('/git-hash', name: 'internal_git_latest_commit_hash', methods: ['POST'])]
+    #[Route('/git-hash', name: 'api.internal.latest_git_hash', methods: ['POST'])]
     public function getLatestGitHash(GitHubService $gh): Response
     {
         $hash = $this->cache->get('latest_commit_hash', function (ItemInterface $item) use ($gh) {
@@ -39,7 +39,7 @@ class InternalController extends Controller
         return $this->json(compact('hash'));
     }
 
-    #[Route('/total-shortlinks', name: 'internal_total_shortlinks', methods: ['POST'])]
+    #[Route('/total-shortlinks', name: 'api.internal.total_shortlinks', methods: ['POST'])]
     public function getTotalShortlinks(): Response
     {
         $count = $this->shortlinks->getTotal();
@@ -48,7 +48,7 @@ class InternalController extends Controller
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/admin/all-shortlinks', methods: ['POST'])]
+    #[Route('/admin/all-shortlinks', name:'api.internal.all_shortlinks', methods: ['POST'])]
     public function getAllShortlinks(): Response
     {
         $shortlinks = $this->shortlinks->createQueryBuilder('s')
@@ -63,7 +63,7 @@ class InternalController extends Controller
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/admin/toggle-shortlink-disabled', methods: ['PATCH'])]
+    #[Route('/admin/toggle-shortlink-disabled', name: 'api.internal.toggle_shortlink_disabled', methods: ['PATCH'])]
     public function toggleShortlinkDisabled(Request $request): Response
     {
         $payload = $request->getPayload();
@@ -92,7 +92,7 @@ class InternalController extends Controller
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/admin/all-users', methods: ['POST'])]
+    #[Route('/admin/all-users', name: 'api.internal.all_users', methods: ['POST'])]
     public function getAllUsers(): Response
     {
         $users = [];

@@ -6,7 +6,7 @@ use App\Repository\ShortlinkRepository;
 use App\Message\RecordShortlinkHitMessage;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-final class RecordShortlinkHitMessageHandler
+class RecordShortlinkHitMessageHandler
 {
     public function __construct(
         private readonly ShortlinkRepository $shortlinks,

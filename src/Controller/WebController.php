@@ -18,20 +18,20 @@ class WebController extends Controller
         private readonly MessageBusInterface $bus,
     ) {}
 
-    #[Route('/', name: 'root', methods: ['GET'])]
+    #[Route('/', name: 'web.spa', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('web/index.html.twig');
     }
 
-    #[Route('/{shortcode}+', name: 'shortlink_expand', methods: ['GET'])]
+    #[Route('/{shortcode}+', name: 'web.shortlink_expansion_redirect', methods: ['GET'])]
     public function redirectToExpanded(string $shortcode): Response
     {
         return $this->redirect("/#/shortlink/$shortcode");
     }
 
     #[RateLimited('redirection')]
-    #[Route('/{shortcode}', name: 'shortlink_redirect', methods: ['GET'])]
+    #[Route('/{shortcode}', name: 'web.shortlink_redirect', methods: ['GET'])]
     public function attemptRedirection(ShortlinkRepository $shortlinks, string $shortcode): Response
     {
         $this->requireFeature('SHORTLINK_REDIRECTION', $this->translator->trans('error.shortlink.redirection_feature_disabled'));

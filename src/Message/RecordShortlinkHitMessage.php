@@ -1,6 +1,6 @@
 <?php namespace App\Message;
 
-final class RecordShortlinkHitMessage
+class RecordShortlinkHitMessage
 {
     private readonly string  $shortcode;
     private readonly string  $ip;

@@ -15,7 +15,7 @@ class OAuthController extends Controller
     public function __construct(private readonly TranslatorInterface $translator) {}
 
     #[RateLimited('authentication')]
-    #[Route('/start', name: 'oidc_start', methods: ['GET'])]
+    #[Route('/start', name: 'auth.start', methods: ['GET'])]
     public function startFlow(ClientRegistry $registry): Response
     {
         $this->requireFeature('USER_LOGIN', $this->translator->trans('error.user.authentication_feature_disabled'));
@@ -23,7 +23,7 @@ class OAuthController extends Controller
         return $registry->getClient('superfish')->redirect();
     }
 
-    #[Route('/callback', name: 'oidc_callback', methods: ['GET'])]
+    #[Route('/callback', name: 'auth.callback', methods: ['GET'])]
     public function handleCallback(): Response
     {
         // This action should normally be never called as the callback is handled by the authenticator
@@ -31,7 +31,7 @@ class OAuthController extends Controller
     }
 
     #[CsrfProtected('auth')]
-    #[Route('/invalidate', name: 'oidc_destroy', methods: ['POST'])]
+    #[Route('/invalidate', name: 'auth.invalidate', methods: ['POST'])]
     public function handleLogout(Security $security): Response
     {
         if ($this->loggedIn())

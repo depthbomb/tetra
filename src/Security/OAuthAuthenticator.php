@@ -36,7 +36,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
      */
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->getString('_route') === 'oidc_callback';
+        return $request->attributes->getString('_route') === 'auth.callback';
     }
 
     /**
@@ -81,7 +81,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
     {
-        $target = $this->router->generate('root');
+        $target = $this->router->generate('web.spa');
 
         return new RedirectResponse($target);
     }
