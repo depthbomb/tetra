@@ -1,6 +1,5 @@
 <?php namespace App\Controller;
 
-use App\Util\Features;
 use App\Attribute\RateLimited;
 use App\Repository\ShortlinkRepository;
 use App\Message\RecordShortlinkHitMessage;

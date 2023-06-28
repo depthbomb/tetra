@@ -27,11 +27,7 @@ class Controller extends AbstractController
 
     public function requireFeature(string $feature, string $message = 'This feature is temporarily disabled. Please try again later.'): void
     {
-        $this->abortUnless(
-            Features::isFeatureEnabled($feature),
-            Response::HTTP_BAD_GATEWAY,
-            $message
-        );
+        $this->abortUnless(Features::isFeatureEnabled($feature), Response::HTTP_BAD_GATEWAY, $message);
     }
 
     /**

@@ -3,7 +3,7 @@
 /**
  * Utility class for creating Gravatar URLs
  */
-final class Gravatar
+class Gravatar
 {
     private const BASE_URL        = 'https:/gravatar.com/avatar/';
     private const SECURE_BASE_URL = 'https://secure.gravatar.com/avatar/';

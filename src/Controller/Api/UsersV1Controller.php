@@ -30,7 +30,7 @@ class UsersV1Controller extends Controller
 
         $user = $this->users->findOneByApiKey($api_key);
 
-        $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
+        $this->abortUnless(!!$user, Response::HTTP_BAD_REQUEST, $this->translator->trans('error.api_key.invalid'));
 
         $regeneration_available = $user->canApiKeyBeRegenerated();
         $next_api_key_available = $user->getNextApiKeyAvailable();
@@ -48,7 +48,7 @@ class UsersV1Controller extends Controller
         $api_key = $payload->getString('api_key');
         $user    = $this->users->findOneByApiKey($api_key);
 
-        $this->abortUnless(!!$user, 400, $this->translator->trans('error.api_key.invalid'));
+        $this->abortUnless(!!$user, Response::HTTP_BAD_REQUEST, $this->translator->trans('error.api_key.invalid'));
         $this->abortUnless($user->canApiKeyBeRegenerated(), Response::HTTP_FORBIDDEN, $this->translator->trans('error.api_key.on_cooldown'));
 
         $user->regenerateApiKey();

@@ -2,7 +2,7 @@
 
 use Exception;
 
-final class IdGenerator
+class IdGenerator
 {
     /**
      * @throws Exception
