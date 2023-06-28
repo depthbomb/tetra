@@ -1,5 +1,4 @@
 <script setup lang="ts">
-	import { ref, computed } from 'vue';
 	import { isValidHttpUrl } from '~/utils';
 	import { useId } from '~/composables/useId';
 	import { useApi } from '~/composables/useApi';
@@ -7,10 +6,14 @@
 	import { useUser } from '~/composables/useUser';
 	import KeyCombo from '~/components/KeyCombo.vue';
 	import AppButton from '~/components/AppButton.vue';
+	import { useFeatures } from '~/composables/useFeature';
+	import { ref, computed, defineAsyncComponent } from 'vue';
 	import PaperPlaneTopIcon from '~/components/icons/PaperPlaneTopIcon.vue';
 	import { whenever, useClipboard, useMagicKeys, usePermission, useThrottleFn } from '@vueuse/core';
 	import type { IApiErrorResponse } from '~/@types/IApiErrorResponse';
 	import type { ICreateShortlinkResponse } from '~/@types/ICreateShortlinkResponse';
+
+	const WarningIcon = defineAsyncComponent(() => import('~/components/icons/WarningIcon.vue'));
 
 	const destination        = ref('');
 	const shortcode          = ref('');
@@ -30,12 +33,15 @@
 		return true;
 	});
 
-	const { generateId }      = useId();
-	const user                = useUser();
-	const { createToast }     = useToastStore();
-	const { Ctrl_V }          = useMagicKeys();
-	const { copy }            = useClipboard({ source: shortlinkResult });
-	const clipboardReadAccess = usePermission('clipboard-read', { controls: true });
+	const { generateId }       = useId();
+	const { isFeatureEnabled } = useFeatures();
+	const user                 = useUser();
+	const { createToast }      = useToastStore();
+	const { Ctrl_V }           = useMagicKeys();
+	const { copy }             = useClipboard({ source: shortlinkResult });
+	const clipboardReadAccess  = usePermission('clipboard-read', { controls: true });
+
+	const creationDisabled = ref(!isFeatureEnabled('SHORTLINK_CREATION'));
 
 	const exampleShortcode = generateId().substring(7, 10);
 
@@ -100,6 +106,11 @@
 
 <template>
 	<div class="LinkCreator">
+		<div v-if="creationDisabled" class="LinkCreator-featureDisabledOverlay">
+			<warning-icon/>
+			<p>Shortlink creation is currently disabled. Please try again later.</p>
+		</div>
+
 		<section class="LinkCreator-section">
 			<div class="LinkCreator-sectionTitle">
 				<h2>Destination</h2>
@@ -145,6 +156,26 @@
 	.LinkCreator {
 		@apply flex flex-col;
 		@apply space-y-9;
+
+		.LinkCreator-featureDisabledOverlay {
+			@apply absolute;
+			@apply inset-0;
+			@apply flex flex-col items-center justify-center;
+			@apply space-y-3;
+			@apply w-full h-full;
+			@apply bg-black bg-opacity-60;
+			@apply backdrop-blur-lg;
+			@apply z-10;
+
+			svg {
+				@apply w-16 h-16;
+				@apply text-red-600;
+			}
+
+			p {
+				@apply text-white text-lg font-mono;
+			}
+		}
 
 		.LinkCreator-section {
 			@apply grid grid-cols-6;

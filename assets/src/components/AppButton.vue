@@ -3,16 +3,18 @@
 	import SpinnerIcon from '~/components/icons/SpinnerIcon.vue';
 	import { RouterLink, type RouteLocationRaw } from 'vue-router';
 
-	const { to, variant = 'brand', size = 'normal', loading } = defineProps<{
-		to?:      RouteLocationRaw;
-		variant?: 'brand' | 'success' | 'warning' | 'danger' | 'error';
-		size?:    'normal' | 'small' | 'large';
-		loading?: boolean;
+	const { to, variant = 'brand', size = 'normal', loading, disabled } = defineProps<{
+		to?:       RouteLocationRaw;
+		variant?:  'brand' | 'success' | 'warning' | 'danger' | 'error';
+		size?:     'normal' | 'small' | 'large';
+		loading?:  boolean;
+		disabled?: boolean;
 	}>();
 
 	const buttonClass = computed(() => ['Button', `is-${variant}`, {
-		'is-small': size === 'small',
-		'is-large': size === 'large',
+		'is-small':    size === 'small',
+		'is-large':    size === 'large',
+		'is-disabled': disabled
 	}]);
 	const loaderClass = computed(() => ['animate-spin', {
 		'w-4 h-4': size === 'normal' || size === 'small',
@@ -25,13 +27,17 @@
 
 <template>
 	<template v-if="to">
-		<a v-if="isExternalLink() || isServerLink()" :href="to.toString()" :class="buttonClass">
+		<!--
+			Swapping the href value on disabled is only a temporary fix to ensure that the link
+			really doesn't take the user anywhere when clicked.
+		-->
+		<a v-if="isExternalLink() || isServerLink()" :href="disabled ? '#' : to.toString()" :class="buttonClass">
 			<span v-if="loading" class="Button-loader">
 				<spinner-icon :class="loaderClass"/>
 			</span>
 			<slot v-else/>
 		</a>
-		<router-link v-else :to="to" :class="buttonClass">
+		<router-link v-else :to="disabled ? '#' : to" :class="buttonClass">
 			<span v-if="loading" class="Button-loader">
 				<spinner-icon :class="loaderClass"/>
 			</span>
@@ -39,7 +45,7 @@
 		</router-link>
 	</template>
 	<template v-else>
-		<button :class="buttonClass" type="button">
+		<button :class="buttonClass" type="button" :disabled="disabled">
 			<span v-if="loading" class="Button-loader">
 				<spinner-icon :class="loaderClass"/>
 			</span>
@@ -62,9 +68,6 @@
 	@apply outline-none;
 	@apply transition-all;
 
-	@apply disabled:opacity-50;
-	@apply disabled:cursor-not-allowed;
-
 	&-loader {
 		@apply absolute;
 		@apply inset-0;
@@ -72,6 +75,11 @@
 		@apply w-full h-full;
 		@apply rounded;
 		@apply z-[5];
+	}
+
+	&.is-disabled {
+		@apply opacity-50;
+		@apply cursor-not-allowed;
 	}
 
 	&.is-brand {

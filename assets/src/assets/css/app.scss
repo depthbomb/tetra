@@ -16,12 +16,14 @@ body {
 }
 
 .MainCard {
+	@apply relative;
 	@apply p-6;
 	@apply w-full;
 	@apply bg-gray-900 bg-opacity-90;
 	@apply backdrop-blur-lg;
 	@apply rounded-lg;
 	@apply shadow-lg;
+	@apply overflow-hidden;
 
 	.MainCard-divider {
 		@apply my-6 -mx-6;
