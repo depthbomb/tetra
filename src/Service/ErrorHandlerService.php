@@ -21,6 +21,7 @@ class ErrorHandlerService
     {
         $code    = Response::HTTP_INTERNAL_SERVER_ERROR;
         $message = null;
+        $request = $this->request->getMainRequest();
 
         if ($exception instanceof HttpException)
         {
@@ -48,12 +49,17 @@ class ErrorHandlerService
             }
         }
 
-        $request_id = $this->request->getMainRequest()->attributes->getString('_request_id');
+        $request_id = $request->attributes->getString('_request_id');
         $data       = [
             'request_id' => $request_id,
             'status'     => $code,
             'message'    => $message ?? Response::$statusTexts[$code],
         ];
+
+        if ($request->attributes->has('_rate_limit_reset_after'))
+        {
+            $data['reset_after'] = $request->attributes->get('_rate_limit_reset_after');
+        }
 
         if ($this->isDebug())
         {

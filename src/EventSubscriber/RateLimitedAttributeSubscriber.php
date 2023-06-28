@@ -55,6 +55,7 @@ class RateLimitedAttributeSubscriber
 
             if (!$result->isAccepted())
             {
+                $request->attributes->set('_rate_limit_reset_after', $this->rateLimitResetAfter);
                 $code = Response::HTTP_TOO_MANY_REQUESTS;
 
                 throw new HttpException($code, Response::$statusTexts[$code]);
