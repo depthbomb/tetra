@@ -51,7 +51,7 @@
 			@apply space-x-3;
 
 			span {
-				@apply text-2xl font-serif;
+				@apply text-2xl font-serif font-bold;
 			}
 		}
 

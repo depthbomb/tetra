@@ -49,7 +49,7 @@ module.exports = {
 			},
 			fontFamily: {
 				sans: [
-					'Ubuntu',
+					'"Inter Variable"',
 					'ui-sans-serif',
 					'system-ui',
 					'-apple-system',
@@ -65,7 +65,7 @@ module.exports = {
 					'"Noto Color Emoji"',
 				],
 				serif: [
-					'"Josefin Sans"',
+					'"Josefin Sans Variable"',
 					'ui-serif',
 					'Georgia',
 					'Cambria',
@@ -74,7 +74,7 @@ module.exports = {
 					'serif'
 				],
 				mono: [
-					'"Fira Code"',
+					'"Fira Code Variable"',
 					'ui-monospace',
 					'SFMono-Regular',
 					'Menlo',

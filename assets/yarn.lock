@@ -242,24 +242,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/fira-code@npm:^5.0.3":
+"@fontsource-variable/fira-code@npm:^5.0.3":
   version: 5.0.3
-  resolution: "@fontsource/fira-code@npm:5.0.3"
-  checksum: a7a719165c5a2145f6459e2ce1ae4c30e633f236506a825fade5ecb5a50f3e3b6911ad3ea54e4290fc1f2e008c08f258da96df1ccfca5f131181fd4853cbd00c
+  resolution: "@fontsource-variable/fira-code@npm:5.0.3"
+  checksum: eb6273ed34af5e7a8c52a1c661c322d827801abceb165deea3f5930ceea2896678ff8f90c74607d0736182d21fe8868c9ee4884fd9106a59b8a2415489aac5b6
   languageName: node
   linkType: hard
 
-"@fontsource/josefin-sans@npm:^5.0.3":
+"@fontsource-variable/inter@npm:^5.0.3":
   version: 5.0.3
-  resolution: "@fontsource/josefin-sans@npm:5.0.3"
-  checksum: 40bac6b9330b965f301826d7e3164f28e2d3c9238475b06cee7d1007324109c66b40b22186091f788dc6690d8a22c9f141caa8cd97bb04ae25e9fbc56a1aeace
+  resolution: "@fontsource-variable/inter@npm:5.0.3"
+  checksum: 495aee31a90a3c4e7e3a43c80501e5a928ff70e87fb53742ba011fdb701ce1dd6bfb397de16ecba67d52910c81fbf408cb41235e77f39749deecbe3dd22431c7
   languageName: node
   linkType: hard
 
-"@fontsource/ubuntu@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "@fontsource/ubuntu@npm:5.0.3"
-  checksum: 232fc82254ad360e88758159aef490d98366a4699926a6da9f2d721c9150df6736f3765251d0b41ad17dd8c7af7c3b899c3c848d3d91ff61a3c90addaefa9466
+"@fontsource-variable/josefin-sans@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "@fontsource-variable/josefin-sans@npm:5.0.4"
+  checksum: 84811a0bf630ea824b47a66fc3917620a9c0376158ee030387d33bf9c0943a73b5e482f2f0ee806e268f898ee172fdb0afa4ef3a55f34c192082b8c4e6d780f5
   languageName: node
   linkType: hard
 
@@ -3226,9 +3226,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tetra-frontend@workspace:."
   dependencies:
-    "@fontsource/fira-code": ^5.0.3
-    "@fontsource/josefin-sans": ^5.0.3
-    "@fontsource/ubuntu": ^5.0.3
+    "@fontsource-variable/fira-code": ^5.0.3
+    "@fontsource-variable/inter": ^5.0.3
+    "@fontsource-variable/josefin-sans": ^5.0.4
     "@headlessui/vue": ^1.7.14
     "@rushstack/eslint-patch": ^1.3.2
     "@tailwindcss/forms": ^0.5.3

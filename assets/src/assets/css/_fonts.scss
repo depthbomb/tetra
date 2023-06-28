@@ -5,25 +5,14 @@
 /**
 	https://fontsource.org/fonts/inter
  */
-@import '@fontsource/ubuntu/300.css';
-@import '@fontsource/ubuntu/300-italic.css';
-@import '@fontsource/ubuntu/400.css';
-@import '@fontsource/ubuntu/400-italic.css';
-@import '@fontsource/ubuntu/500.css';
-@import '@fontsource/ubuntu/500-italic.css';
-@import '@fontsource/ubuntu/700.css';
-@import '@fontsource/ubuntu/700-italic.css';
+@import '@fontsource-variable/inter';
 
 /**
 	https://fontsource.org/fonts/fira-code
  */
-@import '@fontsource/fira-code/300.css';
-@import '@fontsource/fira-code/400.css';
-@import '@fontsource/fira-code/500.css';
-@import '@fontsource/fira-code/600.css';
-@import '@fontsource/fira-code/700.css';
+@import '@fontsource-variable/fira-code';
 
 /**
 	https://fontsource.org/fonts/josefin-sans
  */
-@import "@fontsource/josefin-sans/700.css";
+@import '@fontsource-variable/josefin-sans';
