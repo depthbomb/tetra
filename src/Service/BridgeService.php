@@ -25,16 +25,11 @@ class BridgeService
             'requestId' => $request->attributes->getString('_request_id'),
             'authToken' => null,
             'ajaxToken' => $this->tokenManager->getToken('ajax')->getValue(),
-            'authUrl' => null,
         ];
 
         if ($this->security->isGranted('IS_AUTHENTICATED'))
         {
             $config['authToken'] = $this->tokenManager->getToken('auth')->getValue();
-        }
-        else
-        {
-            $config['authUrl'] = $this->url->generate('oidc_start', [], UrlGeneratorInterface::ABSOLUTE_URL);
         }
 
         return json_encode($config);

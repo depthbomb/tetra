@@ -2,14 +2,12 @@
 	import { ref, defineAsyncComponent } from 'vue';
 	import { useUser } from '~/composables/useUser';
 	import AppButton from '~/components/AppButton.vue';
-	import { useConfig } from '~/composables/useConfig';
 	import { useFeatures } from '~/composables/useFeature';
 	import SignInIcon from '~/components/icons/SignInIcon.vue';
 	import SuperfishialLogo from '~/components/logos/SuperfishialLogo.vue';
 
 	const AppUserDrawer = defineAsyncComponent(() => import('./AppUserDrawer.vue'));
 
-	const { authUrl }          = useConfig();
 	const { isLoggedIn }       = useUser();
 	const { isFeatureEnabled } = useFeatures();
 
@@ -29,7 +27,7 @@
 		</div>
 		<div class="Header-user">
 			<app-user-drawer v-if="isLoggedIn"/>
-			<app-button v-else :to="authUrl" variant="brand" size="small" :disabled="!loginButtonEnabled">
+			<app-button v-else to="/oidc/start" variant="brand" size="small" :disabled="!loginButtonEnabled">
 				<sign-in-icon class="mr-2 w-3.5 h-3.5"/>
 				<span>Sign In</span>
 			</app-button>
