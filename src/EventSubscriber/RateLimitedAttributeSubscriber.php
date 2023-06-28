@@ -12,9 +12,10 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class RateLimitedAttributeSubscriber
 {
-    private ?int $rateLimitLimit     = null;
-    private ?int $rateLimitRemaining = null;
-    private ?int $rateLimitReset     = null;
+    private ?int $rateLimitLimit      = null;
+    private ?int $rateLimitRemaining  = null;
+    private ?int $rateLimitReset      = null;
+    private ?int $rateLimitResetAfter = null;
 
     public function __construct(
         private readonly RateLimiterFactory $authenticationLimiter,
@@ -46,10 +47,11 @@ class RateLimitedAttributeSubscriber
                 return;
             }
 
-            $result                   = $limiter->consume($consume_amount);
-            $this->rateLimitLimit     = $result->getLimit();
-            $this->rateLimitRemaining = $result->getRemainingTokens();
-            $this->rateLimitReset     = $result->getRetryAfter()->getTimestamp() - time();
+            $result                    = $limiter->consume($consume_amount);
+            $this->rateLimitLimit      = $result->getLimit();
+            $this->rateLimitRemaining  = $result->getRemainingTokens();
+            $this->rateLimitResetAfter = $result->getRetryAfter()->getTimestamp();
+            $this->rateLimitReset      = $this->rateLimitResetAfter - time();
 
             if (!$result->isAccepted())
             {
@@ -68,16 +70,18 @@ class RateLimitedAttributeSubscriber
             return;
         }
 
-        $limit     = $this->rateLimitLimit;
-        $remaining = $this->rateLimitRemaining;
-        $reset     = $this->rateLimitReset;
+        $limit       = $this->rateLimitLimit;
+        $remaining   = $this->rateLimitRemaining;
+        $reset       = $this->rateLimitReset;
+        $reset_after = $this->rateLimitResetAfter;
 
-        if ($limit and $remaining and $reset)
+        if ($limit and $remaining and $reset and $reset_after)
         {
             $response = $event->getResponse();
             $response->headers->set('X-RateLimit-Limit', $limit);
             $response->headers->set('X-RateLimit-Remaining', $remaining);
             $response->headers->set('X-RateLimit-Reset', $reset);
+            $response->headers->set('X-RateLimit-Reset-After', $reset_after);
         }
     }
 
