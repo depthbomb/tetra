@@ -29,8 +29,16 @@
 				<p>Error responses returned by the API will include a <code>status</code> property representing the HTTP status code, a <code>message</code> property describing the problem, and a <code>request_id</code> property that can be used to help debug issues.</p>
 			</TabPanel>
 			<TabPanel>
-				<p>All requests made to public API endpoints are subject to a single rate limit to help prevent abuse of the service. This rate limit is generous enough that you likely won't be limited by normal use.</p>
-				<p>You are encouraged to attempt to work with the rate limit by parsing the <code>X-RateLimit-*</code> headers in your implementations to avoid being limited.</p>
+				<p>All requests made to public API endpoints are subject to a single rate limit to help prevent abuse of the service. This rate limit is generous enough that you likely won't be limited from normal use.</p>
+				<p>Requests made to endpoints protected by a rate limit will always return a set of response headers.</p>
+				<ul class="my-3 space-y-1 list-none list-inside">
+					<li class="ml-3 list-disc"><code>X-RateLimit-Limit</code> - The number of requests that can be made to the endpoint before being limited</li>
+					<li class="ml-3 list-disc"><code>X-RateLimit-Remaining</code> - The number of requests remaining that can be made to the endpoint before being limited</li>
+					<li class="ml-3 list-disc"><code>X-RateLimit-Reset</code> - The remaining time (in seconds) before the rate limit is reset</li>
+					<li class="ml-3 list-disc"><code>X-RateLimit-Reset-After</code> - The epoch time (in seconds) at which the rate limit will reset</li>
+				</ul>
+				<p>Upon exceeding a rate limit you will get an HTTP 429 response with a JSON body which will include the typical error response as well as a <code>retry_after</code> field which includes the same value as the above corresponding header.</p>
+				<p>Your applications that consume this service should rely on the <code>X-RateLimit-*</code> response headers or the <code>retry_after</code> field to ensure that you do not hit any rate limits.</p>
 			</TabPanel>
 			<TabPanel>
 				<h1 class="mb-3 font-bold text-xl">Shortlinks</h1>
