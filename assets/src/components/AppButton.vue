@@ -62,7 +62,6 @@
 	@apply min-w-max;
 	@apply text-white;
 	@apply rounded;
-	@apply border;
 	@apply cursor-pointer;
 	@apply select-none;
 	@apply outline-none;
@@ -83,9 +82,9 @@
 	}
 
 	&.is-brand {
-		@apply bg-brand-600 border-brand-600;
+		@apply bg-brand-600;
 		@apply hover:bg-brand-700;
-		@apply active:bg-brand-800 active:border-brand-700;
+		@apply active:bg-brand-800;
 
 		.Button-loader {
 			@apply bg-brand-600;
@@ -95,18 +94,18 @@
 	&.is-success {
 		&,
 		& .Button-loader {
-			@apply bg-green-600 border-green-600;
+			@apply bg-green-600;
 			@apply hover:bg-green-700;
-			@apply active:bg-green-800 active:border-green-700;
+			@apply active:bg-green-800;
 		}
 	}
 
 	&.is-warning {
 		&,
 		& .Button-loader {
-			@apply bg-amber-600 border-amber-600;
+			@apply bg-amber-600;
 			@apply hover:bg-amber-700;
-			@apply active:bg-amber-800 active:border-amber-700;
+			@apply active:bg-amber-800;
 		}
 	}
 
@@ -114,9 +113,9 @@
 	&.is-error {
 		&,
 		& .Button-loader {
-			@apply bg-red-600 border-red-600;
+			@apply bg-red-600;
 			@apply hover:bg-red-700;
-			@apply active:bg-red-800 active:border-red-700;
+			@apply active:bg-red-800;
 		}
 	}
 
