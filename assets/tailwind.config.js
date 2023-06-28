@@ -49,7 +49,7 @@ module.exports = {
 			},
 			fontFamily: {
 				sans: [
-					'Inter',
+					'Ubuntu',
 					'ui-sans-serif',
 					'system-ui',
 					'-apple-system',

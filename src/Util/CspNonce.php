@@ -1,9 +1,14 @@
 <?php namespace App\Util;
 
+use Exception;
+
 class CspNonce
 {
     private static ?string $nonce = null;
 
+    /**
+     * @throws Exception
+     */
     public static function getNonce(): string
     {
         if (is_null(self::$nonce))

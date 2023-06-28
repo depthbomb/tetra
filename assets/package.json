@@ -14,8 +14,8 @@
 	},
 	"dependencies": {
 		"@fontsource/fira-code": "^5.0.3",
-		"@fontsource/inter": "^5.0.3",
 		"@fontsource/josefin-sans": "^5.0.3",
+		"@fontsource/ubuntu": "^5.0.3",
 		"@headlessui/vue": "^1.7.14",
 		"@vueuse/components": "^10.2.0",
 		"@vueuse/core": "^10.2.0",
