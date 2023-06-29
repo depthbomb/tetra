@@ -16,7 +16,7 @@
 	const focused = useWindowFocus();
 
 	const getTotalLinksCount = async () => {
-		const { success, getJSON } = await useApi('/api/total-shortlinks', { method: 'POST' });
+		const { success, getJSON } = await useApi('/_private/total-shortlinks', { method: 'POST' });
 		if (success.value) {
 			const { count }  = await getJSON<ITotalShortlinksResponse>();
 			totalLinks.value = count;
@@ -24,7 +24,7 @@
 	};
 
 	const getLatestCommitHash = async () => {
-		const { success, getJSON } = await useApi('/api/git-hash', { method: 'POST' });
+		const { success, getJSON } = await useApi('/_private/git-hash', { method: 'POST' });
 		if (success.value) {
 			const { hash } = await getJSON<ILatestCommitHashResponse>();
 			gitHash.value  = hash;

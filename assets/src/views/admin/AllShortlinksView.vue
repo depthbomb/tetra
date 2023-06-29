@@ -16,7 +16,7 @@
 
 	const getAllShortlinks = useThrottleFn(async () => {
 		loading.value = true;
-		const { success, getJSON } = await useApi('/api/admin/all-shortlinks', { method: 'POST' });
+		const { success, getJSON } = await useApi('/_private/admin/all-shortlinks', { method: 'POST' });
 
 		if (success.value) {
 			const links = await getJSON<AllShortlinksResponse>();

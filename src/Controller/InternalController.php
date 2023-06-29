@@ -15,7 +15,7 @@ use Depthbomb\CsrfBundle\Attribute\CsrfProtected;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api')]
+#[Route('/_private')]
 #[CsrfProtected('ajax')]
 #[RateLimited('internal_api')]
 class InternalController extends Controller
@@ -27,7 +27,7 @@ class InternalController extends Controller
         private readonly CacheInterface      $cache,
     ) {}
 
-    #[Route('/git-hash', name: 'api.internal.latest_git_hash', methods: ['POST'])]
+    #[Route('/git-hash', name: 'private.latest_git_hash', methods: ['POST'])]
     public function getLatestGitHash(GitHubService $gh): Response
     {
         $hash = $this->cache->get('latest_commit_hash', function (ItemInterface $item) use ($gh) {
@@ -39,7 +39,7 @@ class InternalController extends Controller
         return $this->json(compact('hash'));
     }
 
-    #[Route('/total-shortlinks', name: 'api.internal.total_shortlinks', methods: ['POST'])]
+    #[Route('/total-shortlinks', name: 'private.total_shortlinks', methods: ['POST'])]
     public function getTotalShortlinks(): Response
     {
         $count = $this->shortlinks->getTotal();
@@ -48,7 +48,7 @@ class InternalController extends Controller
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/admin/all-shortlinks', name:'api.internal.all_shortlinks', methods: ['POST'])]
+    #[Route('/admin/all-shortlinks', name: 'private.all_shortlinks', methods: ['POST'])]
     public function getAllShortlinks(): Response
     {
         $shortlinks = $this->shortlinks->createQueryBuilder('s')
@@ -63,7 +63,7 @@ class InternalController extends Controller
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/admin/toggle-shortlink-disabled', name: 'api.internal.toggle_shortlink_disabled', methods: ['PATCH'])]
+    #[Route('/admin/toggle-shortlink-disabled', name: 'private.toggle_shortlink_disabled', methods: ['PATCH'])]
     public function toggleShortlinkDisabled(Request $request): Response
     {
         $payload = $request->getPayload();
@@ -92,7 +92,7 @@ class InternalController extends Controller
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/admin/all-users', name: 'api.internal.all_users', methods: ['POST'])]
+    #[Route('/admin/all-users', name: 'private.all_users', methods: ['POST'])]
     public function getAllUsers(): Response
     {
         $users = [];

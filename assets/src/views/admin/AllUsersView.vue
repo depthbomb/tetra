@@ -13,7 +13,7 @@
 	const users   = ref<AllUsersResponse>([]);
 
 	const getAllUsers = async () => {
-		const { success, getJSON } = await useApi('/api/admin/all-users', { method: 'POST' });
+		const { success, getJSON } = await useApi('/_private/admin/all-users', { method: 'POST' });
 
 		if (success.value) {
 			const links = await getJSON<AllUsersResponse>();

@@ -29,7 +29,7 @@
 
 	const toggleShortlinkDisabled = async (shortcode: string) => {
 		if (shiftKey === true || confirm(`Are you sure you want to ${disabled.value ? 'enable' : 'disable'} this shortlink?`)) {
-			const { success } = await useApi('/api/admin/toggle-shortlink-disabled', {
+			const { success } = await useApi('/_private/admin/toggle-shortlink-disabled', {
 				body: JSON.stringify({ shortcode }),
 				method: 'PATCH'
 			}, disableLoading);
