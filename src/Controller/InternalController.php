@@ -5,6 +5,7 @@ use App\Entity\Shortlink;
 use App\Service\GitHubService;
 use App\Attribute\RateLimited;
 use App\Repository\UserRepository;
+use Illuminate\Support\Collection;
 use App\Repository\ShortlinkRepository;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -95,22 +96,24 @@ class InternalController extends Controller
     #[Route('/admin/all-users', name: 'private.all_users', methods: ['POST'])]
     public function getAllUsers(): Response
     {
-        $users = [];
         /** @var User[] $users_results */
         $users_results = $this->users->createQueryBuilder('u')
             ->orderBy('u.created_at', 'DESC')
             ->getQuery()
             ->getResult();
 
+        $users = new Collection;
         foreach ($users_results as $user)
         {
-            $users[] = [
+            $users->add([
                 'username' => $user->getUsername(),
                 'avatar' => $user->getAvatar(128),
                 'admin' => in_array('ROLE_ADMIN', $user->getRoles()),
-            ];
+            ]);
         }
 
-        return $this->json($users);
+        return $this->json(
+            $users->sortByDesc('admin')->values()->all()
+        );
     }
 }
