@@ -9,12 +9,17 @@
 
 	type AllShortlinksResponse = IAllShortlinksRecord[];
 
+	const firstLoad  = ref<boolean>(true);
 	const loading    = ref<boolean>(true);
 	const shortlinks = ref<AllShortlinksResponse>([]);
 
 	const shiftKeyState = useKeyModifier('Shift');
 
 	const getAllShortlinks = useThrottleFn(async () => {
+		if (!firstLoad.value && loading.value) {
+			return;
+		}
+
 		loading.value = true;
 		const { success, getJSON } = await useApi('/_private/admin/all-shortlinks', { method: 'POST' });
 
@@ -25,6 +30,10 @@
 		}
 
 		loading.value = false;
+
+		if (firstLoad.value) {
+			firstLoad.value = false;
+		}
 	}, 1_000);
 
 	onMounted(getAllShortlinks);
@@ -33,7 +42,7 @@
 <template>
 	<div class="flex items-center justify-between py-3">
 		<p>Hold <key-combo :keys="['shift']"/> to bypass action confirmations</p>
-		<app-button size="small" @click="getAllShortlinks">Refresh</app-button>
+		<app-button size="small" @click="getAllShortlinks" :loading="loading">Refresh</app-button>
 	</div>
 	<table class="AdminTable">
 		<transition
