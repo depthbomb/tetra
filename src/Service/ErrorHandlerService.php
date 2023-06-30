@@ -26,10 +26,14 @@ class ErrorHandlerService
         if ($exception instanceof HttpException)
         {
             $code = $exception->getStatusCode();
+            $exception_message = $exception->getMessage();
 
             // Always use the exception message in the response's message as it should contain usually-human-friendly
             // messages and not provide more info than needed.
-            $message = $exception->getMessage();
+            if ($exception_message !== '')
+            {
+                $message = $exception_message;
+            }
         }
 
         if ($exception instanceof AccessDeniedException)
@@ -40,20 +44,13 @@ class ErrorHandlerService
             // whether the user is logged in.
 
             $code = $this->isLoggedIn() ? Response::HTTP_FORBIDDEN : Response::HTTP_UNAUTHORIZED;
-
-            if ($this->isDebug())
-            {
-                // Go ahead and include the non-generic message in non-production environments.
-
-                $message = $exception->getMessage();
-            }
         }
 
         $request_id = $request->attributes->getString('_request_id');
         $data       = [
             'request_id' => $request_id,
-            'status'     => $code,
-            'message'    => $message ?? Response::$statusTexts[$code],
+            'status' => $code,
+            'message' => $message ?? Response::$statusTexts[$code],
         ];
 
         if ($request->attributes->has('_rate_limit_reset_after'))
