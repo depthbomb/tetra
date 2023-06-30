@@ -15,12 +15,12 @@
 
 	const WarningIcon = defineAsyncComponent(() => import('~/components/icons/WarningIcon.vue'));
 
-	const destination        = ref('');
-	const shortcode          = ref('');
-	const duration           = ref('');
-	const submitting         = ref(false);
-	const destinationFocused = ref(false);
-	const shortlinkResult    = ref('');
+	const destination        = ref<string>('');
+	const shortcode          = ref<string>('');
+	const duration           = ref<string>('');
+	const submitting         = ref<boolean>(false);
+	const destinationFocused = ref<boolean>(false);
+	const shortlinkResult    = ref<string>('');
 	const isValid = computed(() => {
 		if (!isValidHttpUrl(destination.value)) {
 			return false;

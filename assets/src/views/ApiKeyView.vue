@@ -8,10 +8,10 @@
 	import type { IApiKeyStatusResponse } from '~/@types/IApiKeyStatusResponse';
 	import type { IRegenerateApiKeyResponse } from '~/@types/IRegenerateApiKeyResponse';
 
-	const apiKey           = ref('');
-	const apiKeyHidden     = ref(true);
-	const canRegenerateKey = ref(false);
-	const regeneratingKey  = ref(false);
+	const apiKey           = ref<string>('');
+	const apiKeyHidden     = ref<boolean>(true);
+	const canRegenerateKey = ref<boolean>(false);
+	const regeneratingKey  = ref<boolean>(false);
 
 	const user = useUser();
 

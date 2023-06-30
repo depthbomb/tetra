@@ -9,7 +9,7 @@
 		admin: boolean;
 	}>;
 
-	const loading = ref(true);
+	const loading = ref<boolean>(true);
 	const users   = ref<AllUsersResponse>([]);
 
 	const getAllUsers = async () => {

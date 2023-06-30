@@ -13,7 +13,7 @@
 	defineProps<{ shortlink: IUserShortlinksResponse }>();
 	const emit = defineEmits(['shortlink-deleted']);
 
-	const deleteLoading = ref(false);
+	const deleteLoading = ref<boolean>(false);
 
 	const toasts       = useToastStore();
 	const { truncate } = useTruncation();

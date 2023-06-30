@@ -9,8 +9,8 @@
 	import type { ITotalShortlinksResponse } from '~/@types/ITotalShortlinksResponse';
 	import type { ILatestCommitHashResponse } from '~/@types/ILatestCommitHashResponse';
 
-	const totalLinks = ref(0);
-	const gitHash    = ref('Source');
+	const totalLinks = ref<number>(0);
+	const gitHash    = ref<string>('Source');
 	const tweened    = reactive({ number: 0 });
 
 	const focused = useWindowFocus();

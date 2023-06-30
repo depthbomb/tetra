@@ -8,8 +8,8 @@
 		inverse?:    boolean;
 	}>();
 
-	const toggled    = ref(inverse);
-	const parsedDate = ref(new Date(date));
+	const toggled    = ref<boolean>(inverse);
+	const parsedDate = ref<Date>(new Date(date));
 
 	const toggle = () => {
 		if (toggleable) {

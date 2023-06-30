@@ -13,9 +13,9 @@ interface IAPIRequestResponse {
 export async function useApi(endpoint: string | Ref<string>, init: RequestInit = {}, loadingRef = ref(false)): Promise<IAPIRequestResponse> {
 	const { ajaxToken } = useConfig();
 
-	const ok      = ref(false);
-	const status  = ref(0);
-	const success = ref(false);
+	const ok      = ref<boolean>(false);
+	const status  = ref<number>(0);
+	const success = ref<boolean>(false);
 
 	loadingRef.value = true;
 

@@ -9,7 +9,7 @@
 
 	type AllShortlinksResponse = IAllShortlinksRecord[];
 
-	const loading    = ref(true);
+	const loading    = ref<boolean>(true);
 	const shortlinks = ref<AllShortlinksResponse>([]);
 
 	const shiftKeyState = useKeyModifier('Shift');

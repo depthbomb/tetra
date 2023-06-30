@@ -7,7 +7,7 @@
 	import UserShortlinksRow from '~/components/user-shortlinks/UserShortlinksRow.vue';
 	import type { IUserShortlinksResponse } from '~/@types/IUserShortlinksResponse';
 
-	const loading    = ref(true);
+	const loading    = ref<boolean>(true);
 	const shortlinks = ref<IUserShortlinksResponse[]>([]);
 
 	const user   = useUser();

@@ -12,9 +12,9 @@
 	}>();
 	const emit = defineEmits(['shortlink-deleted', 'shortlink-disable-toggled']);
 
-	const disabled       = ref(shortlink.disabled);
-	const deleteLoading  = ref(false);
-	const disableLoading = ref(false);
+	const disabled       = ref<boolean>(shortlink.disabled);
+	const deleteLoading  = ref<boolean>(false);
+	const disableLoading = ref<boolean>(false);
 
 	const { truncate } = useTruncation();
 

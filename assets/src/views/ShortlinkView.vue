@@ -9,13 +9,13 @@
 	import SpinnerIcon from '~/components/icons/SpinnerIcon.vue';
 	import type { IShortlinksResponse } from '~/@types/IShortlinkResponse';
 
-	const loaded       = ref(false);
-	const error        = ref(false);
-	const errorMessage = ref('');
-	const qrCodeUrl    = ref('');
-	const shortlink    = ref('');
-	const destination  = ref('');
-	const createdAt    = ref('');
+	const loaded       = ref<boolean>(false);
+	const error        = ref<boolean>(false);
+	const errorMessage = ref<string>('');
+	const qrCodeUrl    = ref<string>('');
+	const shortlink    = ref<string>('');
+	const destination  = ref<string>('');
+	const createdAt    = ref<string>('');
 	const expiresAt    = ref<string | null>('');
 
 	const shortcode     = useRouteParams('shortcode');

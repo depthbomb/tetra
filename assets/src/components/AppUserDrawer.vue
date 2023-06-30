@@ -8,8 +8,8 @@
 	import CloseIcon from '~/components/icons/CloseIcon.vue';
 	import SignOutIcon from '~/components/icons/SignOutIcon.vue';
 
-	const sidebar    = ref(null);
-	const drawerOpen = ref(false);
+	const sidebar    = ref<HTMLElement|null>(null);
+	const drawerOpen = ref<boolean>(false);
 
 	const { username, avatars, isAdmin } = useUser();
 
@@ -24,19 +24,19 @@
 
 <template>
 	<aside class="UserDrawer">
-		<button class="UserDrawer-activator" type="button" @click="toggleDrawer()">
-			<img :src="avatars.x24" :alt="username">
+		<button class="UserDrawer-activator" type="button" @click="toggleDrawer">
+			<img :src="avatars.x24" width="24" height="24" :alt="username" loading="lazy">
 			<span>{{ username }}</span>
 		</button>
 		<div v-if="drawerOpen" class="UserDrawer-overlay">
 			<div ref="sidebar" class="UserDrawer-sidebar">
 				<header class="UserDrawer-sidebar-header">
 					<div class="UserDrawer-user">
-						<img :src="avatars.x32" :alt="username">
+						<img :src="avatars.x32" width="32" height="32" :alt="username" loading="lazy">
 						<span>{{ username }}</span>
 					</div>
 					<div class="UserDrawer-close-button">
-						<button type="button" @click="toggleDrawer()">
+						<button type="button" @click="toggleDrawer">
 							<close-icon class="w-4 h-4"/>
 						</button>
 					</div>
@@ -45,7 +45,7 @@
 					Just close the sidebar whenever anything within this container is clicked until
 					I come up with a more thorough solution.
 				-->
-				<div class="UserDrawer-sidebar-links" @click="toggleDrawer()">
+				<div class="UserDrawer-sidebar-links" @click="toggleDrawer">
 					<template v-if="isAdmin">
 						<router-link :to="{ name: 'admin.shortlinks' }">
 							<list-icon/> All Shortlinks (Admin)
@@ -53,7 +53,7 @@
 						<router-link :to="{ name: 'admin.users' }">
 							<users-icon/> All Users (Admin)
 						</router-link>
-						<hr>
+						<hr role="separator">
 					</template>
 					<router-link :to="{ name: 'user-shortlinks' }">
 						<list-icon/> My Shortlinks
@@ -61,7 +61,7 @@
 					<router-link :to="{ name: 'api-key' }">
 						<key-icon/> API Key
 					</router-link>
-					<hr>
+					<hr role="separator">
 					<router-link :to="{ name: 'auth.logout' }" class="is-danger">
 						<sign-out-icon/> Sign Out
 					</router-link>
