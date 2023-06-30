@@ -21,7 +21,7 @@
 	.Container {
 		@apply mx-auto;
 		@apply pt-16;
-		@apply w-[1280px];
+		@apply max-w-screen-xl;
 	}
 
 	.BackgroundImage {
