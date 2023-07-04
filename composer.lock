@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5a30c963d5b8e554cdd09e2b2388c81",
+    "content-hash": "dd0d3ac978d6203bd4256b624b4a3c82",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -112,16 +112,16 @@
         },
         {
             "name": "depthbomb/csrf-bundle",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/depthbomb/CsrfBundle.git",
-                "reference": "b5e7e81ff6991ec3df62cc03823646e7136ece94"
+                "reference": "2e9f3c59040b05dfaa6284b440255d2c78973c1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/depthbomb/CsrfBundle/zipball/b5e7e81ff6991ec3df62cc03823646e7136ece94",
-                "reference": "b5e7e81ff6991ec3df62cc03823646e7136ece94",
+                "url": "https://api.github.com/repos/depthbomb/CsrfBundle/zipball/2e9f3c59040b05dfaa6284b440255d2c78973c1f",
+                "reference": "2e9f3c59040b05dfaa6284b440255d2c78973c1f",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "description": "Simple CSRF protection for Symfony routes",
             "support": {
                 "issues": "https://github.com/depthbomb/CsrfBundle/issues",
-                "source": "https://github.com/depthbomb/CsrfBundle/tree/1.0.0"
+                "source": "https://github.com/depthbomb/CsrfBundle/tree/1.1.0"
             },
-            "time": "2023-06-14T02:41:38+00:00"
+            "time": "2023-07-01T02:57:57+00:00"
         },
         {
             "name": "doctrine/cache",

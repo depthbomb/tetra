@@ -7,9 +7,9 @@
 </script>
 
 <template>
-	<div class="KeyCombo">
-		<span v-for="key in keys" class="KeyCombo-bind">{{ key }}</span>
-	</div>
+	<span class="KeyCombo">
+		<kbd v-for="key in keys" class="KeyCombo-bind">{{ key }}</kbd>
+	</span>
 </template>
 
 <style scoped lang="scss">

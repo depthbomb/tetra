@@ -15,71 +15,87 @@
 </script>
 
 <template>
-	<div class="Header">
-		<router-link :to="{ name: 'home' }" class="Header-brand">
+	<header class="Masthead">
+		<router-link :to="{ name: 'home' }" class="Masthead-brand">
 			<superfishial-logo class="w-12"/>
 			<span>go.super.fish</span>
 		</router-link>
-		<div class="Header-links">
-			<router-link :to="{ name: 'home' }">Home</router-link>
-			<router-link :to="{ name: 'api-docs' }">API Docs</router-link>
-			<router-link :to="{ name: 'faq' }">FAQ</router-link>
+		<div class="Masthead-links">
+			<router-link :to="{ name: 'home' }" class="Masthead-link">Home</router-link>
+			<router-link :to="{ name: 'api-docs' }" class="Masthead-link">API Docs</router-link>
+			<router-link :to="{ name: 'faq' }" class="Masthead-link">FAQ</router-link>
 		</div>
-		<div class="Header-user">
+		<div class="Masthead-user">
 			<app-user-drawer v-if="isLoggedIn"/>
 			<app-button v-else to="/oidc/start" variant="brand" size="small" :disabled="!loginButtonEnabled">
 				<sign-in-icon class="mr-2 w-3.5 h-3.5"/>
-				<span>Sign In</span>
+				<span>Sign In via Superfishial</span>
 			</app-button>
 		</div>
-	</div>
+	</header>
 </template>
 
 <style scoped lang="scss">
-	.Header {
+	.Masthead {
 		@apply fixed;
 		@apply flex items-center;
+		@apply gap-6;
 		@apply py-1.5 px-3;
-		@apply w-full;
-		@apply bg-gray-900 bg-opacity-90;
-		@apply backdrop-blur-lg;
+		@apply w-full h-12;
+		@apply bg-gray-900;
 		@apply z-[256];
 
-		.Header-brand {
+		.Masthead-brand {
 			@apply flex items-center;
-			@apply mr-6;
-			@apply space-x-3;
+			@apply gap-3;
 
 			span {
 				@apply text-2xl font-serif font-bold;
 			}
 		}
 
-		.Header-links {
+		.Masthead-links {
 			@apply flex items-center;
-			@apply space-x-3;
+			@apply gap-1.5;
 
-			a {
-				@apply py-1.5 px-3;
+			.Masthead-link {
+				@apply py-1 px-2.5;
 				@apply text-gray-300;
 				@apply bg-transparent;
-				@apply rounded;
+				@apply rounded-full;
 				@apply select-none;
 				@apply transition-colors;
 
 				@apply hover:text-white hover:bg-gray-700;
-				@apply active:text-white active:bg-gray-950;
+				@apply active:text-white active:bg-gray-600;
 
 				&.is-active {
 					@apply text-white;
-					@apply bg-brand-700;
+					@apply bg-brand-600 hover:bg-brand-600;
 				}
 			}
 		}
 
-		.Header-user {
-			@apply relative;
+		.Masthead-user {
 			@apply ml-auto;
+
+			.Masthead-user-control {
+				@apply flex items-center;
+				@apply gap-1.5;
+				@apply py-1 px-2.5;
+				@apply text-gray-300;
+				@apply rounded-full;
+				@apply select-none;
+				@apply transition-colors;
+
+				@apply hover:text-white hover:bg-gray-700;
+				@apply active:text-white active:bg-gray-600;
+
+				img {
+					@apply w-5 h-5;
+					@apply rounded-full;
+				}
+			}
 		}
 	}
 </style>

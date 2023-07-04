@@ -46,7 +46,7 @@
 		@apply p-1.5;
 		@apply w-full;
 		@apply bg-gray-950;
-		@apply rounded-lg;
+		@apply rounded-3xl;
 
 		& + & {
 			@apply mt-3;
@@ -67,7 +67,7 @@
 			.Endpoint-verb {
 				@apply py-1.5 px-6;
 				@apply font-mono font-bold;
-				@apply rounded;
+				@apply rounded-full;
 				@apply border;
 
 				&.is-get {
@@ -119,7 +119,7 @@
 			@apply font-mono text-sm text-yellow-600;
 			@apply bg-yellow-950;
 			@apply border border-yellow-600;
-			@apply rounded;
+			@apply rounded-full;
 		}
 
 		.Endpoint-explanation {

@@ -16,6 +16,6 @@ class Features
 
     public static function isFeatureEnabled(string $feature): bool
     {
-        return isset(self::$enabledFeatures[$feature]) && self::$enabledFeatures[$feature];
+        return isset(self::$enabledFeatures[$feature]) and self::$enabledFeatures[$feature];
     }
 }

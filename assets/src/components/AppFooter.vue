@@ -40,49 +40,58 @@
 		}
 	}, 10_000);
 
-	watch(totalLinks, n => gsap.to(tweened, { duration: 1.0, number: n || 0 }));
+	watch(totalLinks, n => gsap.to(tweened, { duration: 1.5, number: n || 0 }));
 </script>
 
 <template>
 	<footer class="Footer">
-		<div class="Footer-content">
-			<p><copyright-icon class="mr-1.5"/> superfishial {{ new Date().getFullYear() }}</p>
-			<span class="Footer-divider">|</span>
-			<p><span>Serving <span class="font-mono">{{ tweened.number.toFixed(0) }}</span> shortlinks</span></p>
-			<span class="Footer-divider">|</span>
-			<a href="https://github.com/depthbomb/tetra" target="_blank"><github-icon class="mr-1.5"/> {{ gitHash }}</a>
-			<span class="Footer-divider">|</span>
-			<a href="https://unsplash.com/@jeremybishop" target="_blank" rel="nofollow">Background <external-icon class="ml-1.5"/></a>
+		<div class="Footer-row" role="list">
+			<div class="Footer-column" role="listitem">
+				<copyright-icon class="w-3 h-3"/>
+				<span>superfishial {{ new Date().getFullYear() }}</span>
+			</div>
+			<div class="Footer-column" role="listitem">
+				<span>Serving <span class="font-mono">{{ tweened.number.toLocaleString('en-us', { maximumFractionDigits: 0 }) }}</span> shortlinks</span>
+			</div>
+			<a href="https://github.com/depthbomb/tetra" target="_blank" class="Footer-link" role="listitem">
+				<github-icon class="w-3 h-3"/>
+				<span>{{ gitHash }}</span>
+			</a>
+			<a href="https://unsplash.com/@jeremybishop" target="_blank" class="Footer-link" role="listitem">
+				<span>Background</span>
+				<external-icon class="ml-1.5 w-3 h-3"/>
+			</a>
 		</div>
 	</footer>
 </template>
 
 <style scoped lang="scss">
-	.Footer {
-		@apply flex justify-center flex-shrink-0;
-		@apply py-3;
+	footer.Footer {
+		@apply block;
+		@apply mt-6 pt-6;
+		@apply border-t-2 border-gray-800;
 
-		.Footer-content {
-			@apply flex;
-			@apply space-x-3;
+		.Footer-row {
+			@apply flex justify-center items-center;
+			@apply gap-3;
 
-			p, a {
-				@apply flex items-center;
-
-				svg {
-					@apply w-3 h-3;
-				}
+			.Footer-column,
+			.Footer-link {
+				@apply flex justify-center items-center;
+				@apply gap-1.5;
+				@apply py-1 px-2.5;
+				@apply max-h-7;
+				@apply text-sm;
 			}
 
-			a {
-				@apply text-brand-100;
-				@apply border-b border-current;
-				@apply hover:text-brand;
+			.Footer-link {
+				@apply text-gray-400;
+				@apply rounded-full;
 				@apply transition-colors;
-			}
+				@apply select-none;
 
-			.Footer-divider {
-				@apply text-gray-300;
+				@apply hover:text-white hover:bg-gray-700;
+				@apply active:text-white active:bg-gray-600;
 			}
 		}
 	}

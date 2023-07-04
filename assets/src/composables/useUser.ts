@@ -1,6 +1,8 @@
+import { useBridge } from '~/composables/useBridge';
+
 export function useUser() {
-	const attribute = document.querySelector('meta[name="user"]') as HTMLMetaElement;
-	const data      = JSON.parse(attribute.content);
+	const userPayload = useBridge('user');
+	const data        = JSON.parse(userPayload);
 
 	const username: string                   = data.username;
 	const avatars: { [key: string]: string } = data.avatars;

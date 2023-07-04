@@ -19,6 +19,6 @@
 		@apply p-3;
 		@apply text-xl font-bold;
 		@apply bg-gray-700;
-		@apply rounded-lg;
+		@apply rounded-full;
 	}
 </style>

@@ -1,16 +1,16 @@
 <?php namespace App\Controller;
 
-use App\Util\Features;
 use App\Attribute\RateLimited;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Depthbomb\CsrfBundle\Attribute\CsrfProtected;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/oidc')]
-class OAuthController extends Controller
+class AuthController extends Controller
 {
     public function __construct(private readonly TranslatorInterface $translator) {}
 
@@ -31,15 +31,21 @@ class OAuthController extends Controller
     }
 
     #[CsrfProtected('auth')]
-    #[Route('/invalidate', name: 'auth.invalidate', methods: ['POST'])]
-    public function handleLogout(Security $security): Response
+    #[Route('/invalidate', name: 'auth.invalidate', methods: ['GET', 'POST'])]
+    public function handleLogout(Security $security, RequestStack $request_stack): Response
     {
         if ($this->loggedIn())
         {
-            // $validateCsrfToken is false as we are using our own solution for handling CSRF
             $security->logout(false);
+
+            $request = $request_stack->getMainRequest();
+            $query   = $request->query;
+            if ($query->has('goto'))
+            {
+                return $this->redirect($query->getString('goto'));
+            }
         }
 
-        return new Response(null, Response::HTTP_OK);
+        return $this->redirectToRoute('web.home');
     }
 }

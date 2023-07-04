@@ -1,51 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="www"><!--
-     _))
-    > *\     _~
-    `;'\\__-' \_
-       | )  _ \ \
-     / / ``   w w
-     w w
---><head>
-    <base href="{{ path('web.spa') }}">
-    <meta charset="utf-8">
-    <meta name="theme-color" content="#05bef9">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A shortlink generator that just works">
+<html lang="en" dir="ltr" class="www">
+    <!--
+         _))
+        > *\     _~
+        `;'\\__-' \_
+           | )  _ \ \
+         / / ``   w w
+         w w
+    -->
+    <head>
+        <base href="{{ path('web.index') }}">
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#05bef9">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="A shortlink generator that just works">
+        <meta name="tetra/route" content="{{ get_route_name() }}">
+        <meta name="tetra/client-ip" content="{{ get_client_ip() }}">
+        <meta name="tetra/request-id" content="{{ get_request_id() }}">
+        <meta name="tetra/ajax-token" content="{{ csrf_token('ajax') }}">
+        <meta name="tetra/enabled-features" content="{{ get_enabled_features() }}">
+        <meta name="tetra/user" content="{{ get_user_config() }}">
+        {%- if app.user -%}
+            <meta name="tetra/auth/invalidate-url" content="{{ url('auth.invalidate', { 'token': csrf_token('auth'), 'goto': url('web.index') }) }}">
+        {%- endif -%}
 
-    <title>go.super.fish</title>
+        <title>go.super.fish</title>
 
-    <link rel="canonical" href="{{ url('web.spa') }}">
-    <link rel="preconnect" href="https://auth.super.fish">
-    <link rel="prefetch" href="https://auth.super.fish">
+        <link rel="canonical" href="{{ url('web.index') }}">
 
-    <link href="{{ get_versioned_asset('apple-icon-precomposed.png') }}" rel="apple-touch-icon-precomposed">
+        <link href="{{ get_versioned_asset('apple-icon-precomposed.png') }}" rel="apple-touch-icon-precomposed">
 
-    {%- for s in [57, 60, 76, 114, 120, 144, 180] -%}
-        <link href="{{ get_versioned_asset("apple-icon-"~s~"x"~s~".png") }}" rel="apple-touch-icon" sizes="{{ s }}x{{ s }}" >
-    {%- endfor -%}
-    {%- for s in [36, 48, 72, 96, 144, 192] -%}
-        <link href="{{ get_versioned_asset("android-icon-"~s~"x"~s~".png") }}" rel="icon" type="image/png" sizes="{{ s }}x{{ s }}">
-    {%- endfor -%}
-    {%- for s in [16, 32, 96] -%}
-        <link href="{{ get_versioned_asset("favicon-"~s~"x"~s~".png") }}" rel="icon" type="image/png" sizes="{{ s }}x{{ s }}">
-    {%- endfor -%}
-    {%- for preload in get_preload_assets() -%}
-        <link href="{{ preload }}" rel="modulepreload" nonce="{{ csp_nonce() }}">
-    {%- endfor -%}
-    {%- for entry in get_css_entries() -%}
-        <link href="{{ entry }}" type="text/css" rel="stylesheet" nonce="{{ csp_nonce() }}">
-    {%- endfor -%}
-    {%- for entry in get_js_entries() -%}
-        <script src="{{ entry }}" type="module" nonce="{{ csp_nonce() }}"></script>
-    {%- endfor -%}
-
-    <meta name="config" content="{{ get_config() }}">
-    <meta name="user" content="{{ get_user() }}">
-    <meta name="enabled-features" content="{{ get_enabled_features() }}">
-</head>
-<body class="not-nirvana-fishfood">
-    <noscript>This site requires JavaScript to be enabled.</noscript>
-    {%- block body -%}{%- endblock -%}
-</body>
+        {% for s in [57, 60, 76, 114, 120, 144, 180] %}
+            <link href="{{ get_versioned_asset("apple-icon-"~s~"x"~s~".png") }}" rel="apple-touch-icon" sizes="{{ s }}x{{ s }}" >
+        {% endfor %}
+        {% for s in [36, 48, 72, 96, 144, 192] %}
+            <link href="{{ get_versioned_asset("android-icon-"~s~"x"~s~".png") }}" rel="icon" type="image/png" sizes="{{ s }}x{{ s }}">
+        {% endfor %}
+        {% for s in [16, 32, 96] %}
+            <link href="{{ get_versioned_asset("favicon-"~s~"x"~s~".png") }}" rel="icon" type="image/png" sizes="{{ s }}x{{ s }}">
+        {% endfor %}
+        {% for preload in get_preload_assets() %}
+            <link href="{{ preload }}" rel="modulepreload" nonce="{{ csp_nonce() }}">
+        {% endfor %}
+        {% for entry in get_css_entries() %}
+            <link href="{{ entry }}" type="text/css" rel="stylesheet" nonce="{{ csp_nonce() }}">
+        {% endfor %}
+        {% for entry in get_js_entries() %}
+            <script src="{{ entry }}" type="module" nonce="{{ csp_nonce() }}"></script>
+        {% endfor %}
+    </head>
+    <body class="not-nirvana-fishfood">
+        <noscript>This site requires JavaScript to be enabled.</noscript>
+        {% block body %}{% endblock %}
+    </body>
 </html>

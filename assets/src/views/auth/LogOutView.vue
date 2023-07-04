@@ -2,9 +2,9 @@
 	import { onMounted } from 'vue';
 	import { useApi } from '~/composables/useApi';
 	import AppLoader from '~/components/AppLoader.vue';
-	import { useConfig } from '~/composables/useConfig';
+	import { useBridge } from '~/composables/useBridge';
 
-	const { authToken } = useConfig();
+	const authToken = useBridge('auth/invalidate-url');
 
 	onMounted(async () => {
 		const { success } = await useApi('/oidc/invalidate', { method: 'POST', headers: { 'X-Csrf-Token': authToken } });

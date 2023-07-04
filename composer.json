@@ -9,7 +9,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-zend-opcache": "*",
-        "depthbomb/csrf-bundle": "1.0.0",
+        "depthbomb/csrf-bundle": "^1.0.0",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
         "endroid/qr-code": "^4.8",

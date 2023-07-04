@@ -25,7 +25,7 @@ class ErrorHandlerService
 
         if ($exception instanceof HttpException)
         {
-            $code = $exception->getStatusCode();
+            $code              = $exception->getStatusCode();
             $exception_message = $exception->getMessage();
 
             // Always use the exception message in the response's message as it should contain usually-human-friendly

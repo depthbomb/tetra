@@ -1,7 +1,7 @@
-export function useFeatures() {
-	const attribute = document.querySelector('meta[name="enabled-features"]') as HTMLMetaElement;
-	const features  = attribute.content.split(',');
+import { useBridge } from '~/composables/useBridge';
 
+export function useFeatures() {
+	const features         = useBridge('enabled-features');
 	const isFeatureEnabled = (feature: string) => {
 		return features.includes(feature);
 	};

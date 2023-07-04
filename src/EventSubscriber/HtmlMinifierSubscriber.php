@@ -16,7 +16,7 @@ class HtmlMinifierSubscriber
         $is_dev      = $this->kernel->getEnvironment() === 'dev';
         $request     = $event->getRequest();
         $response    = $event->getResponse();
-        $is_not_root = $request->attributes->getString('_route') !== 'root';
+        $is_not_root = $request->attributes->getString('_route') !== 'web.index';
 
         if (!$event->isMainRequest() or $is_dev or $is_not_root or !Features::isFeatureEnabled('RENDERED_HTML_MINIFICATION'))
         {

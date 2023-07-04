@@ -19,9 +19,8 @@ body {
 	@apply relative;
 	@apply p-6;
 	@apply w-full;
-	@apply bg-gray-900 bg-opacity-90;
-	@apply backdrop-blur-lg;
-	@apply rounded-lg;
+	@apply bg-gray-900;
+	@apply rounded-xl;
 	@apply shadow-lg;
 	@apply overflow-hidden;
 
@@ -35,7 +34,7 @@ body {
 code {
 	@apply py-0.5 px-2;
 	@apply text-sm font-mono whitespace-nowrap;
-	@apply bg-gray-700 bg-opacity-75;
+	@apply bg-gray-700;
 	@apply rounded;
 }
 

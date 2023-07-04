@@ -2,6 +2,7 @@
 	import { ref } from 'vue';
 	import { onClickOutside } from '@vueuse/core';
 	import { useUser } from '~/composables/useUser';
+	import { useBridge } from '~/composables/useBridge';
 	import KeyIcon from '~/components/icons/KeyIcon.vue';
 	import ListIcon from '~/components/icons/ListIcon.vue';
 	import UsersIcon from '~/components/icons/UsersIcon.vue';
@@ -12,6 +13,7 @@
 	const drawerOpen = ref<boolean>(false);
 
 	const { username, avatars, isAdmin } = useUser();
+	const logoutUrl                      = useBridge('auth/invalidate-url');
 
 	const toggleDrawer = () => {
 		drawerOpen.value = !drawerOpen.value;
@@ -45,26 +47,26 @@
 					Just close the sidebar whenever anything within this container is clicked until
 					I come up with a more thorough solution.
 				-->
-				<div class="UserDrawer-sidebar-links" @click="toggleDrawer">
+				<div class="UserDrawer-sidebar-links" @click="toggleDrawer" role="list">
 					<template v-if="isAdmin">
-						<router-link :to="{ name: 'admin.shortlinks' }">
+						<router-link :to="{ name: 'admin.shortlinks' }" role="listitem">
 							<list-icon/> All Shortlinks (Admin)
 						</router-link>
-						<router-link :to="{ name: 'admin.users' }">
+						<router-link :to="{ name: 'admin.users' }" role="listitem">
 							<users-icon/> All Users (Admin)
 						</router-link>
 						<hr role="separator">
 					</template>
-					<router-link :to="{ name: 'user-shortlinks' }">
+					<router-link :to="{ name: 'user-shortlinks' }" role="listitem">
 						<list-icon/> My Shortlinks
 					</router-link>
-					<router-link :to="{ name: 'api-key' }">
+					<router-link :to="{ name: 'api-key' }" role="listitem">
 						<key-icon/> API Key
 					</router-link>
 					<hr role="separator">
-					<router-link :to="{ name: 'auth.logout' }" class="is-danger">
+					<a :href="logoutUrl" class="is-danger" role="listitem">
 						<sign-out-icon/> Sign Out
-					</router-link>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -75,19 +77,19 @@
 	.UserDrawer {
 		.UserDrawer-activator {
 			@apply flex items-center;
-			@apply py-1.5 px-3;
-			@apply space-x-2;
+			@apply py-1 px-2;
+			@apply gap-2;
 			@apply text-gray-300;
 			@apply bg-transparent;
-			@apply rounded;
+			@apply rounded-full;
 			@apply transition-colors;
 
 			@apply hover:text-white hover:bg-gray-700;
-			@apply active:text-white active:bg-gray-950;
+			@apply active:text-white active:bg-gray-600;
 
 			img {
 				@apply w-6 h-6;
-				@apply rounded;
+				@apply rounded-full;
 			}
 		}
 
@@ -104,7 +106,7 @@
 				@apply min-w-[256px];
 				@apply h-screen;
 				@apply bg-gray-800;
-				@apply rounded-l-lg;
+				@apply rounded-l-2xl;
 				@apply shadow-lg;
 				@apply animate-slideInLeft;
 
@@ -119,7 +121,6 @@
 						img {
 							@apply w-8 h-8;
 							@apply rounded-full;
-							@apply shadow-sm;
 						}
 					}
 
@@ -130,12 +131,12 @@
 							@apply p-1.5;
 							@apply text-gray-300;
 							@apply bg-transparent;
-							@apply rounded;
+							@apply rounded-full;
 							@apply transition-colors;
 
 							@apply hover:text-white;
 							@apply hover:bg-gray-700;
-							@apply active:bg-gray-950;
+							@apply active:bg-gray-600;
 						}
 					}
 				}
@@ -149,16 +150,15 @@
 						@apply py-1.5 px-3;
 						@apply flex flex-row items-center;
 						@apply text-sm text-gray-300;
-						@apply bg-transparent;
-						@apply rounded;
+						@apply rounded-lg;
 						@apply transition-colors;
 
 						@apply hover:text-white hover:bg-gray-700;
-						@apply active:text-white active:bg-gray-950;
+						@apply active:text-white active:bg-gray-600;
 
 						&.is-danger {
 							@apply hover:bg-red-600;
-							@apply active:text-white active:bg-red-950;
+							@apply active:text-white active:bg-red-500;
 						}
 
 						&.is-active {

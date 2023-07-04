@@ -3,59 +3,65 @@
 use App\Entity\User;
 use App\Util\Features;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class BridgeService
 {
+    private Request $request;
+
     public function __construct(
-        private readonly CsrfTokenManagerInterface $tokenManager,
-        private readonly Security                  $security,
-        private readonly RequestStack              $request,
+        private readonly Security     $security,
+        private readonly RequestStack $requestStack,
     ) {}
 
-    public function getConfig(): string
+    public function getRouteName(): string
     {
-        $request = $this->request->getCurrentRequest();
-        $config  = [
-            'route' => $request->get('_route'),
-            'remoteIp' => $request->getClientIp(),
-            'requestId' => $request->attributes->getString('_request_id'),
-            'authToken' => null,
-            'ajaxToken' => $this->tokenManager->getToken('ajax')->getValue(),
-        ];
+        return $this->getRequest()->get('_route');
+    }
 
-        if ($this->security->isGranted('IS_AUTHENTICATED'))
-        {
-            $config['authToken'] = $this->tokenManager->getToken('auth')->getValue();
-        }
+    public function getClientIp(): string
+    {
+        return $this->getRequest()->getClientIp();
+    }
 
-        return json_encode($config);
+    public function getRequestId(): string
+    {
+        return $this->getRequest()->attributes->getString('_request_id');
     }
 
     public function getUserConfig(): string
     {
-        $user = [];
-        if ($this->security->isGranted('IS_AUTHENTICATED'))
+        if (!$this->security->isGranted('IS_AUTHENTICATED'))
         {
-            /** @var User $user */
-            $user = $this->security->getUser();
-            $user = [
-                'username' => $user->getUsername(),
-                'avatars' => [
-                    'x24' => $user->getAvatar(24),
-                    'x32' => $user->getAvatar(32),
-                ],
-                'roles' => $user->getRoles(),
-                'apiKey' => $user->getApiKey(),
-            ];
+            return json_encode([]);
         }
 
-        return json_encode($user);
+        /** @var User $user */
+        $user = $this->security->getUser();
+        return json_encode([
+            'username' => $user->getUsername(),
+            'avatars' => [
+                'x24' => $user->getAvatar(24),
+                'x32' => $user->getAvatar(32),
+            ],
+            'roles' => $user->getRoles(),
+            'apiKey' => $user->getApiKey(),
+        ]);
     }
 
     public function getEnabledFeatures(): string
     {
         return join(',', Features::getEnabledFeatures());
+    }
+
+    private function getRequest(): Request
+    {
+        if (!isset($this->request))
+        {
+            $this->request = $this->requestStack->getMainRequest();
+        }
+
+        return $this->request;
     }
 }

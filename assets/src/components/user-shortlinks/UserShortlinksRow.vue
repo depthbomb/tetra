@@ -35,16 +35,16 @@
 
 <template>
 	<div class="Shortlinks-entry">
-		<div class="Shortlinks-entryControls">
+		<div class="Shortlinks-controls">
 			<app-button :loading="deleteLoading" variant="danger" size="small" @click="deleteShortlink(shortlink.shortcode, shortlink.secret)">
 				<trash-icon class="mr-1.5 h-3"/> Delete
 			</app-button>
 			<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode" class="font-mono"/>
 		</div>
 		<arrow-long-icon direction="right" class="mx-6 w-8 h-8 text-gray-500"/>
-		<div class="Shortlinks-entryDestination">{{ truncate(shortlink.destination, 50) }}</div>
-		<div class="Shortlinks-entryHits">{{ shortlink.hits }} hit{{ shortlink.hits === 1 ? '' : 's' }}</div>
-		<div class="Shortlinks-entryDates">
+		<div class="Shortlinks-destination">{{ truncate(shortlink.destination, 50) }}</div>
+		<div class="Shortlinks-hits">{{ shortlink.hits }} hit{{ shortlink.hits === 1 ? '' : 's' }}</div>
+		<div class="Shortlinks-dates">
 			<span>
 				Created <time-ago :date="shortlink.created_at"/>
 			</span>
@@ -58,26 +58,26 @@
 <style scoped lang="scss">
 .Shortlinks-entry {
 	@apply flex items-center;
-	@apply p-1.5;
+	@apply py-1.5 px-2;
 	@apply w-full;
 	@apply bg-gray-950;
-	@apply rounded;
+	@apply rounded-full;
 
-	.Shortlinks-entryControls {
+	.Shortlinks-controls {
 		@apply flex items-center;
-		@apply space-x-1.5;
+		@apply gap-1.5;
 	}
 
-	.Shortlinks-entryDestination {
+	.Shortlinks-destination {
 		@apply text-lg font-mono;
 	}
 
-	.Shortlinks-entryHits {
+	.Shortlinks-hits {
 		@apply ml-auto mr-6;
 		@apply text-sm text-gray-500;
 	}
 
-	.Shortlinks-entryDates {
+	.Shortlinks-dates {
 		@apply flex flex-col;
 		@apply space-y-0.5;
 		@apply text-sm text-gray-500;

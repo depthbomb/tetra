@@ -101,7 +101,7 @@
 		submitting.value = false;
 	};
 
-	whenever(Ctrl_V, tryPasteSubmit);
+	whenever(() => Ctrl_V.value && !creationDisabled.value, tryPasteSubmit);
 </script>
 
 <template>
@@ -163,13 +163,13 @@
 			@apply flex flex-col items-center justify-center;
 			@apply space-y-3;
 			@apply w-full h-full;
-			@apply bg-black bg-opacity-60;
+			@apply bg-orange-950 bg-opacity-60;
 			@apply backdrop-blur-lg;
 			@apply z-10;
 
 			svg {
 				@apply w-16 h-16;
-				@apply text-red-600;
+				@apply text-orange-600;
 			}
 
 			p {
@@ -208,7 +208,7 @@
 				@apply w-full;
 				@apply h-10;
 				@apply bg-gray-700;
-				@apply rounded;
+				@apply rounded-full;
 				@apply shadow-inner;
 				@apply ring-1 ring-inset ring-gray-500;
 				@apply outline-none;

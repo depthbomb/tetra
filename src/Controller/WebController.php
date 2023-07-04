@@ -18,12 +18,13 @@ class WebController extends Controller
         private readonly MessageBusInterface $bus,
     ) {}
 
-    #[Route('/', name: 'web.spa', methods: ['GET'])]
+    #[Route('/', name: 'web.index', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('web/index.html.twig');
     }
 
+    #[Route('/go/{shortcode}+', methods: ['GET'])]
     #[Route('/{shortcode}+', name: 'web.shortlink_expansion_redirect', methods: ['GET'])]
     public function redirectToExpanded(string $shortcode): Response
     {
@@ -31,6 +32,7 @@ class WebController extends Controller
     }
 
     #[RateLimited('redirection')]
+    #[Route('/go/{shortcode}', methods: ['GET'])]
     #[Route('/{shortcode}', name: 'web.shortlink_redirect', methods: ['GET'])]
     public function attemptRedirection(ShortlinkRepository $shortlinks, string $shortcode): Response
     {
@@ -58,6 +60,6 @@ class WebController extends Controller
             return new RedirectResponse($shortlink['destination']);
         }
 
-        return $this->redirectToRoute('root');
+        return $this->redirectToRoute('web.index');
     }
 }

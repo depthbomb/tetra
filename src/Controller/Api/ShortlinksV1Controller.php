@@ -122,7 +122,7 @@ class ShortlinksV1Controller extends Controller
             $shortcode = $this->shortlinks->getUnusedShortcode();
         }
 
-        $shortlink = $this->generateUrl('shortlink_redirect', compact('shortcode'), UrlGeneratorInterface::ABSOLUTE_URL);
+        $shortlink = $this->generateUrl('web.shortlink_redirect', compact('shortcode'), UrlGeneratorInterface::ABSOLUTE_URL);
 
         // Create the shortlink object
 

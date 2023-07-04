@@ -4,8 +4,8 @@ use App\Entity\User;
 use App\Entity\Shortlink;
 use App\Service\GitHubService;
 use App\Attribute\RateLimited;
-use App\Repository\UserRepository;
 use Illuminate\Support\Collection;
+use App\Repository\UserRepository;
 use App\Repository\ShortlinkRepository;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -24,7 +24,6 @@ class InternalController extends Controller
     public function __construct(
         private readonly TranslatorInterface $translator,
         private readonly ShortlinkRepository $shortlinks,
-        private readonly UserRepository      $users,
         private readonly CacheInterface      $cache,
     ) {}
 
@@ -43,7 +42,11 @@ class InternalController extends Controller
     #[Route('/total-shortlinks', name: 'private.total_shortlinks', methods: ['POST'])]
     public function getTotalShortlinks(): Response
     {
-        $count = $this->shortlinks->getTotal();
+        $count = $this->cache->get('total_shortlinks', function (ItemInterface $item) {
+            $item->expiresAfter(10);
+
+            return $this->shortlinks->getTotal();
+        });
 
         return $this->json(compact('count'));
     }
@@ -94,10 +97,10 @@ class InternalController extends Controller
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin/all-users', name: 'private.all_users', methods: ['POST'])]
-    public function getAllUsers(): Response
+    public function getAllUsers(UserRepository $users): Response
     {
         /** @var User[] $users_results */
-        $users_results = $this->users->createQueryBuilder('u')
+        $users_results = $users->createQueryBuilder('u')
             ->orderBy('u.created_at', 'DESC')
             ->getQuery()
             ->getResult();

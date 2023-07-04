@@ -81,7 +81,7 @@ class OAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEn
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
     {
-        $target = $this->router->generate('web.spa');
+        $target = $this->router->generate('web.index');
 
         return new RedirectResponse($target);
     }

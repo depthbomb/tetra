@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { useConfig } from '~/composables/useConfig';
+import { useBridge } from '~/composables/useBridge';
 import type { Ref } from 'vue';
 
 interface IAPIRequestResponse {
@@ -11,7 +11,7 @@ interface IAPIRequestResponse {
 }
 
 export async function useApi(endpoint: string | Ref<string>, init: RequestInit = {}, loadingRef = ref(false)): Promise<IAPIRequestResponse> {
-	const { ajaxToken } = useConfig();
+	const ajaxToken = useBridge('ajax-token');
 
 	const ok      = ref<boolean>(false);
 	const status  = ref<number>(0);
