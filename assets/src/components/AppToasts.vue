@@ -51,7 +51,7 @@
 			@apply border-t border-b border-l;
 			@apply rounded-l-full;
 			@apply cursor-pointer;
-			@apply z-20;
+			@apply z-[32];
 
 			&--success {
 				@apply text-green-500;
@@ -82,13 +82,20 @@
 	.toasts-list-move,
 	.toasts-list-enter-active,
 	.toasts-list-leave-active {
-		@apply transition-all;
+		@apply transition-all duration-200;
+	}
+
+	.toasts-list-enter-to {
+		@apply ease-out-circ;
+	}
+
+	.toasts-list-leave-to {
+		@apply ease-in-circ;
 	}
 
 	.toasts-list-enter-from,
 	.toasts-list-leave-to {
 		@apply opacity-0;
-		@apply -translate-y-4;
 		@apply translate-x-full;
 	}
 
