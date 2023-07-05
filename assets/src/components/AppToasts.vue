@@ -26,7 +26,7 @@
 
 <template>
 	<transition-group name="toasts-list" tag="aside" class="Toasts">
-		<div :key="toast.id" v-for="toast of toastStore.toasts" :class="['Toast', 'Toast--' + toast.type]" @click="removeToast(toast)" role="alert">
+		<div :key="toast.id" v-for="toast of toastStore.toasts" :class="['Toast', 'Toast--' + toast.type, { 'Toast--emphasized': toast.emphasized }]" @click="removeToast(toast)" role="alert">
 			<component :is="iconMap[toast.type]"/>
 			<p>{{ toast.message }}</p>
 		</div>
@@ -53,24 +53,44 @@
 			@apply cursor-pointer;
 			@apply z-[32];
 
+			&--emphasized {
+				@apply bg-[length:3rem];
+
+				&.Toast--success {
+					background-image: linear-gradient(45deg, theme('colors.green.950') 25%, transparent 25%, transparent 50%, theme('colors.green.950') 50%, theme('colors.green.950') 75%, transparent 75%, transparent 100%);
+				}
+
+				&.Toast--error {
+					background-image: linear-gradient(45deg, theme('colors.red.950') 25%, transparent 25%, transparent 50%, theme('colors.red.950') 50%, theme('colors.red.950') 75%, transparent 75%, transparent 100%);
+				}
+
+				&.Toast--warning {
+					background-image: linear-gradient(45deg, theme('colors.yellow.950') 25%, transparent 25%, transparent 50%, theme('colors.yellow.950') 50%, theme('colors.yellow.950') 75%, transparent 75%, transparent 100%);
+				}
+
+				&.Toast--info {
+					background-image: linear-gradient(45deg, theme('colors.cyan.950') 25%, transparent 25%, transparent 50%, theme('colors.cyan.950') 50%, theme('colors.cyan.950') 75%, transparent 75%, transparent 100%);
+				}
+			}
+
 			&--success {
-				@apply text-green-500;
+				@apply text-green-400;
 				@apply border-green-500;
 			}
 
 			&--error {
-				@apply text-red-500;
+				@apply text-red-400;
 				@apply border-red-500;
 			}
 
 			&--warning {
-				@apply text-amber-500;
-				@apply border-amber-500;
+				@apply text-yellow-400;
+				@apply border-yellow-500;
 			}
 
 			&--info {
-				@apply text-brand-500;
-				@apply bg-brand-500;
+				@apply text-cyan-400;
+				@apply bg-cyan-500;
 			}
 
 			svg {
@@ -82,7 +102,7 @@
 	.toasts-list-move,
 	.toasts-list-enter-active,
 	.toasts-list-leave-active {
-		@apply transition-all duration-200;
+		@apply transition-all duration-[250ms];
 	}
 
 	.toasts-list-enter-to {
