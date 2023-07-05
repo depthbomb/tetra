@@ -26,7 +26,7 @@
 
 <template>
 	<transition-group name="toasts-list" tag="aside" class="Toasts">
-		<div :key="toast.id" v-for="toast of toastStore.toasts" :class="['Toast', 'is-' + toast.type]" @click="removeToast(toast)" role="alert">
+		<div :key="toast.id" v-for="toast of toastStore.toasts" :class="['Toast', 'Toast--' + toast.type]" @click="removeToast(toast)" role="alert">
 			<component :is="iconMap[toast.type]"/>
 			<p>{{ toast.message }}</p>
 		</div>
@@ -36,42 +36,39 @@
 <style scoped lang="scss">
 	.Toasts {
 		@apply absolute;
-		@apply top-14 right-0;
+		@apply top-12 right-0;
 		@apply flex flex-col items-end;
-		@apply mt-3;
-		@apply space-y-3;
 		@apply max-h-screen;
 		@apply overflow-hidden;
 		@apply z-[512];
 
 		.Toast {
 			@apply flex items-center;
-			@apply mr-3;
+			@apply mt-3;
 			@apply py-3 px-6;
 			@apply max-w-[512px];
 			@apply bg-gray-900;
-			@apply border-l-2;
-			@apply rounded;
-			@apply shadow-lg;
+			@apply border-t border-b border-l;
+			@apply rounded-l-full;
 			@apply cursor-pointer;
 			@apply z-20;
 
-			&.is-success {
+			&--success {
 				@apply text-green-500;
 				@apply border-green-500;
 			}
 
-			&.is-error {
+			&--error {
 				@apply text-red-500;
 				@apply border-red-500;
 			}
 
-			&.is-warning {
+			&--warning {
 				@apply text-amber-500;
 				@apply border-amber-500;
 			}
 
-			&.is-info {
+			&--info {
 				@apply text-brand-500;
 				@apply bg-brand-500;
 			}
@@ -91,6 +88,8 @@
 	.toasts-list-enter-from,
 	.toasts-list-leave-to {
 		@apply opacity-0;
+		@apply -translate-y-4;
+		@apply translate-x-full;
 	}
 
 </style>
