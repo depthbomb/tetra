@@ -42,7 +42,7 @@
 <template>
 	<div class="flex items-center justify-between py-3">
 		<p>Hold <key-combo :keys="['shift']"/> to bypass action confirmations</p>
-		<app-button size="small" @click="getAllShortlinks" :loading="loading">Refresh</app-button>
+		<app-button size="small" @click="getAllShortlinks" :loading="loading" :disabled="loading">Refresh</app-button>
 	</div>
 	<table class="AdminTable">
 		<transition
@@ -50,7 +50,7 @@
 			enter-to-class="opacity-100"
 			leave-from-class="opacity-100"
 			leave-to-class="opacity-0">
-			<div v-if="loading" class="AdminTable-loadingOverlay">Loading&hellip;</div>
+			<div v-if="loading" class="AdminTable-loading-overlay">Loading&hellip;</div>
 		</transition>
 		<thead>
 			<tr>
@@ -86,12 +86,12 @@
 		@apply relative;
 		@apply w-full table table-auto;
 
-		.AdminTable-loadingOverlay {
+		.AdminTable-loading-overlay {
 			@apply absolute inset-0;
-			@apply flex flex-col items-center justify-center;
+			@apply flex flex-col justify-center items-center;
 			@apply w-full h-full;
 			@apply bg-black bg-opacity-25;
-			@apply rounded;
+			@apply rounded-xl;
 			@apply backdrop-blur-sm;
 			@apply transition-opacity;
 			@apply z-10;
@@ -107,8 +107,8 @@
 				@apply p-3;
 				@apply text-left;
 
-				@apply first:rounded-l;
-				@apply last:rounded-r;
+				@apply first:rounded-l-xl;
+				@apply last:rounded-r-xl;
 			}
 		}
 	}
