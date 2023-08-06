@@ -26,11 +26,6 @@ class RequestIdSubscriber
     #[AsEventListener]
     public function onResponse(ResponseEvent $event): void
     {
-        if (!$event->isMainRequest())
-        {
-            return;
-        }
-
         if ($this->requestId)
         {
             $response = $event->getResponse();

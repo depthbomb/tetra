@@ -55,6 +55,7 @@ class RateLimitedAttributeSubscriber
 
             if (!$result->isAccepted())
             {
+                // To be accessed in the error output
                 $request->attributes->set('_rate_limit_reset_after', $this->rateLimitResetAfter);
                 $code = Response::HTTP_TOO_MANY_REQUESTS;
 
@@ -71,19 +72,11 @@ class RateLimitedAttributeSubscriber
             return;
         }
 
-        $limit       = $this->rateLimitLimit;
-        $remaining   = $this->rateLimitRemaining;
-        $reset       = $this->rateLimitReset;
-        $reset_after = $this->rateLimitResetAfter;
-
-        if ($limit and $remaining and $reset and $reset_after)
-        {
-            $response = $event->getResponse();
-            $response->headers->set('X-RateLimit-Limit', $limit);
-            $response->headers->set('X-RateLimit-Remaining', $remaining);
-            $response->headers->set('X-RateLimit-Reset', $reset);
-            $response->headers->set('X-RateLimit-Reset-After', $reset_after);
-        }
+        $response = $event->getResponse();
+        $response->headers->set('X-RateLimit-Limit', $this->rateLimitLimit);
+        $response->headers->set('X-RateLimit-Remaining', $this->rateLimitRemaining);
+        $response->headers->set('X-RateLimit-Reset', $this->rateLimitReset);
+        $response->headers->set('X-RateLimit-Reset-After', $this->rateLimitResetAfter);
     }
 
     private function getLimiter(Request $request, string $configuration): ?LimiterInterface
