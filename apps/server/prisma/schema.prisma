@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Shortlink {
+	id          String    @id @default(uuid())
+	creatorIp   String
+	user        User?     @relation(fields: [userId], references: [id])
+	userId      String?
+	shortcode   String    @unique
+	shortlink   String    @unique
+	destination String
+	secret      String    @unique
+	checked     Boolean   @default(false)
+	disabled    Boolean   @default(false)
+	hits        Int       @default(0)
+	createdAt   DateTime  @default(now())
+	updatedAt   DateTime  @updatedAt @default(now())
+	expiresAt   DateTime?
+}
+
+model User {
+	id         String      @id @default(uuid())
+	username   String
+	email      String      @unique
+	sub        String      @unique
+	admin      Boolean     @default(false)
+	apiKey     String      @unique
+	nextApiKey DateTime    @default(now())
+	shortlinks Shortlink[]
+	createdAt  DateTime    @default(now())
+	updatedAt  DateTime    @updatedAt @default(now())
+}

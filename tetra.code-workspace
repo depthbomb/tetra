@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"name": "Server",
+			"path": "./apps/server"
+		},
+		{
+			"name": "Client",
+			"path": "./packages/client"
+		},
+		{
+			"name": "Schema",
+			"path": "./packages/schema"
+		},
+		{
+			"name": "Packages",
+			"path": "./packages"
+		},
+		{
+			"name": "Root",
+			"path": "."
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"shadowtime2000.eta-vscode"
+		]
+	}
+}

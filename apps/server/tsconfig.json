@@ -1,0 +1,12 @@
+{
+	"extends": "@tetra/tsconfig/tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#*": ["src/@types/*"],
+			"@*": ["src/*", "src/*/index.ts"],
+		},
+		"sourceMap": true,
+		"moduleResolution": "bundler"
+	}
+}

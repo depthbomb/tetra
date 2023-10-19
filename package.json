@@ -1,0 +1,21 @@
+{
+	"private": true,
+	"name": "tetra",
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"migrate": "turbo run migrate",
+		"lint": "turbo run lint"
+	},
+	"devDependencies": {
+		"turbo": "^1.10.15"
+	},
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"prisma": {
+		"schema": "./apps/server/prisma/schema.prisma"
+	},
+	"packageManager": "yarn@3.6.4"
+}
