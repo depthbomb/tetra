@@ -1,3 +1,4 @@
+import { logger } from '@logger';
 import { Duration } from '@sapphire/duration';
 
 export type Task = {
@@ -17,5 +18,5 @@ export function registerTask(task: Task) {
 		setInterval(execute, offset);
 	}
 
-	console.log('Registered task', name, 'with interval', offset);
+	logger.debug('Registered task', { name, offset });
 }

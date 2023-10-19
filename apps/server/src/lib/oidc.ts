@@ -1,5 +1,5 @@
-import { Crypto } from '@utils/crypto';
 import { getVarOrThrow } from '@env';
+import { Crypto } from '@utils/crypto';
 import { Duration } from '@sapphire/duration';
 import { Issuer, generators } from 'openid-client';
 import { OIDC_STATE_COOKIE_NAME } from '@constants';

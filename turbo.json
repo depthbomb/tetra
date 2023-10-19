@@ -4,9 +4,19 @@
 		"**/.env.*local"
 	],
 	"pipeline": {
+		"dist": {
+			"dependsOn": [
+				"^dist"
+			]
+		},
 		"build": {
 			"dependsOn": [
 				"^build"
+			]
+		},
+		"start": {
+			"dependsOn": [
+				"^dist"
 			]
 		},
 		"migrate": {

@@ -1,5 +1,6 @@
 import Router from '@koa/router';
 import { uid } from 'uid/secure';
+import { logger } from '@logger';
 import { OAuth } from '@lib/oidc';
 import { database } from '@database';
 import { Duration } from '@sapphire/duration';
@@ -22,6 +23,8 @@ export function createOidcRouter() {
 	router.get('/start', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), async (ctx: Context) => {
 		const authUrl = await OAuth.getAuthUrl(ctx);
 
+		logger.info('Authentication flow started', { authUrl });
+
 		return ctx.redirect(authUrl);
 	});
 
@@ -40,9 +43,9 @@ export function createOidcRouter() {
 
 		const userInfo = await OAuth.client!.userinfo(accessToken);
 
-		let existingUser = await database.user.findFirst({ where: { sub: userInfo.sub } });
-		if (!existingUser) {
-			existingUser = await database.user.create({
+		let user = await database.user.findFirst({ where: { sub: userInfo.sub } });
+		if (!user) {
+			user = await database.user.create({
 				data: {
 					username: userInfo.preferred_username!,
 					email: userInfo.email!,
@@ -54,15 +57,15 @@ export function createOidcRouter() {
 		}
 
 		const cookieValue = {
-			sub: existingUser.sub,
-			username: existingUser.username,
+			sub: user.sub,
+			username: user.username,
 			avatars: {
-				'x24': createGravatar(existingUser.email, { size: 24 }),
-				'x32': createGravatar(existingUser.email, { size: 32 }),
+				'x24': createGravatar(user.email, { size: 24 }),
+				'x32': createGravatar(user.email, { size: 32 }),
 			},
-			admin: existingUser.admin,
-			apiKey: existingUser.apiKey
-		}
+			admin: user.admin,
+			apiKey: user.apiKey
+		};
 
 		setCookie(ctx, AUTH_COOKIE_NAME, JSON.stringify(cookieValue), {
 			encrypt: true,
@@ -70,12 +73,18 @@ export function createOidcRouter() {
 			expires: new Duration('6 months').fromNow
 		});
 
+		logger.info('Authenticated user', { user });
+
 		return ctx.redirect('/');
 	});
 
 	router.post('/invalidate', (ctx: Context) => {
+		const { user } = ctx.state;
+
 		deleteCookie(ctx, AUTH_COOKIE_NAME);
 		delete ctx.state.user;
+
+		logger.info('Invalidated user', { user });
 
 		return ctx.redirect('/');
 	});

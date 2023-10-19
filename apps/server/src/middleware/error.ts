@@ -1,4 +1,5 @@
 import { flags } from '@flags';
+import { logger } from '@logger';
 import { sendJsonResponse } from '@utils/response';
 import type { Middleware } from 'koa';
 
@@ -17,7 +18,7 @@ export function createErrorMiddleware(): Middleware {
 		try {
 			await next();
 		} catch (err) {
-			console.error(err);
+			logger.error(err);
 
 			let error = err as Error;
 			let code = 500;

@@ -34,7 +34,7 @@ type ManifestJson = {
  * Vite configuration and adds the dictionary to the request state.
  */
 export function createAssetsMiddleware() {
-	const manifestPath      = join(PUBLIC_DIR, 'manifest.json');
+	const manifestPath = join(PUBLIC_DIR, 'manifest.json');
 
 	let entries: Entries = { css: [], js: [] };
 	let assets: Assets    = {};

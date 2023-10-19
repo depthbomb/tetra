@@ -2,8 +2,10 @@
 	"private": true,
 	"name": "tetra",
 	"scripts": {
+		"dist": "turbo run dist",
 		"build": "turbo run build",
 		"dev": "turbo run dev",
+		"start": "turbo run start",
 		"migrate": "turbo run migrate",
 		"lint": "turbo run lint"
 	},

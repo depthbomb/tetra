@@ -1,13 +1,19 @@
+import { logger } from '@logger';
 import { database } from '@database';
 import type { Task } from '@tasks';
+import { Features } from '@lib/features';
 
 export function createShortlinkCleanupTask(): Task {
 	return {
 		name: 'shortlinks-cleanup',
 		interval: '1 minute',
 		async execute() {
+			if (Features.isDisabled('SHORTLINK_CLEANUP')) {
+				return;
+			}
+
 			const now = new Date();
-			const result = await database.shortlink.deleteMany({
+			const { count } = await database.shortlink.deleteMany({
 				where: {
 					AND: [
 						{
@@ -20,7 +26,7 @@ export function createShortlinkCleanupTask(): Task {
 				}
 			});
 
-			console.log('Cleaned up', result.count, 'expired shortlink(s)');
+			logger.info('Cleaned up expired shortlink', { count });
 		}
 	}
 }

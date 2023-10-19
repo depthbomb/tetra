@@ -6,7 +6,7 @@ type CreateTsupConfigOptions = Omit<Options, 'clean' | 'minify' | 'splitting' | 
 export function createTsupConfig(options: CreateTsupConfigOptions = {}) {
 	return defineConfig({
 		clean: true,
-		minify: 'terser',
+		minify: false,
 		splitting: true,
 		target: 'node20',
 		...options

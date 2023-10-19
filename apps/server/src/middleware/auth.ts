@@ -11,9 +11,7 @@ import type { Next, Context } from 'koa';
 export function createAuthMiddleware() {
 	return async function (ctx: Context, next: Next) {
 		const authCookie = getCookie(ctx, AUTH_COOKIE_NAME, { encrypted: true });
-		if (!authCookie) {
-			delete ctx.state.user;
-		} else {
+		if (authCookie) {
 			ctx.state.user = destr(authCookie);
 		}
 

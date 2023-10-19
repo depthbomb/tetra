@@ -1,3 +1,4 @@
+import { logger } from '@logger';
 import { factory, detectPrng } from 'ulid';
 import { Duration } from '@sapphire/duration';
 import { RateLimitManager } from '@sapphire/ratelimits';
@@ -53,6 +54,14 @@ export class Throttler {
 		this._cost       = cost;
 		this._manager    = new RateLimitManager(this._interval, this._limit);
 		this._addHeaders = addHeaders;
+
+		logger.info('Created request throttler', {
+			bucketId:   this._bucketId,
+			interval:   this._interval,
+			limit:      this._limit,
+			cost:       this._cost,
+			addHeaders: this._addHeaders
+		});
 	}
 
 	public consume(cost: number = this._cost) {
