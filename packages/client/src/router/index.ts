@@ -1,6 +1,5 @@
 import FAQView from '~/views/FAQView.vue';
 import HomeView from '~/views/HomeView.vue';
-import ApiDocs from '~/views/ApiDocsView.vue';
 import { useAuthGuard, useAdminGuard } from '~/router/guards';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
@@ -30,11 +29,6 @@ export const router = createRouter({
 			path: '/faq',
 			name: 'faq',
 			component: FAQView
-		},
-		{
-			path: '/api',
-			name: 'api-docs',
-			component: ApiDocs
 		},
 		{
 			path: '/shortlink/:shortcode',
