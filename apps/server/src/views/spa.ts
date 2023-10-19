@@ -1,4 +1,5 @@
 import { render } from 'squirrelly';
+import { Features } from '@lib/features';
 import type { Context } from 'koa';
 
 const template = `
@@ -11,7 +12,7 @@ const template = `
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="A shortlink generator that just works">
 		<meta name="tetra/user" content="{{it.user}}">
-		<meta name="tetra/enabled-features" content="{{it.enabledFeatures.join(',')}}">
+		<meta name="tetra/enabled-features" content="{{it.feature.join(',')}}">
 		<title>go.super.fish</title>
 		<link rel="canonical" href="/">
 		<link href="{{it.assets['apple-icon-precomposed.png']}}" rel="apple-touch-icon-precomposed">
@@ -36,13 +37,13 @@ const template = `
 `.trim();
 
 export async function spaTemplate(ctx: Context) {
-	const { nonce, assets, entries, preload, user, enabledFeatures } = ctx.state;
+	const { nonce, assets, entries, preload, user } = ctx.state;
 	return render(template, {
 		nonce,
 		assets,
 		entries,
 		preload,
-		enabledFeatures,
+		feature: Features.getEnabled(),
 		user: JSON.stringify(user ?? {})
 	});
 }

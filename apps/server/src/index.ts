@@ -9,7 +9,6 @@ import conditional from 'koa-conditional-get';
 import { createAuthMiddleware } from '@middleware/auth';
 import { createErrorMiddleware } from '@middleware/error';
 import { createLoggerMiddleware } from '@middleware/logger';
-import { createFeaturesMiddleware } from '@middleware/features';
 import { createRequestIdMiddleware } from '@middleware/requestId';
 import { createShortlinkCleanupTask } from '@tasks/shortlinkCleanup';
 
@@ -23,7 +22,6 @@ const app = new Koa()
 	.use(createErrorMiddleware())
 	.use(createLoggerMiddleware())
 	.use(createAuthMiddleware())
-	.use(createFeaturesMiddleware())
 	.use(conditional())
 	.use(etag())
 	.use(createRouter());

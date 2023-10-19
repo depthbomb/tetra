@@ -26,7 +26,7 @@ export function createShortlinkCleanupTask(): Task {
 				}
 			});
 
-			logger.info('Cleaned up expired shortlink', { count });
+			logger.info('Cleaned up expired shortlinks', { count });
 		}
 	}
 }
