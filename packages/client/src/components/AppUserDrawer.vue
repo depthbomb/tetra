@@ -79,11 +79,11 @@
 	.UserDrawer {
 		.UserDrawer-activator {
 			@apply flex items-center;
-			@apply py-1 px-2;
+			@apply py-1 px-1.5;
 			@apply gap-2;
 			@apply text-gray-300;
 			@apply bg-transparent;
-			@apply rounded-full;
+			@apply rounded-xl;
 			@apply transition-colors;
 
 			@apply hover:text-white hover:bg-gray-700;
@@ -91,7 +91,7 @@
 
 			img {
 				@apply w-6 h-6;
-				@apply rounded-full;
+				@apply rounded-lg;
 			}
 		}
 
@@ -122,7 +122,7 @@
 
 						img {
 							@apply w-8 h-8;
-							@apply rounded-full;
+							@apply rounded-xl;
 						}
 					}
 
@@ -133,7 +133,7 @@
 							@apply p-1.5;
 							@apply text-gray-300;
 							@apply bg-transparent;
-							@apply rounded-full;
+							@apply rounded-lg;
 							@apply transition-colors;
 
 							@apply hover:text-white;
@@ -152,7 +152,7 @@
 						@apply py-1.5 px-3;
 						@apply flex flex-row items-center;
 						@apply text-sm text-gray-300;
-						@apply rounded-lg;
+						@apply rounded-xl;
 						@apply transition-colors;
 
 						@apply hover:text-white hover:bg-gray-700;

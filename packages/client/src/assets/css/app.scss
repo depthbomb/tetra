@@ -20,8 +20,8 @@ body {
 	@apply p-6;
 	@apply w-full;
 	@apply bg-gray-900;
-	@apply rounded-xl;
-	@apply shadow-lg;
+	@apply rounded-2xl;
+	@apply shadow;
 	@apply overflow-hidden;
 
 	.MainCard-divider {
@@ -35,7 +35,7 @@ code {
 	@apply py-0.5 px-2;
 	@apply text-sm font-mono whitespace-nowrap;
 	@apply bg-gray-700;
-	@apply rounded;
+	@apply rounded-lg;
 }
 
 p + p {

@@ -43,6 +43,8 @@
 		@apply py-1.5 px-3;
 		@apply w-full h-12;
 		@apply bg-gray-900;
+		@apply border-b border-gray-950;
+		@apply shadow-lg;
 		@apply z-[256];
 
 		.Masthead-brand {
@@ -56,13 +58,13 @@
 
 		.Masthead-links {
 			@apply flex items-center;
-			@apply gap-1.5;
+			@apply gap-4;
 
 			.Masthead-link {
-				@apply py-1 px-3;
+				@apply py-1 px-4;
 				@apply text-gray-300;
 				@apply bg-transparent;
-				@apply rounded-full;
+				@apply rounded-xl;
 				@apply select-none;
 				@apply transition-colors;
 
@@ -78,24 +80,6 @@
 
 		.Masthead-user {
 			@apply ml-auto;
-
-			.Masthead-user-control {
-				@apply flex items-center;
-				@apply gap-1.5;
-				@apply py-1 px-3;
-				@apply text-gray-300;
-				@apply rounded-full;
-				@apply select-none;
-				@apply transition-colors;
-
-				@apply hover:text-white hover:bg-gray-700;
-				@apply active:text-white active:bg-gray-600;
-
-				img {
-					@apply w-5 h-5;
-					@apply rounded-full;
-				}
-			}
 		}
 	}
 </style>
