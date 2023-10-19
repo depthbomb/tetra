@@ -123,6 +123,7 @@ export function createShortlinksV1Router() {
 				disabled: false
 			},
 			select: {
+				shortlink: true,
 				destination: true,
 				hits: true,
 				createdAt: true,
