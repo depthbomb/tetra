@@ -3,7 +3,7 @@
 	"name": "@tetra/openapi",
 	"main": "./dist/index.js",
 	"scripts": {
-		"test": "yarn build && node .",
+		"dist": "tsup",
 		"build": "tsup"
 	},
 	"dependencies": {

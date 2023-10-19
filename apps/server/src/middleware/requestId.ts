@@ -1,4 +1,4 @@
-import { typeid } from 'typeid-js';
+import { factory, detectPrng } from 'ulid';
 import type { Next, Context } from 'koa';
 
 /**
@@ -6,8 +6,10 @@ import type { Next, Context } from 'koa';
  * headers.
  */
 export function createRequestIdMiddleware() {
+	const generateId = factory(detectPrng(true));
+
 	return async function(ctx: Context, next: Next) {
-		const requestId = typeid('req').toString();
+		const requestId = generateId();
 
 		ctx.state.requestId = requestId;
 		ctx.response.set('X-Request-Id', requestId);

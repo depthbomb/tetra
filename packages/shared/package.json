@@ -17,6 +17,7 @@
 		}
 	},
 	"scripts": {
+		"dist": "tsup",
 		"build": "tsup"
 	},
 	"devDependencies": {

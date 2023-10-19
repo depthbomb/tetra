@@ -1,4 +1,4 @@
-import { typeid } from 'typeid-js';
+import { factory, detectPrng } from 'ulid';
 import { Duration } from '@sapphire/duration';
 import { RateLimitManager } from '@sapphire/ratelimits';
 import type { Next, Context } from 'koa';
@@ -47,7 +47,7 @@ export class Throttler {
 	 * conflicting headers
 	 */
 	public constructor(interval: number, limit: number = 1, cost: number = 1, addHeaders: boolean = true) {
-		this._bucketId   = typeid('bucket').toString();
+		this._bucketId   = factory(detectPrng(true))();
 		this._interval   = interval;
 		this._limit      = limit;
 		this._cost       = cost;
