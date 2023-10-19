@@ -11,7 +11,7 @@ export class OAuth {
 	private static _client: Client | null         = null;
 	private static readonly _clientId             = getVarOrThrow<string>('OIDC_CLIENT_ID');
 	private static readonly _clientSecret         = getVarOrThrow<string>('OIDC_CLIENT_SECRET');
-	private static readonly _authority            = getVarOrThrow<string>('OIDC_AUTHORITY_URL');
+	private static readonly _issuerUrl            = getVarOrThrow<string>('OIDC_ISSUER_URL');
 
 	private constructor() {}
 
@@ -55,7 +55,7 @@ export class OAuth {
 
 	private static async _getIssuer(): Promise<Issuer<Client>> {
 		if (!this._issuer) {
-			this._issuer = await Issuer.discover(this._authority);
+			this._issuer = await Issuer.discover(this._issuerUrl);
 		}
 
 		return this._issuer;
