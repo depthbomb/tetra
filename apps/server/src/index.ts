@@ -12,10 +12,10 @@ import { createFeaturesMiddleware } from '@middleware/features';
 import { createRequestIdMiddleware } from '@middleware/requestId';
 import { createShortlinkCleanupTask } from '@tasks/shortlinkCleanup';
 
-Features.createFeature('SHORTLINK_CREATION', true);
-Features.createFeature('SHORTLINK_REDIRECTION', true);
-Features.createFeature('SHORTLINK_CLEANUP', true);
-Features.createFeature('AUTHENTICATION', true);
+Features.create('SHORTLINK_CREATION', true);
+Features.create('SHORTLINK_REDIRECTION', true);
+Features.create('SHORTLINK_CLEANUP', true);
+Features.create('AUTHENTICATION', true);
 
 const app = new Koa()
 	.use(createRequestIdMiddleware())

@@ -7,7 +7,7 @@ export class Features {
 
 	private constructor() {}
 
-	public static createFeature(name: string, enabled: boolean): void {
+	public static create(name: string, enabled: boolean): void {
 		if (name in this._features) {
 			throw new Error(`Feature already exists: ${name}`);
 		}
