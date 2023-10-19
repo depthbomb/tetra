@@ -37,10 +37,10 @@
 		});
 
 		if (error) {
-			toasts.createToast('error', 'Failed to delete shortlink');
+			toasts.createToast('error', 'Failed to delete shortlink.', false, 3_000);
 		} else {
 			emit('shortlink-deleted');
-			toasts.createToast('success', 'Shortlink deleted!');
+			toasts.createToast('success', 'Shortlink deleted!', true);
 		}
 	};
 </script>

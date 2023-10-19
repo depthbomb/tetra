@@ -27,7 +27,7 @@
 		});
 
 		if (!data || error) {
-			createToast('error', 'Failed to retrieve your shortlinks.')
+			createToast('error', 'Failed to retrieve your shortlinks.', false, 3_000)
 		} else {
 			shortlinks.value = data;
 		}

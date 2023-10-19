@@ -32,7 +32,7 @@
 			});
 
 			if (error) {
-				createToast('error', error.message, true, true, 5_000);
+				createToast('error', error.message, false, 3_000);
 			} else {
 				apiKey.value = data.apiKey;
 			}
@@ -54,7 +54,7 @@
 		});
 
 		if (error) {
-			createToast('error', error.message, true, true, 5_000);
+			createToast('error', error.message, false, 3_000);
 		} else {
 			canRegenerateKey.value = data.canRegenerate;
 		}

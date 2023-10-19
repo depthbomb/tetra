@@ -24,7 +24,7 @@
 		});
 
 		if (!data || error) {
-			createToast('error', 'Failed to retrieve users', true, true);
+			createToast('error', 'Failed to retrieve users.', false, 3_000);
 		} else {
 			users.value = data;
 		}
@@ -58,7 +58,7 @@
 
 			img {
 				@apply w-32 h-32;
-				@apply rounded-lg;
+				@apply rounded-2xl;
 			}
 
 			p {

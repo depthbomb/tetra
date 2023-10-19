@@ -28,7 +28,7 @@
 		copy(content);
 		copiedState.value = true;
 		setTimeout(() => copiedState.value = false, 1_500);
-		createToast('success', 'Copied to clipboard!');
+		createToast('success', 'Copied to clipboard!', true);
 	};
 </script>
 

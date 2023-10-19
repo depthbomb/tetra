@@ -36,7 +36,7 @@
 			});
 
 			if (error) {
-				createToast('error', 'Failed to delete shortlink', true, true);
+				createToast('error', 'Failed to delete shortlink.', false, 3_000);
 			} else {
 				emit('shortlink-deleted');
 			}
@@ -58,7 +58,7 @@
 			});
 
 			if (!data || error) {
-				createToast('error', 'Failed to toggle shortlink state', true, true);
+				createToast('error', 'Failed to toggle shortlink state.', false, 3_000);
 			} else {
 				disabled.value = data.disabled;
 				emit('shortlink-toggled');

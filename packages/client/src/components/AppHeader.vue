@@ -58,7 +58,7 @@
 
 		.Masthead-links {
 			@apply flex items-center;
-			@apply gap-4;
+			@apply gap-3;
 
 			.Masthead-link {
 				@apply py-1 px-4;

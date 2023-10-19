@@ -13,9 +13,9 @@ export const useToastStore = defineStore('toast', () => {
 		}
 	}
 
-	function createToast(type: ToastType, message: string, closeable = true, emphasized = false, timeout = 2000) {
-		const id = generateId();
-		const toast = { id, type, message, emphasized, closeable };
+	function createToast(type: ToastType, message: string, closeable = true, timeout = 1_500) {
+		const id    = generateId();
+		const toast = { id, type, message, closeable };
 		toasts.value.add(toast);
 		setTimeout(() => removeToast(toast), timeout);
 	}

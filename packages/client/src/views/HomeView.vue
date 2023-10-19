@@ -83,7 +83,7 @@
 		});
 
 		if (error) {
-			createToast('error', error.message, true, true, 5_000);
+			createToast('error', error.message, false, 3_000);
 		} else {
 			shortlinkResult.value = data.shortlink;
 
@@ -92,7 +92,7 @@
 			duration.value    = undefined;
 
 			copy();
-			createToast('success', 'Shortlink copied to clipboard!');
+			createToast('success', 'Shortlink copied to clipboard!', true);
 		}
 
 		submitting.value = false;

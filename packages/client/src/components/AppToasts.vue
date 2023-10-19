@@ -26,7 +26,7 @@
 
 <template>
 	<transition-group name="toasts-list" tag="aside" class="Toasts">
-		<div :key="toast.id" v-for="toast of toastStore.toasts" :class="['Toast', 'Toast--' + toast.type, { 'Toast--emphasized': toast.emphasized }]" @click="removeToast(toast)" role="alert">
+		<div :key="toast.id" v-for="toast of toastStore.toasts" :class="['Toast', 'Toast--' + toast.type]" @click="removeToast(toast)" role="alert">
 			<component :is="iconMap[toast.type]"/>
 			<p>{{ toast.message }}</p>
 		</div>
@@ -49,29 +49,9 @@
 			@apply max-w-[512px];
 			@apply bg-gray-900;
 			@apply border-t border-b border-l;
-			@apply rounded-l-full;
+			@apply rounded-l-2xl;
 			@apply cursor-pointer;
 			@apply z-[32];
-
-			&--emphasized {
-				@apply bg-[length:3rem];
-
-				&.Toast--success {
-					background-image: linear-gradient(45deg, theme('colors.green.950') 25%, transparent 25%, transparent 50%, theme('colors.green.950') 50%, theme('colors.green.950') 75%, transparent 75%, transparent 100%);
-				}
-
-				&.Toast--error {
-					background-image: linear-gradient(45deg, theme('colors.red.950') 25%, transparent 25%, transparent 50%, theme('colors.red.950') 50%, theme('colors.red.950') 75%, transparent 75%, transparent 100%);
-				}
-
-				&.Toast--warning {
-					background-image: linear-gradient(45deg, theme('colors.yellow.950') 25%, transparent 25%, transparent 50%, theme('colors.yellow.950') 50%, theme('colors.yellow.950') 75%, transparent 75%, transparent 100%);
-				}
-
-				&.Toast--info {
-					background-image: linear-gradient(45deg, theme('colors.cyan.950') 25%, transparent 25%, transparent 50%, theme('colors.cyan.950') 50%, theme('colors.cyan.950') 75%, transparent 75%, transparent 100%);
-				}
-			}
 
 			&--success {
 				@apply text-green-400;
