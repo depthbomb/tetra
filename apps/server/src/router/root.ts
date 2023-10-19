@@ -7,6 +7,7 @@ import { PUBLIC_DIR } from '@tetra/shared/paths';
 import { createCspMiddleware } from '@middleware/csp';
 import { ShortlinkRedirectionPath } from '@tetra/schema';
 import { createAssetsMiddleware } from '@middleware/assets';
+import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
 import type { Context } from 'koa';
 
 export function createRootRouter() {
@@ -21,8 +22,8 @@ export function createRootRouter() {
 	router.use(createAssetsMiddleware());
 	router.use(serve(PUBLIC_DIR));
 	router.all('index', '/', createCspMiddleware(), serveSpa);
-	router.all('shortlink.redirect', '/:shortcode', redirectShortlink);
-	router.all('/go/:shortcode', redirectShortlink);
+	router.all('shortlink.redirect', '/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
+	router.all('/go/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
 
 	/*
 	|--------------------------------------------------------------------------

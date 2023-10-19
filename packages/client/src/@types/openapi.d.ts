@@ -356,7 +356,7 @@ export interface paths {
             "application/json": components["schemas"]["ApiKeyInfoResponse"];
           };
         };
-        /** @description Invalid API key */
+        /** @description Invalid or missing API key */
         400: {
           content: {
             "application/json": components["schemas"]["ErrorResponse"];
@@ -383,7 +383,7 @@ export interface paths {
             "application/json": components["schemas"]["RegenerateApiKeyResponse"];
           };
         };
-        /** @description Invalid API key */
+        /** @description Invalid or missing API key */
         400: {
           content: {
             "application/json": components["schemas"]["ErrorResponse"];
@@ -414,6 +414,165 @@ export interface paths {
       };
     };
   };
+  "/api/v1/features": {
+    /**
+     * Returns all features, requires admin priviledges
+     * @description Returns all features, **requires admin priviledges**
+     */
+    get: {
+      parameters: {
+        query: {
+          apiKey: string;
+        };
+      };
+      responses: {
+        /** @description Successful operation */
+        200: {
+          content: {
+            "application/json": components["schemas"]["ListFeaturesResponse"];
+          };
+        };
+        /** @description Invalid or missing API key */
+        400: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+        /** @description Insufficient priviledges */
+        403: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+      };
+    };
+  };
+  "/api/v1/features/{name}/enable": {
+    /**
+     * Enables a feature, requires admin priviledges
+     * @description Enables a feature, **requires admin priviledges**
+     */
+    patch: {
+      parameters: {
+        query: {
+          apiKey: string;
+        };
+        path: {
+          name: components["parameters"]["FeatureName"];
+        };
+      };
+      responses: {
+        /** @description Successful operation */
+        200: {
+          content: {
+            "application/json": components["schemas"]["ToggleFeatureResponse"];
+          };
+        };
+        /** @description Invalid or missing API key */
+        400: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+        /** @description Insufficient priviledges */
+        403: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+        /** @description Feature does not exist */
+        404: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+      };
+    };
+  };
+  "/api/v1/features/{name}/disable": {
+    /**
+     * Disables a feature, requires admin priviledges
+     * @description Disables a feature, **requires admin priviledges**
+     */
+    patch: {
+      parameters: {
+        query: {
+          apiKey: string;
+        };
+        path: {
+          name: components["parameters"]["FeatureName"];
+        };
+      };
+      responses: {
+        /** @description Successful operation */
+        200: {
+          content: {
+            "application/json": components["schemas"]["ToggleFeatureResponse"];
+          };
+        };
+        /** @description Invalid or missing API key */
+        400: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+        /** @description Insufficient priviledges */
+        403: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+        /** @description Feature does not exist */
+        404: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+      };
+    };
+  };
+  "/api/v1/features/{name}/toggle": {
+    /**
+     * Toggles a feature, requires admin priviledges
+     * @description Toggles a feature, **requires admin priviledges**
+     */
+    patch: {
+      parameters: {
+        query: {
+          apiKey: string;
+        };
+        path: {
+          name: components["parameters"]["FeatureName"];
+        };
+      };
+      responses: {
+        /** @description Successful operation */
+        200: {
+          content: {
+            "application/json": components["schemas"]["ToggleFeatureResponse"];
+          };
+        };
+        /** @description Invalid or missing API key */
+        400: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+        /** @description Insufficient priviledges */
+        403: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+        /** @description Feature does not exist */
+        404: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -427,11 +586,22 @@ export interface components {
       code: number;
       /** @description A message describing the error */
       message: string;
-      /** @description Only present when the service is running in dev mode */
+      /** @description Only present when the service is running in development mode */
       stackTrace?: string;
     };
     AppVersionResponse: {
       hash: string;
+    };
+    ListFeaturesQuery: {
+      apiKey: string;
+    };
+    ListFeaturesResponse: {
+        name: string;
+        enabled: boolean;
+      }[];
+    ToggleFeatureResponse: {
+      old: boolean;
+      new: boolean;
     };
     ListShortlinksResponse: {
         shortcode: string;
@@ -521,12 +691,14 @@ export interface components {
     Shortcode: string;
     ApiKey: string;
     Secret: string;
+    FeatureName: string;
   };
   responses: never;
   parameters: {
     Shortcode: components["schemas"]["Shortcode"];
     ApiKey?: components["schemas"]["ApiKey"];
     Secret: components["schemas"]["Secret"];
+    FeatureName: components["schemas"]["FeatureName"];
   };
   requestBodies: never;
   headers: never;

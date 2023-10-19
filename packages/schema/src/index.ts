@@ -1,4 +1,5 @@
 export * from './ApiKey';
+export * from './FeatureName';
 export * from './Secret';
 export * from './Shortcode';
 

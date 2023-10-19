@@ -1,5 +1,9 @@
+type FeaturesDict = {
+	[name: string]: boolean;
+};
+
 export class Features {
-	private static readonly _features: { [name: string]: boolean; } = {};
+	private static readonly _features: FeaturesDict = {};
 
 	private constructor() {}
 
@@ -33,15 +37,19 @@ export class Features {
 		return this._features[name];
 	}
 
-	public static getAll(): string[] {
-		return Object.keys(this._features);
+	public static getAll(): FeaturesDict {
+		return this._features;
 	}
 
 	public static getEnabled(): string[] {
-		return this.getAll().filter(f => this._features[f]);
+		return Object.keys(this.getAll()).filter(f => this._features[f]);
 	}
 
 	public static getDisabled(): string[] {
-		return this.getAll().filter(f => !this._features[f]);
+		return Object.keys(this.getAll()).filter(f => !this._features[f]);
+	}
+
+	public static isValid(name: string): boolean {
+		return name in this._features;
 	}
 }

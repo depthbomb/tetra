@@ -8,6 +8,7 @@ import { createThrottler } from '@lib/throttle';
 import { sendJsonResponse } from '@utils/response';
 import { getUnusedShortcode } from '@lib/shortcode';
 import { parseQuery, parseParams, parsePayload } from '@utils/request';
+import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
 import {
 	ShortcodePath,
 	ListShortlinksQuery,
@@ -36,7 +37,7 @@ export function createShortlinksV1Router() {
 	router.get('api.v1.shortlinks.list_user', '/', throttler.consume(), listUserShortlinks);
 	router.get('api.v1.shortlinks.list', '/all', throttler.consume(2), listAllShortlinks);
 	router.get('api.v1.shortlinks.count', '/count', throttler.consume(), countShortlinks);
-	router.put('api.v1.shortlinks.create', '/', throttler.consume(2), koaBody(), createShortlink);
+	router.put('api.v1.shortlinks.create', '/', createRequireFeatureMiddleware('SHORTLINK_CREATION'), throttler.consume(2), koaBody(), createShortlink);
 	router.get('api.v1.shortlinks.info', '/:shortcode', throttler.consume(), getShortlinkInfo);
 	router.delete('api.v1.shortlinks.delete', '/:shortcode/:secret', throttler.consume(2), deleteShortlink);
 	router.get('api.v1.shortlinks.shortcode_availability', '/:shortcode/available', throttler.consume(), getShortcodeAvailability);

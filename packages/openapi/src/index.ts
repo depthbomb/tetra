@@ -5,12 +5,16 @@ import {
 	ApiKey,
 	Secret,
 	Shortcode,
+	FeatureName,
 	ListUsersResponse,
+	ListFeaturesQuery,
 	AppVersionResponse,
 	ApiKeyInfoResponse,
 	CreateShortlinkBody,
 	RegenerateApiKeyBody,
+	ListFeaturesResponse,
 	ShortlinkInfoResponse,
+	ToggleFeatureResponse,
 	SetShortlinkExpiryBody,
 	ListShortlinksResponse,
 	CreateShortlinkResponse,
@@ -53,6 +57,13 @@ const SecretParameter = registry.registerParameter('Secret', Secret.openapi({
 	},
 	examples: ['BWzHQLE6rcu38wdVDxJKjR0ctKhp2GKFQf1zi2knuyVqG6uF7HCauCuXyhRv1D4T']
 }));
+const FeatureNameParameter = registry.registerParameter('FeatureName', FeatureName.openapi({
+	param: {
+		name: 'name',
+		in: 'path'
+	},
+	examples: ['SHORTLINK_REDIRECTION']
+}));
 
 const ErrorResponseSchema = registry.register('ErrorResponse', z.object({
 	requestId: z.string().openapi({
@@ -66,11 +77,15 @@ const ErrorResponseSchema = registry.register('ErrorResponse', z.object({
 		description: 'A message describing the error'
 	}),
 	stackTrace: z.string().optional().openapi({
-		description: 'Only present when the service is running in dev mode'
+		description: 'Only present when the service is running in development mode'
 	})
-}));
+}).strict());
 
 const AppVersionResponseSchema = registry.register('AppVersionResponse', AppVersionResponse);
+
+const ListFeaturesQuerySchema = registry.register('ListFeaturesQuery', ListFeaturesQuery);
+const ListFeaturesResponseSchema = registry.register('ListFeaturesResponse', ListFeaturesResponse);
+const ToggleFeatureResponseSchema = registry.register('ToggleFeatureResponse', ToggleFeatureResponse);
 
 const ListShortlinksResponseSchema = registry.register('ListShortlinksResponse', ListShortlinksResponse);
 const ListAllShortlinksResponseSchema = registry.register('ListAllShortlinksResponse', ListAllShortlinksResponse);
@@ -483,7 +498,7 @@ registry.registerPath({
 			}
 		},
 		400: {
-			description: 'Invalid API key',
+			description: 'Invalid or missing API key',
 			content: {
 				'application/json': {
 					schema: ErrorResponseSchema
@@ -518,7 +533,7 @@ registry.registerPath({
 			}
 		},
 		400: {
-			description: 'Invalid API key',
+			description: 'Invalid or missing API key',
 			content: {
 				'application/json': {
 					schema: ErrorResponseSchema
@@ -547,6 +562,183 @@ registry.registerPath({
 		},
 		500: {
 			description: 'Server error',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		}
+	}
+});
+
+// --- FEATURES --- //
+
+registry.registerPath({
+	method: 'get',
+	path: '/api/v1/features',
+	tags: ['features'],
+	description: 'Returns all features, **requires admin priviledges**',
+	summary: 'Returns all features, requires admin priviledges',
+	request: {
+		query: ListFeaturesQuerySchema
+	},
+	responses: {
+		200: {
+			description: 'Successful operation',
+			content: {
+				'application/json': {
+					schema: ListFeaturesResponseSchema
+				}
+			}
+		},
+		400: {
+			description: 'Invalid or missing API key',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		},
+		403: {
+			description: 'Insufficient priviledges',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		}
+	}
+});
+
+registry.registerPath({
+	method: 'patch',
+	path: '/api/v1/features/{name}/enable',
+	tags: ['features'],
+	description: 'Enables a feature, **requires admin priviledges**',
+	summary: 'Enables a feature, requires admin priviledges',
+	request: {
+		params: z.object({ name: FeatureNameParameter }),
+		query: ListFeaturesQuerySchema
+	},
+	responses: {
+		200: {
+			description: 'Successful operation',
+			content: {
+				'application/json': {
+					schema: ToggleFeatureResponseSchema
+				}
+			}
+		},
+		400: {
+			description: 'Invalid or missing API key',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		},
+		403: {
+			description: 'Insufficient priviledges',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		},
+		404: {
+			description: 'Feature does not exist',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		}
+	}
+});
+
+registry.registerPath({
+	method: 'patch',
+	path: '/api/v1/features/{name}/disable',
+	tags: ['features'],
+	description: 'Disables a feature, **requires admin priviledges**',
+	summary: 'Disables a feature, requires admin priviledges',
+	request: {
+		params: z.object({ name: FeatureNameParameter }),
+		query: ListFeaturesQuerySchema
+	},
+	responses: {
+		200: {
+			description: 'Successful operation',
+			content: {
+				'application/json': {
+					schema: ToggleFeatureResponseSchema
+				}
+			}
+		},
+		400: {
+			description: 'Invalid or missing API key',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		},
+		403: {
+			description: 'Insufficient priviledges',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		},
+		404: {
+			description: 'Feature does not exist',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		}
+	}
+});
+
+registry.registerPath({
+	method: 'patch',
+	path: '/api/v1/features/{name}/toggle',
+	tags: ['features'],
+	description: 'Toggles a feature, **requires admin priviledges**',
+	summary: 'Toggles a feature, requires admin priviledges',
+	request: {
+		params: z.object({ name: FeatureNameParameter }),
+		query: ListFeaturesQuerySchema
+	},
+	responses: {
+		200: {
+			description: 'Successful operation',
+			content: {
+				'application/json': {
+					schema: ToggleFeatureResponseSchema
+				}
+			}
+		},
+		400: {
+			description: 'Invalid or missing API key',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		},
+		403: {
+			description: 'Insufficient priviledges',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		},
+		404: {
+			description: 'Feature does not exist',
 			content: {
 				'application/json': {
 					schema: ErrorResponseSchema

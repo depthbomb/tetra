@@ -6,6 +6,7 @@ import { exec as $exec } from 'node:child_process';
 import { sendJsonResponse } from '@utils/response';
 import { createUsersV1Router } from '@router/usersV1';
 import { createCorsMiddleware } from '@middleware/cors';
+import { createFeaturesV1Router } from '@router/featuresV1';
 import { createShortlinksV1Router } from '@router/shortlinksV1';
 
 export function createApiRouter() {
@@ -34,6 +35,7 @@ export function createApiRouter() {
 	router.use(createCorsMiddleware());
 	router.use(createUsersV1Router());
 	router.use(createShortlinksV1Router());
+	router.use(createFeaturesV1Router());
 	router.get('/openapi.:extension', ctx => {
 		if (ctx.params?.extension === 'yaml') {
 			ctx.response.set('Content-Type', 'text/yaml');
