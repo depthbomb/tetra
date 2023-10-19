@@ -2,6 +2,7 @@ import serve from 'koa-static';
 import Router from '@koa/router';
 import { database } from '@database';
 import { spaTemplate } from '@views/spa';
+import { setImmediate } from 'node:timers';
 import { parseParams } from '@utils/request';
 import { PUBLIC_DIR } from '@tetra/shared/paths';
 import { createCspMiddleware } from '@middleware/csp';
@@ -55,6 +56,19 @@ export function createRootRouter() {
 		});
 
 		ctx.assert(shortlink, 404);
+
+		// TODO offload operation?
+		await database.shortlink.update({
+			data: {
+				hits: {
+					increment: 1
+				}
+			},
+			where: {
+				shortcode,
+				disabled: false,
+			}
+		});
 
 		return ctx.redirect(shortlink.destination);
 	}
