@@ -267,24 +267,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource-variable/fira-code@npm:^5.0.13":
-  version: 5.0.13
-  resolution: "@fontsource-variable/fira-code@npm:5.0.13"
-  checksum: 0a966d5eeedac77d98a247d87009c7909570ed7b9f68a9b76d5042a5d9ca9c414c488553199783742eefcdc0039dd9e02d2070c57b1b18ec2c86d02b94c5a6a8
+"@fontsource-variable/fira-code@npm:^5.0.14":
+  version: 5.0.14
+  resolution: "@fontsource-variable/fira-code@npm:5.0.14"
+  checksum: 73d09eb426110cc00ff97c6c689f26d109a605b7c933263bf804ec7139ab13bd5395981660d00949e63467483d8a33a77822f50b99622808dbd72233906abc63
   languageName: node
   linkType: hard
 
-"@fontsource-variable/inter@npm:^5.0.13":
-  version: 5.0.13
-  resolution: "@fontsource-variable/inter@npm:5.0.13"
-  checksum: 06b3bb19b2ccc83f68e66ce6a839c9e8d325ebb9a2f4bf65350e74b10f9defdcce8523c3512876d0e4d669f8f66a64178e9e5ec18361eb4ca248b62d5538007d
+"@fontsource-variable/inter@npm:^5.0.14":
+  version: 5.0.14
+  resolution: "@fontsource-variable/inter@npm:5.0.14"
+  checksum: 8aed145ce75bae9156ecfc7d8aec2dacb55b20f34efecd2ee764d9b8ddcb8f7551cb625b19b48a44e7b0a1b1e2e833fa74adfe5bc7a0225474db60c55e410886
   languageName: node
   linkType: hard
 
-"@fontsource-variable/josefin-sans@npm:^5.0.16":
-  version: 5.0.16
-  resolution: "@fontsource-variable/josefin-sans@npm:5.0.16"
-  checksum: 2b62edd63f024105422172428001c685bba46c59594bbbeae1b52a26c7f2dfcbfceb75f451f52e196925e73a6ee07d0163b08838fba28c87bf02a2169bf0a0f3
+"@fontsource-variable/josefin-sans@npm:^5.0.17":
+  version: 5.0.17
+  resolution: "@fontsource-variable/josefin-sans@npm:5.0.17"
+  checksum: 2ce45be450d64359fc5d7a2453273ff1b5a43b700bc9b629d8c04add663ac52b0c005b653735b16060f4306b136416ab1d1e59a743364c484567e89acd177811
   languageName: node
   linkType: hard
 
@@ -675,9 +675,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tetra/client@workspace:packages/client"
   dependencies:
-    "@fontsource-variable/fira-code": ^5.0.13
-    "@fontsource-variable/inter": ^5.0.13
-    "@fontsource-variable/josefin-sans": ^5.0.16
+    "@fontsource-variable/fira-code": ^5.0.14
+    "@fontsource-variable/inter": ^5.0.14
+    "@fontsource-variable/josefin-sans": ^5.0.17
     "@headlessui/vue": ^1.7.16
     "@rushstack/eslint-patch": ^1.5.1
     "@tailwindcss/forms": ^0.5.6
@@ -5023,7 +5023,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tetra@workspace:."
   dependencies:
-    turbo: ^1.10.15
+    turbo: ^1.10.16
   languageName: unknown
   linkType: soft
 
@@ -5182,58 +5182,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo-darwin-64@npm:1.10.15":
-  version: 1.10.15
-  resolution: "turbo-darwin-64@npm:1.10.15"
+"turbo-darwin-64@npm:1.10.16":
+  version: 1.10.16
+  resolution: "turbo-darwin-64@npm:1.10.16"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-darwin-arm64@npm:1.10.15":
-  version: 1.10.15
-  resolution: "turbo-darwin-arm64@npm:1.10.15"
+"turbo-darwin-arm64@npm:1.10.16":
+  version: 1.10.16
+  resolution: "turbo-darwin-arm64@npm:1.10.16"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-linux-64@npm:1.10.15":
-  version: 1.10.15
-  resolution: "turbo-linux-64@npm:1.10.15"
+"turbo-linux-64@npm:1.10.16":
+  version: 1.10.16
+  resolution: "turbo-linux-64@npm:1.10.16"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-linux-arm64@npm:1.10.15":
-  version: 1.10.15
-  resolution: "turbo-linux-arm64@npm:1.10.15"
+"turbo-linux-arm64@npm:1.10.16":
+  version: 1.10.16
+  resolution: "turbo-linux-arm64@npm:1.10.16"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-windows-64@npm:1.10.15":
-  version: 1.10.15
-  resolution: "turbo-windows-64@npm:1.10.15"
+"turbo-windows-64@npm:1.10.16":
+  version: 1.10.16
+  resolution: "turbo-windows-64@npm:1.10.16"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-windows-arm64@npm:1.10.15":
-  version: 1.10.15
-  resolution: "turbo-windows-arm64@npm:1.10.15"
+"turbo-windows-arm64@npm:1.10.16":
+  version: 1.10.16
+  resolution: "turbo-windows-arm64@npm:1.10.16"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo@npm:^1.10.15":
-  version: 1.10.15
-  resolution: "turbo@npm:1.10.15"
+"turbo@npm:^1.10.16":
+  version: 1.10.16
+  resolution: "turbo@npm:1.10.16"
   dependencies:
-    turbo-darwin-64: "npm:1.10.15"
-    turbo-darwin-arm64: "npm:1.10.15"
-    turbo-linux-64: "npm:1.10.15"
-    turbo-linux-arm64: "npm:1.10.15"
-    turbo-windows-64: "npm:1.10.15"
-    turbo-windows-arm64: "npm:1.10.15"
+    turbo-darwin-64: 1.10.16
+    turbo-darwin-arm64: 1.10.16
+    turbo-linux-64: 1.10.16
+    turbo-linux-arm64: 1.10.16
+    turbo-windows-64: 1.10.16
+    turbo-windows-arm64: 1.10.16
   dependenciesMeta:
     turbo-darwin-64:
       optional: true
@@ -5249,7 +5249,7 @@ __metadata:
       optional: true
   bin:
     turbo: bin/turbo
-  checksum: b494c8bf79355874919e76ee0e4a0a53616e0ae5c7126eb1add50e67d4cd1e445ed9aecf99cb6d81c592b7a43ba91cd7dbf30df70410a44cecedba8b5126095d
+  checksum: 69d1892593449b264e0bd48b851317a743016ab62cf470e7293b2cc3781240e863c48232c89f65a5a4ce97eb791ca550b201593449350da073db07703a19cfa5
   languageName: node
   linkType: hard
 

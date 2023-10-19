@@ -11,9 +11,9 @@
 		"generate-schema": "openapi-typescript http://localhost:3000/api/openapi.json -o ./src/@types/openapi.d.ts"
 	},
 	"dependencies": {
-		"@fontsource-variable/fira-code": "^5.0.13",
-		"@fontsource-variable/inter": "^5.0.13",
-		"@fontsource-variable/josefin-sans": "^5.0.16",
+		"@fontsource-variable/fira-code": "^5.0.14",
+		"@fontsource-variable/inter": "^5.0.14",
+		"@fontsource-variable/josefin-sans": "^5.0.17",
 		"@headlessui/vue": "^1.7.16",
 		"@tetra/schema": "workspace:*",
 		"@vueuse/components": "^10.5.0",

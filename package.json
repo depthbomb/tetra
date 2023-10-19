@@ -10,7 +10,7 @@
 		"lint": "turbo run lint"
 	},
 	"devDependencies": {
-		"turbo": "^1.10.15"
+		"turbo": "^1.10.16"
 	},
 	"workspaces": [
 		"apps/*",
