@@ -1,6 +1,6 @@
+import 'source-map-support/register';
 import Koa from 'koa';
 import etag from 'koa-etag';
-import sms from 'source-map-support';
 import { registerTask } from '@tasks';
 import { createRouter } from '@router';
 import { Features } from '@lib/features';
@@ -11,8 +11,6 @@ import { createLoggerMiddleware } from '@middleware/logger';
 import { createFeaturesMiddleware } from '@middleware/features';
 import { createRequestIdMiddleware } from '@middleware/requestId';
 import { createShortlinkCleanupTask } from '@tasks/shortlinkCleanup';
-
-sms.install();
 
 Features.createFeature('SHORTLINK_CREATION', true);
 Features.createFeature('SHORTLINK_REDIRECTION', true);
