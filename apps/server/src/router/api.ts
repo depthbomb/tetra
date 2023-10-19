@@ -14,10 +14,13 @@ export function createApiRouter() {
 	|--------------------------------------------------------------------------
 	*/
 
-	router.get('/docs', async ctx => {
+	router.all('/', async ctx => {
+		console.log('api')
+
 		const html = await swaggerTemplate(ctx);
 
 		ctx.body = html;
+		return;
 	});
 	router.use(createCorsMiddleware());
 	router.use(createUsersV1Router());

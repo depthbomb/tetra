@@ -22,7 +22,7 @@
 		</router-link>
 		<div class="Masthead-links">
 			<router-link :to="{ name: 'home' }" class="Masthead-link">Home</router-link>
-			<a href="/api/docs" class="Masthead-link">API Docs</a>
+			<a href="/api" class="Masthead-link">API Docs</a>
 			<router-link :to="{ name: 'faq' }" class="Masthead-link">FAQ</router-link>
 		</div>
 		<div class="Masthead-user">

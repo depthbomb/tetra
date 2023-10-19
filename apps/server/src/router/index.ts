@@ -7,10 +7,10 @@ import { createHealthRouter } from '@router/health';
 export function createRouter() {
 	const router = new Router();
 
-	router.use(createHealthRouter());
-	router.use(createRootRouter());
-	router.use(createOidcRouter());
 	router.use(createApiRouter());
+	router.use(createHealthRouter());
+	router.use(createOidcRouter());
+	router.use(createRootRouter());
 	router.all('/(.*)', ctx => {
 		ctx.throw(404); // 404 anything else
 	});
