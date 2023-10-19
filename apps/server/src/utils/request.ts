@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { Context } from 'koa';
 
 export function parsePayload<S extends z.AnyZodObject>(ctx: Context, schema: S): z.infer<S> {
-	const { body } = ctx.request;
+	const body = ctx.request.body;
 
 	ctx.assert(body, 400);
 

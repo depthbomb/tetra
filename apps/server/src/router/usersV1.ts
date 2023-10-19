@@ -1,6 +1,9 @@
+import koaBody from 'koa-body';
 import Router from '@koa/router';
 import { uid } from 'uid/secure';
 import { database } from '@database';
+import { setCookie } from '@utils/cookies';
+import { AUTH_COOKIE_NAME } from '@constants';
 import { Duration } from '@sapphire/duration';
 import { createThrottler } from '@lib/throttle';
 import { createGravatar } from '@utils/gravatar';
@@ -20,9 +23,8 @@ export function createUsersV1Router() {
 	*/
 
 	router.get('api.v1.users.list', '/', throttler.consume(), listUsers);
-	router.get('api.v1.users.current', '/me', throttler.consume(), getCurrentUser);
 	router.get('api.v1.users.api_key_info', '/api_key_info', throttler.consume(), getApiKeyInfo);
-	router.post('api.v1.users.regenerate_api_key', '/regenerate_api_key', throttler.consume(5), regenerateApiKey);
+	router.post('api.v1.users.regenerate_api_key', '/regenerate_api_key', throttler.consume(5), koaBody(), regenerateApiKey);
 
 	/*
 	|--------------------------------------------------------------------------
@@ -53,15 +55,6 @@ export function createUsersV1Router() {
 			...u,
 			avatar: createGravatar(u.email, { size: 128 })
 		})));
-	}
-
-	async function getCurrentUser(ctx: Context) {
-		const user = ctx.state.user;
-		if (!user) {
-			return sendJsonResponse(ctx, {});
-		}
-
-		return sendJsonResponse(ctx, user);
 	}
 
 	async function getApiKeyInfo(ctx: Context) {
@@ -112,7 +105,20 @@ export function createUsersV1Router() {
 			select: {
 				apiKey: true
 			}
-		})
+		});
+
+		// Re-set the auth cookie if the API key is regenerated through the client.
+		if ('user' in ctx.state) {
+			let userObj = ctx.state.user;
+
+			userObj.apiKey = result.apiKey;
+
+			setCookie(ctx, AUTH_COOKIE_NAME, JSON.stringify(userObj), {
+				encrypt: true,
+				httpOnly: true,
+				expires: new Duration('6 months').fromNow
+			});
+		}
 
 		return sendJsonResponse(ctx, { apiKey: result.apiKey });
 	}

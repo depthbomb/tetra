@@ -23,7 +23,7 @@
 			return;
 		}
 
-		if (confirm('There is a one hour wait between generating new API keys.\n\nAre you sure you want to continue?')) {
+		if (confirm('There is a two hour wait between generating new a API key.\n\nAre you sure you want to continue?')) {
 			regeneratingKey.value = true;
 			const { data, error } = await POST('/api/v1/users/regenerate_api_key', {
 				body: {
