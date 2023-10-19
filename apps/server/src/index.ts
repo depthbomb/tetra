@@ -1,6 +1,7 @@
 import 'source-map-support/register';
 import Koa from 'koa';
 import etag from 'koa-etag';
+import { getVarOrThrow } from '@env';
 import { registerTask } from '@tasks';
 import { createRouter } from '@router';
 import { Features } from '@lib/features';
@@ -29,4 +30,4 @@ const app = new Koa()
 
 registerTask(createShortlinkCleanupTask());
 
-app.listen(3000);
+app.listen(getVarOrThrow<number>('PORT'));
