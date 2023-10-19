@@ -595,8 +595,8 @@ export function generateSpec(format: 'json' | 'yaml' = 'yaml'): string {
 			}
 		},
 		servers: [
-			{ url: 'http://localhost:3000', description: 'Local development server' },
 			{ url: 'https://go.super.fish', description: 'Production server' },
+			{ url: 'http://localhost:3000', description: 'Local development server' },
 		],
 	});
 
