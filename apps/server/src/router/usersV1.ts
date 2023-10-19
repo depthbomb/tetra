@@ -109,9 +109,10 @@ export function createUsersV1Router() {
 
 		// Re-set the auth cookie if the API key is regenerated through the client.
 		if ('user' in ctx.state) {
-			let userObj = ctx.state.user;
-
-			userObj.apiKey = result.apiKey;
+			const userObj = {
+				...ctx.state.user,
+				apiKey: result.apiKey
+			};
 
 			setCookie(ctx, AUTH_COOKIE_NAME, JSON.stringify(userObj), {
 				encrypt: true,

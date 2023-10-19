@@ -1,16 +1,14 @@
 <script setup lang="ts">
 	import gsap from 'gsap';
 	import createClient from 'openapi-fetch';
-	import { ref, watch, reactive, onMounted } from 'vue';
+	import { ref, watch, reactive } from 'vue';
+	import { useIntervalFn } from '@vueuse/core';
 	import GithubIcon from '~/components/icons/GithubIcon.vue';
-	import { useIntervalFn, useWindowFocus } from '@vueuse/core';
 	import type { paths } from '~/@types/openapi';
 
 	const totalLinks = ref<number>(0);
 	const gitHash    = ref<string>('Source');
 	const tweened    = reactive({ number: 0 });
-
-	const focused = useWindowFocus();
 
 	const { GET } = createClient<paths>();
 	const getTotalLinksCount = async () => {
@@ -29,14 +27,9 @@
 	// 	}
 	// };
 
-	onMounted(getTotalLinksCount);
 	// onMounted(getLatestCommitHash);
 
-	useIntervalFn(async () => {
-		if (focused.value) {
-			await getTotalLinksCount();
-		}
-	}, 10_000);
+	useIntervalFn(async () => await getTotalLinksCount(), 15_000, { immediateCallback: true });
 
 	watch(totalLinks, n => gsap.to(tweened, { duration: 1.5, number: n || 0 }));
 </script>
