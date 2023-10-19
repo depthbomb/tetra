@@ -1,8 +1,6 @@
 {
 	"private": true,
 	"name": "@tetra/client",
-	"version": "1.0.0",
-	"license": "MIT",
 	"scripts": {
 		"dev": "yarn watch",
 		"watch": "vite build --watch --mode development",

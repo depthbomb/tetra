@@ -123,7 +123,7 @@
 		<section class="LinkCreator-section">
 			<div class="LinkCreator-sectionTitle">
 				<h2>Shortcode <span>(optional)</span></h2>
-				<p>3-255 characters, <code>a-z, 0-9, -, _</code> allowed</p>
+				<p>3-64 characters, <code>a-z, 0-9, -, _</code> allowed</p>
 			</div>
 			<input :placeholder="`Ex: ${exampleShortcode}`" type="text" v-model.trim="shortcode">
 		</section>
