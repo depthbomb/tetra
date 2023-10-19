@@ -22,8 +22,8 @@
 		</router-link>
 		<div class="Masthead-links">
 			<router-link :to="{ name: 'home' }" class="Masthead-link">Home</router-link>
-			<a href="/api" class="Masthead-link">API Docs</a>
 			<router-link :to="{ name: 'faq' }" class="Masthead-link">FAQ</router-link>
+			<a href="/api" class="Masthead-link">API</a>
 		</div>
 		<div class="Masthead-user">
 			<app-user-drawer v-if="isLoggedIn"/>
@@ -59,7 +59,7 @@
 			@apply gap-1.5;
 
 			.Masthead-link {
-				@apply py-1 px-2.5;
+				@apply py-1 px-3;
 				@apply text-gray-300;
 				@apply bg-transparent;
 				@apply rounded-full;
@@ -82,7 +82,7 @@
 			.Masthead-user-control {
 				@apply flex items-center;
 				@apply gap-1.5;
-				@apply py-1 px-2.5;
+				@apply py-1 px-3;
 				@apply text-gray-300;
 				@apply rounded-full;
 				@apply select-none;
