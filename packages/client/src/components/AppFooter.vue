@@ -1,8 +1,8 @@
 <script setup lang="ts">
 	import gsap from 'gsap';
 	import createClient from 'openapi-fetch';
-	import { ref, watch, reactive } from 'vue';
 	import { useIntervalFn } from '@vueuse/core';
+	import { ref, watch, reactive, onMounted } from 'vue';
 	import GithubIcon from '~/components/icons/GithubIcon.vue';
 	import type { paths } from '~/@types/openapi';
 
@@ -19,15 +19,14 @@
 		}
 	};
 
-	// const getLatestCommitHash = async () => {
-	// 	const { success, getJSON } = await useApi('/_private/git-hash', { method: 'POST' });
-	// 	if (success.value) {
-	// 		const { hash } = await getJSON<ILatestCommitHashResponse>();
-	// 		gitHash.value  = hash;
-	// 	}
-	// };
+	const getLatestCommitHash = async () => {
+		const { data } = await GET('/api/app_version');
+		if (data) {
+			gitHash.value = data.hash;
+		}
+	};
 
-	// onMounted(getLatestCommitHash);
+	onMounted(getLatestCommitHash);
 
 	useIntervalFn(async () => await getTotalLinksCount(), 15_000, { immediateCallback: true });
 

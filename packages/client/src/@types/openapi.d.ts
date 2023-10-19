@@ -392,6 +392,28 @@ export interface paths {
       };
     };
   };
+  "/api/app_version": {
+    /**
+     * Returns the current revision of the application
+     * @description Returns the current revision of the application
+     */
+    get: {
+      responses: {
+        /** @description Successful operation */
+        200: {
+          content: {
+            "application/json": components["schemas"]["AppVersionResponse"];
+          };
+        };
+        /** @description Server error */
+        500: {
+          content: {
+            "application/json": components["schemas"]["ErrorResponse"];
+          };
+        };
+      };
+    };
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -407,6 +429,9 @@ export interface components {
       message: string;
       /** @description Only present when the service is running in dev mode */
       stackTrace?: string;
+    };
+    AppVersionResponse: {
+      hash: string;
     };
     ListShortlinksResponse: {
         shortcode: string;

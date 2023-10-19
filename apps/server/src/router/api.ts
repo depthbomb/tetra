@@ -1,12 +1,16 @@
 import Router from '@koa/router';
+import { promisify } from 'node:util';
 import { generateSpec } from '@tetra/openapi';
 import { swaggerTemplate } from '@views/swagger';
+import { exec as $exec } from 'node:child_process';
+import { sendJsonResponse } from '@utils/response';
 import { createUsersV1Router } from '@router/usersV1';
 import { createCorsMiddleware } from '@middleware/cors';
 import { createShortlinksV1Router } from '@router/shortlinksV1';
 
 export function createApiRouter() {
 	const router = new Router({ prefix: '/api' });
+	const exec   = promisify($exec);
 
 	/*
 	|--------------------------------------------------------------------------
@@ -20,7 +24,12 @@ export function createApiRouter() {
 		const html = await swaggerTemplate(ctx);
 
 		ctx.body = html;
-		return;
+	});
+	router.get('/app_version', async ctx => {
+		const { stdout } = await exec('git rev-parse --short HEAD');
+		const hash       = stdout.trim();
+
+		return sendJsonResponse(ctx, { hash });
 	});
 	router.use(createCorsMiddleware());
 	router.use(createUsersV1Router());

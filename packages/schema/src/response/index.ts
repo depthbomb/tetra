@@ -1,4 +1,5 @@
 export * from './ApiKeyInfoResponse';
+export * from './AppVersionResponse';
 export * from './CountShortlinksResponse';
 export * from './CreateShortlinkResponse';
 export * from './ListAllShortlinksResponse';

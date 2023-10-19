@@ -6,6 +6,7 @@ import {
 	Secret,
 	Shortcode,
 	ListUsersResponse,
+	AppVersionResponse,
 	ApiKeyInfoResponse,
 	CreateShortlinkBody,
 	RegenerateApiKeyBody,
@@ -68,6 +69,8 @@ const ErrorResponseSchema = registry.register('ErrorResponse', z.object({
 		description: 'Only present when the service is running in dev mode'
 	})
 }));
+
+const AppVersionResponseSchema = registry.register('AppVersionResponse', AppVersionResponse);
 
 const ListShortlinksResponseSchema = registry.register('ListShortlinksResponse', ListShortlinksResponse);
 const ListAllShortlinksResponseSchema = registry.register('ListAllShortlinksResponse', ListAllShortlinksResponse);
@@ -516,6 +519,34 @@ registry.registerPath({
 		},
 		400: {
 			description: 'Invalid API key',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		}
+	}
+});
+
+// --- APP --- //
+
+registry.registerPath({
+	method: 'get',
+	path: '/api/app_version',
+	tags: ['app'],
+	description: 'Returns the current revision of the application',
+	summary: 'Returns the current revision of the application',
+	responses: {
+		200: {
+			description: 'Successful operation',
+			content: {
+				'application/json': {
+					schema: AppVersionResponseSchema
+				}
+			}
+		},
+		500: {
+			description: 'Server error',
 			content: {
 				'application/json': {
 					schema: ErrorResponseSchema
