@@ -13,3 +13,5 @@ export const database = new PrismaClient()
 			}
 		}
 	});
+
+export * from '@prisma/client';

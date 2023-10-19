@@ -2,7 +2,6 @@ import serve from 'koa-static';
 import Router from '@koa/router';
 import { database } from '@database';
 import { spaTemplate } from '@views/spa';
-import { setImmediate } from 'node:timers';
 import { parseParams } from '@utils/request';
 import { PUBLIC_DIR } from '@tetra/shared/paths';
 import { createCspMiddleware } from '@middleware/csp';
@@ -65,8 +64,7 @@ export function createRootRouter() {
 				}
 			},
 			where: {
-				shortcode,
-				disabled: false,
+				shortcode
 			}
 		});
 
