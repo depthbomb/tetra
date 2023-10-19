@@ -1,8 +1,8 @@
 import destr from 'destr';
 import { joinURL } from 'ufo';
 import { flags } from '@flags';
-import { join } from 'node:path';
 import { fileExists } from '@utils/fs';
+import { join, basename } from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { PUBLIC_DIR } from '@tetra/shared/paths';
 import type { Next, Context } from 'koa';
@@ -94,7 +94,7 @@ export function createAssetsMiddleware() {
 				entries.js.push(versionedUrl);
 			}
 
-			assets[key] = versionedUrl
+			assets[basename(key)] = versionedUrl
 		}
 	}
 }
