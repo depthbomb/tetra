@@ -35,14 +35,14 @@ export function createShortlinksV1Router() {
 	*/
 
 	router.get('api.v1.shortlinks.list_user', '/', throttler.consume(), listUserShortlinks);
-	router.get('api.v1.shortlinks.list', '/all', throttler.consume(2), listAllShortlinks);
+	router.get('api.v1.shortlinks.list', '/all', listAllShortlinks);
 	router.get('api.v1.shortlinks.count', '/count', throttler.consume(), countShortlinks);
 	router.put('api.v1.shortlinks.create', '/', createRequireFeatureMiddleware('SHORTLINK_CREATION'), throttler.consume(2), koaBody(), createShortlink);
 	router.get('api.v1.shortlinks.info', '/:shortcode', throttler.consume(), getShortlinkInfo);
 	router.delete('api.v1.shortlinks.delete', '/:shortcode/:secret', throttler.consume(2), deleteShortlink);
 	router.get('api.v1.shortlinks.shortcode_availability', '/:shortcode/available', throttler.consume(), getShortcodeAvailability);
 	router.patch('api.v1.shortlinks.set_expiry', '/:shortcode/:secret/set_expiry', throttler.consume(), koaBody(), setShortlinkExpiry);
-	router.patch('api.v1.shortlinks.toggle', '/:shortcode/toggle', throttler.consume(), toggleShortlink);
+	router.patch('api.v1.shortlinks.toggle', '/:shortcode/toggle', toggleShortlink);
 	router.get('api.v1.shortlinks.qr_code', '/:shortcode/qrcode.svg', throttler.consume(), getShortlinkQrCode);
 
 	/*
