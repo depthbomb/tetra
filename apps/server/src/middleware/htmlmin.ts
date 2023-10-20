@@ -13,10 +13,7 @@ export function createHtmlMinMiddleware() {
 			const originalHtml = ctx.body as string;
 			const { html } = await htmlnano.process(originalHtml, {
 				removeAttributeQuotes: true,
-				collapseAttributeWhitespace: true,
-				collapseWhitespace: 'aggressive',
-				removeOptionalTags: true,
-				minifyJs: true,
+				collapseWhitespace: 'aggressive'
 			});
 
 			ctx.body = html;
