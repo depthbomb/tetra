@@ -38,7 +38,7 @@
 	const user                 = useUser();
 	const { createToast }      = useToastStore();
 	const { Ctrl_V }           = useMagicKeys();
-	const { copy }             = useClipboard({ source: shortlinkResult });
+	const { copy }             = useClipboard({ source: shortlinkResult, legacy: true });
 	const clipboardReadAccess  = usePermission('clipboard-read', { controls: true });
 
 	const creationDisabled = ref(!isFeatureEnabled('SHORTLINK_CREATION'));
