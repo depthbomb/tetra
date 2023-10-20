@@ -1,9 +1,9 @@
 import serve from 'koa-static';
 import Router from '@koa/router';
+import { resolve } from 'node:path';
 import { database } from '@database';
 import { spaTemplate } from '@views/spa';
 import { parseParams } from '@utils/request';
-import { PUBLIC_DIR } from '@tetra/shared/paths';
 import { createCspMiddleware } from '@middleware/csp';
 import { ShortlinkRedirectionPath } from '@tetra/schema';
 import { createAssetsMiddleware } from '@middleware/assets';
@@ -12,7 +12,8 @@ import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
 import type { Context } from 'koa';
 
 export function createRootRouter() {
-	const router = new Router();
+	const router    = new Router();
+	const publicDir = resolve(__dirname, '..', 'public');
 
 	/*
 	|--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ export function createRootRouter() {
 	*/
 
 	router.use(createAssetsMiddleware());
-	router.use(serve(PUBLIC_DIR));
+	router.use(serve(publicDir));
 	router.all('index', '/', createCspMiddleware(), createHtmlMinMiddleware(), serveSpa);
 	router.all('shortlink.redirect', '/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
 	router.all('/go/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
