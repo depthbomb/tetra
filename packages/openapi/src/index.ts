@@ -755,7 +755,7 @@ registry.registerPath({
 */
 
 const description = [
-	'paste.super.fish provides a free public API so that you may integrate the site\'s functionality into your own projects.',
+	'go.super.fish provides a free public API so that you may integrate the site\'s functionality into your own projects.',
 	'',
 	'---',
 	'',
