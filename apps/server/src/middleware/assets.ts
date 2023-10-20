@@ -2,9 +2,8 @@ import destr from 'destr';
 import { joinURL } from 'ufo';
 import { flags } from '@flags';
 import { fileExists } from '@utils/fs';
-import { join, basename } from 'node:path';
 import { readFile } from 'node:fs/promises';
-import { PUBLIC_DIR } from '@tetra/shared/paths';
+import { resolve, basename } from 'node:path';
 import type { Next, Context } from 'koa';
 
 type Assets = {
@@ -34,7 +33,7 @@ type ManifestJson = {
  * Vite configuration and adds the dictionary to the request state.
  */
 export function createAssetsMiddleware() {
-	const manifestPath = join(PUBLIC_DIR, 'manifest.json');
+	const manifestPath = resolve(__dirname, '..', 'public', 'manifest.json');
 
 	let entries: Entries = { css: [], js: [] };
 	let assets: Assets    = {};

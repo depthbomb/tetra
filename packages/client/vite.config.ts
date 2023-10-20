@@ -3,7 +3,6 @@ import { resolve } from 'node:path';
 import vue from '@vitejs/plugin-vue';
 import preload from 'vite-plugin-preload';
 import { URL, fileURLToPath } from 'node:url';
-import { PUBLIC_DIR } from '@tetra/shared/paths';
 import type { UserConfig } from 'vite';
 
 export default defineConfig(({ mode }) => {
@@ -15,7 +14,7 @@ export default defineConfig(({ mode }) => {
 			stringify: true
 		},
 		build: {
-			outDir: resolve(PUBLIC_DIR),
+			outDir: resolve(__dirname, '../../apps/server/public'),
 			minify: mode === 'production' ? 'esbuild' : false,
 			emptyOutDir: true,
 			manifest: true,

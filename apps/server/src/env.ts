@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
-import paths from '@tetra/shared/paths';
+import { resolve } from 'node:path';
 
-config({ path: paths.DOTENV_PATH });
+config({ path: resolve(__dirname, '../.env') });
 
 export function getVar<T>(key: string, defaultValue?: T): T | undefined {
 	if (!(key in process.env)) {
