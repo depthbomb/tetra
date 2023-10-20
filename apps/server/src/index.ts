@@ -19,7 +19,7 @@ Features.create('AUTHENTICATION', true);
 Features.create('HTML_MINIFICATION', true);
 Features.create('PRETTY_PRINT_JSON', true);
 
-const app = new Koa()
+const app = new Koa({ proxy: true })
 	.use(createRequestIdMiddleware())
 	.use(createErrorMiddleware())
 	.use(createLoggerMiddleware())
