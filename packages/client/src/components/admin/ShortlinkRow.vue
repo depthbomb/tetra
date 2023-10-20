@@ -85,7 +85,7 @@
 		</td>
 		<td>{{ shortlink.user?.username ?? shortlink.creatorIp }}</td>
 		<td><time-ago :date="shortlink.createdAt"/></td>
-		<td>{{ shortlink.expiresAt ?? 'Never expires' }}</td>
+		<td>{{ shortlink.expiresAt ?? 'Never' }}</td>
 	</tr>
 </template>
 

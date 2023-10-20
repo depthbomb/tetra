@@ -107,7 +107,6 @@
 		}
 
 		thead {
-
 			tr {
 				@apply bg-gray-950;
 			}
