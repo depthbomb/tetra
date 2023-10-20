@@ -1,2 +1,4 @@
 .git
+.turbo
+.yarn/cache
 node_modules
