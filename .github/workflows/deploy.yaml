@@ -26,4 +26,4 @@ jobs:
           push: true
           tags: |
             docker.super.fish/tetra/tetra:latest
-            docker.super.fish/tetra/tetra:$GITHUB_SHA
+            docker.super.fish/tetra/tetra:${{ github.sha }}
