@@ -41,8 +41,9 @@
 	const { copy }             = useClipboard({ source: shortlinkResult, legacy: true });
 	const clipboardReadAccess  = usePermission('clipboard-read', { controls: true });
 
-	const creationDisabled = ref(!isFeatureEnabled('SHORTLINK_CREATION'));
+	const creationDisabled   = ref(!isFeatureEnabled('SHORTLINK_CREATION'));
 
+	const isFirefox        = /Firefox/.test(navigator.userAgent);
 	const exampleShortcode = generateId().substring(7, 10);
 	const { PUT }          = createClient<paths>();
 
@@ -138,7 +139,8 @@
 
 		<section class="pt-6 LinkCreator-section">
 			<div class="col-span-6 flex items-center justify-between">
-				<p v-if="clipboardReadAccess.state.value === 'granted'" class="LinkCreator-sectionHint">Hint: Press <key-combo :keys="['ctrl', 'v']"/> to instantly paste and submit!</p>
+				<p v-if="isFirefox" class="LinkCreator-sectionHint">Reading from clipboard is not supported on Firefox. Check the <router-link :to="{ name: 'faq' }">FAQ</router-link> for more info.</p>
+				<p v-else-if="clipboardReadAccess.state.value === 'granted'" class="LinkCreator-sectionHint">Hint: Press <key-combo :keys="['ctrl', 'v']"/> to instantly paste and submit!</p>
 				<p v-else class="LinkCreator-sectionHint">Hint: Click <a href="#" @click.prevent="readClipboardContent">here</a> to give the site access to reading your clipboard so you can create links quicker.</p>
 				<app-button :disabled="!isValid || submitting" @click="trySubmit">
 					<span>Submit</span>

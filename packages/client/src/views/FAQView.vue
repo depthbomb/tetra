@@ -28,4 +28,13 @@
 	<div class="py-3 pl-3">
 		<p>If you add a <code>+</code> to the end of a shortlink then you will be redirected to an info page about the shortlink.</p>
 	</div>
+
+	<div class="MainCard-divider"></div>
+
+	<faq-question>Why can't you read my clipboard on Firefox?</faq-question>
+	<div class="py-3 pl-3">
+		<p>Later versions of Firefox does not allow websites to read the contents of your clipboard. However, you can enable this feature by setting <code>dom.events.asyncClipboard.readText</code> to <strong>true</strong> in your advanced preferences.</p>
+		<p>The warning message will still appear after making this change but your clipboard will be able to be read with no issue.</p>
+		<p>Be warned that this will allow other websites to read your clipboard as well.</p>
+	</div>
 </template>
