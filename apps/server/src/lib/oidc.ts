@@ -1,3 +1,4 @@
+import { joinURL } from 'ufo';
 import { getVarOrThrow } from '@env';
 import { Crypto } from '@utils/crypto';
 import { Duration } from '@sapphire/duration';
@@ -35,7 +36,7 @@ export class OAuth {
 			code_challenge:        codeChallenge,
 			code_challenge_method: 'S256',
 			state:                 codeVerifier,
-			redirect_uri:          'http://localhost:3000/oidc/callback'
+			redirect_uri:          joinURL(ctx.URL.origin, 'oidc', 'callback')
 		});
 	}
 
