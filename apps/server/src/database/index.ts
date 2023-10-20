@@ -1,6 +1,15 @@
+import { getVarOrThrow } from '@env';
 import { Prisma, PrismaClient } from '@prisma/client';
 
-export const database = new PrismaClient()
+const PGHOST     = getVarOrThrow<string>('PGHOST');
+const PGPORT     = getVarOrThrow<number>('PGPORT');
+const PGDATABASE = getVarOrThrow<string>('PGDATABASE');
+const PGUSER     = getVarOrThrow<string>('PGUSER');
+const PGPASSWORD = getVarOrThrow<string>('PGPASSWORD');
+
+const datasourceUrl = `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?schema=public`;
+
+export const database = new PrismaClient({ datasourceUrl })
 	.$extends({
 		model: {
 			$allModels: {
