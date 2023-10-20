@@ -1,5 +1,6 @@
 import { flags } from '@flags';
 import { logger } from '@logger';
+import { NotFoundError } from '@prisma/client/runtime/library';
 import { sendJsonResponse } from '@utils/response';
 import type { Middleware } from 'koa';
 
@@ -18,12 +19,15 @@ export function createErrorMiddleware(): Middleware {
 		try {
 			await next();
 		} catch (err) {
-			logger.error(err);
-
 			let error = err as Error;
 			let code = 500;
 			if ('statusCode' in error) {
 				code = error.statusCode as number;
+			}
+
+			// Don't log 404 errors
+			if (code !== 404) {
+				logger.error(error);
 			}
 
 			const requestId = ctx.state.requestId;
