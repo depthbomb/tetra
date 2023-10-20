@@ -21,8 +21,6 @@ export function createApiRouter() {
 	*/
 
 	router.all('/', createHtmlMinMiddleware(), async ctx => {
-		console.log('api')
-
 		const html = await swaggerTemplate(ctx);
 
 		ctx.body = html;
