@@ -7,6 +7,7 @@ import { sendJsonResponse } from '@utils/response';
 import { createUsersV1Router } from '@router/usersV1';
 import { createCorsMiddleware } from '@middleware/cors';
 import { createFeaturesV1Router } from '@router/featuresV1';
+import { createHtmlMinMiddleware } from '@middleware/htmlmin';
 import { createShortlinksV1Router } from '@router/shortlinksV1';
 
 export function createApiRouter() {
@@ -19,7 +20,7 @@ export function createApiRouter() {
 	|--------------------------------------------------------------------------
 	*/
 
-	router.all('/', async ctx => {
+	router.all('/', createHtmlMinMiddleware(), async ctx => {
 		console.log('api')
 
 		const html = await swaggerTemplate(ctx);
