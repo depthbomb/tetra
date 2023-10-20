@@ -1,3 +1,4 @@
+import { joinURL } from 'ufo';
 import Router from '@koa/router';
 import { uid } from 'uid/secure';
 import { logger } from '@logger';
@@ -36,7 +37,7 @@ export function createOidcRouter() {
 		ctx.assert(cookie, 400, 'Missing state cookie');
 
 		const params      = OAuth.client!.callbackParams(ctx.req);
-		const tokenSet    = await OAuth.client!.callback('http://localhost:3000/oidc/callback', params, { state: cookie });
+		const tokenSet    = await OAuth.client!.callback(joinURL(ctx.URL.origin, 'oidc', 'callback'), params, { state: cookie });
 		const accessToken = tokenSet.access_token;
 
 		ctx.assert(accessToken, 403, 'access_token not found');
