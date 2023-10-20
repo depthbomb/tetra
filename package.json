@@ -5,7 +5,7 @@
 		"dist": "turbo run dist",
 		"build": "turbo run build",
 		"dev": "turbo run dev",
-		"start": "turbo run start",
+		"start": "node ./apps/server/dist/index.js",
 		"migrate": "turbo run migrate",
 		"lint": "turbo run lint"
 	},
