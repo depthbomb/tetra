@@ -17,6 +17,7 @@ Features.create('SHORTLINK_REDIRECTION', true);
 Features.create('SHORTLINK_CLEANUP', true);
 Features.create('AUTHENTICATION', true);
 Features.create('HTML_MINIFICATION', true);
+Features.create('PRETTY_PRINT_JSON', true);
 
 const app = new Koa()
 	.use(createRequestIdMiddleware())
