@@ -14,11 +14,7 @@
 				"^build"
 			]
 		},
-		"start": {
-			"dependsOn": [
-				"^dist"
-			]
-		},
+		"start": {},
 		"migrate": {
 			"dependsOn": [
 				"^build"
