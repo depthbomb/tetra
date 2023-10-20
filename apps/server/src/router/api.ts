@@ -1,5 +1,6 @@
 import Router from '@koa/router';
 import { promisify } from 'node:util';
+import { GitHash } from '@utils/githash';
 import { generateSpec } from '@tetra/openapi';
 import { swaggerTemplate } from '@views/swagger';
 import { exec as $exec } from 'node:child_process';
@@ -26,8 +27,7 @@ export function createApiRouter() {
 		ctx.body = html;
 	});
 	router.get('/app_version', async ctx => {
-		const { stdout } = await exec('git rev-parse --short HEAD');
-		const hash       = stdout.trim();
+		const hash = await GitHash.retrieve();
 
 		return sendJsonResponse(ctx, { hash });
 	});
