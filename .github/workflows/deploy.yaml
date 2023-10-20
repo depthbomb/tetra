@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+concurrency:
+  group: deploy
 permissions:
   contents: read
 jobs:
