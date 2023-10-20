@@ -26,6 +26,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
             docker.super.fish/tetra/tetra:latest
             docker.super.fish/tetra/tetra:${{ github.sha }}
