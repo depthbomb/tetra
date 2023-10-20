@@ -26,7 +26,9 @@ export function createShortlinkCleanupTask(): Task {
 				}
 			});
 
-			logger.info('Cleaned up expired shortlinks', { count });
+			if (count > 0) {
+				logger.info('Cleaned up expired shortlinks', { count });
+			}
 		}
 	}
 }
