@@ -69,6 +69,9 @@ export function createShortlinksV1Router() {
 				hits: true,
 				createdAt: true,
 				expiresAt: true,
+			},
+			orderBy: {
+				createdAt: 'desc'
 			}
 		});
 
@@ -98,6 +101,9 @@ export function createShortlinksV1Router() {
 						username: true
 					}
 				}
+			},
+			orderBy: {
+				createdAt: 'desc'
 			}
 		});
 
