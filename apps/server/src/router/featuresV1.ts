@@ -22,7 +22,12 @@ export function createFeaturesV1Router() {
 
 		checkPriviledgedUser(ctx, apiKey);
 
-		return sendJsonResponse(ctx, Features.getAll());
+		const features = Features.getAll();
+
+		return sendJsonResponse(ctx, Object.keys(features).map(f => ({
+			name: f,
+			enabled: features[f]
+		})));
 	});
 	router.patch('/:name/enable', async (ctx: Context) => {
 		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
