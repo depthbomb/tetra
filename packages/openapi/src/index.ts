@@ -183,6 +183,7 @@ registry.registerPath({
 	tags: ['shortlinks'],
 	description: 'Returns the number of non-disabled shortlinks',
 	summary: 'Returns the number of non-disabled shortlinks',
+	deprecated: true,
 	responses: {
 		200: {
 			description: 'Successful operation',

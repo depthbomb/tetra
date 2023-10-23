@@ -9,6 +9,8 @@ import { parseDuration } from '@utils/duration';
 import { createThrottler } from '@lib/throttle';
 import { sendJsonResponse } from '@utils/response';
 import { getUnusedShortcode } from '@lib/shortcode';
+import { emitShortlinkCount } from '@events/shortlinks';
+import { createDeprecatedMiddleware } from '@middleware/deprecated';
 import { parseQuery, parseParams, parsePayload } from '@utils/request';
 import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
 import {
@@ -37,7 +39,7 @@ export function createShortlinksV1Router() {
 
 	router.get('api.v1.shortlinks.list_user', '/', throttler.consume(), listUserShortlinks);
 	router.get('api.v1.shortlinks.list', '/all', listAllShortlinks);
-	router.get('api.v1.shortlinks.count', '/count', throttler.consume(), countShortlinks);
+	router.get('api.v1.shortlinks.count', '/count', createDeprecatedMiddleware('v2', '/sse/shortlink_count'), throttler.consume(), countShortlinks);
 	router.put('api.v1.shortlinks.create', '/', createRequireFeatureMiddleware('SHORTLINK_CREATION'), throttler.consume(2), koaBody(), createShortlink);
 	router.get('api.v1.shortlinks.info', '/:shortcode', throttler.consume(), getShortlinkInfo);
 	router.delete('api.v1.shortlinks.delete', '/:shortcode/:secret', throttler.consume(2), deleteShortlink);
@@ -111,7 +113,7 @@ export function createShortlinksV1Router() {
 		return sendJsonResponse(ctx, shortlinks);
 	}
 
-	// GET /api/v1/shortlinks/count
+	// GET /api/v1/shortlinks/count (DEPRECATED)
 	async function countShortlinks(ctx: Context) {
 		const count = await database.shortlink.count({
 			where: {
@@ -195,6 +197,8 @@ export function createShortlinksV1Router() {
 
 		const shortlink = await database.shortlink.create(createQuery);
 
+		await emitShortlinkCount();
+
 		return sendJsonResponse(ctx, shortlink, 201);
 	}
 
@@ -213,6 +217,8 @@ export function createShortlinksV1Router() {
 		});
 
 		ctx.assert(count > 0, 404);
+
+		await emitShortlinkCount();
 
 		return sendJsonResponse(ctx, { success: true }, 200);
 	}
@@ -312,12 +318,6 @@ export function createShortlinksV1Router() {
 			type: 'svg'
 		});
 	}
-
-	/*
-	|--------------------------------------------------------------------------
-	| Privates
-	|--------------------------------------------------------------------------
-	*/
 
 	return router.routes();
 }

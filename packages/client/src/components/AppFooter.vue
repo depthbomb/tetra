@@ -1,24 +1,19 @@
 <script setup lang="ts">
 	import gsap from 'gsap';
 	import createClient from 'openapi-fetch';
-	import { useIntervalFn } from '@vueuse/core';
+	import { useEventSource } from '@vueuse/core';
 	import { ref, watch, reactive, onMounted } from 'vue';
 	import GithubIcon from '~/components/icons/GithubIcon.vue';
 	import ExternalIcon from '~/components/icons/ExternalIcon.vue';
 	import type { paths } from '~/@types/openapi';
 
-	const totalLinks = ref<number>(0);
+	const totalLinks = ref<string>();
 	const gitHash    = ref<string>('Source');
 	const tweened    = reactive({ number: 0 });
 
-	const { GET } = createClient<paths>();
-	const getTotalLinksCount = async () => {
-		const { data } = await GET('/api/v1/shortlinks/count');
+	const { data } = useEventSource('/sse/shortlink_count');
 
-		if (data) {
-			totalLinks.value = data.count;
-		}
-	};
+	const { GET } = createClient<paths>();
 
 	const getLatestCommitHash = async () => {
 		const { data } = await GET('/api/app_version');
@@ -29,8 +24,7 @@
 
 	onMounted(getLatestCommitHash);
 
-	useIntervalFn(async () => await getTotalLinksCount(), 15_000, { immediateCallback: true });
-
+	watch(data, d => totalLinks.value = d?.toString() ?? '∞');
 	watch(totalLinks, n => gsap.to(tweened, { duration: 1.5, number: n || 0 }));
 </script>
 

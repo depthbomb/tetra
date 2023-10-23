@@ -27,6 +27,7 @@
 		"koa-conditional-get": "^3.0.0",
 		"koa-etag": "^4.0.0",
 		"koa-static": "^5.0.0",
+		"mitt": "^3.0.1",
 		"openid-client": "^5.6.1",
 		"qrcode": "^1.5.3",
 		"source-map-support": "^0.5.21",
