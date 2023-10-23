@@ -29,7 +29,12 @@ spec:
         - name: tetra
           image: docker.super.fish/tetra/tetra:latest
           imagePullPolicy: Always
-
+          readinessProbe:
+            httpGet:
+              path: /health
+          livenessProbe:
+            httpGet:
+              path: /health
           ports:
             - name: http
               containerPort: 80
