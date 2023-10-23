@@ -37,7 +37,7 @@ jobs:
 
       - name: Authenticate with Kubernetes
         run: |
-          echo "${{ secrets.K8S_CERTIFICATE_AUTHORITY }}" > ca.crt
+          echo "${{ secrets.K8S_CERTIFICATE_AUTHORITY }}" | base64 -d > ca.crt
           kubectl config set-cluster super-cluster --certificate-authority="ca.crt" --embed-certs --server=https://super.fish:6443
           kubectl config set-credentials ci --token="${{ secrets.K8S_SERVICE_ACCOUNT_TOKEN }}"
           kubectl config set-context --user ci --namespace tetra --cluster super-cluster super-cluster
