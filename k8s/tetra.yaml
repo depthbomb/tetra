@@ -29,6 +29,7 @@ spec:
         - name: tetra
           image: docker.super.fish/tetra/tetra:latest
           imagePullPolicy: Always
+
           ports:
             - name: http
               containerPort: 80

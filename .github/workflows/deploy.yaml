@@ -34,3 +34,21 @@ jobs:
           tags: |
             docker.super.fish/tetra/tetra:latest
             docker.super.fish/tetra/tetra:${{ github.sha }}
+
+      - name: Authenticate with Kubernetes
+        run: |
+          echo "${{ secrets.K8S_CERTIFICATE_AUTHORITY }}" > ca.crt
+          kubectl config set-cluster super-cluster --certificate-authority="ca.crt" --embed-certs --server=https://super.fish:6443
+          kubectl config set-credentials ci --token="${{ secrets.K8S_SERVICE_ACCOUNT_TOKEN }}"
+          kubectl config set-context --user ci --namespace tetra --cluster super-cluster super-cluster
+          kubectl config use-context super-cluster
+
+      - name: Deploy
+        run: |
+          echo "${{ secrets.K8S_SECRET_YAML }}" > k8s/secret.yaml
+          kubectl apply -k k8s
+
+      - name: Wait for deployment
+        run: |
+          kubectl rollout restart deploy tetra
+          kubectl rollout status deploy tetra
