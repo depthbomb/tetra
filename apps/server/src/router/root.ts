@@ -23,6 +23,8 @@ export function createRootRouter() {
 
 	router.use(createAssetsMiddleware());
 	router.use(serve(publicDir));
+	router.all('/ready', createHealthHandler(true));
+	router.all('/health', createHealthHandler(false));
 	router.all('index', '/', createCspMiddleware(), createHtmlMinMiddleware(), serveSpa);
 	router.all('shortlink.redirect', '/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
 	router.all('/go/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
@@ -32,6 +34,23 @@ export function createRootRouter() {
 	| Handlers
 	|--------------------------------------------------------------------------
 	*/
+
+	// ANY /ready
+	// ANY /health
+	function createHealthHandler(databaseCheck) {
+		return async function (ctx: Context) {
+			try {
+				if (databaseCheck) {
+					await database.$queryRaw`SELECT 1`;
+				}
+
+				ctx.response.status = 204;
+				ctx.response.body = '';
+			} catch {
+				ctx.throw(500);
+			}
+		}
+	}
 
 	// GET /
 	async function serveSpa(ctx: Context) {
