@@ -1,9 +1,7 @@
 import Router from '@koa/router';
-import { promisify } from 'node:util';
 import { GitHash } from '@utils/githash';
 import { generateSpec } from '@tetra/openapi';
 import { swaggerTemplate } from '@views/swagger';
-import { exec as $exec } from 'node:child_process';
 import { sendJsonResponse } from '@utils/response';
 import { createUsersV1Router } from '@router/usersV1';
 import { createCorsMiddleware } from '@middleware/cors';
@@ -13,7 +11,6 @@ import { createShortlinksV1Router } from '@router/shortlinksV1';
 
 export function createApiRouter() {
 	const router = new Router({ prefix: '/api' });
-	const exec   = promisify($exec);
 
 	/*
 	|--------------------------------------------------------------------------
@@ -21,6 +18,7 @@ export function createApiRouter() {
 	|--------------------------------------------------------------------------
 	*/
 
+	router.use(createCorsMiddleware());
 	router.all('/', createHtmlMinMiddleware(), async ctx => {
 		const html = await swaggerTemplate(ctx);
 
@@ -31,7 +29,6 @@ export function createApiRouter() {
 
 		return sendJsonResponse(ctx, { hash });
 	});
-	router.use(createCorsMiddleware());
 	router.use(createUsersV1Router());
 	router.use(createShortlinksV1Router());
 	router.use(createFeaturesV1Router());
