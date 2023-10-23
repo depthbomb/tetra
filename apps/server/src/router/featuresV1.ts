@@ -2,7 +2,6 @@ import Router from '@koa/router';
 import { database } from '@database';
 import { Features } from '@lib/features';
 import { sendJsonResponse } from '@utils/response';
-import { createCorsMiddleware } from '@middleware/cors';
 import { parseQuery, parseParams } from '@utils/request';
 import { ListFeaturesQuery, ToggleFeaturePath } from '@tetra/schema';
 import type { Context } from 'koa';
@@ -16,7 +15,6 @@ export function createFeaturesV1Router() {
 	|--------------------------------------------------------------------------
 	*/
 
-	router.use(createCorsMiddleware());
 	router.get('/', async (ctx: Context) => {
 		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
 
