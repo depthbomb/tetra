@@ -4,6 +4,7 @@
 	import { useIntervalFn } from '@vueuse/core';
 	import { ref, watch, reactive, onMounted } from 'vue';
 	import GithubIcon from '~/components/icons/GithubIcon.vue';
+	import ExternalIcon from '~/components/icons/ExternalIcon.vue';
 	import type { paths } from '~/@types/openapi';
 
 	const totalLinks = ref<number>(0);
@@ -39,6 +40,10 @@
 			<div class="Footer-column" role="listitem">
 				<span>Serving <span class="font-mono">{{ tweened.number.toLocaleString('en-us', { maximumFractionDigits: 0 }) }}</span> shortlinks</span>
 			</div>
+			<a href="/cli" target="_blank" class="Footer-link" role="listitem">
+				<external-icon class="w-3 h-3"/>
+				<span>CLI</span>
+			</a>
 			<a href="https://github.com/depthbomb/tetra" target="_blank" class="Footer-link" role="listitem">
 				<github-icon class="w-3 h-3"/>
 				<span>{{ gitHash }}</span>
@@ -50,7 +55,7 @@
 <style scoped lang="scss">
 	footer.Footer {
 		@apply block;
-		@apply mt-6 pt-6;
+		@apply mt-6 py-6;
 		@apply border-t-2 border-gray-800;
 
 		.Footer-row {
