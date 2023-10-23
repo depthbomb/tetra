@@ -49,9 +49,7 @@ jobs:
           kubectl config use-context super-cluster
 
       - name: Deploy
-        run: |
-          echo "${{ secrets.K8S_SECRET_YAML }}" > k8s/secret.yaml
-          kubectl apply -k k8s
+        run: kubectl apply -k k8s
 
       - name: Wait for deployment
         run: |
