@@ -4,6 +4,8 @@ import Router from '@koa/router';
 import { uid } from 'uid/single';
 import { koaBody } from 'koa-body';
 import { database } from '@database';
+import { BASE_URL } from '@constants';
+import { parseDuration } from '@utils/duration';
 import { createThrottler } from '@lib/throttle';
 import { sendJsonResponse } from '@utils/response';
 import { getUnusedShortcode } from '@lib/shortcode';
@@ -22,7 +24,6 @@ import {
 } from '@tetra/schema';
 import type { Context } from 'koa';
 import type { Prisma } from '@database';
-import { parseDuration } from '@utils/duration';
 
 export function createShortlinksV1Router() {
 	const router    = new Router({ prefix: '/v1/shortlinks' });
@@ -160,7 +161,7 @@ export function createShortlinksV1Router() {
 			data: {
 				creatorIp: ctx.request.ip,
 				shortcode,
-				shortlink: joinURL(ctx.URL.origin, shortcode),
+				shortlink: joinURL(BASE_URL, shortcode),
 				destination,
 				secret: uid(64),
 				expiresAt: parsedDuration?.fromNow

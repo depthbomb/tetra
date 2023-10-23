@@ -1,6 +1,7 @@
 import destr from 'destr';
 import { joinURL } from 'ufo';
 import { flags } from '@flags';
+import { BASE_URL } from '@constants';
 import { fileExists } from '@utils/fs';
 import { readFile } from 'node:fs/promises';
 import { resolve, basename } from 'node:path';
@@ -78,7 +79,7 @@ export function createAssetsMiddleware() {
 
 		for (const key in data) {
 			const { file, isDynamicEntry, isEntry, css } = data[key];
-			const versionedUrl = joinURL(ctx.URL.origin, file);
+			const versionedUrl = joinURL(BASE_URL, file);
 			if (isDynamicEntry) {
 				preload.push(versionedUrl);
 			}
@@ -86,7 +87,7 @@ export function createAssetsMiddleware() {
 			if (isEntry) {
 				if (css) {
 					for (const cssEntry of css) {
-						entries.css.push(joinURL(ctx.URL.origin, cssEntry));
+						entries.css.push(joinURL(BASE_URL, cssEntry));
 					}
 				}
 

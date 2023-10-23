@@ -1,3 +1,7 @@
+import { getVar } from '@env';
+
+export const BASE_URL = getVar<string>('BASE_URL', 'https://go.super.fish')!;
+
 /**
  * The name of the cookie that contains encrypted authenticated user info.
  */

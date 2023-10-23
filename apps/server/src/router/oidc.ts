@@ -8,8 +8,8 @@ import { Duration } from '@sapphire/duration';
 import { createThrottler } from '@lib/throttle';
 import { createGravatar } from '@utils/gravatar';
 import { setCookie, getCookie, deleteCookie } from '@utils/cookies';
-import { AUTH_COOKIE_NAME, OIDC_STATE_COOKIE_NAME } from '@constants';
 import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
+import { BASE_URL, AUTH_COOKIE_NAME, OIDC_STATE_COOKIE_NAME } from '@constants';
 import type { Context } from 'koa';
 
 export function createOidcRouter() {
@@ -37,7 +37,7 @@ export function createOidcRouter() {
 		ctx.assert(cookie, 400, 'Missing state cookie');
 
 		const params      = OAuth.client!.callbackParams(ctx.req);
-		const tokenSet    = await OAuth.client!.callback(joinURL(ctx.URL.origin, 'oidc', 'callback'), params, { state: cookie });
+		const tokenSet    = await OAuth.client!.callback(joinURL(BASE_URL, 'oidc', 'callback'), params, { state: cookie });
 		const accessToken = tokenSet.access_token;
 
 		ctx.assert(accessToken, 403, 'access_token not found');
