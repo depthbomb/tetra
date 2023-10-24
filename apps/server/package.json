@@ -18,7 +18,7 @@
 		"@sapphire/ratelimits": "^2.4.7",
 		"@tetra/openapi": "workspace:*",
 		"@tetra/schema": "workspace:*",
-		"destr": "^2.0.1",
+		"destr": "^2.0.2",
 		"dotenv": "^16.3.1",
 		"htmlnano": "^2.1.0",
 		"koa": "^2.14.2",
