@@ -4,8 +4,7 @@ const { default: flattenColorPalette } = require('tailwindcss/lib/util/flattenCo
 
 module.exports = {
 	content: [
-		'./src/**/*.{ts,vue,html}',
-		'../templates/**/*.{html,twig,html.twig}',
+		'./src/**/*.{ts,vue,html}'
 	],
 	theme: {
 		extend: {
