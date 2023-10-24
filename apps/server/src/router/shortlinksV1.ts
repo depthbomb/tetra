@@ -39,7 +39,7 @@ export function createShortlinksV1Router() {
 
 	router.get('api.v1.shortlinks.list_user', '/', throttler.consume(), listUserShortlinks);
 	router.get('api.v1.shortlinks.list', '/all', listAllShortlinks);
-	router.get('api.v1.shortlinks.count', '/count', createDeprecatedMiddleware('v2', '/sse/shortlink_count'), throttler.consume(), countShortlinks);
+	router.get('api.v1.shortlinks.count', '/count', createDeprecatedMiddleware('v2'), throttler.consume(), countShortlinks);
 	router.put('api.v1.shortlinks.create', '/', createRequireFeatureMiddleware('SHORTLINK_CREATION'), throttler.consume(2), koaBody(), createShortlink);
 	router.get('api.v1.shortlinks.info', '/:shortcode', throttler.consume(), getShortlinkInfo);
 	router.delete('api.v1.shortlinks.delete', '/:shortcode/:secret', throttler.consume(2), deleteShortlink);
