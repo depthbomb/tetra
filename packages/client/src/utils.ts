@@ -6,5 +6,5 @@ export function isValidHttpUrl(url: string): boolean {
 		return false;
 	}
 
-	return inputUrl.protocol === "http:" || inputUrl.protocol === "https:";
+	return inputUrl.protocol === 'http:' || inputUrl.protocol === 'https:';
 }

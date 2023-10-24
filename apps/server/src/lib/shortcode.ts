@@ -10,7 +10,7 @@ export async function getUnusedShortcode(): Promise<string> {
 
 	do {
 		shortcode = uid(length);
-		found     = !!await database.shortlink.findFirst({ where: { shortcode } });
+		found     = await database.shortlink.exists({ shortcode });
 
 		if (attempts < maxAttempts) {
 			attempts++;
