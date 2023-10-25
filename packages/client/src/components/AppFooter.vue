@@ -11,7 +11,7 @@
 	const gitHash    = ref<string>('Source');
 	const tweened    = reactive({ number: 0 });
 
-	const { data } = useEventSource('/sse/shortlink_count');
+	const { data } = useEventSource('/sse/shortlink_count', [], { withCredentials: true });
 
 	const { GET } = createClient<paths>();
 

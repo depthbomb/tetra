@@ -22,9 +22,9 @@ export function createCsrfMiddleware(mode: CsrfMiddlewareMode) {
 
 	return async function(ctx: Context, next: Next) {
 		if (mode === 'create') {
-			const token =  generateCsrfToken(ctx);
+			const token = generateCsrfToken(ctx);
 
-			setCookie(ctx, CSRF_COOKIE_NAME, token, { encrypt: true });
+			setCookie(ctx, CSRF_COOKIE_NAME, token, { encrypt: true, expires: new Duration('1 hour').fromNow });
 		} else {
 			const token = getCookie(ctx, CSRF_COOKIE_NAME, { encrypted: true });
 
