@@ -7,4 +7,4 @@ RUN --mount=type=cache,target=/root/.yarn \
     --mount=type=cache,target=/root/.cache \
     yarn && yarn dist
 
-ENTRYPOINT /bin/sh -c "cd apps/server && yarn migrate:p && cd ../.. && yarn start"
+ENTRYPOINT /bin/sh -c "cd packages/server && yarn migrate:p && cd ../.. && yarn start"
