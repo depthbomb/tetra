@@ -11,7 +11,11 @@
 		"migrate:p": "yarn workspace @tetra/server run migrate:p"
 	},
 	"workspaces": [
-		"packages/*"
+		"packages/client",
+		"packages/openapi",
+		"packages/schema",
+		"packages/server",
+		"packages/tsconfig"
 	],
 	"prisma": {
 		"schema": "./packages/server/prisma/schema.prisma"

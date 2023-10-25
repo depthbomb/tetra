@@ -21,7 +21,9 @@
 			<span>go.super.fish</span>
 		</router-link>
 		<div class="Masthead-links">
-			<router-link :to="{ name: 'home' }" class="Masthead-link">Home</router-link>
+			<router-link :to="{ name: 'home' }" class="Masthead-link">
+				<span>Home</span>
+			</router-link>
 			<router-link :to="{ name: 'faq' }" class="Masthead-link">FAQ</router-link>
 			<a href="/api" class="Masthead-link">API</a>
 		</div>
@@ -40,10 +42,9 @@
 		@apply fixed;
 		@apply flex items-center;
 		@apply gap-6;
-		@apply py-1.5 px-3;
+		@apply px-3;
 		@apply w-full h-12;
 		@apply bg-gray-900;
-		@apply border-b border-gray-950;
 		@apply shadow-lg;
 		@apply z-[256];
 
@@ -58,14 +59,16 @@
 
 		.Masthead-links {
 			@apply flex items-center;
-			@apply gap-3;
 
 			.Masthead-link {
-				@apply py-1 px-4;
-				@apply text-gray-300;
+				@apply flex items-center;
+				@apply pt-1 px-4;
+				@apply h-12;
+				@apply text-gray-400;
 				@apply bg-transparent;
-				@apply rounded-xl;
+				@apply border-b-4 border-transparent;
 				@apply select-none;
+				@apply box-border;
 				@apply transition-colors;
 
 				@apply hover:text-white hover:bg-gray-700;
@@ -73,7 +76,7 @@
 
 				&.is-active {
 					@apply text-white;
-					@apply bg-brand-600 hover:bg-brand-600;
+					@apply border-brand-600;
 				}
 			}
 		}

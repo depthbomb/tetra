@@ -58,7 +58,7 @@
 
 			img {
 				@apply w-32 h-32;
-				@apply rounded-2xl;
+				@apply rounded-xl;
 			}
 
 			p {

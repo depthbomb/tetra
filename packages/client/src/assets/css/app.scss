@@ -9,6 +9,12 @@
 }
 
 body {
+	background-image: url('/assets/img/pattern.png'), radial-gradient(50% 50% at center -25px, theme('colors.brand.950') 0%, transparent 100%);
+
+	background-position-y: 48px;
+	background-position-x: center;
+
+	@apply bg-no-repeat;
 
 	&.is-locked {
 		@apply overflow-hidden;
@@ -19,8 +25,9 @@ body {
 	@apply relative;
 	@apply p-6;
 	@apply w-full;
-	@apply bg-gray-900;
-	@apply rounded-2xl;
+	@apply bg-gray-900 bg-opacity-75;
+	@apply backdrop-blur;
+	@apply rounded-xl;
 	@apply shadow;
 	@apply overflow-hidden;
 
@@ -35,7 +42,7 @@ code {
 	@apply py-0.5 px-2;
 	@apply text-sm font-mono whitespace-nowrap;
 	@apply bg-gray-700;
-	@apply rounded-lg;
+	@apply rounded;
 }
 
 p + p {

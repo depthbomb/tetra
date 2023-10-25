@@ -47,9 +47,10 @@
 			@apply mt-3;
 			@apply py-3 px-6;
 			@apply max-w-[512px];
-			@apply bg-gray-900;
+			@apply bg-gray-900 bg-opacity-50;
+			@apply backdrop-blur;
 			@apply border-t border-b border-l;
-			@apply rounded-l-2xl;
+			@apply rounded-l-lg;
 			@apply cursor-pointer;
 			@apply z-[32];
 

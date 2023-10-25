@@ -49,8 +49,8 @@
 <style scoped lang="scss">
 	footer.Footer {
 		@apply block;
-		@apply mt-6 py-6;
-		@apply border-t-2 border-gray-800;
+		@apply py-6;
+		// @apply border-t-2 border-gray-800;
 
 		.Footer-row {
 			@apply flex justify-center items-center;

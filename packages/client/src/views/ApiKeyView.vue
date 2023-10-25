@@ -92,7 +92,7 @@
 			@apply p-1.5;
 			@apply w-full;
 			@apply bg-gray-950;
-			@apply rounded-2xl;
+			@apply rounded-xl;
 
 			input {
 				@apply w-full;

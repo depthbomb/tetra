@@ -61,7 +61,7 @@
 	@apply py-1.5 px-4;
 	@apply min-w-max;
 	@apply text-white;
-	@apply rounded-xl;
+	@apply rounded-lg;
 	@apply border border-transparent;
 	@apply cursor-pointer;
 	@apply select-none;
@@ -75,7 +75,7 @@
 		@apply inset-0;
 		@apply flex items-center justify-center;
 		@apply w-full h-full;
-		@apply rounded-xl;
+		@apply rounded-lg;
 		@apply z-[5];
 	}
 
@@ -133,6 +133,7 @@
 		@apply min-h-[30px];
 		@apply px-2 py-1;
 		@apply text-[13px];
+		@apply rounded-[6px];
 	}
 
 	&--large {

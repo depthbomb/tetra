@@ -100,7 +100,7 @@
 			@apply flex flex-col justify-center items-center;
 			@apply w-full h-full;
 			@apply bg-black bg-opacity-25;
-			@apply rounded-xl;
+			@apply rounded-lg;
 			@apply backdrop-blur-sm;
 			@apply transition-opacity;
 			@apply z-10;
@@ -115,8 +115,8 @@
 				@apply p-3;
 				@apply text-left;
 
-				@apply first:rounded-l-xl;
-				@apply last:rounded-r-xl;
+				@apply first:rounded-l-lg;
+				@apply last:rounded-r-lg;
 			}
 		}
 	}

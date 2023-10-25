@@ -73,7 +73,7 @@
 	@apply py-1.5 px-2;
 	@apply w-full;
 	@apply bg-gray-950;
-	@apply rounded-full;
+	@apply rounded-lg;
 
 	.Shortlinks-controls {
 		@apply flex items-center;

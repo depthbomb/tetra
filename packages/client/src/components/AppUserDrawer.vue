@@ -83,7 +83,7 @@
 			@apply gap-2;
 			@apply text-gray-300;
 			@apply bg-transparent;
-			@apply rounded-xl;
+			@apply rounded;
 			@apply transition-colors;
 
 			@apply hover:text-white hover:bg-gray-700;
@@ -91,7 +91,7 @@
 
 			img {
 				@apply w-6 h-6;
-				@apply rounded-lg;
+				@apply rounded-full;
 			}
 		}
 
@@ -100,7 +100,8 @@
 			@apply top-0 right-0 bottom-0 left-0;
 			@apply flex justify-end items-center;
 			@apply h-screen;
-			@apply bg-black bg-opacity-50;
+			@apply bg-black bg-opacity-25;
+			@apply backdrop-blur-[2px];
 			@apply z-[512];
 
 			.UserDrawer-sidebar {
@@ -108,7 +109,7 @@
 				@apply min-w-[256px];
 				@apply h-screen;
 				@apply bg-gray-800;
-				@apply rounded-l-2xl;
+				@apply rounded-l-xl;
 				@apply shadow-lg;
 				@apply animate-slideInLeft;
 
@@ -122,7 +123,7 @@
 
 						img {
 							@apply w-8 h-8;
-							@apply rounded-xl;
+							@apply rounded-full;
 						}
 					}
 
@@ -133,7 +134,7 @@
 							@apply p-1.5;
 							@apply text-gray-300;
 							@apply bg-transparent;
-							@apply rounded-lg;
+							@apply rounded;
 							@apply transition-colors;
 
 							@apply hover:text-white;
@@ -152,7 +153,7 @@
 						@apply py-1.5 px-3;
 						@apply flex flex-row items-center;
 						@apply text-sm text-gray-300;
-						@apply rounded-xl;
+						@apply rounded;
 						@apply transition-colors;
 
 						@apply hover:text-white hover:bg-gray-700;
