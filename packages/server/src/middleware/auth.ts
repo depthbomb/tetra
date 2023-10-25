@@ -1,6 +1,6 @@
 import destr from 'destr';
-import { getCookie } from '@utils/cookies';
 import { AUTH_COOKIE_NAME } from '@constants';
+import { getCookie, deleteCookie } from '@utils/cookies';
 import type { Next, Context } from 'koa';
 
 /**
@@ -10,9 +10,13 @@ import type { Next, Context } from 'koa';
  */
 export function createAuthMiddleware() {
 	return async function (ctx: Context, next: Next) {
-		const authCookie = getCookie(ctx, AUTH_COOKIE_NAME, { encrypted: true });
-		if (authCookie) {
-			ctx.state.user = destr(authCookie);
+		try {
+			const authCookie = getCookie(ctx, AUTH_COOKIE_NAME, { encrypted: true });
+			if (authCookie) {
+				ctx.state.user = destr(authCookie);
+			}
+		} catch (err) {
+			deleteCookie(ctx, AUTH_COOKIE_NAME);
 		}
 
 		await next();
