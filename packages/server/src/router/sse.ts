@@ -1,5 +1,6 @@
 import Router from '@koa/router';
 import { PassThrough } from 'stream';
+import { createCsrfMiddleware } from '@middleware/csrf';
 import { counterEvent, emitShortlinkCount } from '@events/shortlinks';
 import type { Context } from 'koa';
 
@@ -13,7 +14,7 @@ export function createSseRouter() {
 	|--------------------------------------------------------------------------
 	*/
 
-	router.get('/shortlink_count', async (ctx: Context) => {
+	router.get('/shortlink_count', createCsrfMiddleware('validate'), async (ctx: Context) => {
 		const { ip } = ctx;
 
 		ctx.assert(!clients.has(ip), 409);
