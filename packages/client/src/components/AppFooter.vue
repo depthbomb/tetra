@@ -67,7 +67,7 @@
 
 			.Footer-link {
 				@apply text-gray-400;
-				@apply rounded-xl;
+				@apply rounded;
 				@apply transition-colors;
 				@apply select-none;
 
