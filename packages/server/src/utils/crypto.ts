@@ -1,3 +1,4 @@
+import destr from 'destr';
 import { getVarOrThrow } from '@env';
 import { randomBytes, createCipheriv, createDecipheriv } from 'node:crypto';
 
@@ -17,7 +18,7 @@ export class Crypto {
 		encrypted = Buffer.concat([encrypted, cipher.final()]);
 
 		const json = JSON.stringify({
-			i: iv,
+			i: iv.toString('hex'),
 			p: encrypted.toString('base64')
 		});
 
@@ -27,8 +28,8 @@ export class Crypto {
 	public static decryptString(input: string): string {
 		const key                   = this._getKeyBytes(this._key);
 		const decodedInput          = Buffer.from(input, 'base64url').toString();
-		const { i: iv, p: payload } = JSON.parse(decodedInput);
-		const decipher              = createDecipheriv(this._algo, key, Buffer.from(iv));
+		const { i: iv, p: payload } = destr<{ i: string; p: string; }>(decodedInput);
+		const decipher              = createDecipheriv(this._algo, key, Buffer.from(iv, 'hex'));
 
 		let decrypted = decipher.update(Buffer.from(payload, 'base64'));
 		decrypted = Buffer.concat([decrypted, decipher.final()]);
