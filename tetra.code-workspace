@@ -2,7 +2,7 @@
 	"folders": [
 		{
 			"name": "Server",
-			"path": "./apps/server"
+			"path": "./packages/server"
 		},
 		{
 			"name": "Client",
@@ -20,10 +20,5 @@
 			"name": "Root",
 			"path": "."
 		}
-	],
-	"extensions": {
-		"recommendations": [
-			"shadowtime2000.eta-vscode"
-		]
-	}
+	]
 }

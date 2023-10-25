@@ -1,7 +1,7 @@
 import Router from '@koa/router';
+import { renderView } from '@views';
 import { GitHash } from '@utils/githash';
 import { generateSpec } from '@tetra/openapi';
-import { swaggerTemplate } from '@views/swagger';
 import { sendJsonResponse } from '@utils/response';
 import { createUsersV1Router } from '@router/usersV1';
 import { createCorsMiddleware } from '@middleware/cors';
@@ -20,9 +20,7 @@ export function createApiRouter() {
 
 	router.use(createCorsMiddleware());
 	router.all('/', createHtmlMinMiddleware(), async ctx => {
-		const html = await swaggerTemplate(ctx);
-
-		ctx.body = html;
+		ctx.body = await renderView(ctx, 'api');
 	});
 	router.get('/app_version', async ctx => {
 		const hash = await GitHash.retrieve();

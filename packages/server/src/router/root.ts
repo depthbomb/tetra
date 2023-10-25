@@ -1,8 +1,9 @@
 import serve from 'koa-static';
 import Router from '@koa/router';
 import { resolve } from 'node:path';
+import { renderView } from '@views';
 import { database } from '@database';
-import { spaTemplate } from '@views/spa';
+import { Features } from '@lib/features';
 import { parseParams } from '@utils/request';
 import { createCspMiddleware } from '@middleware/csp';
 import { ShortlinkRedirectionPath } from '@tetra/schema';
@@ -54,9 +55,9 @@ export function createRootRouter() {
 
 	// GET /
 	async function serveSpa(ctx: Context) {
-		const html = await spaTemplate(ctx);
-
-		ctx.body = html;
+		ctx.body = await renderView(ctx, 'spa', {
+			feature: Features.getEnabled()
+		});
 	}
 
 	// GET /:shortcode

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+	<head>
+		<base href="/">
+		<meta charset="utf-8">
+		<meta name="theme-color" content="#05bef9">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="A shortlink generator that just works">
+		<meta name="tetra/user" content="{{ user }}">
+		<meta name="tetra/enabled-features" content="{{ feature.join(',') }}">
+		<title>go.super.fish</title>
+		<link rel="canonical" href="/">
+		<link href="{{ assets['apple-icon-precomposed.png'] }}" rel="apple-touch-icon-precomposed">
+		@each(s in [57, 60, 76, 114, 120, 144, 180])
+		<link href="{{ assets['apple-icon-'+s+'x'+s+'.png'] }}" rel="apple-touch-icon" sizes="{{ s }}x{{ s }}">
+		@endeach
+		@each(s in [36, 48, 72, 96, 144, 192])
+		<link href="{{ assets['android-icon-'+s+'x'+s+'.png'] }}" rel="icon" type="image/png" sizes="{{ s }}x{{ s }}">
+		@endeach
+		@each(s in [16, 32, 96])
+		<link href="{{ assets['favicon-'+s+'x'+s+'.png'] }}" rel="icon" type="image/png" sizes="{{ s }}x{{ s }}">
+		@endeach
+
+		@each(p in preloads)
+		<link href="{{ p }}" rel="modulepreload" nonce="{{ nonce }}">
+		@endeach
+		@each(css in entries.css)
+		<link href="{{ css }}" type="text/css" rel="stylesheet" nonce="{{ nonce }}">
+		@endeach
+		@each(js in entries.js)
+		<script src="{{ js }}" type="module" nonce="{{ nonce }}"></script>
+		@endeach
+	</head>
+	<body class="not-nirvana-fishfood">
+		<noscript><h1>This site requires JavaScript to be enabled.</h1></noscript>
+		<main id="app"></main>
+	</body>
+</html>

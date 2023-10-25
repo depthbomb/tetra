@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
 			stringify: true
 		},
 		build: {
-			outDir: resolve(__dirname, '../../apps/server/public'),
+			outDir: resolve(__dirname, '../../packages/server/public'),
 			minify: mode === 'production' ? 'esbuild' : false,
 			emptyOutDir: true,
 			manifest: true,
