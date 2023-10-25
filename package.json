@@ -6,6 +6,7 @@
 		"build": "yarn workspaces foreach -Apti run build",
 		"dev": "yarn workspaces foreach -Apti run dev",
 		"start": "node ./packages/server/dist/index.js",
+		"generate-client": "yarn workspace @tetra/server run generate-client",
 		"migrate:d": "yarn workspace @tetra/server run migrate:d",
 		"migrate:p": "yarn workspace @tetra/server run migrate:p"
 	},
