@@ -28,7 +28,7 @@ export function getCookie(ctx: Context, name: string, options?: GetOptions): str
 	return value;
 }
 
-export function deleteCookie(ctx: Context, name: string, options?: SetOptions): void {
+export function deleteCookie(ctx: Context, name: string, options?: Omit<SetOptions, 'encrypt'>): void {
 	ctx.cookies.set(name, null, {
 		...options,
 		signed: false,
