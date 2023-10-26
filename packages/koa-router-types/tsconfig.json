@@ -1,0 +1,3 @@
+{
+	"extends": "@tetra/tsconfig/tsconfig.json"
+}

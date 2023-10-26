@@ -1,9 +1,9 @@
-import { joinURL } from 'ufo';
+import { createUrl } from '@router';
 import { getVarOrThrow } from '@env';
 import { Crypto } from '@utils/crypto';
 import { Duration } from '@sapphire/duration';
 import { Issuer, generators } from 'openid-client';
-import { BASE_URL, OIDC_STATE_COOKIE_NAME } from '@constants';
+import { OIDC_STATE_COOKIE_NAME } from '@constants';
 import type { Context } from 'koa';
 import type { Client } from 'openid-client';
 
@@ -36,7 +36,7 @@ export class OAuth {
 			code_challenge:        codeChallenge,
 			code_challenge_method: 'S256',
 			state:                 codeVerifier,
-			redirect_uri:          joinURL(BASE_URL, 'oidc', 'callback')
+			redirect_uri:          createUrl('oidc.callback')
 		});
 	}
 

@@ -1,10 +1,9 @@
 import QRCode from 'qrcode';
-import { joinURL } from 'ufo';
 import Router from '@koa/router';
 import { uid } from 'uid/single';
 import { koaBody } from 'koa-body';
+import { createUrl } from '@router';
 import { database } from '@database';
-import { BASE_URL } from '@constants';
 import { parseDuration } from '@utils/duration';
 import { createThrottler } from '@lib/throttle';
 import { sendJsonResponse } from '@utils/response';
@@ -163,7 +162,7 @@ export function createShortlinksV1Router() {
 			data: {
 				creatorIp: ctx.request.ip,
 				shortcode,
-				shortlink: joinURL(BASE_URL, shortcode),
+				shortlink: createUrl('shortlink.redirect', { shortcode }),
 				destination,
 				secret: uid(64),
 				expiresAt: parsedDuration?.fromNow

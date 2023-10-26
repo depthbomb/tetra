@@ -820,9 +820,10 @@ __metadata:
     "@types/koa-conditional-get": "npm:^2.0.2"
     "@types/koa-etag": "npm:^3.0.2"
     "@types/koa-static": "npm:^4.0.3"
-    "@types/koa__router": "npm:^12.0.3"
+    "@types/koa__router": "workspace:*"
     "@types/node": "npm:^20.8.9"
     "@types/qrcode": "npm:^1.5.4"
+    "@types/source-map-support": "npm:^0.5.9"
     destr: "npm:^2.0.2"
     dotenv: "npm:^16.3.1"
     edge.js: "npm:^5.5.1"
@@ -1044,7 +1045,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/koa-etag@npm:^3.0.2":
+"@types/koa-etag@npm:*, @types/koa-etag@npm:^3.0.2":
   version: 3.0.2
   resolution: "@types/koa-etag@npm:3.0.2"
   dependencies:
@@ -1105,14 +1106,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/koa__router@npm:^12.0.3":
-  version: 12.0.3
-  resolution: "@types/koa__router@npm:12.0.3"
+"@types/koa__router@workspace:*, @types/koa__router@workspace:packages/koa-router-types":
+  version: 0.0.0-use.local
+  resolution: "@types/koa__router@workspace:packages/koa-router-types"
   dependencies:
-    "@types/koa": "npm:*"
-  checksum: 4608eb48867aabcd5cf3049b8115b3df9dc32cf4f5b950245dc9ab9d26055162a7deaae0f2a819f583aa21f57a66326c532a8763f82dceaf03a7e1f8cc08977d
-  languageName: node
-  linkType: hard
+    "@tetra/tsconfig": "workspace:*"
+    "@types/koa-compose": "npm:*"
+    "@types/koa-etag": "npm:*"
+    typescript: "npm:^5.2.2"
+  languageName: unknown
+  linkType: soft
 
 "@types/mime@npm:*":
   version: 3.0.2
@@ -1194,6 +1197,15 @@ __metadata:
     "@types/mime": "npm:*"
     "@types/node": "npm:*"
   checksum: 9b759cf03e0896e9434df6d2d528c3e0016a2cef54e66775fb67f8fa6f9e78eed693adc95b3d6a18aacf629d8d596ad71c1d3eee5ecf95402b766cb012061ca2
+  languageName: node
+  linkType: hard
+
+"@types/source-map-support@npm:^0.5.9":
+  version: 0.5.9
+  resolution: "@types/source-map-support@npm:0.5.9"
+  dependencies:
+    source-map: "npm:^0.6.0"
+  checksum: 466133bffa258a12f0b2843d87fa933d71ea4211d92bdc175a9f06ce919227ee0da4570c0f628429029b25b443f38bd03534baea4a883b10eeb87be44a699fe2
   languageName: node
   linkType: hard
 

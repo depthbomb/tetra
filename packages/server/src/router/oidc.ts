@@ -1,15 +1,15 @@
-import { joinURL } from 'ufo';
 import Router from '@koa/router';
 import { uid } from 'uid/secure';
 import { logger } from '@logger';
 import { OAuth } from '@lib/oidc';
+import { createUrl } from '@router';
 import { database } from '@database';
 import { Duration } from '@sapphire/duration';
 import { createThrottler } from '@lib/throttle';
 import { createGravatar } from '@utils/gravatar';
 import { setCookie, getCookie, deleteCookie } from '@utils/cookies';
+import { AUTH_COOKIE_NAME, OIDC_STATE_COOKIE_NAME } from '@constants';
 import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
-import { BASE_URL, AUTH_COOKIE_NAME, OIDC_STATE_COOKIE_NAME } from '@constants';
 import type { Context } from 'koa';
 
 export function createOidcRouter() {
@@ -21,7 +21,7 @@ export function createOidcRouter() {
 	| Routes
 	|--------------------------------------------------------------------------
 	*/
-	router.get('/start', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), async (ctx: Context) => {
+	router.get('oidc.start', '/start', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), async (ctx: Context) => {
 		const authUrl = await OAuth.getAuthUrl(ctx);
 
 		logger.info('Authentication flow started', { authUrl });
@@ -29,7 +29,7 @@ export function createOidcRouter() {
 		return ctx.redirect(authUrl);
 	});
 
-	router.get('/callback', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), async (ctx: Context) => {
+	router.get('oidc.callback', '/callback', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), async (ctx: Context) => {
 		const cookie = getCookie(ctx, OIDC_STATE_COOKIE_NAME, { encrypted: true });
 
 		deleteCookie(ctx, OIDC_STATE_COOKIE_NAME);
@@ -37,7 +37,7 @@ export function createOidcRouter() {
 		ctx.assert(cookie, 400, 'Missing state cookie');
 
 		const params      = OAuth.client!.callbackParams(ctx.req);
-		const tokenSet    = await OAuth.client!.callback(joinURL(BASE_URL, 'oidc', 'callback'), params, { state: cookie });
+		const tokenSet    = await OAuth.client!.callback(createUrl('oidc.callback'), params, { state: cookie });
 		const accessToken = tokenSet.access_token;
 
 		ctx.assert(accessToken, 403, 'access_token not found');
@@ -79,7 +79,7 @@ export function createOidcRouter() {
 		return ctx.redirect('/');
 	});
 
-	router.post('/invalidate', (ctx: Context) => {
+	router.post('oidc.invalidate', '/invalidate', (ctx: Context) => {
 		const { user } = ctx.state;
 
 		deleteCookie(ctx, AUTH_COOKIE_NAME);

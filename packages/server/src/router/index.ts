@@ -1,12 +1,14 @@
+import { joinURL } from 'ufo';
 import Router from '@koa/router';
+import { BASE_URL } from '@constants';
 import { createApiRouter } from '@router/api';
 import { createSseRouter } from '@router/sse';
 import { createRootRouter } from '@router/root';
 import { createOidcRouter } from '@router/oidc';
 
-export function createRouter() {
-	const router = new Router();
+const router = new Router();
 
+export function createRouter() {
 	router.use(createApiRouter());
 	router.use(createOidcRouter());
 	router.use(createSseRouter());
@@ -16,4 +18,14 @@ export function createRouter() {
 	});
 
 	return router.routes();
+}
+
+/**
+ * Creates an absolute URL to a named route. Must only be called after routes have been defined.
+ * @param name The name of the route
+ * @param params Optional route path parameters
+ * @param query Optional route query string parameters
+ */
+export function createUrl(name: string, params?: unknown | undefined, query?: Router.UrlOptionsQuery | undefined): string {
+	return joinURL(BASE_URL, router.url(name, params, query));
 }
