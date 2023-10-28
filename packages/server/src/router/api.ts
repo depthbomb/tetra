@@ -31,13 +31,18 @@ export function createApiRouter() {
 	router.use(createShortlinksV1Router());
 	router.use(createFeaturesV1Router());
 	router.get('/openapi.:extension', ctx => {
+		let spec: string;
+		let contentType: string;
 		if (ctx.params?.extension === 'yaml') {
-			ctx.response.set('Content-Type', 'text/yaml');
-			ctx.body = generateSpec('yaml');
+			contentType = 'text/yaml';
+			spec        = generateSpec('yaml');
 		} else {
-			ctx.response.set('Content-Type', 'application/json');
-			ctx.body = generateSpec('json');
+			contentType = 'application/json';
+			spec        = generateSpec('json');
 		}
+
+		ctx.response.set('Content-Type', contentType);
+		ctx.body = spec;
 	});
 
 	return router.routes();
