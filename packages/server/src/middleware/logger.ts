@@ -6,10 +6,10 @@ import type { Next, Context } from 'koa';
  */
 export function createLoggerMiddleware() {
 	return async function(ctx: Context, next: Next) {
-		const { ip, path, method, headers } = ctx.request;
-		const { requestId: id }             = ctx.state;
+		const { ip, path, method } = ctx.request;
+		const { requestId: id }    = ctx.state;
 
-		logger.info({ id, ip, headers, method, path });
+		logger.info({ id, ip, method, path });
 
 		await next();
 
