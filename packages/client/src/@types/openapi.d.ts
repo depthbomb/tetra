@@ -104,6 +104,7 @@ export interface paths {
   "/api/v1/shortlinks/count": {
     /**
      * Returns the number of non-disabled shortlinks
+     * @deprecated
      * @description Returns the number of non-disabled shortlinks
      */
     get: {
