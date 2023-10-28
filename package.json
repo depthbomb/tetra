@@ -12,7 +12,6 @@
 	},
 	"workspaces": [
 		"packages/client",
-		"packages/koa-router-types",
 		"packages/openapi",
 		"packages/schema",
 		"packages/server",

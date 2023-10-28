@@ -45,7 +45,7 @@
 		"@types/koa-conditional-get": "^2.0.2",
 		"@types/koa-etag": "^3.0.2",
 		"@types/koa-static": "^4.0.3",
-		"@types/koa__router": "workspace:*",
+		"@types/koa__router": "^12.0.3",
 		"@types/node": "^20.8.9",
 		"@types/qrcode": "^1.5.4",
 		"@types/source-map-support": "^0.5.9",
