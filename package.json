@@ -20,5 +20,5 @@
 	"prisma": {
 		"schema": "./packages/server/prisma/schema.prisma"
 	},
-	"packageManager": "yarn@4.0.0"
+	"packageManager": "yarn@4.0.1"
 }
