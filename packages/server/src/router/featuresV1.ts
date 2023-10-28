@@ -82,7 +82,7 @@ export function createFeaturesV1Router() {
 	|--------------------------------------------------------------------------
 	*/
 
-	async function checkPriviledgedUser(ctx, apiKey: string): Promise<void> {
+	async function checkPriviledgedUser(ctx: Context, apiKey: string): Promise<void> {
 		const exists = await database.user.exists({
 			apiKey,
 			admin: true

@@ -23,11 +23,10 @@ export function createRootRouter() {
 	|--------------------------------------------------------------------------
 	*/
 
-	router.use(createAssetsMiddleware());
 	router.use(serve(publicDir));
 	router.all('/ready', createHealthHandler(true));
 	router.all('/health', createHealthHandler(false));
-	router.all('index', '/', createCspMiddleware(), createCsrfMiddleware('create'), createHtmlMinMiddleware(), serveSpa);
+	router.all('index', '/', createAssetsMiddleware(), createCspMiddleware(), createCsrfMiddleware('create'), createHtmlMinMiddleware(), serveSpa);
 	router.all('shortlink.redirect', '/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
 	router.all('/go/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
 
