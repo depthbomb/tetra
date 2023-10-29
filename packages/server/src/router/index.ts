@@ -27,5 +27,10 @@ export function createRouter() {
  * @param query Optional route query string parameters
  */
 export function createUrl(name: string, params?: unknown | undefined, query?: Router.UrlOptionsQuery | undefined): string {
-	return joinURL(BASE_URL, router.url(name, params, query));
+	const urlPath = router.url(name, params, query);
+	if (typeof urlPath !== 'string') {
+		throw new Error(`No route named "${name}"`);
+	}
+
+	return joinURL(BASE_URL, urlPath);
 }

@@ -2,6 +2,7 @@
 	import gsap from 'gsap';
 	import createClient from 'openapi-fetch';
 	import { useEventSource } from '@vueuse/core';
+	import { useBridge } from '~/composables/useBridge';
 	import { ref, watch, reactive, onMounted } from 'vue';
 	import GithubIcon from '~/components/icons/GithubIcon.vue';
 	import ExternalIcon from '~/components/icons/ExternalIcon.vue';
@@ -11,6 +12,7 @@
 	const gitHash    = ref<string>('Source');
 	const tweened    = reactive({ number: 0 });
 
+	const hostname = useBridge('host');
 	const { data } = useEventSource('/sse/shortlink_count', [], { withCredentials: true });
 
 	const { GET } = createClient<paths>();
@@ -31,6 +33,9 @@
 <template>
 	<footer class="Footer">
 		<div class="Footer-row" role="list">
+			<div class="Footer-column" role="listitem">
+				<span>{{ hostname }}</span>
+			</div>
 			<div class="Footer-column" role="listitem">
 				<span>Serving <span class="font-mono">{{ tweened.number.toLocaleString('en-us', { maximumFractionDigits: 0 }) }}</span> shortlinks</span>
 			</div>

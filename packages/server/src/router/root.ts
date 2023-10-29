@@ -1,5 +1,6 @@
 import serve from 'koa-static';
 import Router from '@koa/router';
+import { hostname } from 'node:os';
 import { resolve } from 'node:path';
 import { renderView } from '@views';
 import { database } from '@database';
@@ -56,6 +57,7 @@ export function createRootRouter() {
 	// GET /
 	async function serveSpa(ctx: Context) {
 		ctx.body = await renderView(ctx, 'spa', {
+			hostname,
 			feature: Features.getEnabled()
 		});
 	}
