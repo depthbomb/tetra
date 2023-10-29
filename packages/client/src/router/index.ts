@@ -52,6 +52,11 @@ export const router = createRouter({
 					name: 'admin.users',
 					component: () => import('~/views/admin/AllUsersView.vue')
 				},
+				{
+					path: 'features',
+					name: 'admin.features',
+					component: () => import('~/views/admin/FeaturesView.vue')
+				},
 			]
 		},
 

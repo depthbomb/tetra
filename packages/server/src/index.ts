@@ -1,4 +1,3 @@
-import '@views';
 import 'source-map-support/register';
 import Koa from 'koa';
 import etag from 'koa-etag';

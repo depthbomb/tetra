@@ -1,12 +1,14 @@
 <script setup lang="ts">
-	import { ref } from 'vue';
 	import { onClickOutside } from '@vueuse/core';
+	import { ref, defineAsyncComponent } from 'vue';
 	import { useUser } from '~/composables/useUser';
 	import KeyIcon from '~/components/icons/KeyIcon.vue';
 	import ListIcon from '~/components/icons/ListIcon.vue';
-	import UsersIcon from '~/components/icons/UsersIcon.vue';
 	import CloseIcon from '~/components/icons/CloseIcon.vue';
 	import SignOutIcon from '~/components/icons/SignOutIcon.vue';
+
+	const SwitchIcon = defineAsyncComponent(() => import('~/components/icons/SwitchIcon.vue'));
+	const UsersIcon = defineAsyncComponent(() => import('~/components/icons/UsersIcon.vue'));
 
 	const sidebar    = ref<HTMLElement|null>(null);
 	const drawerOpen = ref<boolean>(false);
@@ -51,11 +53,14 @@
 				-->
 				<div class="UserDrawer-sidebar-links" @click="toggleDrawer" role="list">
 					<template v-if="isAdmin">
+						<router-link :to="{ name: 'admin.features' }" role="listitem">
+							<switch-icon/> Features
+						</router-link>
 						<router-link :to="{ name: 'admin.shortlinks' }" role="listitem">
-							<list-icon/> All Shortlinks (Admin)
+							<list-icon/> Shortlinks
 						</router-link>
 						<router-link :to="{ name: 'admin.users' }" role="listitem">
-							<users-icon/> All Users (Admin)
+							<users-icon/> Users
 						</router-link>
 						<hr role="separator">
 					</template>
