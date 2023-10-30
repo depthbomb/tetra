@@ -1,7 +1,6 @@
 import 'source-map-support/register';
 import Koa from 'koa';
 import etag from 'koa-etag';
-import { redis } from '@redis';
 import { getVarOrThrow } from '@env';
 import { registerTask } from '@tasks';
 import { createRouter } from '@router';
