@@ -32,11 +32,11 @@ export function createFeaturesV1Router() {
 
 		ctx.assert(await Features.exists(name), 404);
 
-		const oldValue = Features.isEnabled(name);
+		const oldValue = await Features.isEnabled(name);
 
-		Features.enable(name);
+		await Features.enable(name);
 
-		const newValue = Features.isEnabled(name);
+		const newValue = await Features.isEnabled(name);
 
 		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
 	});
@@ -48,11 +48,11 @@ export function createFeaturesV1Router() {
 
 		ctx.assert(await Features.exists(name), 404);
 
-		const oldValue = Features.isDisabled(name);
+		const oldValue = await Features.isDisabled(name);
 
-		Features.disable(name);
+		await Features.disable(name);
 
-		const newValue = Features.isDisabled(name);
+		const newValue = await Features.isDisabled(name);
 
 		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
 	});
@@ -64,11 +64,11 @@ export function createFeaturesV1Router() {
 
 		ctx.assert(await Features.exists(name), 404);
 
-		const oldValue = Features.isEnabled(name);
+		const oldValue = await Features.isEnabled(name);
 
-		Features.toggle(name);
+		await Features.toggle(name);
 
-		const newValue = Features.isEnabled(name);
+		const newValue = await Features.isEnabled(name);
 
 		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
 	});
