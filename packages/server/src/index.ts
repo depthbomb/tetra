@@ -27,7 +27,7 @@ async function boot() {
 		.use(createAuthMiddleware())
 		.use(conditional())
 		.use(etag())
-		.use(createRouter());
+		.use(await createRouter());
 
 	registerTask(createShortlinkCleanupTask());
 

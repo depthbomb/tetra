@@ -9,7 +9,7 @@ import { createFeaturesV1Router } from '@router/featuresV1';
 import { createHtmlMinMiddleware } from '@middleware/htmlmin';
 import { createShortlinksV1Router } from '@router/shortlinksV1';
 
-export function createApiRouter() {
+export async function createApiRouter() {
 	const router = new Router({ prefix: '/api' });
 
 	/*
@@ -27,9 +27,9 @@ export function createApiRouter() {
 
 		return await sendJsonResponse(ctx, { hash });
 	});
-	router.use(createUsersV1Router());
-	router.use(createShortlinksV1Router());
-	router.use(createFeaturesV1Router());
+	router.use(await createUsersV1Router());
+	router.use(await createShortlinksV1Router());
+	router.use(await createFeaturesV1Router());
 	router.get('/openapi.:extension', ctx => {
 		let spec: string;
 		let contentType: string;

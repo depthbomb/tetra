@@ -4,7 +4,7 @@ import { createCsrfMiddleware } from '@middleware/csrf';
 import { counterEvent, emitShortlinkCount } from '@events/shortlinks';
 import type { Context } from 'koa';
 
-export function createSseRouter() {
+export async function createSseRouter() {
 	const router  = new Router({ prefix: '/sse' });
 	const clients = new Set<string>();
 

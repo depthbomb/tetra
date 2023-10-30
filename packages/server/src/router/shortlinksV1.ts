@@ -26,7 +26,7 @@ import {
 import type { Context } from 'koa';
 import type { Prisma } from '@database';
 
-export function createShortlinksV1Router() {
+export async function createShortlinksV1Router() {
 	const router    = new Router({ prefix: '/v1/shortlinks' });
 	const throttler = createThrottler('shortlinks', 5_000, 10);
 

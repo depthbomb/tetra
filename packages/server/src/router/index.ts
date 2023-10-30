@@ -8,11 +8,11 @@ import { createOidcRouter } from '@router/oidc';
 
 const router = new Router();
 
-export function createRouter() {
-	router.use(createApiRouter());
-	router.use(createOidcRouter());
-	router.use(createSseRouter());
-	router.use(createRootRouter());
+export async function createRouter() {
+	router.use(await createApiRouter());
+	router.use(await createOidcRouter());
+	router.use(await createSseRouter());
+	router.use(await createRootRouter());
 	router.all('/(.*)', ctx => {
 		ctx.throw(404); // 404 anything else
 	});

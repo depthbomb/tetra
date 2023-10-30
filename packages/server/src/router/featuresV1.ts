@@ -6,7 +6,7 @@ import { parseQuery, parseParams } from '@utils/request';
 import { ListFeaturesQuery, ToggleFeaturePath } from '@tetra/schema';
 import type { Context } from 'koa';
 
-export function createFeaturesV1Router() {
+export async function createFeaturesV1Router() {
 	const router = new Router({ prefix: '/v1/features' });
 
 	/*

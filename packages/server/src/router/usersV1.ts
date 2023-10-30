@@ -12,7 +12,7 @@ import { parseQuery, parsePayload } from '@utils/request';
 import { ListUsersQuery, ApiKeyInfoQuery, RegenerateApiKeyBody } from '@tetra/schema';
 import type { Context } from 'koa';
 
-export function createUsersV1Router() {
+export async function createUsersV1Router() {
 	const router = new Router({ prefix: '/v1/users' });
 	const throttler = createThrottler('users', 5_000, 10);
 

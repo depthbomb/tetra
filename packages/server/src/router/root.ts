@@ -14,7 +14,7 @@ import { createHtmlMinMiddleware } from '@middleware/htmlmin';
 import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
 import type { Context } from 'koa';
 
-export function createRootRouter() {
+export async function createRootRouter() {
 	const router    = new Router();
 	const publicDir = resolve(__dirname, '..', 'public');
 

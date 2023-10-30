@@ -12,7 +12,7 @@ import { AUTH_COOKIE_NAME, OIDC_STATE_COOKIE_NAME } from '@constants';
 import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
 import type { Context } from 'koa';
 
-export function createOidcRouter() {
+export async function createOidcRouter() {
 	const router    = new Router({ prefix: '/oidc' });
 	const throttler = createThrottler('oidc', 10_000, 5);
 
