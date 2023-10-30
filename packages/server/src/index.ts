@@ -14,8 +14,6 @@ import { createRequestIdMiddleware } from '@middleware/requestId';
 import { createShortlinkCleanupTask } from '@tasks/shortlinkCleanup';
 
 async function boot() {
-	redis.connect();
-
 	await Features.create('SHORTLINK_CREATION', true);
 	await Features.create('SHORTLINK_REDIRECTION', true);
 	await Features.create('SHORTLINK_CLEANUP', true);

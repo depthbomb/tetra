@@ -13,8 +13,8 @@
 			"path": "./packages/schema"
 		},
 		{
-			"name": "Packages",
-			"path": "./packages"
+			"name": "OpenAPI",
+			"path": "./packages/openapi"
 		},
 		{
 			"name": "Root",
