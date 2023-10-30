@@ -51,7 +51,7 @@ export function createUsersV1Router() {
 			}
 		});
 
-		return sendJsonResponse(ctx, users.map(u => ({
+		return await sendJsonResponse(ctx, users.map(u => ({
 			...u,
 			avatar: createGravatar(u.email, { size: 128 })
 		})));
@@ -74,7 +74,7 @@ export function createUsersV1Router() {
 		const nextApiKeyAvailable = user.nextApiKey;
 		const canRegenerate       = now >= nextApiKeyAvailable;
 
-		return sendJsonResponse(ctx, { canRegenerate, nextApiKeyAvailable });
+		return await sendJsonResponse(ctx, { canRegenerate, nextApiKeyAvailable });
 	}
 
 	async function regenerateApiKey(ctx: Context) {
@@ -121,7 +121,7 @@ export function createUsersV1Router() {
 			});
 		}
 
-		return sendJsonResponse(ctx, { apiKey: result.apiKey });
+		return await sendJsonResponse(ctx, { apiKey: result.apiKey });
 	}
 
 	return router.routes();

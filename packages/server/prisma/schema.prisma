@@ -36,3 +36,11 @@ model User {
 	createdAt  DateTime    @default(now())
 	updatedAt  DateTime    @updatedAt @default(now())
 }
+
+model Feature {
+	id        String   @id @default(uuid())
+	name      String   @unique
+	enabled   Boolean
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt @default(now())
+}

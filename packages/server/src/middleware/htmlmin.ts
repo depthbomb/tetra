@@ -9,7 +9,9 @@ export function createHtmlMinMiddleware() {
 	return async function(ctx: Context, next: Next) {
 		await next();
 
-		if (Features.isEnabled('HTML_MINIFICATION') && ctx.response.type === 'text/html') {
+		const featureEnabled = await Features.isEnabled('HTML_MINIFICATION');
+
+		if (featureEnabled && ctx.response.type === 'text/html') {
 			const originalHtml = ctx.body as string;
 			const { html } = await htmlnano.process(originalHtml, {
 				removeAttributeQuotes: true,

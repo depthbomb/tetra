@@ -1,12 +1,14 @@
 import { Features } from '@lib/features';
 import type { Context } from 'koa';
 
-export function sendJsonResponse(ctx: Context, data: unknown, statusCode: number = 200): void {
+export async function sendJsonResponse(ctx: Context, data: unknown, statusCode: number = 200): Promise<void> {
 	ctx.response.status = statusCode;
 	ctx.response.set('Content-Type', 'application/json');
-	ctx.response.body = jsonEncode(data);
+	ctx.response.body = await jsonEncode(data);
 }
 
-function jsonEncode(data: unknown): string {
-	return JSON.stringify(data, null, Features.isEnabled('PRETTY_PRINT_JSON') ? 4 : 0);
+async function jsonEncode(data: unknown): Promise<string> {
+	const featureEnabled = await Features.isEnabled('PRETTY_PRINT_JSON');
+
+	return JSON.stringify(data, null, featureEnabled ? 4 : 0);
 }

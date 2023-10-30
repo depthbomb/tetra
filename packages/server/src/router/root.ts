@@ -56,9 +56,10 @@ export function createRootRouter() {
 
 	// GET /
 	async function serveSpa(ctx: Context) {
+		const features = await Features.getEnabled();
 		ctx.body = await renderView(ctx, 'spa', {
 			hostname,
-			feature: Features.getEnabled()
+			features
 		});
 	}
 

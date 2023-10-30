@@ -1,6 +1,7 @@
 import 'source-map-support/register';
 import Koa from 'koa';
 import etag from 'koa-etag';
+import { redis } from '@redis';
 import { getVarOrThrow } from '@env';
 import { registerTask } from '@tasks';
 import { createRouter } from '@router';
@@ -12,22 +13,28 @@ import { createLoggerMiddleware } from '@middleware/logger';
 import { createRequestIdMiddleware } from '@middleware/requestId';
 import { createShortlinkCleanupTask } from '@tasks/shortlinkCleanup';
 
-Features.create('SHORTLINK_CREATION', true);
-Features.create('SHORTLINK_REDIRECTION', true);
-Features.create('SHORTLINK_CLEANUP', true);
-Features.create('AUTHENTICATION', true);
-Features.create('HTML_MINIFICATION', true);
-Features.create('PRETTY_PRINT_JSON', true);
+async function boot() {
+	redis.connect();
 
-const app = new Koa({ proxy: true })
-	.use(createRequestIdMiddleware())
-	.use(createErrorMiddleware())
-	.use(createLoggerMiddleware())
-	.use(createAuthMiddleware())
-	.use(conditional())
-	.use(etag())
-	.use(createRouter());
+	await Features.create('SHORTLINK_CREATION', true);
+	await Features.create('SHORTLINK_REDIRECTION', true);
+	await Features.create('SHORTLINK_CLEANUP', true);
+	await Features.create('AUTHENTICATION', true);
+	await Features.create('HTML_MINIFICATION', true);
+	await Features.create('PRETTY_PRINT_JSON', true);
 
-registerTask(createShortlinkCleanupTask());
+	const app = new Koa({ proxy: true })
+		.use(createRequestIdMiddleware())
+		.use(createErrorMiddleware())
+		.use(createLoggerMiddleware())
+		.use(createAuthMiddleware())
+		.use(conditional())
+		.use(etag())
+		.use(createRouter());
 
-app.listen(getVarOrThrow<number>('PORT'));
+	registerTask(createShortlinkCleanupTask());
+
+	app.listen(getVarOrThrow<number>('PORT'));
+}
+
+boot();

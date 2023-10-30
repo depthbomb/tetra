@@ -25,7 +25,7 @@ export function createApiRouter() {
 	router.get('/app_version', async ctx => {
 		const hash = await GitHash.retrieve();
 
-		return sendJsonResponse(ctx, { hash });
+		return await sendJsonResponse(ctx, { hash });
 	});
 	router.use(createUsersV1Router());
 	router.use(createShortlinksV1Router());

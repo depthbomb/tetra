@@ -77,7 +77,7 @@ export function createShortlinksV1Router() {
 			}
 		});
 
-		return sendJsonResponse(ctx, shortlinks);
+		return await sendJsonResponse(ctx, shortlinks);
 	}
 
 	// GET /api/v1/shortlinks/all
@@ -109,7 +109,7 @@ export function createShortlinksV1Router() {
 			}
 		});
 
-		return sendJsonResponse(ctx, shortlinks);
+		return await sendJsonResponse(ctx, shortlinks);
 	}
 
 	// GET /api/v1/shortlinks/count (DEPRECATED)
@@ -120,7 +120,7 @@ export function createShortlinksV1Router() {
 			}
 		});
 
-		return sendJsonResponse(ctx, { count });
+		return await sendJsonResponse(ctx, { count });
 	}
 
 	// GET /api/v1/shortlinks/:shortcode
@@ -142,7 +142,7 @@ export function createShortlinksV1Router() {
 
 		ctx.assert(shortlink, 404);
 
-		return sendJsonResponse(ctx, shortlink);
+		return await sendJsonResponse(ctx, shortlink);
 	}
 
 	// PUT /api/v1/shortlinks
@@ -198,7 +198,7 @@ export function createShortlinksV1Router() {
 
 		await emitShortlinkCount();
 
-		return sendJsonResponse(ctx, shortlink, 201);
+		return await sendJsonResponse(ctx, shortlink, 201);
 	}
 
 	// DELETE /api/v1/shortlinks/:shortcode/:secret
@@ -219,7 +219,7 @@ export function createShortlinksV1Router() {
 
 		await emitShortlinkCount();
 
-		return sendJsonResponse(ctx, { success: true }, 200);
+		return await sendJsonResponse(ctx, { success: true }, 200);
 	}
 
 	// GET /api/v1/shortlinks/:shortcode/available
@@ -231,7 +231,7 @@ export function createShortlinksV1Router() {
 			}
 		}) === 0;
 
-		return sendJsonResponse(ctx, { available });
+		return await sendJsonResponse(ctx, { available });
 	}
 
 	// PATCH /api/v1/shortlinks/:shortcode/:secret/set-expiry
@@ -253,7 +253,7 @@ export function createShortlinksV1Router() {
 			}
 		});
 
-		return sendJsonResponse(ctx, { expiresAt });
+		return await sendJsonResponse(ctx, { expiresAt });
 	}
 
 	// PATCH /api/v1/shortlinks/:shortcode/toggle
@@ -289,7 +289,7 @@ export function createShortlinksV1Router() {
 			}
 		});
 
-		return sendJsonResponse(ctx, { disabled });
+		return await sendJsonResponse(ctx, { disabled });
 	}
 
 	// GET /api/v1/shortlinks/:shortcode/qrcode.svg

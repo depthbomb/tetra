@@ -39,7 +39,7 @@ export function createErrorMiddleware(): Middleware {
 				data.stackTrace = error.stack
 			}
 
-			return sendJsonResponse(ctx, data, code);
+			return await sendJsonResponse(ctx, data, code);
 		}
 	};
 }

@@ -20,12 +20,9 @@ export function createFeaturesV1Router() {
 
 		checkPriviledgedUser(ctx, apiKey);
 
-		const features = Features.getAll();
+		const features = await Features.getAll();
 
-		return sendJsonResponse(ctx, Object.keys(features).map(f => ({
-			name: f,
-			enabled: features[f]
-		})));
+		return await sendJsonResponse(ctx, features);
 	});
 	router.patch('/:name/enable', async (ctx: Context) => {
 		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
@@ -33,7 +30,7 @@ export function createFeaturesV1Router() {
 
 		checkPriviledgedUser(ctx, apiKey);
 
-		ctx.assert(Features.isValid(name), 404);
+		ctx.assert(await Features.exists(name), 404);
 
 		const oldValue = Features.isEnabled(name);
 
@@ -41,7 +38,7 @@ export function createFeaturesV1Router() {
 
 		const newValue = Features.isEnabled(name);
 
-		return sendJsonResponse(ctx, { old: oldValue, new: newValue });
+		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
 	});
 	router.patch('/:name/disable', async (ctx: Context) => {
 		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
@@ -49,7 +46,7 @@ export function createFeaturesV1Router() {
 
 		checkPriviledgedUser(ctx, apiKey);
 
-		ctx.assert(Features.isValid(name), 404);
+		ctx.assert(await Features.exists(name), 404);
 
 		const oldValue = Features.isDisabled(name);
 
@@ -57,7 +54,7 @@ export function createFeaturesV1Router() {
 
 		const newValue = Features.isDisabled(name);
 
-		return sendJsonResponse(ctx, { old: oldValue, new: newValue });
+		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
 	});
 	router.patch('/:name/toggle', async (ctx: Context) => {
 		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
@@ -65,7 +62,7 @@ export function createFeaturesV1Router() {
 
 		checkPriviledgedUser(ctx, apiKey);
 
-		ctx.assert(Features.isValid(name), 404);
+		ctx.assert(await Features.exists(name), 404);
 
 		const oldValue = Features.isEnabled(name);
 
@@ -73,7 +70,7 @@ export function createFeaturesV1Router() {
 
 		const newValue = Features.isEnabled(name);
 
-		return sendJsonResponse(ctx, { old: oldValue, new: newValue });
+		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
 	});
 
 	/*

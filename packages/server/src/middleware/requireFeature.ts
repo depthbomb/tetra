@@ -8,7 +8,9 @@ import type { Next, Context } from 'koa';
  */
 export function createRequireFeatureMiddleware(featureName: string) {
 	return async function(ctx: Context, next: Next) {
-		ctx.assert(Features.isEnabled(featureName), 403, 'This feature is currently disabled. Please try again later.');
+		const enabled = await Features.isEnabled(featureName);
+
+		ctx.assert(enabled, 403, 'This feature is currently disabled. Please try again later.');
 
 		await next();
 	};

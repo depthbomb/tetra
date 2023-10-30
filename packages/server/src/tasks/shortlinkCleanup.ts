@@ -8,7 +8,8 @@ export function createShortlinkCleanupTask(): Task {
 		name: 'shortlinks-cleanup',
 		interval: '1 minute',
 		async execute() {
-			if (Features.isDisabled('SHORTLINK_CLEANUP')) {
+			const featureDisabled = await Features.isDisabled('SHORTLINK_CLEANUP');
+			if (featureDisabled) {
 				return;
 			}
 
