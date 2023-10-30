@@ -40,11 +40,11 @@ export const router = createRouter({
 		{
 			path: '/admin',
 			name: 'admin',
+			beforeEnter: useAdminGuard(),
 			children: [
 				{
 					path: 'shortlinks',
 					name: 'admin.shortlinks',
-					beforeEnter: useAdminGuard(),
 					component: () => import('~/views/admin/AllShortlinksView.vue')
 				},
 				{
