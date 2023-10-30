@@ -34,9 +34,6 @@
 	<footer class="Footer">
 		<div class="Footer-row" role="list">
 			<div class="Footer-column" role="listitem">
-				<span>{{ hostname }}</span>
-			</div>
-			<div class="Footer-column" role="listitem">
 				<span>Serving <span class="font-mono">{{ tweened.number.toLocaleString('en-us', { maximumFractionDigits: 0 }) }}</span> shortlinks</span>
 			</div>
 			<a href="/cli" target="_blank" class="Footer-link" role="listitem">
@@ -47,6 +44,9 @@
 				<github-icon class="w-3 h-3"/>
 				<span>{{ gitHash }}</span>
 			</a>
+			<div class="Footer-column" role="listitem">
+				<span class="text-gray-400 font-mono">{{ hostname }}</span>
+			</div>
 		</div>
 	</footer>
 </template>
@@ -55,7 +55,6 @@
 	footer.Footer {
 		@apply block;
 		@apply py-6;
-		// @apply border-t-2 border-gray-800;
 
 		.Footer-row {
 			@apply flex justify-center items-center;
