@@ -75,6 +75,8 @@
 </script>
 
 <template>
+	<p>This page allows you toggle various features of the service. Features are hardcoded into the application and thus cannot be created or deleted either remotely or from the client.</p>
+	<div class="MainCard-divider"/>
 	<app-loader v-if="loading"/>
 	<table v-else class="w-full table-auto" role="table">
 		<thead>
