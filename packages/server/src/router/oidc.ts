@@ -4,8 +4,8 @@ import { logger } from '@logger';
 import { OAuth } from '@lib/oidc';
 import { createUrl } from '@router';
 import { database } from '@database';
+import { getThrottler } from '@lib/throttle';
 import { Duration } from '@sapphire/duration';
-import { createThrottler } from '@lib/throttle';
 import { createGravatar } from '@utils/gravatar';
 import { setCookie, getCookie, deleteCookie } from '@utils/cookies';
 import { AUTH_COOKIE_NAME, OIDC_STATE_COOKIE_NAME } from '@constants';
@@ -14,7 +14,7 @@ import type { Context } from 'koa';
 
 export async function createOidcRouter() {
 	const router    = new Router({ prefix: '/oidc' });
-	const throttler = createThrottler('oidc', 10_000, 5);
+	const throttler = await getThrottler('oidc', '10 seconds', 5);
 
 	/*
 	|--------------------------------------------------------------------------

@@ -5,6 +5,7 @@ export * from './CreateShortlinkResponse';
 export * from './ListAllShortlinksResponse';
 export * from './ListFeaturesResponse';
 export * from './ListShortlinksResponse';
+export * from './ListTasksResponse';
 export * from './ListUsersResponse';
 export * from './RegenerateApiKeyResponse';
 export * from './SetShortlinkExpiryResponse';

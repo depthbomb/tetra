@@ -4,8 +4,8 @@ import { uid } from 'uid/single';
 import { koaBody } from 'koa-body';
 import { createUrl } from '@router';
 import { database } from '@database';
+import { getThrottler } from '@lib/throttle';
 import { parseDuration } from '@utils/duration';
-import { createThrottler } from '@lib/throttle';
 import { sendJsonResponse } from '@utils/response';
 import { getUnusedShortcode } from '@lib/shortcode';
 import { emitShortlinkCount } from '@events/shortlinks';
@@ -28,7 +28,7 @@ import type { Prisma } from '@database';
 
 export async function createShortlinksV1Router() {
 	const router    = new Router({ prefix: '/v1/shortlinks' });
-	const throttler = createThrottler('shortlinks', 5_000, 10);
+	const throttler = await getThrottler('shortlinks', '5 seconds', 10);
 
 	/*
 	|--------------------------------------------------------------------------

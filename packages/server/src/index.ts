@@ -10,6 +10,7 @@ import { createAuthMiddleware } from '@middleware/auth';
 import { createErrorMiddleware } from '@middleware/error';
 import { createLoggerMiddleware } from '@middleware/logger';
 import { createRequestIdMiddleware } from '@middleware/requestId';
+import { createPruneRateLimitsTask } from '@tasks/pruneRateLimits';
 import { createShortlinkCleanupTask } from '@tasks/shortlinkCleanup';
 
 async function boot() {
@@ -29,7 +30,8 @@ async function boot() {
 		.use(etag())
 		.use(await createRouter());
 
-	registerTask(createShortlinkCleanupTask());
+	await registerTask(createShortlinkCleanupTask());
+	await registerTask(createPruneRateLimitsTask());
 
 	app.listen(getVarOrThrow<number>('PORT'));
 }

@@ -3,20 +3,53 @@ import { Duration } from '@sapphire/duration';
 
 export type Task = {
 	name: string;
+	description: string;
 	once?: boolean;
+	immediate?: boolean;
 	interval: string;
+	nextRun: Date | null;
+	lastRun: Date | null;
 	execute(): Promise<unknown>;
 };
 
-export function registerTask(task: Task) {
-	const { name, once, interval, execute } = task;
-	const { offset }                        = new Duration(interval);
+export const taskRegistry: Task[] = [];
+
+export async function registerTask(task: Task) {
+	const { name, once, immediate, interval } = task;
+	const duration                            = new Duration(interval);
+
+	task.nextRun = duration.fromNow;
+
+	taskRegistry.push(task);
 
 	if (once) {
-		setTimeout(execute, offset);
+		if (immediate) {
+			logger.warn('`once` tasks cannot be immediate');
+		}
+
+		setTimeout(async () => await _executeTask(task), duration.offset);
 	} else {
-		setInterval(execute, offset);
+		if (immediate) {
+			await _executeTask(task);
+		}
+
+		setInterval(async () => await _executeTask(task), duration.offset);
 	}
 
-	logger.debug('Registered task', { name, offset });
+	logger.debug('Registered task', { name, duration });
+}
+
+async function _executeTask(task: Task): Promise<void> {
+	const t = taskRegistry.find(t => t === task);
+
+	if (!t) {
+		return;
+	}
+
+	await t.execute();
+
+	t.lastRun = new Date();
+	if (!t.once) {
+		t.nextRun = new Duration(t.interval).fromNow;
+	}
 }

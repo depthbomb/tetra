@@ -3,9 +3,9 @@ import Router from '@koa/router';
 import { uid } from 'uid/secure';
 import { database } from '@database';
 import { setCookie } from '@utils/cookies';
+import { getThrottler } from '@lib/throttle';
 import { AUTH_COOKIE_NAME } from '@constants';
 import { Duration } from '@sapphire/duration';
-import { createThrottler } from '@lib/throttle';
 import { createGravatar } from '@utils/gravatar';
 import { sendJsonResponse } from '@utils/response';
 import { parseQuery, parsePayload } from '@utils/request';
@@ -13,8 +13,8 @@ import { ListUsersQuery, ApiKeyInfoQuery, RegenerateApiKeyBody } from '@tetra/sc
 import type { Context } from 'koa';
 
 export async function createUsersV1Router() {
-	const router = new Router({ prefix: '/v1/users' });
-	const throttler = createThrottler('users', 5_000, 10);
+	const router    = new Router({ prefix: '/v1/users' });
+	const throttler = await getThrottler('users', '5 seconds', 10);
 
 	/*
 	|--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ export async function createUsersV1Router() {
 
 	router.get('api.v1.users.list', '/', throttler.consume(), listUsers);
 	router.get('api.v1.users.api_key_info', '/api_key_info', throttler.consume(), getApiKeyInfo);
-	router.post('api.v1.users.regenerate_api_key', '/regenerate_api_key', throttler.consume(5), koaBody(), regenerateApiKey);
+	router.post('api.v1.users.regenerate_api_key', '/regenerate_api_key', throttler.consume(4), koaBody(), regenerateApiKey);
 
 	/*
 	|--------------------------------------------------------------------------

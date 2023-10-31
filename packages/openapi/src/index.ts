@@ -8,6 +8,7 @@ import {
 	FeatureName,
 	ListUsersResponse,
 	ListFeaturesQuery,
+	ListTasksResponse,
 	AppVersionResponse,
 	ApiKeyInfoResponse,
 	CreateShortlinkBody,
@@ -82,6 +83,7 @@ const ErrorResponseSchema = registry.register('ErrorResponse', z.object({
 }).strict());
 
 const AppVersionResponseSchema = registry.register('AppVersionResponse', AppVersionResponse);
+const ListTasksResponseSchema = registry.register('ListTasksResponse', ListTasksResponse);
 
 const ListFeaturesQuerySchema = registry.register('ListFeaturesQuery', ListFeaturesQuery);
 const ListFeaturesResponseSchema = registry.register('ListFeaturesResponse', ListFeaturesResponse);
@@ -558,6 +560,32 @@ registry.registerPath({
 			content: {
 				'application/json': {
 					schema: AppVersionResponseSchema
+				}
+			}
+		},
+		500: {
+			description: 'Server error',
+			content: {
+				'application/json': {
+					schema: ErrorResponseSchema
+				}
+			}
+		}
+	}
+});
+
+registry.registerPath({
+	method: 'get',
+	path: '/api/tasks',
+	tags: ['app'],
+	description: 'Returns info about the application\'s tasks',
+	summary: 'Returns info about the application\'s tasks',
+	responses: {
+		200: {
+			description: 'Successful operation',
+			content: {
+				'application/json': {
+					schema: ListTasksResponseSchema
 				}
 			}
 		},

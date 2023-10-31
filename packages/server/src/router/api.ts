@@ -1,5 +1,6 @@
 import Router from '@koa/router';
 import { renderView } from '@views';
+import { taskRegistry } from '@tasks';
 import { GitHash } from '@utils/githash';
 import { generateSpec } from '@tetra/openapi';
 import { sendJsonResponse } from '@utils/response';
@@ -26,6 +27,9 @@ export async function createApiRouter() {
 		const hash = await GitHash.retrieve();
 
 		return await sendJsonResponse(ctx, { hash });
+	});
+	router.get('/tasks', async ctx => {
+		return await sendJsonResponse(ctx, taskRegistry);
 	});
 	router.use(await createUsersV1Router());
 	router.use(await createShortlinksV1Router());

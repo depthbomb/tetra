@@ -1,45 +1,52 @@
 import { logger } from '@logger';
+import { database } from '@database';
 import { factory, detectPrng } from 'ulid';
 import { Duration } from '@sapphire/duration';
-import { RateLimitManager } from '@sapphire/ratelimits';
 import type { Next, Context } from 'koa';
 
-const _limiters: { [name: string]: Throttler } = {};
+export async function getThrottler(
+	name: string,
+	interval: string,
+	limit: number = 1,
+	cost: number = 1,
+	addHeaders: boolean = true
+): Promise<Throttler> {
+	let bucket = await database.tokenBucket.findFirst({ where: { name } });
+	if (!bucket) {
+		const identifier = factory(detectPrng(true))();
+		const { offset } = new Duration(interval);
+		bucket = await database.tokenBucket.create({
+			data: {
+				name,
+				identifier,
+				limit,
+				interval: offset,
+				cost
+			}
+		});
 
-export function getThrottler(name: string): Throttler {
-	if (!(name in _limiters)) {
-		throw new Error(`Throttler "${name}" does not exist.`);
+		logger.info('Created new TokenBucket', { name, identifier, offset, limit, cost, addHeaders });
 	}
 
-	return _limiters[name];
+	return new Throttler(
+		bucket.identifier,
+		interval,
+		bucket.limit,
+		bucket.cost,
+		addHeaders
+	);
 }
 
-export function createThrottler(name: string, interval: number | string, limit: number = 1, cost: number = 1, addHeaders: boolean = true): Throttler {
-	if (name in _limiters) {
-		throw new Error(`Throttler "${name}" already exists.`);
-	}
-
-	if (typeof interval === 'string') {
-		interval = new Duration(interval).offset;
-	}
-
-	const throttler = new Throttler(interval, limit, cost, addHeaders);
-
-	_limiters[name] = throttler;
-
-	return throttler;
-}
-
-export class Throttler {
-	private readonly _bucketId: string;
-	private readonly _interval: number;
+class Throttler {
+	private readonly _id: string;
+	private readonly _interval: string;
 	private readonly _limit: number;
 	private readonly _cost: number;
-	private readonly _manager: RateLimitManager;
 	private readonly _addHeaders: boolean;
 
 	/**
 	 * Creates a new throttler instance.
+	 * @param id The unique identifier of this token bucket
 	 * @param interval The time in milliseconds before the bucket is reset
 	 * @param limit The amount that can be consumed from the bucket before being limited
 	 * @param cost The default cost consumed from the bucket, can be overridden when consuming
@@ -47,49 +54,63 @@ export class Throttler {
 	 * this throttler applies to, useful if you want to have multiple throttlers and not have
 	 * conflicting headers
 	 */
-	public constructor(interval: number, limit: number = 1, cost: number = 1, addHeaders: boolean = true) {
-		this._bucketId   = factory(detectPrng(true))();
+	public constructor(id: string, interval: string, limit: number = 1, cost: number = 1, addHeaders: boolean = true) {
+		this._id         = id;
 		this._interval   = interval;
 		this._limit      = limit;
 		this._cost       = cost;
-		this._manager    = new RateLimitManager(this._interval, this._limit);
 		this._addHeaders = addHeaders;
-
-		logger.info('Created request throttler', {
-			bucketId:   this._bucketId,
-			interval:   this._interval,
-			limit:      this._limit,
-			cost:       this._cost,
-			addHeaders: this._addHeaders
-		});
 	}
 
 	public consume(cost: number = this._cost) {
 		return async (ctx: Context, next: Next) => {
-			const { ip }                                = ctx.request;
-			const limiter                               = this._manager.acquire(ip);
-			const { expires, remaining, remainingTime } = limiter;
-			const resetAfter                            = Math.round(remainingTime / 1000);
-
-			ctx.state.rateLimitLimit      = this._limit;
-			ctx.state.rateLimitCost       = cost;
-			ctx.state.rateLimitRemaining  = remaining;
-			ctx.state.rateLimitReset      = expires;
-			ctx.state.rateLimitResetAfter = resetAfter;
-			ctx.state.rateLimitBucket     = this._bucketId;
+			const { ip: identifier } = ctx.request;
+			const entries = await database.rateLimit.findMany({
+				select: {
+					identifier: true,
+					expiresAt: true,
+				},
+				where: {
+					identifier,
+					expiresAt: { gte: new Date() }
+				},
+				orderBy: {
+					expiresAt: 'desc'
+				}
+			});
+			const numEntries  = entries.length;
+			const remaining   = this._limit - numEntries;
+			const latestEntry = entries[0];
+			const now         = Date.now();
 
 			if (this._addHeaders) {
 				ctx.res.setHeader('X-RateLimit-Limit', this._limit);
 				ctx.res.setHeader('X-RateLimit-Cost', cost);
 				ctx.res.setHeader('X-RateLimit-Remaining', remaining);
-				ctx.res.setHeader('X-RateLimit-Reset', expires);
-				ctx.res.setHeader('X-RateLimit-Reset-After', resetAfter);
-				ctx.res.setHeader('X-RateLimit-Bucket', this._bucketId);
+				let resetTimestamp = new Duration(this._interval).fromNow.getTime();
+				if (latestEntry) {
+					resetTimestamp = latestEntry.expiresAt.getTime();
+				}
+				ctx.res.setHeader('X-RateLimit-Reset', Math.floor(resetTimestamp / 1000));
+				ctx.res.setHeader('X-RateLimit-Reset-After', Math.floor((resetTimestamp - now) / 1000));
+				ctx.res.setHeader('X-RateLimit-Bucket', this._id);
 			}
 
-			ctx.assert(!limiter.limited, 429);
+			ctx.assert(remaining !== 0, 429);
 
-			limiter.consume();
+			const expiresAt = new Duration(this._interval).fromNow;
+
+			// TODO maybe add a value to rate limit records instead of adding multiple records in
+			// one go?
+			for (let c = 0; c < cost; c++) {
+				await database.rateLimit.create({
+					data: {
+						bucketIdentifier: this._id,
+						identifier,
+						expiresAt
+					}
+				});
+			}
 
 			return next();
 		};

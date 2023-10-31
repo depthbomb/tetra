@@ -44,3 +44,24 @@ model Feature {
 	createdAt DateTime @default(now())
 	updatedAt DateTime @updatedAt @default(now())
 }
+
+model TokenBucket {
+	id         String      @id @default(uuid())
+	name       String      @unique
+	identifier String      @unique
+	limit      Int
+	interval   Int
+	cost       Int         @default(1)
+	rateLimits RateLimit[]
+	createdAt  DateTime    @default(now())
+	updatedAt  DateTime    @updatedAt @default(now())
+}
+
+model RateLimit {
+	id               String      @id @default(uuid())
+	bucket           TokenBucket @relation(fields: [bucketIdentifier], references: [identifier])
+	bucketIdentifier String
+	identifier       String
+	expiresAt        DateTime
+	createdAt        DateTime    @default(now())
+}

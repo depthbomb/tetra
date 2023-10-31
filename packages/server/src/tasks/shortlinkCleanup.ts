@@ -6,7 +6,11 @@ import { Features } from '@lib/features';
 export function createShortlinkCleanupTask(): Task {
 	return {
 		name: 'shortlinks-cleanup',
+		description: 'Deletes shortlink records that have an expiration date and have expired',
+		immediate: true,
 		interval: '1 minute',
+		nextRun: null,
+		lastRun: null,
 		async execute() {
 			const featureDisabled = await Features.isDisabled('SHORTLINK_CLEANUP');
 			if (featureDisabled) {
