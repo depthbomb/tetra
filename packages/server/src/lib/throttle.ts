@@ -79,18 +79,18 @@ class Throttler {
 				}
 			});
 
-			const numEntries   = entries.length;
-			const remaining    = Math.max(this._limit - numEntries, 0);
-			const earliesEntry = entries[entries.length - 1];
-			const now          = Date.now();
+			const numEntries    = entries.length;
+			const remaining     = Math.max(this._limit - numEntries, 0);
+			const earliestEntry = entries[entries.length - 1];
+			const now           = Date.now();
 
 			if (this._addHeaders) {
 				ctx.res.setHeader('X-RateLimit-Limit', this._limit);
 				ctx.res.setHeader('X-RateLimit-Cost', cost);
 				ctx.res.setHeader('X-RateLimit-Remaining', Math.max(remaining - cost, 0));
 				let resetTimestamp = new Duration(this._interval).fromNow.getTime();
-				if (earliesEntry) {
-					resetTimestamp = earliesEntry.expiresAt.getTime();
+				if (earliestEntry) {
+					resetTimestamp = earliestEntry.expiresAt.getTime();
 				}
 				ctx.res.setHeader('X-RateLimit-Reset', Math.floor(resetTimestamp / 1_000));
 				ctx.res.setHeader('X-RateLimit-Reset-After', Math.floor((resetTimestamp - now) / 1_000));
