@@ -6,17 +6,19 @@
 	const { to, variant = 'brand', size = 'normal', loading, disabled } = defineProps<{
 		to?:       RouteLocationRaw;
 		variant?:  'brand' | 'success' | 'warning' | 'danger' | 'error';
-		size?:     'normal' | 'small' | 'large';
+		size?:     'xsmall' | 'small' | 'normal' | 'large';
 		loading?:  boolean;
 		disabled?: boolean;
 	}>();
 
 	const buttonClass = computed(() => ['Button', `Button--${variant}`, {
+		'Button--xsmall':   size === 'xsmall',
 		'Button--small':    size === 'small',
 		'Button--large':    size === 'large',
 		'Button--disabled': disabled
 	}]);
 	const loaderClass = computed(() => ['animate-spin', {
+		'w-3 h-3': size === 'xsmall',
 		'w-4 h-4': size === 'normal' || size === 'small',
 		'w-6 h-6': size === 'large',
 	}]);
@@ -127,6 +129,13 @@
 			@apply [&:not(.Button--disabled)]:hover:bg-red-500;
 			@apply [&:not(.Button--disabled)]:hover:border-red-500;
 		}
+	}
+
+	&--xsmall {
+		@apply min-h-[24px];
+		@apply px-2 py-0.5;
+		@apply text-[12px];
+		@apply rounded-[4px];
 	}
 
 	&--small {

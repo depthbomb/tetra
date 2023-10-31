@@ -93,7 +93,7 @@
 				<td>{{ getFeatureDescription(feature.name) }}</td>
 				<td><code>{{ feature.enabled }}</code></td>
 				<td>
-					<app-button :variant="feature.enabled ? 'danger' : 'success'" size="small" @click="toggleFeature(feature.name)">
+					<app-button :variant="feature.enabled ? 'danger' : 'success'" size="xsmall" @click="toggleFeature(feature.name)">
 						{{ feature.enabled ? 'Disable' : 'Enable' }}
 					</app-button>
 				</td>
