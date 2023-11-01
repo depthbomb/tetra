@@ -83,6 +83,7 @@ class Throttler {
 			const entries = await database.rateLimit.findMany({
 				select: {
 					identifier: true,
+					tokens: true,
 					expiresAt: true,
 				},
 				where: {
@@ -94,8 +95,8 @@ class Throttler {
 				}
 			});
 
-			const numEntries    = entries.length;
-			const remaining     = Math.max(this._limit - numEntries, 0);
+			const usedTokens    = entries.reduce((a, e) => a + e.tokens, 0);
+			const remaining     = Math.max(this._limit - usedTokens, 0);
 			const earliestEntry = entries[entries.length - 1];
 			const now           = Date.now();
 
@@ -103,7 +104,7 @@ class Throttler {
 				ctx.res.setHeader('X-RateLimit-Limit', this._limit);
 				ctx.res.setHeader('X-RateLimit-Cost', cost);
 				ctx.res.setHeader('X-RateLimit-Remaining', Math.max(remaining - cost, 0));
-				ctx.res.setHeader('X-RateLimit-Used', numEntries);
+				ctx.res.setHeader('X-RateLimit-Used', usedTokens);
 				let resetTimestamp = new Duration(this._interval).fromNow.getTime();
 				if (earliestEntry) {
 					resetTimestamp = earliestEntry.expiresAt.getTime();
@@ -115,19 +116,14 @@ class Throttler {
 
 			ctx.assert(remaining >= cost, 429);
 
-			const expiresAt = new Duration(this._interval).fromNow;
-
-			// TODO maybe add a value to rate limit records instead of adding multiple records in
-			// one go?
-			for (let c = 0; c < cost; c++) {
-				await database.rateLimit.create({
-					data: {
-						bucketIdentifier: this._id,
-						identifier,
-						expiresAt
-					}
-				});
-			}
+			await database.rateLimit.create({
+				data: {
+					bucketIdentifier: this._id,
+					identifier,
+					tokens: cost,
+					expiresAt: new Duration(this._interval).fromNow
+				}
+			});
 
 			return next();
 		};
