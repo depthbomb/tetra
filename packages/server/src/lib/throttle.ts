@@ -104,7 +104,6 @@ class Throttler {
 				ctx.res.setHeader('X-RateLimit-Limit', this._limit);
 				ctx.res.setHeader('X-RateLimit-Cost', cost);
 				ctx.res.setHeader('X-RateLimit-Remaining', Math.max(remaining - cost, 0));
-				ctx.res.setHeader('X-RateLimit-Used', usedTokens);
 				let resetTimestamp = new Duration(this._interval).fromNow.getTime();
 				if (earliestEntry) {
 					resetTimestamp = earliestEntry.expiresAt.getTime();
