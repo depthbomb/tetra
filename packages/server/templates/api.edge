@@ -9,8 +9,8 @@
 	</head>
 	<body>
 		<div id="swagger"></div>
-		<script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.min.js" defer></script>
-		<script type="text/javascript">
+		<script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.min.js" defer nonce="{{ nonce }}"></script>
+		<script type="text/javascript" nonce="{{ nonce }}">
 			window.onload = () => {
 				window.ui = SwaggerUIBundle({ url: '/api/openapi.json', dom_id: '#swagger' });
 			}

@@ -6,11 +6,11 @@ import { renderView } from '@views';
 import { database } from '@database';
 import { Features } from '@lib/features';
 import { parseParams } from '@utils/request';
-import { createCspMiddleware } from '@middleware/csp';
 import { createCsrfMiddleware } from '@middleware/csrf';
 import { ShortlinkRedirectionPath } from '@tetra/schema';
 import { createAssetsMiddleware } from '@middleware/assets';
 import { createHtmlMinMiddleware } from '@middleware/htmlmin';
+import { createSecurityMiddleware } from '@middleware/security';
 import { createRequireFeatureMiddleware } from '@middleware/requireFeature';
 import type { Context } from 'koa';
 
@@ -27,7 +27,7 @@ export async function createRootRouter() {
 	router.use(serve(publicDir));
 	router.all('/ready', createHealthHandler(true));
 	router.all('/health', createHealthHandler(false));
-	router.all('index', '/', createAssetsMiddleware(), createCspMiddleware(), createCsrfMiddleware('create'), createHtmlMinMiddleware(), serveSpa);
+	router.all('index', '/', createAssetsMiddleware(), createSecurityMiddleware(), createCsrfMiddleware('create'), createHtmlMinMiddleware(), serveSpa);
 	router.all('shortlink.redirect', '/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
 	router.all('/go/:shortcode', createRequireFeatureMiddleware('SHORTLINK_REDIRECTION'), redirectShortlink);
 

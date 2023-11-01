@@ -9,6 +9,7 @@ import { createCorsMiddleware } from '@middleware/cors';
 import { createFeaturesV1Router } from '@router/featuresV1';
 import { createHtmlMinMiddleware } from '@middleware/htmlmin';
 import { createShortlinksV1Router } from '@router/shortlinksV1';
+import { createSecurityMiddleware } from '@middleware/security';
 
 export async function createApiRouter() {
 	const router = new Router({ prefix: '/api' });
@@ -20,7 +21,7 @@ export async function createApiRouter() {
 	*/
 
 	router.use(createCorsMiddleware());
-	router.all('/', createHtmlMinMiddleware(), async ctx => {
+	router.all('/',createSecurityMiddleware(), createHtmlMinMiddleware(), async ctx => {
 		ctx.body = await renderView(ctx, 'api');
 	});
 	router.get('/app_version', async ctx => {
