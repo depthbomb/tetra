@@ -798,7 +798,7 @@ const description = [
 	'- `X-RateLimit-Cost` - The number of tokens that are consumed from the bucket per request\n',
 	'- `X-RateLimit-Remaining` - The number of tokens remaining in the bucket\n',
 	'- `X-RateLimit-Used` - The number of tokens currently consumed from the bucket in the timeframe\n',
-	'- `X-RateLimit-Reset` - The datetime at which the tokens in the bucket are reset\n',
+	'- `X-RateLimit-Reset` - The time at which the rate limit resets in [Unix epoch seconds](https://en.wikipedia.org/wiki/Unix_time)\n',
 	'- `X-RateLimit-Reset-After` - The time remaining in seconds at which the tokens in the bucket are reset\n',
 	'- `X-RateLimit-Bucket` - The unique identifier of the bucket that is being consumed from\n',
 	'',
