@@ -23,8 +23,9 @@ async function boot() {
 	await Features.create('PRETTY_PRINT_JSON', true);
 
 	const app = new Koa({ proxy: true })
-		.use(ctx => {
-			ctx.res.setHeader('Server', hostname())
+		.use(async (ctx, next) => {
+			ctx.res.setHeader('Server', hostname());
+			await next();
 		})
 		.use(createRequestIdMiddleware())
 		.use(createErrorMiddleware())
