@@ -28,7 +28,7 @@ import type { Prisma } from '@database';
 
 export async function createShortlinksV1Router() {
 	const router    = new Router({ prefix: '/v1/shortlinks' });
-	const throttler = await getThrottler('shortlinks', '5 seconds', 10);
+	const throttler = await getThrottler('shortlinks', '1 minute', 60);
 
 	/*
 	|--------------------------------------------------------------------------

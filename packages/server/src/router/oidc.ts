@@ -14,7 +14,7 @@ import type { Context } from 'koa';
 
 export async function createOidcRouter() {
 	const router    = new Router({ prefix: '/oidc' });
-	const throttler = await getThrottler('oidc', '10 seconds', 5);
+	const throttler = await getThrottler('oidc', '5 seconds', 5);
 
 	/*
 	|--------------------------------------------------------------------------
