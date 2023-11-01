@@ -1,6 +1,7 @@
 import 'source-map-support/register';
 import Koa from 'koa';
 import etag from 'koa-etag';
+import { hostname } from 'node:os';
 import { getVarOrThrow } from '@env';
 import { registerTask } from '@tasks';
 import { createRouter } from '@router';
@@ -22,6 +23,9 @@ async function boot() {
 	await Features.create('PRETTY_PRINT_JSON', true);
 
 	const app = new Koa({ proxy: true })
+		.use(ctx => {
+			ctx.res.setHeader('Server', hostname())
+		})
 		.use(createRequestIdMiddleware())
 		.use(createErrorMiddleware())
 		.use(createLoggerMiddleware())
