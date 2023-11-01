@@ -11,10 +11,11 @@ export async function getThrottler(
 	cost: number = 1,
 	addHeaders: boolean = true
 ): Promise<Throttler> {
+	const { offset } = new Duration(interval);
+
 	let bucket = await database.tokenBucket.findFirst({ where: { name } });
 	if (!bucket) {
 		const identifier = factory(detectPrng(true))();
-		const { offset } = new Duration(interval);
 		bucket = await database.tokenBucket.create({
 			data: {
 				name,
@@ -26,6 +27,20 @@ export async function getThrottler(
 		});
 
 		logger.info('Created new TokenBucket', { name, identifier, offset, limit, cost, addHeaders });
+	} else {
+		// Update existing token bucket in case the values may have changed.
+		if (bucket.limit !== limit || bucket.interval !== offset || bucket.cost !== cost) {
+			await database.tokenBucket.update({
+				where: {
+					identifier: bucket.identifier,
+				},
+				data: {
+					limit,
+					interval: offset,
+					cost,
+				},
+			});
+		}
 	}
 
 	return new Throttler(
