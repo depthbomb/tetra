@@ -21,15 +21,26 @@ export async function createOidcRouter() {
 	| Routes
 	|--------------------------------------------------------------------------
 	*/
-	router.get('oidc.start', '/start', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), async (ctx: Context) => {
+
+	router.get('oidc.start', '/start', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), startAuthFlow);
+	router.get('oidc.callback', '/callback', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), handleAuthCallback);
+	router.post('oidc.invalidate', '/invalidate', invalidateAuth);
+
+	/*
+	|--------------------------------------------------------------------------
+	| Handlers
+	|--------------------------------------------------------------------------
+	*/
+
+	async function startAuthFlow(ctx: Context) {
 		const authUrl = await OAuth.getAuthUrl(ctx);
 
 		logger.info('Authentication flow started', { authUrl });
 
 		return ctx.redirect(authUrl);
-	});
+	}
 
-	router.get('oidc.callback', '/callback', createRequireFeatureMiddleware('AUTHENTICATION'), throttler.consume(2), async (ctx: Context) => {
+	async function handleAuthCallback(ctx: Context) {
 		const cookie = getCookie(ctx, OIDC_STATE_COOKIE_NAME, { encrypted: true });
 
 		deleteCookie(ctx, OIDC_STATE_COOKIE_NAME);
@@ -77,9 +88,9 @@ export async function createOidcRouter() {
 		logger.info('Authenticated user', { user });
 
 		return ctx.redirect('/');
-	});
+	}
 
-	router.post('oidc.invalidate', '/invalidate', (ctx: Context) => {
+	async function invalidateAuth(ctx: Context) {
 		const { user } = ctx.state;
 
 		deleteCookie(ctx, AUTH_COOKIE_NAME);
@@ -88,7 +99,7 @@ export async function createOidcRouter() {
 		logger.info('Invalidated user', { user });
 
 		return ctx.redirect('/');
-	});
+	}
 
 	return router.routes();
 }

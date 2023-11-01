@@ -14,7 +14,15 @@ export async function createSseRouter() {
 	|--------------------------------------------------------------------------
 	*/
 
-	router.get('/shortlink_count', createCsrfMiddleware('validate'), async (ctx: Context) => {
+	router.get('/shortlink_count', createCsrfMiddleware('validate'), startShortlinksCountStream);
+
+	/*
+	|--------------------------------------------------------------------------
+	| Handlers
+	|--------------------------------------------------------------------------
+	*/
+
+	async function startShortlinksCountStream(ctx: Context) {
 		const { ip } = ctx;
 
 		ctx.assert(!clients.has(ip), 409);
@@ -45,7 +53,7 @@ export async function createSseRouter() {
 
 		// Emit the initial shortlink count
 		await emitShortlinkCount();
-	});
+	}
 
 	return router.routes();
 }

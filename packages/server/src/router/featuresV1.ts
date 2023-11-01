@@ -1,6 +1,6 @@
 import Router from '@koa/router';
-import { database } from '@database';
 import { Features } from '@lib/features';
+import { assertAdminUser } from '@utils/users';
 import { sendJsonResponse } from '@utils/response';
 import { parseQuery, parseParams } from '@utils/request';
 import { ListFeaturesQuery, ToggleFeaturePath } from '@tetra/schema';
@@ -15,80 +15,49 @@ export async function createFeaturesV1Router() {
 	|--------------------------------------------------------------------------
 	*/
 
-	router.get('/', async (ctx: Context) => {
-		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
-
-		checkPriviledgedUser(ctx, apiKey);
-
-		const features = await Features.getAll();
-
-		return await sendJsonResponse(ctx, features);
-	});
-	router.patch('/:name/enable', async (ctx: Context) => {
-		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
-		const { name }   = parseParams(ctx, ToggleFeaturePath);
-
-		checkPriviledgedUser(ctx, apiKey);
-
-		ctx.assert(await Features.exists(name), 404);
-
-		const oldValue = await Features.isEnabled(name);
-
-		await Features.enable(name);
-
-		const newValue = await Features.isEnabled(name);
-
-		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
-	});
-	router.patch('/:name/disable', async (ctx: Context) => {
-		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
-		const { name }   = parseParams(ctx, ToggleFeaturePath);
-
-		checkPriviledgedUser(ctx, apiKey);
-
-		ctx.assert(await Features.exists(name), 404);
-
-		const oldValue = await Features.isDisabled(name);
-
-		await Features.disable(name);
-
-		const newValue = await Features.isDisabled(name);
-
-		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
-	});
-	router.patch('/:name/toggle', async (ctx: Context) => {
-		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
-		const { name }   = parseParams(ctx, ToggleFeaturePath);
-
-		checkPriviledgedUser(ctx, apiKey);
-
-		ctx.assert(await Features.exists(name), 404);
-
-		const oldValue = await Features.isEnabled(name);
-
-		await Features.toggle(name);
-
-		const newValue = await Features.isEnabled(name);
-
-		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
-	});
+	router.get('/', listFeatures);
+	router.patch('/:name/enable', toggleFeature);
+	router.patch('/:name/disable', toggleFeature);
+	router.patch('/:name/toggle', toggleFeature);
 
 	/*
 	|--------------------------------------------------------------------------
-	| Privates
+	| Handlers
 	|--------------------------------------------------------------------------
 	*/
 
-	async function checkPriviledgedUser(ctx: Context, apiKey: string): Promise<void> {
-		const exists = await database.user.exists({
-			apiKey,
-			admin: true
-		});
+	async function listFeatures(ctx: Context) {
+		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
 
-		ctx.assert(exists, 403);
+		await assertAdminUser(ctx, apiKey);
+
+		return await sendJsonResponse(ctx,
+			await Features.getAll()
+		);
+	}
+
+	async function toggleFeature(ctx: Context) {
+		const { apiKey } = parseQuery(ctx, ListFeaturesQuery);
+		const { name } = parseParams(ctx, ToggleFeaturePath);
+
+		await assertAdminUser(ctx, apiKey);
+
+		ctx.assert(await Features.exists(name), 404);
+
+		const oldValue = await Features.isEnabled(name);
+
+		if (ctx.request.path.endsWith('/enable')) {
+			await Features.enable(name);
+		} else if (ctx.request.path.endsWith('/disable')) {
+			await Features.disable(name);
+		} else {
+			await Features.toggle(name);
+		}
+
+		const newValue = await Features.isEnabled(name);
+
+		return await sendJsonResponse(ctx, { old: oldValue, new: newValue });
 	}
 
 	return router.routes();
 }
-
-
