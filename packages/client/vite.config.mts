@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
 			outDir: resolve(__dirname, '../../packages/server/public'),
 			minify: mode === 'production' ? 'esbuild' : false,
 			emptyOutDir: true,
-			manifest: true,
+			manifest: 'manifest.json',
 			assetsInlineLimit: 0,
 			rollupOptions: {
 				input: resolve('./src/app.ts'),
