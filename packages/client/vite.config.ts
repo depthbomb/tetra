@@ -22,9 +22,9 @@ export default defineConfig(({ mode }) => {
 			rollupOptions: {
 				input: resolve('./src/app.ts'),
 				output: {
-					entryFileNames: '[hash:36].js',
-					chunkFileNames: '[hash:36].js',
-					assetFileNames: '[hash:36].[ext]',
+					entryFileNames: '[hash:22].js',
+					chunkFileNames: '[hash:22].js',
+					assetFileNames: '[hash:22].[ext]',
 				},
 			},
 		},
