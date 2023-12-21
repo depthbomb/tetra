@@ -57,7 +57,7 @@
 			@apply flex flex-col items-center;
 
 			img {
-				@apply w-32 h-32;
+				@apply size-32;
 				@apply rounded-xl;
 			}
 

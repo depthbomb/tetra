@@ -76,7 +76,7 @@
 		@apply absolute;
 		@apply inset-0;
 		@apply flex items-center justify-center;
-		@apply w-full h-full;
+		@apply size-full;
 		@apply rounded-lg;
 		@apply z-[5];
 	}

@@ -98,7 +98,7 @@
 		.AdminTable-loading-overlay {
 			@apply absolute inset-0;
 			@apply flex flex-col justify-center items-center;
-			@apply w-full h-full;
+			@apply size-full;
 			@apply bg-black bg-opacity-25;
 			@apply rounded-lg;
 			@apply backdrop-blur-sm;

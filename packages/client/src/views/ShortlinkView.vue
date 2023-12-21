@@ -112,7 +112,7 @@
 
 		.Shortlink-qrCode {
 			@apply relative;
-			@apply w-[272px] h-[272px];
+			@apply size-[272px];
 			@apply bg-gray-900;
 			@apply rounded-xl;
 			@apply shadow;
@@ -121,14 +121,14 @@
 			.Shortlink-qrCodeLoader {
 				@apply absolute inset-0;
 				@apply flex flex-col items-center justify-center;
-				@apply w-[272px] h-[272px];
+				@apply size-[272px];
 				@apply bg-black bg-opacity-20;
 				@apply backdrop-blur;
 				@apply z-10;
 			}
 
 			img {
-				@apply w-[272px] h-[272px];
+				@apply size-[272px];
 			}
 		}
 

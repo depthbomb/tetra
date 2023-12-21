@@ -156,13 +156,13 @@
 			@apply inset-0;
 			@apply flex flex-col items-center justify-center;
 			@apply space-y-3;
-			@apply w-full h-full;
+			@apply size-full;
 			@apply bg-red-950 bg-opacity-50;
 			@apply backdrop-blur;
 			@apply z-10;
 
 			svg {
-				@apply w-16 h-16;
+				@apply size-16;
 				@apply text-red-600;
 			}
 

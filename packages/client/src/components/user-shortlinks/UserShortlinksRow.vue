@@ -53,7 +53,7 @@
 			</app-button>
 			<copy-button size="small" :content="shortlink.shortlink" :text="shortlink.shortcode" class="font-mono"/>
 		</div>
-		<arrow-long-icon direction="right" class="mx-6 w-8 h-8 text-gray-500"/>
+		<arrow-long-icon direction="right" class="mx-6 size-8 text-gray-500"/>
 		<div class="Shortlinks-destination">{{ truncate(shortlink.destination, 50) }}</div>
 		<div class="Shortlinks-hits">{{ shortlink.hits }} hit{{ shortlink.hits === 1 ? '' : 's' }}</div>
 		<div class="Shortlinks-dates">

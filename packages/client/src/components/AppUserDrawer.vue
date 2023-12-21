@@ -95,7 +95,7 @@
 			@apply active:text-white active:bg-gray-600;
 
 			img {
-				@apply w-6 h-6;
+				@apply size-6;
 				@apply rounded-full;
 			}
 		}
@@ -127,7 +127,7 @@
 						@apply w-full;
 
 						img {
-							@apply w-8 h-8;
+							@apply size-8;
 							@apply rounded-full;
 						}
 					}
