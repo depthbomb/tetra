@@ -1,6 +1,6 @@
 <script setup lang="ts">
+	import { useUserStore } from '~/stores/user';
 	import { ref, defineAsyncComponent } from 'vue';
-	import { useUser } from '~/composables/useUser';
 	import AppButton from '~/components/AppButton.vue';
 	import { useFeatures } from '~/composables/useFeature';
 	import SignInIcon from '~/components/icons/SignInIcon.vue';
@@ -8,7 +8,7 @@
 
 	const AppUserDrawer = defineAsyncComponent(() => import('./AppUserDrawer.vue'));
 
-	const { isLoggedIn }       = useUser();
+	const { isLoggedIn }       = useUserStore();
 	const { isFeatureEnabled } = useFeatures();
 
 	const loginButtonEnabled = ref(isFeatureEnabled('AUTHENTICATION'));

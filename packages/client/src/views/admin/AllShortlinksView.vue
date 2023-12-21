@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
 	import createClient from 'openapi-fetch';
-	import { useUser } from '~/composables/useUser';
+	import { useUserStore } from '~/stores/user';
 	import KeyCombo from '~/components/KeyCombo.vue';
 	import AppButton from '~/components/AppButton.vue';
 	import { useThrottleFn, useKeyModifier } from '@vueuse/core';
@@ -12,7 +12,7 @@
 	const loading    = ref<boolean>(true);
 	const shortlinks = ref<components['schemas']['ListAllShortlinksResponse']>([]);
 
-	const { apiKey }    = useUser();
+	const { apiKey }    = useUserStore();
 	const shiftKeyState = useKeyModifier('Shift');
 
 	const { GET } = createClient<paths>();

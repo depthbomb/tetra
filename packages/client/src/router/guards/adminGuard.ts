@@ -1,4 +1,4 @@
-import { useUser } from '~/composables/useUser';
+import { useUserStore } from '~/stores/user';
 import type { NavigationGuard } from 'vue-router';
 
 export function useAdminGuard(): NavigationGuard {
@@ -6,7 +6,7 @@ export function useAdminGuard(): NavigationGuard {
 		window.location.href = '/';
 	};
 	return async (to, from, next) => {
-		const { isAdmin } = useUser();
+		const { isAdmin } = useUserStore();
 		if (!isAdmin) {
 			redirectToHome();
 		} else {

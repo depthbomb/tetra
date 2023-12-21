@@ -1,8 +1,8 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
 	import createClient from 'openapi-fetch';
+	import { useUserStore } from '~/stores/user';
 	import { useToastStore } from '~/stores/toast';
-	import { useUser } from '~/composables/useUser';
 	import AppLoader from '~/components/AppLoader.vue';
 	import UserShortlinksRow from '~/components/user-shortlinks/UserShortlinksRow.vue';
 	import type { paths, components } from '~/@types/openapi';
@@ -12,7 +12,7 @@
 	const loading    = ref<boolean>(true);
 	const shortlinks = ref<ListShortlinksSchema>([]);
 
-	const user            = useUser();
+	const { apiKey }      = useUserStore();
 	const { createToast } = useToastStore();
 
 	const { GET } = createClient<paths>();
@@ -21,7 +21,7 @@
 		const { data, error } = await GET('/api/v1/shortlinks', {
 			params: {
 				query: {
-					apiKey: user.apiKey
+					apiKey
 				}
 			}
 		});

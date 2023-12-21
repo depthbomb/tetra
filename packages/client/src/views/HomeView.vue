@@ -3,8 +3,8 @@
 	import { isValidHttpUrl } from '~/utils';
 	import { Shortcode } from '@tetra/schema';
 	import { useId } from '~/composables/useId';
+	import { useUserStore } from '~/stores/user';
 	import { useToastStore } from '~/stores/toast';
-	import { useUser } from '~/composables/useUser';
 	import KeyCombo from '~/components/KeyCombo.vue';
 	import AppButton from '~/components/AppButton.vue';
 	import { useFeatures } from '~/composables/useFeature';
@@ -22,24 +22,19 @@
 	const destinationFocused = ref<boolean>(false);
 	const shortlinkResult    = ref<string>('');
 	const isValid = computed(() => {
-		if (!isValidHttpUrl(destination.value)) {
-			return false;
-		}
-
-		if (shortcode.value) {
-			return Shortcode.safeParse(shortcode.value).success;
-		}
+		if (!isValidHttpUrl(destination.value)) return false;
+		if (shortcode.value) return Shortcode.safeParse(shortcode.value).success;
 
 		return true;
 	});
 
-	const { generateId }       = useId();
-	const { isFeatureEnabled } = useFeatures();
-	const user                 = useUser();
-	const { createToast }      = useToastStore();
-	const { Ctrl_V }           = useMagicKeys();
-	const { copy }             = useClipboard({ source: shortlinkResult, legacy: true });
-	const clipboardReadAccess  = usePermission('clipboard-read', { controls: true });
+	const { generateId }          = useId();
+	const { isFeatureEnabled }    = useFeatures();
+	const { apiKey,  isLoggedIn } = useUserStore();
+	const { createToast }         = useToastStore();
+	const { Ctrl_V }              = useMagicKeys();
+	const { copy }                = useClipboard({ source: shortlinkResult, legacy: true });
+	const clipboardReadAccess     = usePermission('clipboard-read', { controls: true });
 
 	const creationDisabled   = ref(!isFeatureEnabled('SHORTLINK_CREATION'));
 
@@ -78,7 +73,7 @@
 			},
 			params: {
 				query: {
-					apiKey: user.isLoggedIn ? user.apiKey : undefined
+					apiKey: isLoggedIn ? apiKey : undefined
 				}
 			}
 		});

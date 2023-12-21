@@ -1,40 +1,37 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
 	import createClient from 'openapi-fetch';
+	import { useUserStore } from '~/stores/user';
 	import { useToastStore } from '~/stores/toast';
-	import { useUser } from '~/composables/useUser';
 	import AppButton from '~/components/AppButton.vue';
 	import CopyButton from '~/components/CopyButton.vue';
 	import RefreshIcon from '~/components/icons/RefreshIcon.vue';
 	import type { paths } from '~/@types/openapi';
 
-	const apiKey           = ref<string>('');
 	const apiKeyHidden     = ref<boolean>(true);
 	const canRegenerateKey = ref<boolean>(false);
 	const regeneratingKey  = ref<boolean>(false);
 
-	const user            = useUser();
-	const { createToast } = useToastStore();
+	const { apiKey, setApiKey } = useUserStore();
+	const { createToast }       = useToastStore();
 
 	const { GET, POST } = createClient<paths>();
 
 	const regenerateKey = async () => {
-		if (!canRegenerateKey.value) {
-			return;
-		}
+		if (!canRegenerateKey.value) return;
 
 		if (confirm('There is a two hour wait between generating new a API key.\n\nAre you sure you want to continue?')) {
 			regeneratingKey.value = true;
 			const { data, error } = await POST('/api/v1/users/regenerate_api_key', {
 				body: {
-					apiKey: user.apiKey
+					apiKey
 				}
 			});
 
 			if (error) {
 				createToast('error', error.message, false, 3_000);
 			} else {
-				apiKey.value = data.apiKey;
+				setApiKey(data.apiKey)
 			}
 
 			canRegenerateKey.value = false;
@@ -43,12 +40,10 @@
 	};
 
 	onMounted(async () => {
-		apiKey.value = user.apiKey;
-
 		const { data, error } = await GET('/api/v1/users/api_key_info', {
 			params: {
 				query: {
-					apiKey: user.apiKey
+					apiKey
 				}
 			}
 		});

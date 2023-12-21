@@ -1,7 +1,7 @@
 <script setup lang="ts">
+	import { useUserStore } from '~/stores/user';
 	import { onClickOutside } from '@vueuse/core';
 	import { ref, defineAsyncComponent } from 'vue';
-	import { useUser } from '~/composables/useUser';
 	import KeyIcon from '~/components/icons/KeyIcon.vue';
 	import ListIcon from '~/components/icons/ListIcon.vue';
 	import CloseIcon from '~/components/icons/CloseIcon.vue';
@@ -13,7 +13,7 @@
 	const sidebar    = ref<HTMLElement|null>(null);
 	const drawerOpen = ref<boolean>(false);
 
-	const { username, avatars, isAdmin } = useUser();
+	const { username, avatars, isAdmin } = useUserStore();
 
 	const logOut = async () => {
 		await fetch('/oidc/invalidate', { method: 'POST' });

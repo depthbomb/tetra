@@ -1,9 +1,9 @@
 <script setup lang="ts">
 	import { ref } from 'vue';
 	import createClient from 'openapi-fetch';
+	import { useUserStore } from '~/stores/user';
 	import TimeAgo from '~/components/TimeAgo.vue';
 	import { useToastStore } from '~/stores/toast';
-	import { useUser } from '~/composables/useUser';
 	import AppButton from '~/components/AppButton.vue';
 	import { useTruncation } from '~/composables/useTruncation';
 	import type { paths, components } from '~/@types/openapi';
@@ -18,7 +18,7 @@
 	const deleteLoading  = ref<boolean>(false);
 	const disableLoading = ref<boolean>(false);
 
-	const { apiKey }      = useUser();
+	const { apiKey }      = useUserStore();
 	const { truncate }    = useTruncation();
 	const { createToast } = useToastStore();
 

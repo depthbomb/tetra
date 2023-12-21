@@ -1,15 +1,15 @@
 <script setup lang="ts">
 	import { ref, onMounted } from 'vue';
 	import createClient from 'openapi-fetch';
+	import { useUserStore } from '~/stores/user';
 	import { useToastStore } from '~/stores/toast';
-	import { useUser } from '~/composables/useUser';
 	import AppLoader from '~/components/AppLoader.vue';
 	import type { paths, components } from '~/@types/openapi';
 
 	const loading = ref<boolean>(true);
 	const users   = ref<components['schemas']['ListUsersResponse']>([]);
 
-	const { apiKey }      = useUser();
+	const { apiKey }      = useUserStore();
 	const { createToast } = useToastStore();
 
 	const { GET } = createClient<paths>();
