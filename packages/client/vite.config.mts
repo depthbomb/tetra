@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 import vue from '@vitejs/plugin-vue';
-import preload from 'vite-plugin-preload';
 import { URL, fileURLToPath } from 'node:url';
 import type { UserConfig } from 'vite';
 
@@ -29,8 +28,7 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		plugins: [
-			vue({ script: { propsDestructure: true } }),
-			preload()
+			vue({ script: { propsDestructure: true } })
 		],
 		resolve: {
 			alias: {
