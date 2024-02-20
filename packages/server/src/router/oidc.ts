@@ -48,7 +48,7 @@ export async function createOidcRouter() {
 		ctx.assert(cookie, 400, 'Missing state cookie');
 
 		const params      = OAuth.client!.callbackParams(ctx.req);
-		const tokenSet    = await OAuth.client!.callback(createUrl('oidc.callback'), params, { state: cookie });
+		const tokenSet    = await OAuth.client!.callback(createUrl('oidc.callback'), params, { state: cookie, code_verifier: cookie });
 		const accessToken = tokenSet.access_token;
 
 		ctx.assert(accessToken, 403, 'access_token not found');
