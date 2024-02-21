@@ -64,6 +64,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tetra
+  annotations:
+    kubernetes.io/tls-acme: "true"
 spec:
   rules:
     - host: go.super.fish
