@@ -3,32 +3,21 @@ kind: Deployment
 metadata:
   name: tetra
   labels:
-    app.kubernetes.io/name: tetra
+    app: tetra
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app.kubernetes.io/name: tetra
+      app: tetra
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: tetra
+        app: tetra
     spec:
-      # Avoid scheduling on the same node
-      topologySpreadConstraints:
-        - labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: tetra
-          maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-
-      imagePullSecrets:
-        - name: docker-registry-creds
       containers:
         - name: tetra
-          image: docker.super.fish/tetra/tetra:latest
-          imagePullPolicy: Always
+          image: tetra
+          imagePullPolicy: IfNotPresent
           readinessProbe:
             httpGet:
               path: /ready
@@ -71,33 +60,23 @@ spec:
       targetPort: http
 
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: go.super.fish
-spec:
-  dnsNames:
-    - go.super.fish
-  issuerRef:
-    kind: ClusterIssuer
-    name: letsencrypt-issuer
-  secretName: go.super.fish
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: tetra
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`go.super.fish`)
-      services:
-        - kind: Service
-          name: tetra
-          port: http
-          scheme: http
+  rules:
+    - host: go.super.fish
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tetra
+                port:
+                  name: http
   tls:
-    secretName: go.super.fish
+    - hosts:
+        - go.super.fish
+      secretName: go.super.fish

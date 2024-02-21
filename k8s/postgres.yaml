@@ -1,0 +1,21 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: tetra-postgres
+spec:
+  instances: 2
+  bootstrap:
+    initdb:
+      database: tetra
+      owner: tetra
+      secret:
+        name: tetra-postgres
+  storage:
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      cpu: "1"
+      memory: 2Gi
