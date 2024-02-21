@@ -49,10 +49,10 @@ kind: Service
 metadata:
   name: tetra
   labels:
-    app.kubernetes.io/name: tetra
+    app: tetra
 spec:
   selector:
-    app.kubernetes.io/name: tetra
+    app: tetra
   ports:
     - protocol: TCP
       name: http
