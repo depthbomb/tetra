@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@koa/router": "^12.0.1",
-		"@prisma/client": "^5.12.1",
+		"@prisma/client": "^5.13.0",
 		"@sapphire/duration": "^1.1.2",
 		"@tetra/openapi": "workspace:*",
 		"@tetra/schema": "workspace:*",
@@ -21,7 +21,7 @@
 		"dotenv": "^16.4.5",
 		"edge.js": "^5.5.1",
 		"htmlnano": "^2.1.0",
-		"koa": "^2.15.2",
+		"koa": "^2.15.3",
 		"koa-body": "^6.0.1",
 		"koa-conditional-get": "^3.0.0",
 		"koa-etag": "^4.0.0",
@@ -38,17 +38,17 @@
 	},
 	"devDependencies": {
 		"@tetra/tsconfig": "workspace:*",
-		"@types/eslint": "^8.56.7",
+		"@types/eslint": "^8.56.10",
 		"@types/koa": "^2.15.0",
 		"@types/koa-conditional-get": "^2.0.3",
 		"@types/koa-etag": "^3.0.3",
 		"@types/koa-static": "^4.0.4",
 		"@types/koa__router": "^12.0.4",
-		"@types/node": "^20.12.5",
+		"@types/node": "^20.12.7",
 		"@types/qrcode": "^1.5.5",
 		"@types/source-map-support": "^0.5.10",
-		"prisma": "^5.12.1",
+		"prisma": "^5.13.0",
 		"tsup": "^8.0.2",
-		"typescript": "^5.4.4"
+		"typescript": "^5.4.5"
 	}
 }
