@@ -52,8 +52,9 @@ export async function createUsersV1Router() {
 		});
 
 		return await sendJsonResponse(ctx, users.map(u => ({
-			...u,
-			avatar: createGravatar(u.email, { size: 128 })
+			username: u.username,
+			avatar: createGravatar(u.email, { size: 128 }),
+			admin: u.admin
 		})));
 	}
 
