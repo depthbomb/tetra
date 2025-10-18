@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
 import { URL, fileURLToPath } from 'node:url';
 import type { UserConfig } from 'vite';
 
@@ -21,14 +22,15 @@ export default defineConfig(({ mode }) => {
 			rollupOptions: {
 				input: resolve('./src/app.ts'),
 				output: {
-					entryFileNames: '[hash:22].js',
-					chunkFileNames: '[hash:22].js',
-					assetFileNames: '[hash:22].[ext]',
+					entryFileNames: '[hash:21].js',
+					chunkFileNames: '[hash:21].js',
+					assetFileNames: '[hash:21].[ext]',
 				},
 			},
 		},
 		plugins: [
-			vue({ script: { propsDestructure: true } })
+			vue({ script: { propsDestructure: true } }),
+			tailwindcss()
 		],
 		resolve: {
 			alias: {

@@ -8,18 +8,10 @@
 <template>
 	<app-toasts/>
 	<app-header/>
-	<div class="Container">
+	<div class="mx-auto pt-16 max-w-screen-xl">
 		<div class="MainCard">
 			<router-view/>
 		</div>
 		<app-footer/>
 	</div>
 </template>
-
-<style scoped lang="scss">
-	.Container {
-		@apply mx-auto;
-		@apply pt-16;
-		@apply max-w-screen-xl;
-	}
-</style>

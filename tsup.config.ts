@@ -8,7 +8,7 @@ export function createTsupConfig(options: CreateTsupConfigOptions = {}) {
 		clean: true,
 		minify: false,
 		splitting: true,
-		target: 'node20',
+		target: 'node22',
 		...options
 	});
 }

@@ -1,7 +1,7 @@
 import { logger } from '@logger';
 import { database } from '@database';
-import type { Task } from '@tasks';
 import { Features } from '@lib/features';
+import type { Task } from '@tasks';
 
 export function createShortlinkCleanupTask(): Task {
 	return {

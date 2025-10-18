@@ -1,8 +1,8 @@
-@import 'tailwindcss/base.css';
-@import 'tailwindcss/components.css';
-@import 'tailwindcss/utilities.css';
-
-@import 'fonts';
+@config '../../../tailwind.config.ts';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/fira-code';
+@import '@fontsource-variable/josefin-sans';
+@import 'tailwindcss';
 
 :root {
 	color-scheme: dark;
@@ -25,7 +25,7 @@ body {
 	@apply relative;
 	@apply p-6;
 	@apply w-full;
-	@apply bg-gray-900 bg-opacity-75;
+	@apply bg-gray-900/75;
 	@apply backdrop-blur;
 	@apply rounded-xl;
 	@apply shadow;
