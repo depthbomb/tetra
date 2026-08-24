@@ -1,0 +1,6 @@
+User-Agent: *
+Disallow: /api
+Disallow: /health
+Disallow: /healthz
+Disallow: /ready
+Disallow: /oidc

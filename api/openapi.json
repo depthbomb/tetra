@@ -1,0 +1,685 @@
+{
+  "openapi": "3.2.0",
+  "info": {
+    "title": "Tetra API",
+    "version": "1.0.0",
+    "description": "HTTP API for creating, inspecting, administering, and resolving Tetra shortlinks."
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "The server hosting the application"
+    }
+  ],
+  "security": [],
+  "tags": [
+    {"name": "Shortlinks", "description": "Shortlink creation, inspection, ownership, and administration"},
+    {"name": "Users", "description": "User administration and API key management"}
+  ],
+  "paths": {
+    "/api/v1/users": {
+      "get": {
+        "operationId": "listUsers",
+        "summary": "List public user profiles",
+        "description": "Requires an administrator API key.",
+        "tags": ["Users"],
+        "parameters": [
+          {"$ref": "#/components/parameters/ApiKeyQuery"},
+          {"$ref": "#/components/parameters/ApiKeyHeader"}
+        ],
+        "security": [
+          {"ApiKeyQuery": []},
+          {"ApiKeyHeader": []}
+        ],
+        "responses": {
+          "200": {
+            "description": "Public user profiles",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ListUsersResponse"}
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/users/api-key-info": {
+      "get": {
+        "operationId": "getAPIKeyInfo",
+        "summary": "Get API key regeneration availability",
+        "tags": ["Users"],
+        "parameters": [
+          {"$ref": "#/components/parameters/ApiKeyQuery"},
+          {"$ref": "#/components/parameters/ApiKeyHeader"}
+        ],
+        "security": [
+          {"ApiKeyQuery": []},
+          {"ApiKeyHeader": []}
+        ],
+        "responses": {
+          "200": {
+            "description": "API key regeneration information",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/APIKeyInfo"}
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/users/regenerate-api-key": {
+      "post": {
+        "operationId": "regenerateAPIKey",
+        "summary": "Regenerate the current user's API key",
+        "tags": ["Users"],
+        "parameters": [
+          {"$ref": "#/components/parameters/ApiKeyQuery"},
+          {"$ref": "#/components/parameters/ApiKeyHeader"}
+        ],
+        "security": [
+          {"ApiKeyQuery": []},
+          {"ApiKeyHeader": []}
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly generated API key",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/RegenerateAPIKeyResponse"}
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks": {
+      "get": {
+        "operationId": "listShortlinks",
+        "summary": "List the current user's active shortlinks",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/ApiKeyQuery"},
+          {"$ref": "#/components/parameters/ApiKeyHeader"}
+        ],
+        "security": [
+          {"ApiKeyQuery": []},
+          {"ApiKeyHeader": []}
+        ],
+        "responses": {
+          "200": {
+            "description": "Shortlinks owned by the API key user",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ListShortlinksResponse"}
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      },
+      "put": {
+        "operationId": "createShortlink",
+        "summary": "Create a shortlink",
+        "description": "An API key is optional. When supplied, the new shortlink is associated with that user.",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/ApiKeyQuery"},
+          {"$ref": "#/components/parameters/ApiKeyHeader"}
+        ],
+        "security": [
+          {},
+          {"ApiKeyQuery": []},
+          {"ApiKeyHeader": []}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/CreateShortlinkBody"}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Shortlink created",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/CreateShortlinkResponse"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "409": {"$ref": "#/components/responses/Conflict"},
+          "413": {"$ref": "#/components/responses/ContentTooLarge"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks/all": {
+      "get": {
+        "operationId": "listAllShortlinks",
+        "summary": "List all shortlinks",
+        "description": "Requires an administrator API key. Unlike user and public reads, this includes disabled and not-yet-cleaned expired shortlinks.",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/ApiKeyQuery"},
+          {"$ref": "#/components/parameters/ApiKeyHeader"}
+        ],
+        "security": [
+          {"ApiKeyQuery": []},
+          {"ApiKeyHeader": []}
+        ],
+        "responses": {
+          "200": {
+            "description": "All shortlinks",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ListAllShortlinksResponse"}
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks/{shortcode}/available": {
+      "get": {
+        "operationId": "isShortcodeAvailable",
+        "summary": "Check whether a shortcode is available",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/Shortcode"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Shortcode availability",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ShortcodeAvailabilityResponse"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks/{shortcode}/{secret}/set-expiry": {
+      "patch": {
+        "operationId": "setShortlinkExpiry",
+        "summary": "Set a shortlink's expiration time",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/Shortcode"},
+          {"$ref": "#/components/parameters/Secret"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/SetExpiryBody"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated expiration time",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/SetExpiryResponse"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "413": {"$ref": "#/components/responses/ContentTooLarge"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks/{shortcode}/toggle": {
+      "patch": {
+        "operationId": "toggleShortlink",
+        "summary": "Toggle whether a shortlink is disabled",
+        "description": "Requires an administrator API key.",
+        "tags": ["Shortlinks"],
+        "security": [
+          {"ApiKeyQuery": []},
+          {"ApiKeyHeader": []}
+        ],
+        "parameters": [
+          {"$ref": "#/components/parameters/Shortcode"},
+          {"$ref": "#/components/parameters/ApiKeyQuery"},
+          {"$ref": "#/components/parameters/ApiKeyHeader"}
+        ],
+        "responses": {
+          "200": {
+            "description": "The shortlink's new disabled state",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ToggleShortlinkResponse"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "401": {"$ref": "#/components/responses/Unauthorized"},
+          "403": {"$ref": "#/components/responses/Forbidden"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks/{shortcode}/{secret}": {
+      "delete": {
+        "operationId": "deleteShortlink",
+        "summary": "Delete a shortlink using its management secret",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/Shortcode"},
+          {"$ref": "#/components/parameters/Secret"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Shortlink deleted",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/DeleteShortlinkResponse"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks/{shortcode}/{secret}/delete": {
+      "post": {
+        "operationId": "deleteShortlinkLegacy",
+        "deprecated": true,
+        "summary": "Delete a shortlink using its management secret",
+        "description": "Legacy POST variant of DELETE /api/v1/shortlinks/{shortcode}/{secret}.",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/Shortcode"},
+          {"$ref": "#/components/parameters/Secret"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Shortlink deleted",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/DeleteShortlinkResponse"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks/{shortcode}/qr.svg": {
+      "get": {
+        "operationId": "getShortlinkQRCode",
+        "summary": "Get an SVG QR code for an active shortlink",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/Shortcode"}
+        ],
+        "responses": {
+          "200": {
+            "description": "SVG QR code containing the shortlink URL",
+            "content": {
+              "image/svg+xml": {
+                "schema": {"type": "string", "format": "binary"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    },
+    "/api/v1/shortlinks/{shortcode}": {
+      "get": {
+        "operationId": "getShortlink",
+        "summary": "Get public information about an active shortlink",
+        "tags": ["Shortlinks"],
+        "parameters": [
+          {"$ref": "#/components/parameters/Shortcode"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Public shortlink information",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PublicShortlink"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "500": {"$ref": "#/components/responses/InternalServerError"}
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyQuery": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "apiKey",
+        "description": "User API key. The X-Api-Key header is preferred for non-browser clients."
+      },
+      "ApiKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Api-Key",
+        "description": "User API key. Used when the apiKey query parameter is absent."
+      }
+    },
+    "parameters": {
+      "ApiKeyQuery": {
+        "name": "apiKey",
+        "in": "query",
+        "required": false,
+        "description": "API key query parameter. On protected operations, either this parameter or X-Api-Key is required.",
+        "schema": {"type": "string", "format": "uuid"}
+      },
+      "ApiKeyHeader": {
+        "name": "X-Api-Key",
+        "in": "header",
+        "required": false,
+        "description": "API key header. Used when apiKey is absent from the query string.",
+        "schema": {"type": "string", "format": "uuid"}
+      },
+      "Shortcode": {
+        "name": "shortcode",
+        "in": "path",
+        "required": true,
+        "description": "A 3-64 character shortcode. The values api, go, health, oidc, ready, and sse are reserved, case-insensitively.",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{3,64}$",
+          "examples": ["docs_2026"]
+        }
+      },
+      "Secret": {
+        "name": "secret",
+        "in": "path",
+        "required": true,
+        "description": "The 64-character management secret returned when the shortlink was created.",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{64}$"
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requestId", "code", "message"],
+        "properties": {
+          "requestId": {"type": "string", "description": "Request correlation identifier"},
+          "code": {"type": "integer", "minimum": 400, "maximum": 599},
+          "message": {"type": "string"}
+        }
+      },
+      "PublicUser": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["username", "avatar", "admin"],
+        "properties": {
+          "username": {"type": "string"},
+          "avatar": {"type": "string", "format": "uri"},
+          "admin": {"type": "boolean"}
+        }
+      },
+      "ListUsersResponse": {
+        "type": "array",
+        "items": {"$ref": "#/components/schemas/PublicUser"}
+      },
+      "APIKeyInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["canRegenerate", "nextApiKeyAvailable"],
+        "properties": {
+          "canRegenerate": {"type": "boolean"},
+          "nextApiKeyAvailable": {"type": "string", "format": "date-time"}
+        }
+      },
+      "RegenerateAPIKeyResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["apiKey"],
+        "properties": {
+          "apiKey": {"type": "string", "format": "uuid"}
+        }
+      },
+      "CreateShortlinkBody": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["destination"],
+        "properties": {
+          "destination": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://",
+            "description": "Absolute HTTP or HTTPS destination URL"
+          },
+          "shortcode": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{3,64}$",
+            "description": "Optional custom shortcode. Reserved values are rejected case-insensitively."
+          },
+          "duration": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Optional human-readable lifetime parsed by github.com/depthbomb/duration. It must resolve to at least one minute.",
+            "examples": ["15m", "2 days", "1 week", "2 days and 6 hours"]
+          }
+        }
+      },
+      "SetExpiryBody": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["duration"],
+        "properties": {
+          "duration": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-readable lifetime parsed by github.com/depthbomb/duration. It must resolve to at least one minute.",
+            "examples": ["15m", "2 days", "1 week"]
+          }
+        }
+      },
+      "PublicShortlink": {
+        "type": "object",
+        "required": ["shortcode", "shortlink", "destination", "hits", "createdAt", "expiresAt"],
+        "properties": {
+          "shortcode": {"type": "string"},
+          "shortlink": {"type": "string", "format": "uri"},
+          "destination": {"type": "string", "format": "uri"},
+          "hits": {"type": "integer", "format": "int64", "minimum": 0},
+          "createdAt": {"type": "string", "format": "date-time"},
+          "expiresAt": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "description": "Expiration time, or null when the shortlink never expires"
+          }
+        }
+      },
+      "OwnedShortlink": {
+        "allOf": [
+          {"$ref": "#/components/schemas/PublicShortlink"},
+          {
+            "type": "object",
+            "required": ["secret"],
+            "properties": {
+              "secret": {"type": "string", "pattern": "^[a-zA-Z0-9_-]{64}$"}
+            }
+          }
+        ]
+      },
+      "ShortlinkCreator": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["username"],
+        "properties": {
+          "username": {"type": "string"}
+        }
+      },
+      "AdminShortlink": {
+        "allOf": [
+          {"$ref": "#/components/schemas/OwnedShortlink"},
+          {
+            "type": "object",
+            "required": ["creatorIp", "user", "disabled"],
+            "properties": {
+              "creatorIp": {"type": "string"},
+              "user": {
+                "oneOf": [
+                  {"$ref": "#/components/schemas/ShortlinkCreator"},
+                  {"type": "null"}
+                ],
+                "description": "Creator profile, or null for an anonymously created shortlink"
+              },
+              "disabled": {"type": "boolean"}
+            }
+          }
+        ]
+      },
+      "CreateShortlinkResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["shortcode", "shortlink", "destination", "secret", "expiresAt"],
+        "properties": {
+          "shortcode": {"type": "string"},
+          "shortlink": {"type": "string", "format": "uri"},
+          "destination": {"type": "string", "format": "uri"},
+          "secret": {"type": "string", "pattern": "^[a-zA-Z0-9_-]{64}$"},
+          "expiresAt": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "description": "Expiration time, or null when the shortlink never expires"
+          }
+        }
+      },
+      "ListShortlinksResponse": {
+        "type": "array",
+        "items": {"$ref": "#/components/schemas/OwnedShortlink"}
+      },
+      "ListAllShortlinksResponse": {
+        "type": "array",
+        "items": {"$ref": "#/components/schemas/AdminShortlink"}
+      },
+      "ShortcodeAvailabilityResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["available"],
+        "properties": {
+          "available": {"type": "boolean"}
+        }
+      },
+      "SetExpiryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["expiresAt"],
+        "properties": {
+          "expiresAt": {"type": "string", "format": "date-time"}
+        }
+      },
+      "ToggleShortlinkResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["disabled"],
+        "properties": {
+          "disabled": {"type": "boolean"}
+        }
+      },
+      "DeleteShortlinkResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["success"],
+        "properties": {
+          "success": {"type": "boolean", "const": true}
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "The request is invalid",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication is required or the supplied credentials are invalid",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The authenticated user is not permitted to perform this operation",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The shortlink was not found, is disabled, or has expired",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+          }
+        }
+      },
+      "Conflict": {
+        "description": "The requested shortcode is already in use",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+          }
+        }
+      },
+      "ContentTooLarge": {
+        "description": "The request body exceeds the configured limit",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "An unexpected server error occurred",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/ErrorResponse"}
+          }
+        }
+      }
+    }
+  }
+}

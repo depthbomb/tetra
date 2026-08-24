@@ -1,0 +1,116 @@
+<script lang="ts" setup>
+import { ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import createClient from 'openapi-fetch';
+import { useUserStore } from '~/stores/user';
+import TimeAgo from '~/components/TimeAgo.vue';
+import { useToastStore } from '~/stores/toast';
+import AppButton from '~/components/AppButton.vue';
+import { useTruncation } from '~/composables/useTruncation';
+import type { components, paths } from '~/@types/openapi';
+
+const { shortlink, shiftKey } = defineProps<{
+	shortlink: components['schemas']['ListAllShortlinksResponse'][number];
+	shiftKey: boolean;
+}>();
+
+const emit = defineEmits<{
+	'shortlink-deleted': [];
+	'shortlink-toggled': [disabled: boolean];
+}>();
+
+const disabled = ref<boolean>(shortlink.disabled);
+const deleteLoading = ref<boolean>(false);
+const disableLoading = ref<boolean>(false);
+
+const { apiKey } = storeToRefs(useUserStore());
+const { truncate } = useTruncation();
+const { createToast } = useToastStore();
+
+const { PATCH, DELETE } = createClient<paths>();
+
+watch(() => shortlink.disabled, value => {
+	disabled.value = value;
+});
+
+const deleteShortlink = async (shortcode: string, secret: string) => {
+	if (shiftKey || confirm('Are you sure you want to delete this shortlink?')) {
+		deleteLoading.value = true;
+		const { error } = await DELETE('/api/v1/shortlinks/{shortcode}/{secret}', {
+			params: {
+				path: {
+					shortcode,
+					secret
+				}
+			}
+		});
+
+		if (error) {
+			createToast('error', 'Failed to delete shortlink.', false, 3_000);
+		} else {
+			emit('shortlink-deleted');
+		}
+		deleteLoading.value = false;
+	}
+};
+
+const toggleShortlinkDisabled = async (shortcode: string) => {
+	if (shiftKey || confirm(`Are you sure you want to ${disabled.value ? 'enable' : 'disable'} this shortlink?`)) {
+		disableLoading.value = true;
+		const { data, error } = await PATCH('/api/v1/shortlinks/{shortcode}/toggle', {
+			params: {
+				path: {
+					shortcode
+				},
+				query: {
+					apiKey: apiKey.value
+				}
+			}
+		});
+
+		if (!data || error) {
+			createToast('error', 'Failed to toggle shortlink state.', false, 3_000);
+		} else {
+			disabled.value = data.disabled;
+			emit('shortlink-toggled', data.disabled);
+		}
+
+		disableLoading.value = false;
+	}
+};
+</script>
+
+<template>
+	<tr>
+		<td class="flex items-center space-x-1.5">
+			<app-button :disabled="deleteLoading" :loading="deleteLoading" size="small" variant="danger"
+				@click.prevent="deleteShortlink(shortlink.shortcode, shortlink.secret)">Delete
+			</app-button>
+			<app-button :disabled="disableLoading" :loading="disableLoading" :variant="disabled ? 'success' : 'warning'"
+				size="small" @click.prevent="toggleShortlinkDisabled(shortlink.shortcode)">
+				{{ disabled ? 'Enable' : 'Disable' }}
+			</app-button>
+		</td>
+		<td>
+			<p class="font-mono">{{ shortlink.shortcode }}</p>
+		</td>
+		<td>
+			<p class="font-mono">
+				<a :href="shortlink.destination" target="_blank">{{ truncate(shortlink.destination, 50) }}</a>
+			</p>
+		</td>
+		<td>{{ shortlink.user?.username ?? shortlink.creatorIp }}</td>
+		<td>
+			<time-ago :date="shortlink.createdAt" />
+		</td>
+		<td>{{ shortlink.expiresAt ?? 'Never' }}</td>
+	</tr>
+</template>
+
+<style scoped>
+@reference "~/assets/css/app.css";
+
+td {
+	@apply p-3;
+}
+</style>

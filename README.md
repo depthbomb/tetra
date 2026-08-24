@@ -1,10 +1,4 @@
 # tetra
 
-Monorepo for go.super.fish. Info about each package can be found in the corresponding README.
-
----
-
-## Requirements
-
-- Node.js 20+ and NPM (yarn recommended)
-- PostgreSQL 15+
+The **NEW** source code to [https://go.super.fish](https://go.super.fish), a URL shortener. And no, the "go" in the URL
+is not related to Go.

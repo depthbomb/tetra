@@ -1,0 +1,52 @@
+name: tetra
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-tetra}
+      POSTGRES_USER: ${POSTGRES_USER:-tetra}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tetra}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  migrate:
+    build:
+      context: .
+    command: ["migrate"]
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-tetra}:${POSTGRES_PASSWORD:-tetra}@postgres:5432/${POSTGRES_DB:-tetra}?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    build:
+      context: .
+    init: true
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-tetra}:${POSTGRES_PASSWORD:-tetra}@postgres:5432/${POSTGRES_DB:-tetra}?sslmode=disable
+      BASE_URL: ${BASE_URL:-http://localhost:3000}
+      OIDC_DOMAIN: ${OIDC_DOMAIN:-}
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID:-}
+      OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET:-}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      SHORTLINK_CLEANUP_INTERVAL: ${SHORTLINK_CLEANUP_INTERVAL:-1m}
+    ports:
+      - "${PORT:-3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
