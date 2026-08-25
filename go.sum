@@ -17,8 +17,8 @@ github.com/coreos/go-oidc/v3 v3.20.0/go.mod h1:DYCf24+ncYi+XkIH97GY1+dqoRlbaSI26
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/depthbomb/duration v1.0.0 h1:VMFp2xKpkHLKdmlarVgkvru3EE+jdnR4GQH0k+1YFXc=
-github.com/depthbomb/duration v1.0.0/go.mod h1:ei8Ufv+dHXbYgMR8hoxGu8mQfyJx81Lfz2XDujlR10M=
+github.com/depthbomb/duration v1.0.1 h1:gTStaqzeIsHC03T3iMzxh89+xOqncjh1NzO/5XN6vC4=
+github.com/depthbomb/duration v1.0.1/go.mod h1:ei8Ufv+dHXbYgMR8hoxGu8mQfyJx81Lfz2XDujlR10M=
 github.com/go-jose/go-jose/v4 v4.1.4 h1:moDMcTHmvE6Groj34emNPLs/qtYXRVcd6S7NHbHz3kA=
 github.com/go-jose/go-jose/v4 v4.1.4/go.mod h1:x4oUasVrzR7071A4TnHLGSPpNOm2a21K9Kf04k1rs08=
 github.com/go-openapi/inflect v1.0.0 h1:IzG7K5YBu97odaCXhjODGGt25WaNtEYLJc9NfUcW4AI=
