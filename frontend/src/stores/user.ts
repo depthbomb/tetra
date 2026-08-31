@@ -2,12 +2,12 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
 export const useUserStore = defineStore('user', () => {
-	const username = ref<string>('');
-	const avatars = ref<Record<string, string>>({});
-	const apiKey = ref<string>('');
-	const isAdmin = ref<boolean>(false);
+	const username    = ref<string>('');
+	const avatars     = ref<Record<string, string>>({});
+	const apiKey      = ref<string>('');
+	const isAdmin     = ref<boolean>(false);
 	const initialized = ref<boolean>(false);
-	const isLoggedIn = computed(() => Boolean(username.value && apiKey.value));
+	const isLoggedIn  = computed(() => Boolean(username.value && apiKey.value));
 
 	async function initialize(): Promise<void> {
 		if (initialized.value) return;
@@ -24,6 +24,7 @@ export const useUserStore = defineStore('user', () => {
 					apiKey: string;
 					admin: boolean;
 				};
+
 				username.value = data.username;
 				avatars.value = data.avatars ?? {};
 				apiKey.value = data.apiKey;

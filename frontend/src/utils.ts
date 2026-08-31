@@ -10,7 +10,7 @@ export function isValidHttpUrl(url: string): boolean {
 }
 
 const reservedShortcodes = new Set(['api', 'go', 'health', 'oidc', 'ready', 'sse']);
-const shortcodePattern = /^[a-zA-Z0-9_-]{3,64}$/;
+const shortcodePattern   = /^[a-zA-Z0-9_-]{3,64}$/;
 
 export function isValidShortcode(shortcode: string): boolean {
 	return shortcodePattern.test(shortcode) && !reservedShortcodes.has(shortcode.toLowerCase());

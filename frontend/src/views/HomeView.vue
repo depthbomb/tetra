@@ -7,40 +7,46 @@ import { useToastStore } from '~/stores/toast';
 import KeyCombo from '~/components/KeyCombo.vue';
 import AppButton from '~/components/AppButton.vue';
 import { useFeatures } from '~/composables/useFeature';
-import { computed, defineAsyncComponent, ref } from 'vue';
+import { ref, computed, defineAsyncComponent } from 'vue';
 import { isValidHttpUrl, isValidShortcode } from '~/utils';
 import PaperPlaneTopIcon from '~/components/icons/PaperPlaneTopIcon.vue';
-import { useClipboard, useMagicKeys, usePermission, useThrottleFn, whenever } from '@vueuse/core';
+import { whenever, useClipboard, useMagicKeys, usePermission, useThrottleFn } from '@vueuse/core';
 import type { paths } from '~/@types/openapi';
+import type { Maybe } from '@depthbomb/common/typing';
 
 const WarningIcon = defineAsyncComponent(() => import('~/components/icons/WarningIcon.vue'));
 
-const destination = ref<string>('');
-const shortcode = ref<string | undefined>();
-const duration = ref<string | undefined>();
-const submitting = ref<boolean>(false);
+const destination        = ref<string>('');
+const shortcode          = ref<Maybe<string>>();
+const duration           = ref<Maybe<string>>();
+const submitting         = ref<boolean>(false);
 const destinationFocused = ref<boolean>(false);
-const shortlinkResult = ref<string>('');
+const shortlinkResult    = ref<string>('');
 const isValid = computed(() => {
-	if (!isValidHttpUrl(destination.value)) return false;
-	if (shortcode.value) return isValidShortcode(shortcode.value);
+	if (!isValidHttpUrl(destination.value)) {
+		return false;
+	}
+
+	if (shortcode.value) {
+		return isValidShortcode(shortcode.value);
+	}
 
 	return true;
 });
 
-const { generateId } = useId();
-const { isFeatureEnabled } = useFeatures();
+const { generateId }         = useId();
+const { isFeatureEnabled }   = useFeatures();
 const { apiKey, isLoggedIn } = storeToRefs(useUserStore());
-const { createToast } = useToastStore();
-const { Ctrl_V } = useMagicKeys();
-const { copy } = useClipboard({ source: shortlinkResult, legacy: true });
-const clipboardReadAccess = usePermission('clipboard-read', { controls: true });
+const { createToast }        = useToastStore();
+const { Ctrl_V }             = useMagicKeys();
+const { copy }               = useClipboard({ source: shortlinkResult, legacy: true });
+const clipboardReadAccess    = usePermission('clipboard-read', { controls: true });
 
 const creationDisabled = computed(() => !isFeatureEnabled('SHORTLINK_CREATION'));
 
-const isFirefox = /Firefox/.test(navigator.userAgent);
+const isFirefox        = /Firefox/.test(navigator.userAgent);
 const exampleShortcode = generateId().substring(7, 10);
-const { PUT } = createClient<paths>();
+const { PUT }          = createClient<paths>();
 
 const readClipboardContent = async () => navigator?.clipboard.readText();
 // Throttle the "CTRL+V to submit" function to prevent any accidental submissions of shortlinks

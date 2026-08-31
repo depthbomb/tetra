@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
 		server: {
 			proxy: {
 				'/api': backendTarget,
+				'/sse': backendTarget,
 				'/go': backendTarget,
 				'/health': backendTarget,
 				'/oidc': backendTarget,

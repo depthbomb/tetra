@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { ref, computed } from 'vue';
 import { UseTimeAgo } from '@vueuse/components';
 
 const { date, toggleable = true, inverse = false } = defineProps<{

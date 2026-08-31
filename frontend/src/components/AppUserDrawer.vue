@@ -6,11 +6,12 @@ import KeyIcon from '~/components/icons/KeyIcon.vue';
 import ListIcon from '~/components/icons/ListIcon.vue';
 import CloseIcon from '~/components/icons/CloseIcon.vue';
 import SignOutIcon from '~/components/icons/SignOutIcon.vue';
-import { defineAsyncComponent, onUnmounted, ref, watch } from 'vue';
+import { ref, watch, onUnmounted, defineAsyncComponent } from 'vue';
+import type { Nullable } from '@depthbomb/common/typing';
 
 const UsersIcon = defineAsyncComponent(() => import('~/components/icons/UsersIcon.vue'));
 
-const sidebar = ref<HTMLElement | null>(null);
+const sidebar = ref<Nullable<HTMLElement>>(null);
 const drawerOpen = ref<boolean>(false);
 
 const { username, avatars, isAdmin } = storeToRefs(useUserStore());

@@ -1,23 +1,23 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import createClient from 'openapi-fetch';
 import { useUserStore } from '~/stores/user';
 import { useToastStore } from '~/stores/toast';
 import KeyCombo from '~/components/KeyCombo.vue';
 import AppButton from '~/components/AppButton.vue';
-import { useKeyModifier, useThrottleFn } from '@vueuse/core';
+import { useThrottleFn, useKeyModifier } from '@vueuse/core';
 import ShortlinkRow from '~/components/admin/ShortlinkRow.vue';
-import type { components, paths } from '~/@types/openapi';
+import type { paths, components } from '~/@types/openapi';
 
 const firstLoad  = ref<boolean>(true);
 const loading    = ref<boolean>(true);
 const shortlinks = ref<components['schemas']['ListAllShortlinksResponse']>([]);
 
-const { apiKey } = storeToRefs(useUserStore());
+const { apiKey }      = storeToRefs(useUserStore());
 const { createToast } = useToastStore();
 
-const shiftKeyState = useKeyModifier('Shift');
+const shiftKeyState = Boolean(useKeyModifier('Shift'));
 
 const { GET } = createClient<paths>();
 

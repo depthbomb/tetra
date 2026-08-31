@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { Component } from 'vue';
 import { useClipboard } from '@vueuse/core';
 import { useToastStore } from '~/stores/toast';
-import { computed, onUnmounted, ref } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import AppButton from '~/components/AppButton.vue';
 import CopyIcon from '~/components/icons/CopyIcon.vue';
 import CheckIcon from '~/components/icons/CheckIcon.vue';
+import type { Component } from 'vue';
 
 const { text, icon, content, size = 'normal' } = defineProps<{
 	text?: string;

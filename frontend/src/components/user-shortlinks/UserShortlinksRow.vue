@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import createClient from 'openapi-fetch';
-import TimeAgo from '~/components/TimeAgo.vue';
 import { useToastStore } from '~/stores/toast';
+import TimeAgo from '~/components/TimeAgo.vue';
 import AppButton from '~/components/AppButton.vue';
 import CopyButton from '~/components/CopyButton.vue';
 import TrashIcon from '~/components/icons/TrashIcon.vue';
 import { useTruncation } from '~/composables/useTruncation';
 import ArrowLongIcon from '~/components/icons/ArrowLongIcon.vue';
-import type { components, paths } from '~/@types/openapi';
+import type { paths, components } from '~/@types/openapi';
 
 type ListShortlinksSchema = components['schemas']['ListShortlinksResponse'];
 
@@ -19,7 +19,7 @@ const emit = defineEmits<{
 
 const deleteLoading = ref<boolean>(false);
 
-const toasts = useToastStore();
+const toasts       = useToastStore();
 const { truncate } = useTruncation();
 
 const { DELETE } = createClient<paths>();
@@ -30,6 +30,7 @@ const deleteShortlink = async (shortcode: string, secret: string) => {
 	}
 
 	deleteLoading.value = true;
+
 	const { error } = await DELETE('/api/v1/shortlinks/{shortcode}/{secret}', {
 		params: {
 			path: {
@@ -45,6 +46,7 @@ const deleteShortlink = async (shortcode: string, secret: string) => {
 		emit('shortlink-deleted');
 		toasts.createToast('success', 'Shortlink deleted!', true);
 	}
+
 	deleteLoading.value = false;
 };
 </script>

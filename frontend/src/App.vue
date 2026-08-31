@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { RouterView, useRoute } from 'vue-router';
-import AppToasts from '~/components/AppToasts.vue';
-import AppHeader from '~/components/AppHeader.vue';
+import { useRoute, RouterView } from 'vue-router';
 import AppFooter from '~/components/AppFooter.vue';
+import AppHeader from '~/components/AppHeader.vue';
+import AppToasts from '~/components/AppToasts.vue';
 
-const route = useRoute();
+const route     = useRoute();
 const isApiDocs = computed(() => route.meta.apiDocs === true);
 </script>
 

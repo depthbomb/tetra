@@ -1,19 +1,19 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import createClient from 'openapi-fetch';
 import { useUserStore } from '~/stores/user';
 import { useToastStore } from '~/stores/toast';
 import AppLoader from '~/components/AppLoader.vue';
 import UserShortlinksRow from '~/components/user-shortlinks/UserShortlinksRow.vue';
-import type { components, paths } from '~/@types/openapi';
+import type { paths, components } from '~/@types/openapi';
 
 type ListShortlinksSchema = components['schemas']['ListShortlinksResponse'];
 
-const loading = ref<boolean>(true);
+const loading    = ref<boolean>(true);
 const shortlinks = ref<ListShortlinksSchema>([]);
 
-const { apiKey } = storeToRefs(useUserStore());
+const { apiKey }      = storeToRefs(useUserStore());
 const { createToast } = useToastStore();
 
 const { GET } = createClient<paths>();

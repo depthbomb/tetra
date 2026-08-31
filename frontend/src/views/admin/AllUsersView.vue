@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import createClient from 'openapi-fetch';
 import { useUserStore } from '~/stores/user';
 import { useToastStore } from '~/stores/toast';
 import AppLoader from '~/components/AppLoader.vue';
-import type { components, paths } from '~/@types/openapi';
+import type { paths, components } from '~/@types/openapi';
 
 const loading = ref<boolean>(true);
-const users = ref<components['schemas']['ListUsersResponse']>([]);
+const users   = ref<components['schemas']['ListUsersResponse']>([]);
 
-const { apiKey } = storeToRefs(useUserStore());
+const { apiKey }      = storeToRefs(useUserStore());
 const { createToast } = useToastStore();
 
 const { GET } = createClient<paths>();

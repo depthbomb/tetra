@@ -6,47 +6,36 @@ import FaqQuestion from '~/components/faq/FaqQuestion.vue';
 	<faq-question>What formats are supported for durations when creating shortlinks?</faq-question>
 	<div class="py-3 pl-3">
 		<p>Durations can use years, months, weeks, days, hours, minutes, seconds, milliseconds, microseconds, and
-			nanoseconds. Compact values such as <code>1h30m</code> and human-readable values such as <code>2 days and 6
-        hours</code> are both supported.</p>
+			nanoseconds. Compact values such as <code>1h30m</code> and human-readable values such as <code>2 days and 6 hours</code> are both supported.</p>
 	</div>
 
 	<div class="MainCard-divider"></div>
 
 	<faq-question>How short-lived can I make shortlinks?</faq-question>
 	<div class="py-3 pl-3">
-		<p>The minimum duration for a shortlink is <strong>one minute</strong>. Expired shortlinks stop resolving as
-			soon as
-			their expiration time is reached.</p>
+		<p>The minimum duration for a shortlink is <strong>one minute</strong>. Expired shortlinks stop resolving as soon as their expiration time is reached.</p>
 	</div>
 
 	<div class="MainCard-divider"></div>
 
 	<faq-question>Are my shortlinks private?</faq-question>
 	<div class="py-3 pl-3">
-		<p>Publicly, yes. Admins, however, can see all shortlinks created as well as their destinations and who created
-			them.</p>
+		<p>Publicly, yes. Admins, however, can see all shortlinks created as well as their destinations and who created them.</p>
 	</div>
 
 	<div class="MainCard-divider"></div>
 
 	<faq-question>Can I view info about a shortlink without using the API?</faq-question>
 	<div class="py-3 pl-3">
-		<p>If you add a <code>+</code> to the end of a shortlink then you will be redirected to an info page about the
-			shortlink.</p>
+		<p>If you add a <code>+</code> to the end of a shortlink then you will be redirected to an info page about the shortlink.</p>
 	</div>
 
 	<div class="MainCard-divider"></div>
 
 	<faq-question>Why can't you read my clipboard on Firefox?</faq-question>
 	<div class="py-3 pl-3">
-		<p>Later versions of Firefox does not allow websites to read the contents of your clipboard. However, you can
-			enable
-			this feature by setting <code>dom.events.asyncClipboard.readText</code> to <strong>true</strong> in your
-			advanced
-			preferences.</p>
-		<p>The warning message will still appear after making this change but your clipboard will be able to be read
-			with no
-			issue.</p>
+		<p>Later versions of Firefox does not allow websites to read the contents of your clipboard. However, you can enable this feature by setting <code>dom.events.asyncClipboard.readText</code> to <strong>true</strong> in your advanced preferences.</p>
+		<p>The warning message will still appear after making this change but your clipboard will be able to be read with no issue.</p>
 		<p>Be warned that this will allow other websites to read your clipboard as well.</p>
 	</div>
 </template>

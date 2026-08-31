@@ -7,15 +7,16 @@ import { useRouteParams } from '@vueuse/router';
 import AppLoader from '~/components/AppLoader.vue';
 import WarningIcon from '~/components/icons/WarningIcon.vue';
 import type { paths } from '~/@types/openapi';
+import type { Nullable } from '@depthbomb/common/typing';
 
-const loaded = ref<boolean>(false);
-const error = ref<boolean>(false);
+const loaded       = ref<boolean>(false);
+const error        = ref<boolean>(false);
 const errorMessage = ref<string>('');
 const qrCodeUrl    = ref<string>('');
-const shortlink = ref<string>('');
-const destination = ref<string>('');
-const createdAt = ref<string>('');
-const expiresAt = ref<string | null>('');
+const shortlink    = ref<string>('');
+const destination  = ref<string>('');
+const createdAt    = ref<string>('');
+const expiresAt    = ref<Nullable<string>>('');
 
 const shortcode     = useRouteParams<string>('shortcode');
 const { isLoading } = useImage({ src: qrCodeUrl.value });

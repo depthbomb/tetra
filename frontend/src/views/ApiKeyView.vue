@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import createClient from 'openapi-fetch';
 import { useUserStore } from '~/stores/user';
 import { useToastStore } from '~/stores/toast';
@@ -9,18 +9,20 @@ import CopyButton from '~/components/CopyButton.vue';
 import RefreshIcon from '~/components/icons/RefreshIcon.vue';
 import type { paths } from '~/@types/openapi';
 
-const apiKeyHidden = ref<boolean>(true);
+const apiKeyHidden     = ref<boolean>(true);
 const canRegenerateKey = ref<boolean>(false);
-const regeneratingKey = ref<boolean>(false);
+const regeneratingKey  = ref<boolean>(false);
 
-const userStore = useUserStore();
-const { apiKey } = storeToRefs(userStore);
+const userStore       = useUserStore();
+const { apiKey }      = storeToRefs(userStore);
 const { createToast } = useToastStore();
 
 const { GET, POST } = createClient<paths>();
 
 const regenerateKey = async () => {
-	if (!canRegenerateKey.value) return;
+	if (!canRegenerateKey.value) {
+		return;
+	}
 
 	if (confirm('There is a two hour wait between generating new a API key.\n\nAre you sure you want to continue?')) {
 		regeneratingKey.value = true;
@@ -39,7 +41,7 @@ const regenerateKey = async () => {
 		}
 
 		canRegenerateKey.value = false;
-		regeneratingKey.value = false;
+		regeneratingKey.value  = false;
 	}
 };
 

@@ -3,11 +3,11 @@ import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import createClient from 'openapi-fetch';
 import { useUserStore } from '~/stores/user';
-import TimeAgo from '~/components/TimeAgo.vue';
 import { useToastStore } from '~/stores/toast';
+import TimeAgo from '~/components/TimeAgo.vue';
 import AppButton from '~/components/AppButton.vue';
 import { useTruncation } from '~/composables/useTruncation';
-import type { components, paths } from '~/@types/openapi';
+import type { paths, components } from '~/@types/openapi';
 
 const { shortlink, shiftKey } = defineProps<{
 	shortlink: components['schemas']['ListAllShortlinksResponse'][number];
@@ -19,12 +19,12 @@ const emit = defineEmits<{
 	'shortlink-toggled': [disabled: boolean];
 }>();
 
-const disabled = ref<boolean>(shortlink.disabled);
-const deleteLoading = ref<boolean>(false);
+const disabled       = ref<boolean>(shortlink.disabled);
+const deleteLoading  = ref<boolean>(false);
 const disableLoading = ref<boolean>(false);
 
-const { apiKey } = storeToRefs(useUserStore());
-const { truncate } = useTruncation();
+const { apiKey }      = storeToRefs(useUserStore());
+const { truncate }    = useTruncation();
 const { createToast } = useToastStore();
 
 const { PATCH, DELETE } = createClient<paths>();
@@ -50,6 +50,7 @@ const deleteShortlink = async (shortcode: string, secret: string) => {
 		} else {
 			emit('shortlink-deleted');
 		}
+
 		deleteLoading.value = false;
 	}
 };

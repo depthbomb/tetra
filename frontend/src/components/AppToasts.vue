@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { Component } from 'vue';
 import { defineAsyncComponent } from 'vue';
 import { useToastStore } from '~/stores/toast';
+import type { Component } from 'vue';
 import type { IToast, ToastType } from '~/@types/IToast';
 
 const CheckIcon = defineAsyncComponent(() => import('~/components/icons/CheckIcon.vue'));

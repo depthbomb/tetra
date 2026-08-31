@@ -17,6 +17,7 @@ import (
 	healthhandler "go-tetra/internal/handler/health"
 	shortlinkhandler "go-tetra/internal/handler/shortlink"
 	spahandler "go-tetra/internal/handler/spa"
+	ssehandler "go-tetra/internal/handler/sse"
 	userhandler "go-tetra/internal/handler/user"
 	"go-tetra/internal/middleware/apikey"
 )
@@ -63,6 +64,11 @@ func (a *application) newServer() (*echo.Echo, error) {
 	server.Any("/health", health.Health)
 	server.Any("/healthz", health.Health)
 	server.Any("/ready", health.Ready)
+	//#endregion
+
+	//#region Server-sent events
+	sse := ssehandler.New(a.shortlinks)
+	server.GET("/sse", sse.Stream)
 	//#endregion
 
 	//#region Authentication routes

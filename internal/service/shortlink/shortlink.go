@@ -203,6 +203,21 @@ func (s *Service) ListAll(ctx context.Context) ([]Admin, error) {
 	return result, nil
 }
 
+// Count returns the number of shortlinks that can currently be resolved.
+func (s *Service) Count(ctx context.Context) (int, error) {
+	count, err := s.client.Shortlink.Query().
+		Where(
+			entshortlink.DisabledEQ(false),
+			entshortlink.Or(entshortlink.ExpiresAtIsNil(), entshortlink.ExpiresAtGT(s.now())),
+		).
+		Count(ctx)
+	if err != nil {
+		return 0, fmt.Errorf("count active shortlinks: %w", err)
+	}
+
+	return count, nil
+}
+
 func (s *Service) Delete(ctx context.Context, shortcode, secret string) error {
 	if err := ValidateShortcode(shortcode); err != nil {
 		return err
