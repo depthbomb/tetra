@@ -6,7 +6,7 @@
 		"dev": "bun --bun vite",
 		"build": "bun --bun vite build --mode production",
 		"typecheck": "bun --bun vue-tsc --noEmit",
-		"lint": "bun --bun eslint . --fix",
+		"lint": "oxlint . --fix",
 		"generate-schema": "openapi-typescript ../api/openapi.json -o ./src/@types/openapi.d.ts"
 	},
 	"dependencies": {
@@ -26,25 +26,20 @@
 		"vue-router": "^5.3.0"
 	},
 	"devDependencies": {
-		"@rushstack/eslint-patch": "^1.14.0",
 		"@tailwindcss/forms": "0.5.11",
 		"@tailwindcss/postcss": "4.3.3",
 		"@tailwindcss/typography": "0.5.20",
 		"@tailwindcss/vite": "4.3.3",
-		"@types/eslint": "^9.6.1",
 		"@types/node": "^26.4.0",
 		"@vitejs/plugin-vue": "6.0.8",
-		"@vue/eslint-config-typescript": "^14.6.0",
 		"@vue/tsconfig": "^0.9.1",
 		"autoprefixer": "^10.4.21",
-		"eslint": "10.9.0",
-		"eslint-plugin-vue": "^10.5.1",
 		"openapi-typescript": "^7.10.1",
+		"oxlint": "1.80.0",
 		"postcss": "^8.5.6",
 		"tailwindcss": "4.3.3",
 		"typescript": "6.0.3",
 		"vite": "8.2.2",
-		"vue-eslint-parser": "^10.2.0",
 		"vue-tsc": "3.3.11"
 	}
 }
