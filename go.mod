@@ -4,14 +4,14 @@ go 1.27
 
 require (
 	entgo.io/ent v0.14.6
-	github.com/coreos/go-oidc/v3 v3.20.0
-	github.com/depthbomb/duration v1.0.1
+	github.com/coreos/go-oidc/v3 v3.21.0
+	github.com/depthbomb/duration v1.0.2
 	github.com/google/uuid v1.6.0
-	github.com/jackc/pgx/v5 v5.10.0
+	github.com/jackc/pgx/v5 v5.11.0
 	github.com/labstack/echo/v5 v5.3.1
 	github.com/piglig/go-qr v1.1.0
 	github.com/urfave/cli/v3 v3.11.0
-	golang.org/x/oauth2 v0.36.0
+	golang.org/x/oauth2 v0.37.0
 )
 
 require (
