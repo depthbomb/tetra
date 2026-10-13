@@ -10,7 +10,7 @@
 		"generate-schema": "openapi-typescript ../api/openapi.json -o ./src/@types/openapi.d.ts"
 	},
 	"dependencies": {
-		"@depthbomb/common": "^3.3.0",
+		"@depthbomb/common": "^4.0.1",
 		"@fontsource-variable/fira-code": "^5.2.7",
 		"@fontsource-variable/inter": "^5.2.8",
 		"@fontsource-variable/josefin-sans": "^5.2.8",
